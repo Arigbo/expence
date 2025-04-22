@@ -1,0 +1,93 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  &_header {
+    width: 90%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h1 {
+      display: flex;
+      align-items: start;
+      justify-content: start;
+      height: 70%;
+      width: 100%;
+      font-size: 20px;
+      font-weight: 400;
+    }
+  }
+  &_inner {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    &_first {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      gap: 0.3rem;
+      h1 {
+        font-size: 24px;
+        font-weight: 300;
+      }
+      h5 {
+        font-size: 18px;
+        font-weight: 300;
+        color: rgba(64, 175, 227, 1);
+      }
+    }
+    &_second {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 1.3rem;
+        .bottom {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          gap: 0.2rem;
+          a,
+          p {
+            font-size: 14px;
+            font-weight: 300;
+          }
+          a {
+            color: rgba(64, 175, 227, 1);
+          }
+
+          input {
+            width: auto;
+            height: auto;
+            border: 2px solid rgba(64, 175, 227, 1);
+            border-radius: 0.1rem;
+          }
+        }
+        button {
+          width: 100%;
+        }
+      }
+    }
+    &_third {
+      p {
+        font-size: 16px;
+        font-weight: 300;
+      }
+      a {
+        color: rgba(64, 175, 227, 1);
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+@import "./landingpage.css";
+@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+@import "./signup.css";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Chivo", sans-serif;
+  font-optical-sizing: auto;
+  color: inherit;
+  a {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+  }
+  input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline-start: 0.9rem;
+    height: 2.5rem;
+    border-radius: 0.3rem;
+    width: 100%;
+    outline: none;
+    color: rgba(47, 47, 47, 1);
+    border: none;
+    background-color: rgba(245, 245, 247, 1);
+    font-size: 16px;
+  }
+  ::placeholder{
+    color: rgba(47, 47, 47, 0.5);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  button {
+    background-color: #035c97;
+    color: white;
+    border: none;
+    height: 2.5rem;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.3rem;
+    font-size: 16px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      color: #035c97;
+      background-color: white;
+      border: 1px solid #035c97;
+    }
+  }
+  img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    object-fit: cover;
+  }
+}

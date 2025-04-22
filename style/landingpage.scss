@@ -1,0 +1,136 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  &_left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+    background-color: #035c97;
+    padding-inline: 1rem;
+    padding-block: 1rem;
+    color: white;
+    img {
+      border: 1px solid #035c97;
+    }
+  }
+  &_right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    gap: 1rem;
+    .header {
+      width: 90%;
+      display: flex;
+      align-items: center;
+        justify-content: center;
+      h1 {
+        font-size: 20px;
+        font-weight: 400;
+      }
+    }
+    .inner {
+      padding-block-end: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      gap: 1rem;
+      &_first {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        h1 {
+          width: 100%;
+          font-size: 22px;
+          font-weight: 500;
+        }
+      }
+      &_second {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2rem;
+        .img {
+          border-radius: 100%;
+          border: 1px solid;
+          width: 2rem;
+          height: 100%;
+          position: relative;
+          &:nth-child(1) {
+            left: 2rem;
+            background-color: green;
+          }
+          &:nth-child(2) {
+            left: 1.5rem;
+            background-color: blue;
+          }
+          &:nth-child(3) {
+            left: 1rem;
+            background-color: red;
+          }
+          &:nth-child(4) {
+            left: 0.5rem;
+            background-color: yellow;
+          }
+          &:nth-child(5) {
+            background-color: grey;
+          }
+        }
+        h1 {
+          position: relative;
+          right: 0.5rem;
+          font-size: 14px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100%;
+          width: 2rem;
+          height: 100%;
+          border: 2px solid white;
+          color: rgba(64, 175, 227, 1);
+          background-color: rgba(217, 239, 249, 1);
+        }
+      }
+      &_third {
+        p {
+          font-size: 16px;
+          span {
+            font-weight: 700;
+          }
+          .blue {
+            color: rgba(64, 175, 227, 1);
+          }
+          .orange {
+            color: rgba(255, 184, 60, 1);
+          }
+          .purple {
+            color: rgba(228, 50, 172, 1);
+          }
+        }
+      }
+      &_fourth {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
