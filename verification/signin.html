@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in</title>
+    <link rel="stylesheet" href="/style/custom.css" />
   </head>
   <body>
     <div class="signin">
@@ -12,11 +13,10 @@
       </div>
       <div class="signin_inner">
         <div class="signin_inner_first">
-          <h1>Welcome back</h1>
-          <h5>Lets get you started</h5>
+          <h1>Log In</h1>
         </div>
         <div class="signin_inner_second">
-          <form action="/login" method="POST">
+          <form action="/pages/index.html" method="POST">
             <input type="email" name="email" placeholder="Email" required />
             <input
               type="password"
@@ -33,11 +33,13 @@
                 <a href="">Forgot password</a>
               </div>
             </div>
-            <button type="submit">Sign in</button>
+            <a href="/pages/index.html">
+              <button type="submit">Sign in</button></a
+            >
           </form>
         </div>
         <div class="signin_inner_third">
-          <p>Don't have an account? <a href="/signup">Sign up</a></p>
+          <p>Don't have an account? <a href="./signup.html">Sign up</a></p>
         </div>
       </div>
     </div>
