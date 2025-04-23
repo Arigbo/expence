@@ -184,225 +184,270 @@
       flex-direction: column;
       align-items: center;
     }
-    .first {
+    &_left {
       width: 100%;
-      gap: 0.3rem;
-      &_top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        h5 {
-          font-size: 16px;
-          color: rgba(145, 145, 145, 1);
-          font-weight: 300;
+      .first {
+        gap: 0.3rem;
+        &_top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          h5 {
+            font-size: 16px;
+            color: rgba(145, 145, 145, 1);
+            font-weight: 300;
+          }
+          a {
+            font-size: 14px;
+            font-weight: 400;
+            width: auto;
+            height: auto;
+          }
         }
-        a {
-          font-size: 14px;
-          font-weight: 400;
-          width: auto;
-          height: auto;
+        &_bottom {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          h1 {
+            font-weight: 500;
+            font-size: 30px;
+          }
         }
       }
-      &_bottom {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        h1 {
-          font-weight: 500;
-          font-size: 30px;
-        }
-      }
-    }
-    .second {
-      align-items: start;
-      overflow-x: scroll;
-      gap: 1rem;
-      &_header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.2rem;
-        width: 100%;
-        h1 {
+      .second {
+        align-items: start;
+        overflow-x: scroll;
+        gap: 1rem;
+        &_header {
           display: flex;
           flex-direction: column;
-          align-items: start;
+          align-items: center;
+          gap: 0.2rem;
           width: 100%;
-          font-size: 18px;
-          font-weight: 500;
+          h1 {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 500;
+          }
+          p {
+            display: none;
+            flex-direction: column;
+            align-items: start;
+            width: 100%;
+            font-size: 12px;
+            color: rgba(194, 194, 194, 1);
+            font-weight: 200;
+          }
         }
-        p {
-          display: none;
-          flex-direction: column;
-          align-items: start;
-          width: 100%;
-          font-size: 12px;
-          color: rgba(194, 194, 194, 1);
-          font-weight: 200;
+        &_inner {
+          width: fit-content;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 15rem;
+            height: 16vh;
+            border-radius: 0.5rem;
+            background-color: white;
+            &_inner {
+              width: 90%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              gap: 0.8rem;
+              .left {
+                height: 4rem;
+                width: 4rem;
+                border-radius: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                svg,
+                i {
+                  padding: 0.5rem;
+                  height: 100%;
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 100%;
+                }
+                &.income {
+                  svg {
+                    color: green;
+                    background-color: rgba(0, 128, 0, 0.413);
+                  }
+                }
+                &.expense {
+                  svg {
+                    color: red;
+                    background-color: rgba(255, 0, 0, 0.413);
+                  }
+                }
+                &.saving {
+                  i {
+                    color: rgb(202, 202, 19);
+                    background-color: rgba(202, 202, 19, 0.413);
+                  }
+                }
+              }
+              .right {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 0.4rem;
+                justify-content: center;
+                h1 {
+                  font-size: 22px;
+                  font-weight: 500;
+                }
+                .income {
+                  color: green;
+                }
+                .expense {
+                  color: red;
+                }
+                .saving {
+                  color: rgb(202, 202, 19);
+                }
+                h4 {
+                  font-size: 16px;
+                  font-weight: 300;
+                }
+              }
+            }
+          }
         }
       }
-      &_inner {
-        width: fit-content;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      .third {
         gap: 1rem;
-        .card {
+        header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          h1 {
+            width: 100%;
+            font-size: 18px;
+            font-weight: 500;
+          }
+        }
+        &_inner {
+          background-color: white;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          width: 15rem;
-          height: 16vh;
+          width: 100%;
           border-radius: 0.5rem;
-          background-color: white;
-          &_inner {
-            width: 90%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            .left {
-              height: 4rem;
-              width: 4rem;
-              border-radius: 100%;
+          padding-block: 1rem;
+          padding-inline: 0.4rem;
+          .btns {
+            align-items: end;
+            select {
+              width: 5.4rem;
+              padding-block: 0.4rem;
+              padding-inline: 0.2rem;
+              border-radius: 0.3rem;
               display: flex;
+              gap: 1rem;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              svg,i {
-                padding: 0.5rem;
-                height: 100%;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 100%;
-              }
-              &.income {
-                svg {
-                  color: green;
-                  background-color: rgba(0, 128, 0, 0.413);
-                }
-              }
-              &.expense {
-                svg {
-                  color: red;
-                  background-color: rgba(255, 0, 0, 0.413);
-                }
-              }
-              &.saving {
-                i {
-                  color: rgb(202, 202, 19);
-                  background-color: rgba(202, 202, 19, 0.413);
-                }
+              border: none;
+              background-color: whitesmoke;
+              font-size: 14px;
+              font-weight: 400;
+              outline: none;
+              &::selection {
+                background-color: #035c97;
+                color: white;
               }
             }
-            .right {
+            option {
+              height: 90%;
+              border-radius: 0;
+              width: 5.4rem;
               display: flex;
-              flex-direction: column;
-              align-items: start;
-              gap: 0.4rem;
+              align-items: center;
               justify-content: center;
-              h1 {
-                font-size: 22px;
-                font-weight: 500;
-              }
-              .income {
-                color: green;
-              }
-              .expense {
-                color: red;
-              }
-              .saving {
-                color: rgb(202, 202, 19);
-              }
-              h4 {
-                font-size: 16px;
-                font-weight: 300;
-              }
+              font-size: 14px;
+              font-weight: 400;
             }
           }
-        }
-      }
-    }
-    .third {
-      gap: 1rem;
-      header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        h1 {
-          width: 100%;
-          font-size: 18px;
-          font-weight: 500;
-        }
-      }
-      &_inner {
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        border-radius: 0.5rem;
-        padding-block: 1rem;
-        padding-inline: 0.4rem;
-        .btns {
-          align-items: end;
-          select {
-            width: 5.4rem;
-            padding-block: 0.4rem;
-            padding-inline: 0.2rem;
-            border-radius: 0.3rem;
+          .btns,
+          canvas {
+            width: 95%;
             display: flex;
-            gap: 1rem;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            background-color: whitesmoke;
-            font-size: 14px;
-            font-weight: 400;
-            outline: none;
-            &::selection {
-              background-color: #035c97;
-              color: white;
-            }
           }
-          option {
-            height: 90%;
-            border-radius: 0;
-            width: 5.4rem;
-            display: flex;
+          canvas {
             align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 400;
+            //   background-color: black;
+            color: white;
           }
         }
-        .btns,
-        canvas {
-          width: 95%;
+      }
+      .fourth{
+        gap: 0.3rem;
+        header {
           display: flex;
-          flex-direction: column;
-        }
-        canvas {
           align-items: center;
-          //   background-color: black;
-          color: white;
+          justify-content: space-between;
+          width: 100%;
+          h5 {
+            font-size: 16px;
+            color: rgba(145, 145, 145, 1);
+            font-weight: 300;
+          }
+          a {
+            font-size: 14px;
+            font-weight: 400;
+            width: auto;
+            height: auto;
+          }
         }
       }
     }
     @media screen and (min-width: 768px) {
       width: 90%;
       align-items: start;
+      justify-content: center;
+      flex-direction: row;
+      &_left {
+        width: 75%;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+      }
+
+      &_right {
+        width: 25%;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .blog {
+          height: 100%;
+          width: 100%;
+        }
+      }
       section {
         background-color: white;
         align-items: center;
-        width: 75%;
+        width: 100%;
         border-radius: 0.5rem;
         padding: 2rem;
       }
@@ -446,8 +491,6 @@
             }
           }
         }
-      }
-      .fourth {
       }
     }
   }

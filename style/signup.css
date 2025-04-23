@@ -1,90 +1,169 @@
 .signup {
   display: flex;
-  flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100vh;
   gap: 1rem;
+  color: white;
+  background-image: url("/[GetPaidStock.com]-6806668feec45 1.png");
+  background-position: center;
+  background-size: cover;
 }
-.signup_header {
+.signup_left {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.signup_left_header {
   width: 90%;
-  height: 15vh;
+  height: 15%;
+  gap: 0.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.signup_header h1 {
+.signup_left_header img {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: start;
-  height: 70%;
+  height: 90%;
   width: 100%;
   font-size: 20px;
   font-weight: 400;
 }
-.signup_inner {
+.signup_left_header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 90%;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+}
+.signup_left_inner {
   width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  gap: 2rem;
+}
+.signup_left_inner_first {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  height: 25%;
+  gap: 0.3rem;
+}
+.signup_left_inner_first h1 {
+  font-size: 24px;
+  font-weight: 300;
+}
+.signup_left_inner_first h5 {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgb(64, 175, 227);
+}
+.signup_left_inner_second {
+  width: 100%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
 }
-.signup_inner_first {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 0.3rem;
-}
-.signup_inner_first h1 {
-  font-size: 24px;
-  font-weight: 300;
-}
-.signup_inner_first h5 {
-  font-size: 18px;
-  font-weight: 300;
-  color: rgb(64, 175, 227);
-}
-.signup_inner_second {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.signup_inner_second form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.signup_left_inner_second form {
+  height: 100%;
   gap: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
-.signup_inner_second form .bottom {
+.signup_left_inner_second form .top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 100%;
+}
+.signup_left_inner_second form .bottom {
   display: flex;
   width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: center;
+  justify-content: start;
+  gap: 0.2rem;
+}
+.signup_left_inner_second form .bottom .left {
+  display: flex;
   align-items: center;
   gap: 0.2rem;
 }
-.signup_inner_second form .bottom a,
-.signup_inner_second form .bottom p {
+.signup_left_inner_second form .bottom a,
+.signup_left_inner_second form .bottom p {
   font-size: 14px;
   font-weight: 300;
 }
-.signup_inner_second form .bottom a {
+.signup_left_inner_second form .bottom a {
   color: rgb(64, 175, 227);
 }
-.signup_inner_second form .bottom input {
+.signup_left_inner_second form .bottom input {
   width: auto;
   height: auto;
   border: 2px solid rgb(64, 175, 227);
   border-radius: 0.1rem;
 }
-.signup_inner_second form button {
+.signup_left_inner_second form a {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.signup_left_inner_second form button {
   width: 100%;
 }
-.signup_inner_third p {
+.signup_left_inner_third {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.signup_left_inner_third p {
   font-size: 16px;
   font-weight: 300;
 }
-.signup_inner_third a {
+.signup_left_inner_third a {
   color: rgb(64, 175, 227);
+}
+.signup_right {
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  .signup {
+    background-image: none;
+    color: black;
+  }
+  .signup_left {
+    width: 50%;
+  }
+  .signup_right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    background-image: url("/[GetPaidStock.com]-6806668feec45 1.png");
+    background-position: center;
+    background-size: cover;
+  }
 }/*# sourceMappingURL=signup.css.map */

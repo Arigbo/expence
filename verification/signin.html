@@ -8,39 +8,47 @@
   </head>
   <body>
     <div class="signin">
-      <div class="signin_header">
-        <h1>Spentrack</h1>
+      <div class="signin_left">
+        <div class="signin_left_header">
+          <div><img src="/Logomark.png" alt="" /></div>
+          <h1>Spentrack</h1>
+        </div>
+        <div class="signin_left_inner">
+          <div class="signin_left_inner_first">
+            <h1>Log In</h1>
+          </div>
+          <div class="signin_left_inner_second">
+            <form action="/pages/index.html" method="POST">
+              <div class="top">
+                <input type="email" name="email" placeholder="Email" required />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <div class="bottom">
+                <div class="left">
+                  <input type="checkbox" name="" id="" />
+                  <p>Remember me</p>
+                </div>
+                <div class="right">
+                  <a href="">Forgot password</a>
+                </div>
+              </div>
+              <a href="/pages/index.html">
+                <button type="submit">Sign in</button></a
+              >
+            </form>
+          </div>
+          <div class="signin_left_inner_third">
+            <p>Don't have an account? <a href="./signup.html">Sign up</a></p>
+          </div>
+        </div>
       </div>
-      <div class="signin_inner">
-        <div class="signin_inner_first">
-          <h1>Log In</h1>
-        </div>
-        <div class="signin_inner_second">
-          <form action="/pages/index.html" method="POST">
-            <input type="email" name="email" placeholder="Email" required />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
-            <div class="bottom">
-              <div class="left">
-                <input type="checkbox" name="" id="" />
-                <p>Remember me</p>
-              </div>
-              <div class="right">
-                <a href="">Forgot password</a>
-              </div>
-            </div>
-            <a href="/pages/index.html">
-              <button type="submit">Sign in</button></a
-            >
-          </form>
-        </div>
-        <div class="signin_inner_third">
-          <p>Don't have an account? <a href="./signup.html">Sign up</a></p>
-        </div>
+      <div class="signin_right">
+        <!-- <img src="/[Downloader.la]-680661ee25493 1.png" alt=""> -->
       </div>
     </div>
   </body>

@@ -1,53 +1,66 @@
 .landing {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 1rem;
-}
-.landing_left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 50%;
-  background-color: #035c97;
-  padding-inline: 1rem;
-  padding-block: 1rem;
+  height: 100vh;
+  gap: 1rem;
+  background-image: url("/[Downloader.la]-680661ee25493 1.png");
+  background-position: center;
+  background-size: cover;
   color: white;
 }
-.landing_left img {
-  border: 1px solid #035c97;
+.landing_left {
+  display: none;
 }
 .landing_right {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  height: 20%;
+  height: 95%;
   text-align: center;
   padding-block: 1rem;
   gap: 1rem;
 }
 .landing_right .header {
   width: 90%;
+  height: 15%;
+  gap: 0.3rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
-.landing_right .header h1 {
+.landing_right .header div {
+  display: flex;
+  height: 70%;
+  width: auto;
+  align-items: center;
+}
+.landing_right .header img {
+  height: 100%;
+  width: 100%;
   font-size: 20px;
   font-weight: 400;
+}
+.landing_right .header h1 {
+  display: flex;
+  align-items: center;
+  height: 70%;
+  font-size: 20px;
+  font-weight: 400;
+}
+.landing_right .header h1 span {
+  font-weight: 700;
 }
 .landing_right .inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
-  gap: 1rem;
+  justify-content: space-between;
+  height: 40%;
+  width: 85%;
+  gap: 1.5rem;
 }
 .landing_right .inner_first {
   display: flex;
@@ -67,31 +80,29 @@
   justify-content: center;
   height: 2rem;
 }
-.landing_right .inner_second .img {
+.landing_right .inner_second i {
   border-radius: 100%;
   border: 1px solid;
   width: 2rem;
   height: 100%;
   position: relative;
-}
-.landing_right .inner_second .img:nth-child(1) {
-  left: 2rem;
-  background-color: green;
-}
-.landing_right .inner_second .img:nth-child(2) {
-  left: 1.5rem;
-  background-color: blue;
-}
-.landing_right .inner_second .img:nth-child(3) {
-  left: 1rem;
-  background-color: red;
-}
-.landing_right .inner_second .img:nth-child(4) {
-  left: 0.5rem;
-  background-color: yellow;
-}
-.landing_right .inner_second .img:nth-child(5) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: grey;
+  font-size: 12px;
+}
+.landing_right .inner_second i:nth-child(1) {
+  left: 2rem;
+}
+.landing_right .inner_second i:nth-child(2) {
+  left: 1.5rem;
+}
+.landing_right .inner_second i:nth-child(3) {
+  left: 1rem;
+}
+.landing_right .inner_second i:nth-child(4) {
+  left: 0.5rem;
 }
 .landing_right .inner_second h1 {
   position: relative;
@@ -131,4 +142,35 @@
 }
 .landing_right .inner_fourth button {
   width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .landing {
+    background-image: none;
+    color: black;
+  }
+  .landing_right {
+    width: 50%;
+    height: 100%;
+  }
+  .landing_right .header {
+    height: 13%;
+  }
+  .landing_right .inner {
+    height: 80%;
+    justify-content: center;
+    gap: 2rem;
+    width: 60%;
+  }
+  .landing_left {
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    background-image: url("/[Downloader.la]-680661ee25493 1.png");
+    background-position: center;
+    background-size: cover;
+  }
 }/*# sourceMappingURL=landingpage.css.map */
