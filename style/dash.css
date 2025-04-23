@@ -69,6 +69,7 @@
 }
 .dashboard_inner .first {
   width: 100%;
+  gap: 0.3rem;
 }
 .dashboard_inner .first_top {
   display: flex;
@@ -77,11 +78,11 @@
   width: 100%;
 }
 .dashboard_inner .first_top h5 {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
 }
 .dashboard_inner .first_top a {
-  font-size: 12px;
+  font-size: 16px;
   width: auto;
   height: auto;
 }
@@ -91,19 +92,21 @@
   width: 100%;
 }
 .dashboard_inner .first_bottom h1 {
-  font-weight: 600;
-  font-size: 24px;
+  font-weight: 500;
+  font-size: 30px;
   color: #035c97;
 }
 .dashboard_inner .second {
   width: 100%;
+  align-items: start;
   overflow-x: scroll;
 }
 .dashboard_inner .second_inner {
-  width: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   gap: 1rem;
 }
 .dashboard_inner .second_inner .card {
@@ -111,21 +114,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50vw;
+  width: 15rem;
   height: 16vh;
   border-radius: 0.5rem;
   background-color: white;
 }
 .dashboard_inner .second_inner .card_inner {
   width: 85%;
-  height: 55%;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 .dashboard_inner .second_inner .card_inner .left {
-  height: 100%;
-  width: 5.3rem;
+  height: 60%;
+  width: 5rem;
   border-radius: 100%;
   display: flex;
   flex-direction: column;
@@ -133,23 +136,27 @@
   justify-content: center;
 }
 .dashboard_inner .second_inner .card_inner .left.income {
+  color: green;
   background-color: rgba(0, 128, 0, 0.413);
 }
 .dashboard_inner .second_inner .card_inner .left.expense {
+  color: red;
   background-color: rgba(255, 0, 0, 0.195);
 }
 .dashboard_inner .second_inner .card_inner .left.saving {
+  color: rgb(202, 202, 19);
   background-color: rgba(202, 202, 19, 0.495);
 }
 .dashboard_inner .second_inner .card_inner .right {
   display: flex;
   flex-direction: column;
   align-items: start;
+  gap: 0.3rem;
   justify-content: center;
 }
 .dashboard_inner .second_inner .card_inner .right h1 {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 400;
 }
 .dashboard_inner .second_inner .card_inner .right .income {
   color: green;
@@ -161,8 +168,8 @@
   color: rgb(202, 202, 19);
 }
 .dashboard_inner .second_inner .card_inner .right h4 {
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 300;
 }
 .dashboard_inner .third {
   gap: 0.5rem;
@@ -183,17 +190,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   border-radius: 0.5rem;
   padding-block: 1rem;
-  padding-inline: 1rem;
+  padding-inline: 0.4rem;
 }
 .dashboard_inner .third_inner .btns {
   align-items: end;
 }
+.dashboard_inner .third_inner .btns select {
+  width: 5.4rem;
+  padding-block: 0.4rem;
+  padding-inline: 0.2rem;
+  border-radius: 0.3rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: whitesmoke;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+}
+.dashboard_inner .third_inner .btns select::-moz-selection {
+  background-color: #035c97;
+  color: white;
+}
+.dashboard_inner .third_inner .btns select::selection {
+  background-color: #035c97;
+  color: white;
+}
+.dashboard_inner .third_inner .btns option {
+  height: 90%;
+  border-radius: 0;
+  width: 5.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+}
 .dashboard_inner .third_inner .btns,
 .dashboard_inner .third_inner canvas {
-  width: 80%;
+  width: 95%;
   display: flex;
   flex-direction: column;
 }

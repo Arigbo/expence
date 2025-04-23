@@ -91,6 +91,39 @@
             <canvas id="expenseChart"> </canvas>
           </div>
         </section>
+        <section class="fourth">
+          <header>
+            <h1>Recent Transactions</h1>
+          </header>
+<div class="fourth_inner">
+            <div class="fourth_inner_top">
+              <h1>Transaction</h1>
+              <h1>Amount</h1>
+              <h1>Date</h1>
+            </div>
+            <div class="fourth_inner_bottom">
+              <div class="fourth_inner_bottom_inner">
+                <h1>?</h1>
+                <h1>$273,876</h1>
+                <h1>2022-01-01</h1>
+              </div>
+              <div class="fourth_inner_bottom_inner">
+                <h1>?</h1>
+                <h1>$273,876</h1>
+                <h1>2022-01-05</h1>
+              </div>
+              <div class="fourth_inner_bottom_inner">
+                <h1>?</h1>
+                <h1>$273,876</h1>
+                <h1>2022-01-15</h1>
+              </div>
+            </div>
+            
+  <div class="transact">
+
+  </div>
+</div>
+        </section>
       </div>
     </div>
   </body>
@@ -232,7 +265,7 @@
       },
     });
 
-function updateChart() {
+    function updateChart() {
       let selectedOption = document.getElementById("btns_inner").value;
       if (selectedOption === "weekly") {
         updatedWeeklyTransactions();
@@ -241,8 +274,15 @@ function updateChart() {
       } else if (selectedOption === "yearly") {
         updatedYearlyTransactions();
       }
-    } 
-
+    }
+    function updatedWeeklyTransactions() {
+      let { weeklyExpenses, weeklyIncomes } =
+        groupTransactionsByWeek(filteredTransactions);
+      chart.data.labels = Object.keys(weeklyExpenses);
+      chart.data.datasets[0].data = Object.values(weeklyExpenses);
+      chart.data.datasets[1].data = Object.values(weeklyIncomes);
+      chart.update();
+    }
     // Update chart with monthly transactions
     function updatedMonthlyTransactions() {
       let { monthlyExpenses, monthlyIncomes } =
