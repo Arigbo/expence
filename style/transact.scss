@@ -1,0 +1,338 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: whitesmoke;
+  width: 100%;
+  gap: 1.5rem;
+  &_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    height: 10vh;
+    .left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      height: 75%;
+      &_left {
+        height: 100%;
+        width: 3.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+          border-radius: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          background-color: black;
+          color: white;
+          font-weight: 400;
+        }
+      }
+      &_right {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        gap: 0.3rem;
+        h1 {
+          font-size: 16px;
+          font-weight: 600;
+        }
+        h4 {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+    .right {
+      i {
+        font-size: 18px;
+        font-weight: 400;
+      }
+    }
+    &.desktop {
+      display: none;
+    }
+    @media screen and (min-width: 768px) {
+      display: none;
+      &.desktop {
+        display: flex;
+        position: sticky;
+        justify-content: space-between;
+        top: 0;
+        height: 4rem;
+        padding-inline: 2rem;
+        background-color: white;
+        width: 100%;
+        .left {
+          width: 10%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: start;
+          img {
+            width: 1.8rem;
+            height: 70%;
+          }
+          h1 {
+            font-size: 18px;
+            font-weight: 300;
+            width: auto;
+            span {
+              font-weight: 600;
+            }
+          }
+        }
+        .middle {
+          // border: 1px solid;
+          width: 70%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          &_left {
+            width: auto;
+            p {
+              width: 100%;
+              font-size: 16px;
+              font-weight: 300;
+              color: rgba(145, 145, 145, 1);
+            }
+          }
+          &_right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60%;
+            i {
+              position: relative;
+              color: rgba(183, 193, 197, 1);
+              font-size: 18px;
+              left: 2rem;
+            }
+            input {
+              width: 100%;
+              border-radius: 2rem;
+              padding-inline-start: 3rem;
+              &::placeholder {
+                font-size: 16px;
+                font-weight: 200;
+                color: rgba(183, 193, 197, 1);
+              }
+            }
+          }
+        }
+        .right {
+          width: 10%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          gap: 3rem;
+          &_left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            i {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 26px;
+              height: 100%;
+            }
+          }
+          &_right {
+            height: 65%;
+            width: 2.6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .fa-user {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              color: white;
+              background-color: black;
+              height: 100%;
+              width: 100%;
+              border-radius: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+  &_inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 93%;
+    gap: 2rem;
+    section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .fourth {
+      gap: 0.3rem;
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        h1 {
+          font-size: 18px;
+          font-weight: 500;
+        }
+        a {
+          font-size: 14px;
+          font-weight: 400;
+          width: auto;
+          height: auto;
+        }
+      }
+      &_inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: white;
+        padding-block: 1rem;
+        border-radius: 0.5rem;
+        &_top {
+          width: 95%;
+          height: 4rem;
+          display: grid;
+          grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          border-block: 1px solid rgba(245, 246, 247, 1);
+          h1 {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            font-size: 16px;
+            font-weight: 400;
+            height: 100%;
+            width: 100%;
+          }
+        }
+        .transacts {
+          width: 95%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          &_inner {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .transact {
+              width: 100%;
+              display: grid;
+              height: 4rem;
+              border-block: 1px solid rgba(245, 246, 247, 1);
+              grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
+              justify-content: center;
+              align-items: center;
+              gap: 1rem;
+              &.none {
+                display: none;
+              }
+              .firstCl {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                p {
+                  font-size: 14px;
+                  font-weight: 300;
+                }
+              }
+              .secondCl {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                p {
+                  font-size: 16px;
+                  font-weight: 300;
+                }
+              }
+              .thirdCl {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                h5 {
+                  font-size: 16px;
+                  font-weight: 300;
+                  text-transform: capitalize;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 60%;
+                  border-radius: 0.2rem;
+                  color: white;
+                  width: 7rem;
+                  padding-inline: 0.3rem;
+                }
+                .red {
+                  background-color: red;
+                }
+                .green {
+                  background-color: green;
+                }
+              }
+              .fourthCl {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                h4 {
+                  width: 100%;
+                  height: 100%;
+                  font-size: 16px;
+                  font-weight: 400;
+                  display: flex;
+                  align-items: center;
+                  &.red {
+                    color: red;
+                  }
+                  &.green {
+                    color: green;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 768px) {
+      width: 90%;
+      align-items: start;
+      justify-content: center;
+      flex-direction: row;
+      section {
+        background-color: white;
+        align-items: center;
+        width: 100%;
+        border-radius: 0.5rem;
+        padding: 2rem;
+      }
+    }
+  }
+}

@@ -68,140 +68,45 @@
         </div>
       </div>
       <div class="dashboard_inner">
-        <div class="dashboard_inner_left">
-          <section class="first">
-            <div class="first_top">
-              <h5>Total Balance:</h5>
-              <a href="">View all</a>
+        <section class="fourth">
+          <header>
+            <h1>Transactions</h1>
+            <div class="right">
+              <select name="" id="">
+                <option value="">Week</option>
+                <option value="">Month</option>
+                <option value="">Year</option>
+              </select>
+              <select name="" id="">
+                <option value="" disabled selected>
+                  <i class="fas fa-bars"></i>
+                </option>
+                <option value="">A-Z</option>
+                <option value="">Most Recently</option>
+                <option value="">Most Past</option>
+              </select>
+              <select name="" id="">
+                <option value=""></option>
+              </select>
             </div>
-            <div class="first_bottom"><h1>$223,876</h1></div>
-          </section>
-          <section class="second">
-            <div class="second_header">
-              <h1>Transaction Overview</h1>
-              <p>An overview of all your transactions</p>
+          </header>
+          <div class="fourth_inner">
+            <div class="fourth_inner_top">
+              <h1>Date</h1>
+              <h1>Description</h1>
+              <h1>Category</h1>
+              <h1>Amount</h1>
             </div>
-            <div class="second_inner">
-              <div class="card">
-                <div class="card_inner">
-                  <div class="left income">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 17L9 11L13 15L21 7"
-                        stroke="green"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M21 7L17 7M21 7L21 11"
-                        stroke="green"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <div class="right">
-                    <h4 class="income">Income</h4>
-                    <h1>$273,876</h1>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card_inner">
-                  <div class="left expense">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 7L9 13L13 9L21 17"
-                        stroke="red"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M21 17L17 17M21 17L21 13"
-                        stroke="red"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <div class="right">
-                    <h4 class="expense">Expense</h4>
-                    <h1>$273,876</h1>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card_inner">
-                  <div class="left saving">
-                    <i class="fas fa-wallet"></i>
-                  </div>
-                  <div class="right">
-                    <h4 class="saving">Savings</h4>
-                    <h1>$273,876</h1>
-                  </div>
-                </div>
-              </div>
+            <div class="transacts">
+              <div class="transacts_inner"></div>
             </div>
-          </section>
-          <section class="third">
-            <header>
-              <h1>Expence & Income Chart</h1>
-            </header>
-            <div class="third_inner">
-              <div class="btns">
-                <select name="Select" id="btns_inner" onclick="updateChart()">
-                  <option value="Select" disabled>Select</option>
-                  <option value="weekly" id="weekly-btn">Weekly</option>
-                  <option value="monthly" id="monthly-btn">Monthly</option>
-                  <option value="yearly" id="yearly-btn">Yearly</option>
-                </select>
-              </div>
-              <canvas id="expenseChart"> </canvas>
-            </div>
-          </section>
-          <section class="fourth">
-            <header>
-              <h1>Recent Transactions</h1>
-              <a href="./transaction.html">View all</a>
-            </header>
-            <div class="fourth_inner">
-              <div class="fourth_inner_top">
-                <h1>Date</h1>
-                <h1>Description</h1>
-                <h1>Category</h1>
-                <h1>Amount</h1>
-              </div>
-              <div class="transacts">
-                <div class="transacts_inner"></div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <div class="dashboard_inner_right">
-          <section class="blog">
-            <div class="blog_header">Daily tips</div>
-            <div class="blog_inner">
-              <div class="box"></div>
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
   </body>
   <script>
-  document.querySelector(".navbar").addEventListener("click", function (e) {
+    document.querySelector(".navbar").addEventListener("click", function (e) {
       document.querySelector(".navbar").classList.remove("show");
     });
     document.querySelector(".bar").addEventListener("click", function (e) {
@@ -252,11 +157,10 @@
         descrip: "Bag",
       },
     ];
-    transactions.map(
-      (transact) => {
-        return document.querySelector(".transacts_inner").insertAdjacentHTML(
-              "beforeend",
-              `   
+    transactions.map((transact) => {
+      return document.querySelector(".transacts_inner").insertAdjacentHTML(
+        "beforeend",
+        `   
         <div class="transact ${transact.id > 4 ? "none" : ""}" key={${
           transact.id
         }}>
@@ -282,11 +186,8 @@
                   </div>
                 </div>
       `
-              )
-      }
-    );
-
-   
+      );
+    });
     // Function to filter transactions before current date
     function filterTransactionsBeforeCurrentDate(transactions) {
       let currentDate = new Date();
@@ -458,7 +359,7 @@
     chart.data.datasets[0].data = Object.values(weeklyExpenses);
     chart.data.datasets[1].data = Object.values(weeklyIncomes);
     chart.update();
-    localStorage.setItem("page", "dashb");
+    localStorage.setItem("page", "transaction");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.add("active");
@@ -484,7 +385,7 @@
         document.querySelector(".budget").classList.remove("active");
         document.querySelector(".report").classList.remove("active");
         document.querySelector(".setting").classList.remove("active");
-        return localStorage.setItem("page", "dashb");
+        return localStorage.setItem("page", "transaction");
       });
     if (page && page === "transaction") {
       document.querySelector(".dash").classList.remove("active");
@@ -500,7 +401,7 @@
       document.querySelector(".budget").classList.add("active");
       document.querySelector(".report").classList.remove("active");
       document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
+      return localStorage.setItem("page", "budget");
     });
     if (page && page === "budget") {
       document.querySelector(".dash").classList.remove("active");
@@ -516,7 +417,7 @@
       document.querySelector(".budget").classList.remove("active");
       document.querySelector(".report").classList.add("active");
       document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
+      return localStorage.setItem("page", "report");
     });
     if (page && page === "report") {
       document.querySelector(".dash").classList.remove("active");
@@ -532,7 +433,7 @@
       document.querySelector(".budget").classList.remove("active");
       document.querySelector(".report").classList.remove("active");
       document.querySelector(".setting").classList.add("active");
-      return localStorage.setItem("page", "dashb");
+      return localStorage.setItem("page", "setting");
     });
     if (page && page === "setting") {
       document.querySelector(".dash").classList.remove("active");
