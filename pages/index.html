@@ -9,17 +9,12 @@
   </head>
   <body>
     <div class="dashboard">
-      <nav>
-        <div class="logo">
-          <h1>Spentrack</h1>
+      <nav class="navbar">
+        <div class="navbar_inner">
+          <a href="#">Dashboard</a><a href="#">Transactions</a
+          ><a href="#">Budgets</a><a href="#">Reports</a
+          ><a href="#">Settings</a>
         </div>
-        <ul>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Transactions</a></li>
-          <li><a href="#">Budgets</a></li>
-          <li><a href="#">Reports</a></li>
-          <li><a href="#">Settings</a></li>
-        </ul>
       </nav>
       <div class="dashboard_header">
         <div class="left">
@@ -27,44 +22,55 @@
             <h1>?</h1>
           </div>
           <div class="left_right">
-            <h1>Spentrack</h1>
-            <p>Welcome back, User!</p>
+            <h1>Hello</h1>
+            <h4>Chally Pepper</h4>
           </div>
         </div>
         <div class="right">
           <h1>?</h1>
         </div>
       </div>
-      <div class="dasboard_inner">
+      <div class="dashboard_inner">
         <section class="first">
-          <div class="first_inner">
-            <div class="top">
-              <h5>Total Balance:</h5>
-              <a href="">View all</a>
-            </div>
-            <div class="bottom"><h1>$223,876</h1></div>
+          <div class="first_top">
+            <h5>Total Balance:</h5>
+            <a href="">View all</a>
           </div>
+          <div class="first_bottom"><h1>$223,876</h1></div>
         </section>
         <section class="second">
-          <div class="card">
-            <div class="card_inner">
-              <div class="left">
-                <h1>?</h1>
-              </div>
-              <div class="right">
-                <h4>Income</h4>
-                <h1>$273,876</h1>
+          <div class="second_inner">
+            <div class="card">
+              <div class="card_inner">
+                <div class="left income">
+                  <h1>?</h1>
+                </div>
+                <div class="right">
+                  <h4 class="income">Income</h4>
+                  <h1>$273,876</h1>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="card_inner">
-              <div class="left">
-                <h1>?</h1>
+            <div class="card">
+              <div class="card_inner">
+                <div class="left expense">
+                  <h1>?</h1>
+                </div>
+                <div class="right">
+                  <h4 class="expense">Expense</h4>
+                  <h1>$273,876</h1>
+                </div>
               </div>
-              <div class="right">
-                <h4>Income</h4>
-                <h1>$273,876</h1>
+            </div>
+            <div class="card">
+              <div class="card_inner">
+                <div class="left saving">
+                  <h1>?</h1>
+                </div>
+                <div class="right">
+                  <h4 class="saving">Savings</h4>
+                  <h1>$273,876</h1>
+                </div>
               </div>
             </div>
           </div>
@@ -74,10 +80,15 @@
             <h1>Expreme Chart</h1>
           </header>
           <div class="third_inner">
-            <canvas id="expenseChart"></canvas>
-            <button id="weekly-btn">Weekly</button>
-            <button id="monthly-btn">Monthly</button>
-            <button id="yearly-btn">Yearly</button>
+            <div class="btns">
+              <select name="Select" id="btns_inner" onclick="updateChart()">
+                <option value="Select" disabled>Select</option>
+                <option value="weekly" id="weekly-btn">Weekly</option>
+                <option value="monthly" id="monthly-btn">Monthly</option>
+                <option value="yearly" id="yearly-btn">Yearly</option>
+              </select>
+            </div>
+            <canvas id="expenseChart"> </canvas>
           </div>
         </section>
       </div>
@@ -85,156 +96,179 @@
   </body>
   <script>
     // Sample expense and income data
-let transactions = [
-    { date: '2022-01-01', type: 'expense', amount: 100 },
-    { date: '2022-01-05', type: 'income', amount: 200 },
-    { date: '2022-01-15', type: 'expense', amount: 300 },
-    { date: '2022-02-01', type: 'income', amount: 400 },
-    { date: '2022-02-10', type: 'expense', amount: 500 },
-    { date: '2022-03-01', type: 'income', amount: 600 },
-    // Add more data...
-];
+    let transactions = [
+      { date: "2022-01-01", type: "expense", amount: 100 },
+      { date: "2022-01-05", type: "income", amount: 200 },
+      { date: "2022-01-15", type: "expense", amount: 300 },
+      { date: "2022-02-01", type: "income", amount: 400 },
+      { date: "2022-02-10", type: "expense", amount: 500 },
+      { date: "2022-03-01", type: "income", amount: 600 },
+      // Add more data...
+    ];
 
-// Function to filter transactions before current date
-function filterTransactionsBeforeCurrentDate(transactions) {
-    let currentDate = new Date();
-    return transactions.filter(transaction => new Date(transaction.date) <= currentDate);
-}
+    // Function to filter transactions before current date
+    function filterTransactionsBeforeCurrentDate(transactions) {
+      let currentDate = new Date();
+      return transactions.filter(
+        (transaction) => new Date(transaction.date) <= currentDate
+      );
+    }
 
-// Function to group transactions by week
-function groupTransactionsByWeek(transactions) {
-    let weeklyExpenses = {};
-    let weeklyIncomes = {};
-    for (let i = 1; i <= 53; i++) {
+    // Function to group transactions by week
+    function groupTransactionsByWeek(transactions) {
+      let weeklyExpenses = {};
+      let weeklyIncomes = {};
+      for (let i = 1; i <= 53; i++) {
         weeklyExpenses[`Week ${i}`] = 0;
         weeklyIncomes[`Week ${i}`] = 0;
-    }
-    transactions.forEach(transaction => {
+      }
+      transactions.forEach((transaction) => {
         let date = new Date(transaction.date);
         let weekNumber = getWeekNumber(date);
-        if (transaction.type === 'expense') {
-            weeklyExpenses[`Week ${weekNumber}`] += transaction.amount;
-        } else if (transaction.type === 'income') {
-            weeklyIncomes[`Week ${weekNumber}`] += transaction.amount;
+        if (transaction.type === "expense") {
+          weeklyExpenses[`Week ${weekNumber}`] += transaction.amount;
+        } else if (transaction.type === "income") {
+          weeklyIncomes[`Week ${weekNumber}`] += transaction.amount;
         }
-    });
-    return { weeklyExpenses, weeklyIncomes };
-}
+      });
+      return { weeklyExpenses, weeklyIncomes };
+    }
 
-// Function to group transactions by month
-function groupTransactionsByMonth(transactions) {
-    let monthlyExpenses = {};
-    let monthlyIncomes = {};
-    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    months.forEach(month => {
+    // Function to group transactions by month
+    function groupTransactionsByMonth(transactions) {
+      let monthlyExpenses = {};
+      let monthlyIncomes = {};
+      let months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      months.forEach((month) => {
         monthlyExpenses[month] = 0;
         monthlyIncomes[month] = 0;
-    });
-    transactions.forEach(transaction => {
+      });
+      transactions.forEach((transaction) => {
         let date = new Date(transaction.date);
-        let month = date.toLocaleString('default', { month: 'long' });
-        if (transaction.type === 'expense') {
-            monthlyExpenses[month] += transaction.amount;
-        } else if (transaction.type === 'income') {
-            monthlyIncomes[month] += transaction.amount;
+        let month = date.toLocaleString("default", { month: "long" });
+        if (transaction.type === "expense") {
+          monthlyExpenses[month] += transaction.amount;
+        } else if (transaction.type === "income") {
+          monthlyIncomes[month] += transaction.amount;
         }
-    });
-    return { monthlyExpenses, monthlyIncomes };
-}
+      });
+      return { monthlyExpenses, monthlyIncomes };
+    }
 
-// Function to group transactions by year
-function groupTransactionsByYear(transactions) {
-    let yearlyExpenses = {};
-    let yearlyIncomes = {};
-    transactions.forEach(transaction => {
+    // Function to group transactions by year
+    function groupTransactionsByYear(transactions) {
+      let yearlyExpenses = {};
+      let yearlyIncomes = {};
+      transactions.forEach((transaction) => {
         let date = new Date(transaction.date);
         let year = date.getFullYear();
-        if (transaction.type === 'expense') {
-            if (!yearlyExpenses[year]) {
-                yearlyExpenses[year] = 0;
-            }
-            yearlyExpenses[year] += transaction.amount;
-        } else if (transaction.type === 'income') {
-            if (!yearlyIncomes[year]) {
-                yearlyIncomes[year] = 0;
-            }
-            yearlyIncomes[year] += transaction.amount;
+        if (transaction.type === "expense") {
+          if (!yearlyExpenses[year]) {
+            yearlyExpenses[year] = 0;
+          }
+          yearlyExpenses[year] += transaction.amount;
+        } else if (transaction.type === "income") {
+          if (!yearlyIncomes[year]) {
+            yearlyIncomes[year] = 0;
+          }
+          yearlyIncomes[year] += transaction.amount;
         }
-    });
-    return { yearlyExpenses, yearlyIncomes };
-}
-
-// Function to get week number
-function getWeekNumber(date) {
-    let oneJan = new Date(date.getFullYear(), 0, 1);
-    return Math.ceil((((date - oneJan) / 86400000) + oneJan.getDay() + 1) / 7);
-}
-
-// Filter transactions before current date
-let filteredTransactions = filterTransactionsBeforeCurrentDate(transactions);
-
-// Create chart
-let ctx = document.getElementById('expenseChart').getContext('2d');
-let chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [],
-        datasets: [{
-            label: 'Expenses',
-            data: [],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Incomes',
-            data: [],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+      });
+      return { yearlyExpenses, yearlyIncomes };
     }
-});
 
-document.getElementById('weekly-btn').addEventListener('click', () => {
-    let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
+    // Function to get week number
+    function getWeekNumber(date) {
+      let oneJan = new Date(date.getFullYear(), 0, 1);
+      return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
+    }
+
+    // Filter transactions before current date
+    let filteredTransactions =
+      filterTransactionsBeforeCurrentDate(transactions);
+
+    // Create chart
+    let ctx = document.getElementById("expenseChart").getContext("2d");
+    let chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Expenses",
+            data: [],
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 1,
+          },
+          {
+            label: "Incomes",
+            data: [],
+            backgroundColor: " rgba(0, 128, 0, 0.413)",
+            borderColor: "rgba(0, 128, 0, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+function updateChart() {
+      let selectedOption = document.getElementById("btns_inner").value;
+      if (selectedOption === "weekly") {
+        updatedWeeklyTransactions();
+      } else if (selectedOption === "monthly") {
+        updatedMonthlyTransactions();
+      } else if (selectedOption === "yearly") {
+        updatedYearlyTransactions();
+      }
+    } 
+
+    // Update chart with monthly transactions
+    function updatedMonthlyTransactions() {
+      let { monthlyExpenses, monthlyIncomes } =
+        groupTransactionsByMonth(filteredTransactions);
+      chart.data.labels = Object.keys(monthlyExpenses);
+      chart.data.datasets[0].data = Object.values(monthlyExpenses);
+      chart.data.datasets[1].data = Object.values(monthlyIncomes);
+      chart.update();
+    }
+
+    // Update chart with yearly transactions
+    function updatedYearlyTransactions() {
+      let { yearlyExpenses, yearlyIncomes } =
+        groupTransactionsByYear(filteredTransactions);
+      chart.data.labels = Object.keys(yearlyExpenses);
+      chart.data.datasets[0].data = Object.values(yearlyExpenses);
+      chart.data.datasets[1].data = Object.values(yearlyIncomes);
+      chart.update();
+    }
+
+    // Initialize chart with weekly transactions
+    let { weeklyExpenses, weeklyIncomes } =
+      groupTransactionsByWeek(filteredTransactions);
     chart.data.labels = Object.keys(weeklyExpenses);
     chart.data.datasets[0].data = Object.values(weeklyExpenses);
     chart.data.datasets[1].data = Object.values(weeklyIncomes);
     chart.update();
-});
-
-// Update chart with monthly transactions
-document.getElementById('monthly-btn').addEventListener('click', () => {
-    let { monthlyExpenses, monthlyIncomes } = groupTransactionsByMonth(filteredTransactions);
-    chart.data.labels = Object.keys(monthlyExpenses);
-    chart.data.datasets[0].data = Object.values(monthlyExpenses);
-    chart.data.datasets[1].data = Object.values(monthlyIncomes);
-    chart.update();
-});
-
-// Update chart with yearly transactions
-document.getElementById('yearly-btn').addEventListener('click', () => {
-    let { yearlyExpenses, yearlyIncomes } = groupTransactionsByYear(filteredTransactions);
-    chart.data.labels = Object.keys(yearlyExpenses);
-    chart.data.datasets[0].data = Object.values(yearlyExpenses);
-    chart.data.datasets[1].data = Object.values(yearlyIncomes);
-    chart.update();
-});
-
-// Initialize chart with weekly transactions
-let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
-chart.data.labels = Object.keys(weeklyExpenses);
-chart.data.datasets[0].data = Object.values(weeklyExpenses);
-chart.data.datasets[1].data = Object.values(weeklyIncomes);
-chart.update();
-
   </script>
 </html>

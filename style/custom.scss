@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
 @import "./signup.css";
 @import "./signin.css";
+@import "./dash.css";
+@import "./nav.css";
 * {
   margin: 0;
   padding: 0;
@@ -13,6 +15,9 @@
     text-decoration: none;
     width: 100%;
     height: 100%;
+    &:hover{
+      color: #035c97;
+    }
   }
   input {
     display: flex;
@@ -28,7 +33,7 @@
     background-color: rgba(245, 245, 247, 1);
     font-size: 16px;
   }
-  ::placeholder{
+  ::placeholder {
     color: rgba(47, 47, 47, 0.5);
     font-size: 14px;
     font-weight: 400;

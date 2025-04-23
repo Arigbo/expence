@@ -1,0 +1,203 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: whitesmoke;
+  width: 100%;
+}
+.dashboard_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  height: 10vh;
+}
+.dashboard_header .left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+}
+.dashboard_header .left_left {
+  height: 100%;
+  width: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard_header .left_left h1 {
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  font-weight: 400;
+}
+.dashboard_header .left_right {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.dashboard_header .left_right h1 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.dashboard_header .left_right h4 {
+  font-size: 14px;
+  font-weight: 400;
+}
+.dashboard_header .right h1 {
+  font-size: 18px;
+  font-weight: 400;
+}
+.dashboard_inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  gap: 1rem;
+}
+.dashboard_inner section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dashboard_inner .first {
+  width: 100%;
+}
+.dashboard_inner .first_top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.dashboard_inner .first_top h5 {
+  font-size: 14px;
+  font-weight: 400;
+}
+.dashboard_inner .first_top a {
+  font-size: 12px;
+  width: auto;
+  height: auto;
+}
+.dashboard_inner .first_bottom {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.dashboard_inner .first_bottom h1 {
+  font-weight: 600;
+  font-size: 24px;
+  color: #035c97;
+}
+.dashboard_inner .second {
+  width: 100%;
+  overflow-x: scroll;
+}
+.dashboard_inner .second_inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+}
+.dashboard_inner .second_inner .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  height: 16vh;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+.dashboard_inner .second_inner .card_inner {
+  width: 85%;
+  height: 55%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dashboard_inner .second_inner .card_inner .left {
+  height: 100%;
+  width: 5.3rem;
+  border-radius: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard_inner .second_inner .card_inner .left.income {
+  background-color: rgba(0, 128, 0, 0.413);
+}
+.dashboard_inner .second_inner .card_inner .left.expense {
+  background-color: rgba(255, 0, 0, 0.195);
+}
+.dashboard_inner .second_inner .card_inner .left.saving {
+  background-color: rgba(202, 202, 19, 0.495);
+}
+.dashboard_inner .second_inner .card_inner .right {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.dashboard_inner .second_inner .card_inner .right h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+.dashboard_inner .second_inner .card_inner .right .income {
+  color: green;
+}
+.dashboard_inner .second_inner .card_inner .right .expense {
+  color: red;
+}
+.dashboard_inner .second_inner .card_inner .right .saving {
+  color: rgb(202, 202, 19);
+}
+.dashboard_inner .second_inner .card_inner .right h4 {
+  font-size: 14px;
+  font-weight: 400;
+}
+.dashboard_inner .third {
+  gap: 0.5rem;
+}
+.dashboard_inner .third header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.dashboard_inner .third header h1 {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+}
+.dashboard_inner .third_inner {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding-block: 1rem;
+  padding-inline: 1rem;
+}
+.dashboard_inner .third_inner .btns {
+  align-items: end;
+}
+.dashboard_inner .third_inner .btns,
+.dashboard_inner .third_inner canvas {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.dashboard_inner .third_inner canvas {
+  align-items: center;
+  color: white;
+}/*# sourceMappingURL=dash.css.map */
