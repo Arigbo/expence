@@ -6,20 +6,29 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="/style/custom.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div class="dashboard">
       <nav class="navbar">
         <div class="navbar_inner">
-          <a href="#">Dashboard</a><a href="#">Transactions</a
-          ><a href="#">Budgets</a><a href="#">Reports</a
-          ><a href="#">Settings</a>
+          <a href="#"><i class="fas fa-cube"></i> Dashboard</a
+          ><a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a>
+          <a href="#"><i class="fas fa-rocket"></i> Budgets</a>
+          <a href="#"><i class="fas fa-chart-line"></i> Reports</a>
+          <a href="#"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
       <div class="dashboard_header">
         <div class="left">
           <div class="left_left">
-            <h1>?</h1>
+            <i class="far fa-user"></i>
           </div>
           <div class="left_right">
             <h1>Hello</h1>
@@ -27,27 +36,29 @@
           </div>
         </div>
         <div class="right">
-          <h1>?</h1>
+          <i class="far fa-bell"></i>
         </div>
       </div>
       <div class="dashboard_header desktop">
         <div class="left">
-          <h1 class="bar">Spentrack</h1>
+          <img src="/Logomark.png" alt="" />
+          <h1 class="bar">Spen<span>track</span></h1>
         </div>
         <div class="middle">
           <div class="middle_left">
             <p>Hello Colins, good morning!</p>
           </div>
           <div class="middle_right">
-            <input type="text" />
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search here...." />
           </div>
         </div>
         <div class="right">
           <div class="right_left">
-            <h1>&</h1>
+            <h1><i class="far fa-bell"></i></h1>
           </div>
           <div class="right_right">
-            <h1>?</h1>
+            <i class="fas fa-user"></i>
           </div>
         </div>
       </div>
@@ -68,7 +79,26 @@
             <div class="card">
               <div class="card_inner">
                 <div class="left income">
-                  <h1>?</h1>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M3 17L9 11L13 15L21 7"
+                      stroke="green"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M21 7L17 7M21 7L21 11"
+                      stroke="green"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="right">
                   <h4 class="income">Income</h4>
@@ -79,7 +109,26 @@
             <div class="card">
               <div class="card_inner">
                 <div class="left expense">
-                  <h1>?</h1>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M3 7L9 13L13 9L21 17"
+                      stroke="red"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M21 17L17 17M21 17L21 13"
+                      stroke="red"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="right">
                   <h4 class="expense">Expense</h4>
@@ -90,7 +139,7 @@
             <div class="card">
               <div class="card_inner">
                 <div class="left saving">
-                  <h1>?</h1>
+                  <i class="fas fa-wallet"></i>
                 </div>
                 <div class="right">
                   <h4 class="saving">Savings</h4>
@@ -152,10 +201,10 @@
   </body>
   <script>
     document.querySelector(".navbar").addEventListener("click", function (e) {
-document.querySelector(".navbar").classList.add("hide")
+      document.querySelector(".navbar").classList.add("hide");
     });
     document.querySelector(".bar").addEventListener("click", function (e) {
-document.querySelector(".navbar").classList.remove("hide")
+      document.querySelector(".navbar").classList.remove("hide");
     });
     // Sample expense and income data
     let transactions = [

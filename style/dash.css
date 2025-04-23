@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
 }
-.dashboard_header .left_left h1 {
+.dashboard_header .left_left i {
   border-radius: 100%;
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@
   font-size: 14px;
   font-weight: 400;
 }
-.dashboard_header .right h1 {
+.dashboard_header .right i {
   font-size: 18px;
   font-weight: 400;
 }
@@ -70,41 +70,110 @@
     justify-content: space-between;
     top: 0;
     height: 4rem;
-    padding-inline: 1.5rem;
+    padding-inline: 2rem;
     background-color: white;
     width: 100%;
   }
   .dashboard_header.desktop .left {
-    width: 25%;
+    width: 10%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
+  }
+  .dashboard_header.desktop .left img {
+    width: 1.8rem;
+    height: 70%;
   }
   .dashboard_header.desktop .left h1 {
     font-size: 18px;
     font-weight: 300;
     width: auto;
   }
+  .dashboard_header.desktop .left h1 span {
+    font-weight: 600;
+  }
   .dashboard_header.desktop .middle {
-    width: 55%;
+    width: 70%;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+  .dashboard_header.desktop .middle_left {
+    width: auto;
+  }
+  .dashboard_header.desktop .middle_left p {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(145, 145, 145);
+  }
+  .dashboard_header.desktop .middle_right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+  }
+  .dashboard_header.desktop .middle_right i {
+    position: relative;
+    color: rgb(183, 193, 197);
+    font-size: 18px;
+    left: 2rem;
+  }
+  .dashboard_header.desktop .middle_right input {
+    width: 100%;
+    border-radius: 2rem;
+    padding-inline-start: 3rem;
+  }
+  .dashboard_header.desktop .middle_right input::-moz-placeholder {
+    font-size: 16px;
+    font-weight: 200;
+    color: rgb(183, 193, 197);
+  }
+  .dashboard_header.desktop .middle_right input::placeholder {
+    font-size: 16px;
+    font-weight: 200;
+    color: rgb(183, 193, 197);
+  }
   .dashboard_header.desktop .right {
-    width: 20%;
+    width: 10%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: end;
+    gap: 3rem;
   }
-  .dashboard_header.desktop p {
-    width: auto;
-    font-size: 16px;
-    font-weight: 200;
-    color: rgb(145, 145, 145);
+  .dashboard_header.desktop .right_left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
-  .dashboard_header.desktop input {
-    width: auto;
+  .dashboard_header.desktop .right_left i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    height: 100%;
+  }
+  .dashboard_header.desktop .right_right {
+    height: 65%;
+    width: 2.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .dashboard_header.desktop .right_right .fa-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
   }
 }
 .dashboard_inner {
@@ -213,7 +282,8 @@
   align-items: center;
   justify-content: center;
 }
-.dashboard_inner .second_inner .card_inner .left h1 {
+.dashboard_inner .second_inner .card_inner .left svg, .dashboard_inner .second_inner .card_inner .left i {
+  padding: 0.5rem;
   height: 100%;
   width: 100%;
   display: flex;
@@ -221,15 +291,15 @@
   justify-content: center;
   border-radius: 100%;
 }
-.dashboard_inner .second_inner .card_inner .left.income h1 {
+.dashboard_inner .second_inner .card_inner .left.income svg {
   color: green;
   background-color: rgba(0, 128, 0, 0.413);
 }
-.dashboard_inner .second_inner .card_inner .left.expense h1 {
+.dashboard_inner .second_inner .card_inner .left.expense svg {
   color: red;
   background-color: rgba(255, 0, 0, 0.413);
 }
-.dashboard_inner .second_inner .card_inner .left.saving h1 {
+.dashboard_inner .second_inner .card_inner .left.saving i {
   color: rgb(202, 202, 19);
   background-color: rgba(202, 202, 19, 0.413);
 }
