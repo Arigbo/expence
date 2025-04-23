@@ -30,6 +30,27 @@
           <h1>?</h1>
         </div>
       </div>
+      <div class="dashboard_header desktop">
+        <div class="left">
+          <h1 class="bar">Spentrack</h1>
+        </div>
+        <div class="middle">
+          <div class="middle_left">
+            <p>Hello Colins, good morning!</p>
+          </div>
+          <div class="middle_right">
+            <input type="text" />
+          </div>
+        </div>
+        <div class="right">
+          <div class="right_left">
+            <h1>&</h1>
+          </div>
+          <div class="right_right">
+            <h1>?</h1>
+          </div>
+        </div>
+      </div>
       <div class="dashboard_inner">
         <section class="first">
           <div class="first_top">
@@ -39,6 +60,10 @@
           <div class="first_bottom"><h1>$223,876</h1></div>
         </section>
         <section class="second">
+          <div class="second_header">
+            <h1>Transaction Overview</h1>
+            <p>An overview of all your transactions</p>
+          </div>
           <div class="second_inner">
             <div class="card">
               <div class="card_inner">
@@ -95,7 +120,7 @@
           <header>
             <h1>Recent Transactions</h1>
           </header>
-<div class="fourth_inner">
+          <div class="fourth_inner">
             <div class="fourth_inner_top">
               <h1>Transaction</h1>
               <h1>Amount</h1>
@@ -118,16 +143,20 @@
                 <h1>2022-01-15</h1>
               </div>
             </div>
-            
-  <div class="transact">
 
-  </div>
-</div>
+            <div class="transact"></div>
+          </div>
         </section>
       </div>
     </div>
   </body>
   <script>
+    document.querySelector(".navbar").addEventListener("click", function (e) {
+document.querySelector(".navbar").classList.add("hide")
+    });
+    document.querySelector(".bar").addEventListener("click", function (e) {
+document.querySelector(".navbar").classList.remove("hide")
+    });
     // Sample expense and income data
     let transactions = [
       { date: "2022-01-01", type: "expense", amount: 100 },
