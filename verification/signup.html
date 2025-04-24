@@ -6,50 +6,51 @@
     <title>Sign up</title>
     <link rel="stylesheet" href="/style/custom.css" />
   </head>
+  <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
   <body>
     <div class="signup">
-    <div class="signup_left">
-      <div class="signin_left_header">
-        <div><img src="/Logomark.png" alt="" /></div>
-        <h1>Spentrack</h1>
+      <div class="signup_left">
+        <div class="signin_left_header">
+          <div><img src="/Logomark.png" alt="" /></div>
+          <h1>Spentrack</h1>
+        </div>
+        <div class="signup_left_inner">
+          <div class="signup_left_inner_first">
+            <h1>Create an account</h1>
+            <h5>Lets get you started</h5>
+          </div>
+          <div class="signup_left_inner_second">
+            <form action="/signup" method="POST">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+              />
+              <input type="email" name="email" placeholder="Email" required />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <div class="bottom">
+                <input type="checkbox" name="" id="" />
+                <p>
+                  I accept the
+                  <a href="/terms">terms</a> and
+                  <a href="/privacy">conditions</a>
+                </p>
+              </div>
+              <button type="submit">Create account</button>
+            </form>
+          </div>
+          <div class="signup_left_inner_third">
+            <p>Already have an account? <a href="./signin.html">Sign in</a></p>
+          </div>
+        </div>
       </div>
-      <div class="signup_left_inner">
-        <div class="signup_left_inner_first">
-          <h1>Create an account</h1>
-          <h5>Lets get you started</h5>
-        </div>
-        <div class="signup_left_inner_second">
-          <form action="/signup" method="POST">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
-            <input type="email" name="email" placeholder="Email" required />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
-            <div class="bottom">
-              <input type="checkbox" name="" id="" />
-              <p>
-                I accept the
-                <a href="/terms">terms</a> and
-                <a href="/privacy">conditions</a>
-              </p>
-            </div>
-            <button type="submit">Create account</button>
-          </form>
-        </div>
-        <div class="signup_left_inner_third">
-          <p>Already have an account? <a href="./signin.html">Sign in</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="signup_right"></div>
+      <div class="signup_right"></div>
     </div>
   </body>
 </html>

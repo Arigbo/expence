@@ -5,6 +5,7 @@
 @import "./dash.css";
 @import "./nav.css";
 @import "./transact.css";
+@import "./budget.css";
 * {
   margin: 0;
   padding: 0;
