@@ -75,22 +75,23 @@
           <header>
             <h1>Transactions</h1>
             <div class="right">
-              <select name="" id="">
-                <option value="">Week</option>
-                <option value="">Month</option>
-                <option value="">Year</option>
-              </select>
-              <select name="" id="">
-                <option value="" disabled selected>
-                  <i class="fas fa-bars"></i>
-                </option>
-                <option value="">A-Z</option>
-                <option value="">Most Recently</option>
-                <option value="">Most Past</option>
-              </select>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
+        <select id="timeFilter">
+          <option value="">Filter by Time</option>
+          <option value="Week">Week</option>
+          <option value="Month">Month</option>
+          <option value="Year">Year</option>
+        </select>
+        <select id="sortFilter">
+          <option value="">Sort Transactions</option>
+          <option value="A-Z">A-Z</option>
+          <option value="Most Recently">Most Recently</option>
+          <option value="Most Past">Most Past</option>
+        </select>
+        <select id="typeFilter">
+          <option value="">Filter by Type</option>
+          <option value="Expense">Expense</option>
+          <option value="Income">Income</option>
+        </select>
             </div>
           </header>
           <div class="fourth_inner">
@@ -231,37 +232,117 @@
       },
 
     ];
-    transactions.map((transact) => {
-      return document.querySelector(".transacts_inner").insertAdjacentHTML(
+    // Function to filter transactions by week
+    function filterByWeek(transactions) {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      return transactions.filter((transaction) => new Date(transaction.date) >= oneWeekAgo);
+    }
+
+    // Function to filter transactions by month
+    function filterByMonth(transactions) {
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      return transactions.filter((transaction) => new Date(transaction.date) >= oneMonthAgo);
+    }
+
+    // Function to filter transactions by year
+    function filterByYear(transactions) {
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      return transactions.filter((transaction) => new Date(transaction.date) >= oneYearAgo);
+    }
+
+    // Function to filter transactions by type (expense or income)
+    function filterByType(transactions, type) {
+      return transactions.filter((transaction) => transaction.type === type);
+    }
+
+    // Function to sort transactions alphabetically (A-Z or Z-A)
+    function sortTransactions(transactions, order = "asc") {
+      return transactions.sort((a, b) => {
+      const descA = a.descrip.toLowerCase();
+      const descB = b.descrip.toLowerCase();
+      if (order === "asc") {
+        return descA < descB ? -1 : descA > descB ? 1 : 0;
+      } else {
+        return descA > descB ? -1 : descA < descB ? 1 : 0;
+      }
+      });
+    }
+
+    // Function to display filtered transactions
+    function displayTransactions(filteredTransactions) {
+      const container = document.querySelector(".transacts_inner");
+      container.innerHTML = ""; // Clear existing transactions
+      filteredTransactions.map((transact) => {
+      container.insertAdjacentHTML(
         "beforeend",
         `   
-        <div class="transact" key={${
-          transact.id
-        }}>
-                  <div class="firstCl">
-                    <p>
-                    ${transact.date}</p>
-                  </div>
-                  <div class="secondCl">
-                    <p>
-                      ${transact.descrip}
-                      </p>
-                  </div>
-                  <div class="thirdCl">
-                    <h5 class=${transact.type === "income" ? "green" : "red"}>
-                      ${transact.type}
-                      </h5>
-                  </div>
-                  <div class="fourthCl">
-                    <h4 class=${transact.type == "expense" ? "red" : "green"}>
-                    ${transact.type == "expense" ? "-" : "+"}${
-          transact.amount
-        }</h4>
-                  </div>
-                </div>
+        <div class="transact" key=${transact.id}>
+        <div class="firstCl">
+          <p>${transact.date}</p>
+        </div>
+        <div class="secondCl">
+          <p>${transact.descrip}</p>
+        </div>
+        <div class="thirdCl">
+          <h5 class=${transact.type === "income" ? "green" : "red"}>
+          ${transact.type}
+          </h5>
+        </div>
+        <div class="fourthCl">
+          <h4 class=${transact.type == "expense" ? "red" : "green"}>
+          ${transact.type == "expense" ? "-" : "+"}${transact.amount}
+          </h4>
+        </div>
+        </div>
       `
       );
+      });
+    }
+
+    // Example usage
+    // Add event listeners to the select elements
+    document.querySelectorAll("select").forEach((select, index) => {
+      select.addEventListener("change", function () {
+      let filteredTransactions = transactions;
+
+      if (index === 0) {
+        // Filter by time (Week, Month, Year)
+        if (this.value === "Week") {
+        filteredTransactions = filterByWeek(transactions);
+        } else if (this.value === "Month") {
+        filteredTransactions = filterByMonth(transactions);
+        } else if (this.value === "Year") {
+        filteredTransactions = filterByYear(transactions);
+        }
+      } else if (index === 1) {
+        // Sort transactions (A-Z, Most Recently, Most Past)
+        if (this.value === "A-Z") {
+        filteredTransactions = sortTransactions(transactions, "asc");
+        } else if (this.value === "Most Recently") {
+        filteredTransactions = transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (this.value === "Most Past") {
+        filteredTransactions = transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+      } else if (index === 2) {
+        // Filter by type (Expense, Income)
+        if (this.value === "Expense") {
+        filteredTransactions = filterByType(transactions, "expense");
+        } else if (this.value === "Income") {
+        filteredTransactions = filterByType(transactions, "income");
+        }
+      }
+
+      displayTransactions(filteredTransactions);
+      });
     });
+
+    // Initialize the display with all transactions
+    displayTransactions(transactions);
+
+
     // Function to filter transactions before current date
 
     localStorage.setItem("page", "transaction");

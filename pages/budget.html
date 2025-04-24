@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Budget Calculator</h1>
+        <form id="budgetForm">
+            <div>
+                <label for="income">Total Income:</label>
+                <input type="number" id="income" placeholder="Enter your income" required>
+            </div>
+            <div>
+                <label for="expenses">Total Expenses:</label>
+                <input type="number" id="expenses" placeholder="Enter your expenses" required>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="result" class="result" style="display: none;">
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('budgetForm');
+        const resultDiv = document.getElementById('result');
+        const resultText = document.getElementById('resultText');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const income = parseFloat(document.getElementById('income').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+
+            if (isNaN(income) || isNaN(expenses)) {
+                resultText.textContent = "Please enter valid numbers.";
+            } else {
+                const balance = income - expenses;
+                resultText.textContent = `Your remaining balance is: $${balance.toFixed(2)}`;
+            }
+
+            resultDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
