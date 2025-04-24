@@ -3,94 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        label {
-            font-weight: bold;
-        }
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background: #e7f3ff;
-            border: 1px solid #b3d7ff;
-            border-radius: 4px;
-        }
-    </style>
+    <title>Budget and Goals</title>
+<link rel="stylesheet" href="/style/custom.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Budget Calculator</h1>
-        <form id="budgetForm">
-            <div>
-                <label for="income">Total Income:</label>
-                <input type="number" id="income" placeholder="Enter your income" required>
+    <div class="dashboard">
+        <nav class="navbar">
+            <div class="navbar_inner">
+                <div class="top"></div>
+                    <div><img src="/Logomark.png" alt="" /></div>
+                    <h1 class="">Spen<span>track</span></h1>
+                </div>
+                <a href="./index.html" class="dash"><i class="fas fa-cube"></i> Dashboard</a>
+                <a href="/pages/transaction.html" class="transaction"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                <a href="./budget.html" class="budget"><i class="fas fa-rocket"></i> Budgets</a>
+                <a href="/" class="report"><i class="fas fa-chart-line"></i> Reports</a>
+                <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
             </div>
-            <div>
-                <label for="expenses">Total Expenses:</label>
-                <input type="number" id="expenses" placeholder="Enter your expenses" required>
+        </nav>
+        <div class="dashboard_header">
+            <div class="left">
+              <div class="left_left">
+                <i class="far fa-user"></i>
+              </div>
+              <div class="left_right">
+                <h1>Hello</h1>
+                <h4>Chally Pepper</h4>
+              </div>
             </div>
-            <button type="submit">Calculate</button>
-        </form>
-        <div id="result" class="result" style="display: none;">
-            <p id="resultText"></p>
+            <div class="right">
+              <i class="far fa-bell"></i>
+            </div>
+          </div>
+        <div class="dashboard_header desktop">
+            <div class="left">
+              <i class="fas fa-bars bar"></i>
+            </div>
+            <div class="middle">
+              <div class="middle_left">
+                <p>Hello Colins, good morning!</p>
+              </div>
+              <div class="middle_right">
+                <i class="fas fa-search"></i>
+                <input type="search" placeholder="Search here...." />
+              </div>
+            </div>
+            <div class="right">
+              <div class="right_left">
+                <h1><i class="far fa-bell"></i></h1>
+              </div>
+              <div class="right_right">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <!-- Budget Section -->
+            <div class="section" id="budget-section"></div>
+                <h2>Budget</h2>
+                <div class="budget-item"></div>
+                    <span>Rent</span>
+                    <span>$1200</span>
+                </div>
+                <div class="budget-item">
+                    <span>Groceries</span>
+                    <span>$300</span>
+                </div>
+                <div class="budget-item"></div>
+                    <span>Utilities</span>
+                    <span>$150</span>
+                </div>
+            </div>
+    
+            <!-- Goals Section -->
+            <div class="section" id="goals-section">
+                <h2>Goals</h2>
+                <div class="goal-item"></div>
+                    <span>Save for Vacation</span>
+                    <span>$2000</span>
+                </div>
+                <div class="goal-item"></div>
+                    <span>Emergency Fund</span>
+                    <span>$5000</span>
+                </div>
+            </div>
+    
+            <!-- Create Goals Section -->
+            <div class="section" id="create-goals-section">
+                <h2>Create a Goal</h2>
+                <form id="create-goal-form">
+                    <div class="form-group">
+                        <label for="goal-name">Goal Name</label>
+                        <input type="text" id="goal-name" placeholder="Enter goal name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-amount">Goal Amount</label>
+                        <input type="number" id="goal-amount" placeholder="Enter goal amount" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Add Goal</button>
+                    </div>
+                </form>
+            </div>
+    
+            <!-- Budget Calculator Section -->
+            <div class="section" id="budget-calculator-section">
+                <h2>Budget Calculator</h2>
+                <form id="budget-calculator-form">
+                    <div class="form-group">
+                        <label for="income">Monthly Income</label>
+                        <input type="number" id="income" placeholder="Enter your income" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenses">Total Expenses</label>
+                        <input type="number" id="expenses" placeholder="Enter your expenses" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Calculate Remaining Budget</button>
+                    </div>
+                </form>
+                <div id="remaining-budget" style="margin-top: 1rem; font-weight: bold;"></div>
+            </div>
         </div>
     </div>
-
     <script>
-        const form = document.getElementById('budgetForm');
-        const resultDiv = document.getElementById('result');
-        const resultText = document.getElementById('resultText');
+        // Simulated database using localStorage
+        const db = {
+            saveGoals: function(goals) {
+                localStorage.setItem('goals', JSON.stringify(goals));
+            },
+            getGoals: function() {
+                return JSON.parse(localStorage.getItem('goals')) || [];
+            },
+            saveBudgets: function(budgets) {
+                localStorage.setItem('budgets', JSON.stringify(budgets));
+            },
+            getBudgets: function() {
+                return JSON.parse(localStorage.getItem('budgets')) || [];
+            }
+        };
 
+        // Load existing goals and budgets on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedGoals = db.getGoals();
+            const savedBudgets = db.getBudgets();
+
+            const goalsSection = document.getElementById('goals-section');
+            savedGoals.forEach(goal => {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item';
+                goalItem.innerHTML = `<span>${goal.name}</span><span>$${goal.amount}</span>`;
+                goalsSection.appendChild(goalItem);
+            });
+
+            const budgetSection = document.getElementById('budget-section');
+            savedBudgets.forEach(budget => {
+                const budgetItem = document.createElement('div');
+                budgetItem.className = 'budget-item';
+                budgetItem.innerHTML = `<span>${budget.name}</span><span>$${budget.amount}</span>`;
+                budgetSection.appendChild(budgetItem);
+            });
+        });
+
+        // Save new goal to the database
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+
+            const goalName = document.getElementById('goal-name').value;
+            const goalAmount = document.getElementById('goal-amount').value;
+
+            if (goalName && goalAmount) {
+                const newGoal = { name: goalName, amount: parseFloat(goalAmount) };
+                const goals = db.getGoals();
+                goals.push(newGoal);
+                db.saveGoals(goals);
+
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item';
+                goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
+                goalsSection.appendChild(goalItem);
+
+                form.reset();
+            }
+        });
+
+        // Save new budget to the database
+        const budgetForm = document.getElementById('budget-calculator-form');
+        const remainingBudgetDiv = document.getElementById('remaining-budget');
+        budgetForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
             const income = parseFloat(document.getElementById('income').value);
             const expenses = parseFloat(document.getElementById('expenses').value);
 
-            if (isNaN(income) || isNaN(expenses)) {
-                resultText.textContent = "Please enter valid numbers.";
-            } else {
-                const balance = income - expenses;
-                resultText.textContent = `Your remaining balance is: $${balance.toFixed(2)}`;
-            }
+            if (!isNaN(income) && !isNaN(expenses)) {
+                const remainingBudget = income - expenses;
+                remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
 
-            resultDiv.style.display = 'block';
+                const newBudget = { name: 'Remaining Budget', amount: remainingBudget };
+                const budgets = db.getBudgets();
+                budgets.push(newBudget);
+                db.saveBudgets(budgets);
+            }
+        });
+    </script>
+    <script>
+            document.querySelector(".navbar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+    document.querySelector(".bar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.add("show");
+    });
+        const form = document.getElementById('create-goal-form');
+        const goalsSection = document.getElementById('goals-section');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const goalName = document.getElementById('goal-name').value;
+            const goalAmount = document.getElementById('goal-amount').value;
+
+            if (goalName && goalAmount) {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item';
+                goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
+                goalsSection.appendChild(goalItem);
+
+                form.reset();
+            }
+        });
+        // Function to display goals from the database
+        function displayGoals() {
+            const goalsSection = document.getElementById('goals-section');
+            goalsSection.innerHTML = ''; // Clear existing goals
+            const savedGoals = db.getGoals();
+            savedGoals.forEach(goal => {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item';
+                goalItem.innerHTML = `<span>${goal.name}</span><span>$${goal.amount}</span>`;
+                goalsSection.appendChild(goalItem);
+            });
+        }
+
+        // Function to display budgets from the database
+        function displayBudgets() {
+            const budgetSection = document.getElementById('budget-section');
+            budgetSection.innerHTML = ''; // Clear existing budgets
+            const savedBudgets = db.getBudgets();
+            savedBudgets.forEach(budget => {
+                const budgetItem = document.createElement('div');
+                budgetItem.className = 'budget-item';
+                budgetItem.innerHTML = `<span>${budget.name}</span><span>$${budget.amount}</span>`;
+                budgetSection.appendChild(budgetItem);
+            });
+        }
+
+        // Add new goal and update the database
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const goalName = document.getElementById('goal-name').value;
+            const goalAmount = document.getElementById('goal-amount').value;
+
+            if (goalName && goalAmount) {
+                const newGoal = { name: goalName, amount: parseFloat(goalAmount) };
+                const goals = db.getGoals();
+                goals.push(newGoal);
+                db.saveGoals(goals);
+
+                displayGoals(); // Refresh the displayed goals
+                form.reset();
+            }
+        });
+
+        // Add new budget and update the database
+        budgetForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const income = parseFloat(document.getElementById('income').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+
+            if (!isNaN(income) && !isNaN(expenses)) {
+                const remainingBudget = income - expenses;
+                remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
+
+                const newBudget = { name: 'Remaining Budget', amount: remainingBudget };
+                const budgets = db.getBudgets();
+                budgets.push(newBudget);
+                db.saveBudgets(budgets);
+
+                displayBudgets(); // Refresh the displayed budgets
+            }
+        });
+
+        // Initial display of goals and budgets
+        displayGoals();
+        displayBudgets();
+        // const budgetForm = document.getElementById('budget-calculator-form');
+        // const remainingBudgetDiv = document.getElementById('remaining-budget');
+
+        budgetForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const income = parseFloat(document.getElementById('income').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+
+            if (!isNaN(income) && !isNaN(expenses)) {
+                const remainingBudget = income - expenses;
+                remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
+            }
         });
     </script>
 </body>
