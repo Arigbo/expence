@@ -433,7 +433,7 @@
   border-radius: 0.5rem;
 }
 .dashboard_inner_left .fourth_inner_top {
-  width: 100%;
+  width: 95%;
   height: 4rem;
   display: grid;
   grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
@@ -452,7 +452,7 @@
   width: 100%;
 }
 .dashboard_inner_left .fourth_inner .transacts {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -471,6 +471,7 @@
   grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
 .dashboard_inner_left .fourth_inner .transacts_inner .transact.none {
   display: none;
@@ -508,7 +509,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 60%;
   border-radius: 0.2rem;
   color: white;
   width: 7rem;
@@ -532,6 +533,7 @@
   font-size: 16px;
   font-weight: 400;
   display: flex;
+  align-items: center;
 }
 .dashboard_inner_left .fourth_inner .transacts_inner .transact .fourthCl h4.red {
   color: red;
