@@ -16,8 +16,12 @@
   </head>
   <body>
     <div class="dashboard">
-      <nav class="navbar">
+    <nav class="navbar">
         <div class="navbar_inner">
+          <div class="top">
+            <div><img src="/Logomark.png" alt="" /></div>
+            <h1 class="">Spen<span>track</span></h1>
+          </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
           ><a href="/pages/transaction.html" class="transaction"
@@ -44,10 +48,9 @@
           <i class="far fa-bell"></i>
         </div>
       </div>
-      <div class="dashboard_header desktop">
+    <div class="dashboard_header desktop">
         <div class="left">
-          <img src="/Logomark.png" alt="" />
-          <h1 class="bar">Spen<span>track</span></h1>
+          <i class="fas fa-bars bar"></i>
         </div>
         <div class="middle">
           <div class="middle_left">
@@ -67,7 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="dashboard_inner">
+      <div class="transaction_inner">
         <section class="fourth">
           <header>
             <h1>Transactions</h1>
@@ -156,12 +159,83 @@
         amount: 600,
         descrip: "Bag",
       },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+      {
+        id: 6,
+        date: "2022-03-01",
+        type: "income",
+        amount: 600,
+        descrip: "Bag",
+      },
+
     ];
     transactions.map((transact) => {
       return document.querySelector(".transacts_inner").insertAdjacentHTML(
         "beforeend",
         `   
-        <div class="transact ${transact.id > 4 ? "none" : ""}" key={${
+        <div class="transact" key={${
           transact.id
         }}>
                   <div class="firstCl">
@@ -174,7 +248,7 @@
                       </p>
                   </div>
                   <div class="thirdCl">
-                    <h5 class=${transact.type === "income" ? "red" : "green"}>
+                    <h5 class=${transact.type === "income" ? "green" : "red"}>
                       ${transact.type}
                       </h5>
                   </div>
@@ -189,176 +263,7 @@
       );
     });
     // Function to filter transactions before current date
-    function filterTransactionsBeforeCurrentDate(transactions) {
-      let currentDate = new Date();
-      return transactions.filter(
-        (transaction) => new Date(transaction.date) <= currentDate
-      );
-    }
 
-    // Function to group transactions by week
-    function groupTransactionsByWeek(transactions) {
-      let weeklyExpenses = {};
-      let weeklyIncomes = {};
-      for (let i = 1; i <= 53; i++) {
-        weeklyExpenses[`Week ${i}`] = 0;
-        weeklyIncomes[`Week ${i}`] = 0;
-      }
-      transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let weekNumber = getWeekNumber(date);
-        if (transaction.type === "expense") {
-          weeklyExpenses[`Week ${weekNumber}`] += transaction.amount;
-        } else if (transaction.type === "income") {
-          weeklyIncomes[`Week ${weekNumber}`] += transaction.amount;
-        }
-      });
-      return { weeklyExpenses, weeklyIncomes };
-    }
-
-    // Function to group transactions by month
-    function groupTransactionsByMonth(transactions) {
-      let monthlyExpenses = {};
-      let monthlyIncomes = {};
-      let months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      months.forEach((month) => {
-        monthlyExpenses[month] = 0;
-        monthlyIncomes[month] = 0;
-      });
-      transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let month = date.toLocaleString("default", { month: "long" });
-        if (transaction.type === "expense") {
-          monthlyExpenses[month] += transaction.amount;
-        } else if (transaction.type === "income") {
-          monthlyIncomes[month] += transaction.amount;
-        }
-      });
-      return { monthlyExpenses, monthlyIncomes };
-    }
-
-    // Function to group transactions by year
-    function groupTransactionsByYear(transactions) {
-      let yearlyExpenses = {};
-      let yearlyIncomes = {};
-      transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let year = date.getFullYear();
-        if (transaction.type === "expense") {
-          if (!yearlyExpenses[year]) {
-            yearlyExpenses[year] = 0;
-          }
-          yearlyExpenses[year] += transaction.amount;
-        } else if (transaction.type === "income") {
-          if (!yearlyIncomes[year]) {
-            yearlyIncomes[year] = 0;
-          }
-          yearlyIncomes[year] += transaction.amount;
-        }
-      });
-      return { yearlyExpenses, yearlyIncomes };
-    }
-
-    // Function to get week number
-    function getWeekNumber(date) {
-      let oneJan = new Date(date.getFullYear(), 0, 1);
-      return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
-    }
-
-    // Filter transactions before current date
-    let filteredTransactions =
-      filterTransactionsBeforeCurrentDate(transactions);
-
-    // Create chart
-    let ctx = document.getElementById("expenseChart").getContext("2d");
-    let chart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: "Expenses",
-            data: [],
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 1,
-          },
-          {
-            label: "Incomes",
-            data: [],
-            backgroundColor: " rgba(0, 128, 0, 0.413)",
-            borderColor: "rgba(0, 128, 0, 1)",
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-
-    function updateChart() {
-      let selectedOption = document.getElementById("btns_inner").value;
-      if (selectedOption === "weekly") {
-        updatedWeeklyTransactions();
-      } else if (selectedOption === "monthly") {
-        updatedMonthlyTransactions();
-      } else if (selectedOption === "yearly") {
-        updatedYearlyTransactions();
-      }
-    }
-    function updatedWeeklyTransactions() {
-      let { weeklyExpenses, weeklyIncomes } =
-        groupTransactionsByWeek(filteredTransactions);
-      chart.data.labels = Object.keys(weeklyExpenses);
-      chart.data.datasets[0].data = Object.values(weeklyExpenses);
-      chart.data.datasets[1].data = Object.values(weeklyIncomes);
-      chart.update();
-    }
-    // Update chart with monthly transactions
-    function updatedMonthlyTransactions() {
-      let { monthlyExpenses, monthlyIncomes } =
-        groupTransactionsByMonth(filteredTransactions);
-      chart.data.labels = Object.keys(monthlyExpenses);
-      chart.data.datasets[0].data = Object.values(monthlyExpenses);
-      chart.data.datasets[1].data = Object.values(monthlyIncomes);
-      chart.update();
-    }
-
-    // Update chart with yearly transactions
-    function updatedYearlyTransactions() {
-      let { yearlyExpenses, yearlyIncomes } =
-        groupTransactionsByYear(filteredTransactions);
-      chart.data.labels = Object.keys(yearlyExpenses);
-      chart.data.datasets[0].data = Object.values(yearlyExpenses);
-      chart.data.datasets[1].data = Object.values(yearlyIncomes);
-      chart.update();
-    }
-
-    // Initialize chart with weekly transactions
-    let { weeklyExpenses, weeklyIncomes } =
-      groupTransactionsByWeek(filteredTransactions);
-    chart.data.labels = Object.keys(weeklyExpenses);
-    chart.data.datasets[0].data = Object.values(weeklyExpenses);
-    chart.data.datasets[1].data = Object.values(weeklyIncomes);
-    chart.update();
     localStorage.setItem("page", "transaction");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {

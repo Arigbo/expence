@@ -18,6 +18,10 @@
     <div class="dashboard">
       <nav class="navbar">
         <div class="navbar_inner">
+          <div class="top">
+            <div><img src="/Logomark.png" alt="" /></div>
+            <h1 class="">Spen<span>track</span></h1>
+          </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
           ><a href="/pages/transaction.html" class="transaction"
@@ -46,8 +50,7 @@
       </div>
       <div class="dashboard_header desktop">
         <div class="left">
-          <img src="/Logomark.png" alt="" />
-          <h1 class="bar">Spen<span>track</span></h1>
+          <i class="fas fa-bars bar"></i>
         </div>
         <div class="middle">
           <div class="middle_left">
@@ -201,7 +204,7 @@
     </div>
   </body>
   <script>
-  document.querySelector(".navbar").addEventListener("click", function (e) {
+    document.querySelector(".navbar").addEventListener("click", function (e) {
       document.querySelector(".navbar").classList.remove("show");
     });
     document.querySelector(".bar").addEventListener("click", function (e) {
@@ -252,11 +255,10 @@
         descrip: "Bag",
       },
     ];
-    transactions.map(
-      (transact) => {
-        return document.querySelector(".transacts_inner").insertAdjacentHTML(
-              "beforeend",
-              `   
+    transactions.map((transact) => {
+      return document.querySelector(".transacts_inner").insertAdjacentHTML(
+        "beforeend",
+        `   
         <div class="transact ${transact.id > 4 ? "none" : ""}" key={${
           transact.id
         }}>
@@ -270,7 +272,7 @@
                       </p>
                   </div>
                   <div class="thirdCl">
-                    <h5 class=${transact.type === "income" ? "red" : "green"}>
+                    <h5 class=${transact.type === "income" ? "green" : "red"}>
                       ${transact.type}
                       </h5>
                   </div>
@@ -282,11 +284,9 @@
                   </div>
                 </div>
       `
-              )
-      }
-    );
+      );
+    });
 
-   
     // Function to filter transactions before current date
     function filterTransactionsBeforeCurrentDate(transactions) {
       let currentDate = new Date();
