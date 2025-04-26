@@ -1,350 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Budget and Goals</title>
-    <link rel="stylesheet" href="/style/custom.css">
+    <link rel="stylesheet" href="/style/custom.css" />
     <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-<link rel="shortcut icon" href="/Logomark.png" type="image/x-icon">
-</head>
-<body>
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
+  </head>
+  <body>
     <div class="dashboard">
-        <nav class="navbar">
-            <div class="navbar_inner">
-              <div class="top">
-                <div><img src="/Logomark.png" alt="" /></div>
-                <h1 class="">Spen<span>track</span></h1>
-              </div>
-              <a href="./index.html" class="dash"
-                ><i class="fas fa-cube"></i> Dashboard</a
-              ><a href="/pages/transaction.html" class="transaction"
-                ><i class="fas fa-exchange-alt"></i> Transactions</a
-              >
-              <a href="./budget.html" class="budget"><i class="fas fa-rocket"></i> Budgets</a>
-              <a href="/" class="report"
-                ><i class="fas fa-chart-line"></i> Reports</a
-              >
-              <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
-            </div>
-          </nav>
-          <div class="dashboard_header">
-            <div class="left">
-              <div class="left_left">
-                <i class="far fa-user"></i>
-              </div>
-              <div class="left_right">
-                <h1>Hello</h1>
-                <h4>Chally Pepper</h4>
-              </div>
-            </div>
-            <div class="right">
-              <i class="far fa-bell"></i>
-            </div>
+      <nav class="navbar">
+        <div class="navbar_inner">
+          <div class="top">
+            <div><img src="/Logomark.png" alt="" /></div>
+            <h1 class="">Spen<span>track</span></h1>
           </div>
-        <div class="dashboard_header desktop">
-            <div class="left">
-              <i class="fas fa-bars bar"></i>
-            </div>
-            <div class="middle">
-              <div class="middle_left">
-                <p>Hello Colins, good morning!</p>
-              </div>
-              <div class="middle_right">
-                <i class="fas fa-search"></i>
-                <input type="search" placeholder="Search here...." />
-              </div>
-            </div>
-            <div class="right">
-              <div class="right_left">
-                <h1><i class="far fa-bell"></i></h1>
-              </div>
-              <div class="right_right">
-                <i class="fas fa-user"></i>
-              </div>
-            </div>
+          <a href="./index.html" class="dash"
+            ><i class="fas fa-cube"></i> Dashboard</a
+          ><a href="/pages/transaction.html" class="transaction"
+            ><i class="fas fa-exchange-alt"></i> Transactions</a
+          >
+          <a href="./budget.html" class="budget"
+            ><i class="fas fa-rocket"></i> Budgets</a
+          >
+          <a href="/" class="report"
+            ><i class="fas fa-chart-line"></i> Reports</a
+          >
+          <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
+        </div>
+      </nav>
+      <div class="dashboard_header">
+        <div class="left">
+          <div class="left_left">
+            <i class="far fa-user"></i>
           </div>
+          <div class="left_right">
+            <h1>Hello</h1>
+            <h4>Chally Pepper</h4>
+          </div>
+        </div>
+        <div class="right">
+          <i class="far fa-bell"></i>
+        </div>
+      </div>
+      <div class="dashboard_header desktop">
+        <div class="left">
+          <i class="fas fa-bars bar"></i>
+        </div>
+        <div class="middle">
+          <div class="middle_left">
+            <p>Hello Colins, good morning!</p>
+          </div>
+          <div class="middle_right">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search here...." />
+          </div>
+        </div>
+        <div class="right">
+          <div class="right_left">
+            <h1><i class="far fa-bell"></i></h1>
+          </div>
+          <div class="right_right">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
 
-        <!-- Main Content -->
-        <div class="container">
+      <!-- Main Content -->
+      <div class="container">
         <!-- Budget Calculator Section -->
         <div class="section" id="budget-calculator-section">
-            <h2>Budget Calculator</h2>
-            <p>Use the form below to calculate your budget and display the results.</p>
+          <h2>Budget Calculator</h2>
+          <p>
+            Use the form below to calculate your budget and display the results.
+          </p>
         </div>
         <div class="section" id="budget-section">
-            <h2>Budget Calculator</h2>
-            <form id="budget-calculator-form">
-                <div class="form-group">
-                    <label for="budget-name">Budget Name</label>
-                    <input type="text" id="budget-name" placeholder="Enter budget name" required>
-                </div>
-                <div class="form-group">
-                    <label for="income">Income</label>
-                    <input type="number" id="income" placeholder="Enter your income" required>
-                </div>
-                <div class="form-group">
-                    <label for="expenses">Expenses</label>
-                    <input type="number" id="expenses" placeholder="Enter your expenses" required>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Calculate Budget</button>
-                </div>
-            </form>
-            <div id="remaining-budget"></div>
-            <table id="budget-table">
-                <thead>
-                    <tr>
-                        <th>Budget Name</th>
-                        <th>Remaining Budget</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Budget items will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-            <!-- Goals Section -->
-            <div class="section" id="goals-section">
-                <h2>Goals</h2>
-                <div class="goal-item">
-                    <span>Save for Vacation</span>
-                    <span>$2000</span>
-                </div>
-                <div class="goal-item">
-                    <span>Emergency Fund</span>
-                    <span>$5000</span>
-                </div>
+          <h2>Budget Calculator</h2>
+          <form id="budget-calculator-form">
+            <div class="form-group">
+              <label for="budget-name">Budget Name</label>
+              <input
+                type="text"
+                id="budget-name"
+                placeholder="Enter budget name"
+                required
+              />
             </div>
+            <div class="form-group">
+              <label for="income">Income</label>
+              <input
+                type="number"
+                id="income"
+                placeholder="Enter your income"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="expenses">Expenses</label>
+              <input
+                type="number"
+                id="expenses"
+                placeholder="Enter your expenses"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit">Calculate Budget</button>
+            </div>
+          </form>
+          <div id="remaining-budget"></div>
+          <table id="budget-table">
+            <thead>
+              <tr>
+                <th>Budget Name</th>
+                <th>Remaining Budget</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Budget items will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+        <!-- Goals Section -->
+        <div class="section" id="goals-section">
+          <h2>Goals</h2>
+          <div class="goal-item">
+            <span>Save for Vacation</span>
+            <span>$2000</span>
+          </div>
+          <div class="goal-item">
+            <span>Emergency Fund</span>
+            <span>$5000</span>
+          </div>
+        </div>
 
-            <!-- Create Goals Section -->
-            <div class="section" id="create-goals-section">
-                <h2>Create a Goal</h2>
-                <form id="create-goal-form">
-                    <div class="form-group">
-                        <label for="goal-name">Goal Name</label>
-                        <input type="text" id="goal-name" placeholder="Enter goal name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="goal-amount">Goal Amount</label>
-                        <input type="number" id="goal-amount" placeholder="Enter goal amount" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Add Goal</button>
-                    </div>
-                </form>
+        <!-- Create Goals Section -->
+        <div class="section" id="create-goals-section">
+          <h2>Create a Goal</h2>
+          <form id="create-goal-form">
+            <div class="form-group">
+              <label for="goal-name">Goal Name</label>
+              <input
+                type="text"
+                id="goal-name"
+                placeholder="Enter goal name"
+                required
+              />
             </div>
+            <div class="form-group">
+              <label for="goal-amount">Goal Amount</label>
+              <input
+                type="number"
+                id="goal-amount"
+                placeholder="Enter goal amount"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit">Add Goal</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script>
-        // Load saved budgets and goals from localStorage
-        document.addEventListener('DOMContentLoaded', function () {
-            const savedBudgets = JSON.parse(localStorage.getItem('budgets')) || [];
-            const savedGoals = JSON.parse(localStorage.getItem('goals')) || [];
+      // Load saved budgets and goals from localStorage
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        const savedGoals = JSON.parse(localStorage.getItem("goals")) || [];
 
-            const budgetSection = document.getElementById('budget-section');
-            const goalsSection = document.getElementById('goals-section');
+        const budgetSection = document.getElementById("budget-section");
+        const goalsSection = document.getElementById("goals-section");
 
-            // Render saved budgets
-            savedBudgets.forEach(budget => {
-            const budgetItem = document.createElement('div');
-            budgetItem.className = 'budget-item';
-            budgetItem.innerHTML = `<span>${budget.name}</span><span>$${budget.amount}</span>`;
-            budgetSection.appendChild(budgetItem);
-            });
-
-            // Render saved goals
-            savedGoals.forEach(goal => {
-            const goalItem = document.createElement('div');
-            goalItem.className = 'goal-item';
-            goalItem.innerHTML = `<span>${goal.name}</span><span>$${goal.amount}</span>`;
-            goalsSection.appendChild(goalItem);
-            });
+        // Render saved budgets
+        savedBudgets.forEach((budget) => {
+          const budgetItem = document.createElement("div");
+          budgetItem.className = "budget-item";
+          budgetItem.innerHTML = `<span>${budget.name}</span><span>$${budget.amount}</span>`;
+          budgetSection.appendChild(budgetItem);
         });
 
-        // Save new goal to localStorage
-        const form = document.getElementById('create-goal-form');
-        const goalsSection = document.getElementById('goals-section');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const goalName = document.getElementById('goal-name').value;
-            const goalAmount = document.getElementById('goal-amount').value;
-
-            if (goalName && goalAmount) {
-            const goalItem = document.createElement('div');
-            goalItem.className = 'goal-item';
-            goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
-            goalsSection.appendChild(goalItem);
-
-            const savedGoals = JSON.parse(localStorage.getItem('goals')) || [];
-            savedGoals.push({ name: goalName, amount: goalAmount });
-            localStorage.setItem('goals', JSON.stringify(savedGoals));
-
-            form.reset();
-            }
+        // Render saved goals
+        savedGoals.forEach((goal) => {
+          const goalItem = document.createElement("div");
+          goalItem.className = "goal-item";
+          goalItem.innerHTML = `<span>${goal.name}</span><span>$${goal.amount}</span>`;
+          goalsSection.appendChild(goalItem);
         });
+      });
 
-        // Save new budget to localStorage
-        const budgetForm = document.getElementById('budget-calculator-form');
-        const remainingBudgetDiv = document.getElementById('remaining-budget');
+      // Save new goal to localStorage
+      const form = document.getElementById("create-goal-form");
+      const goalsSection = document.getElementById("goals-section");
 
-        budgetForm.addEventListener('submit', function (event) {
-            event.preventDefault();
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-            const budgetName = document.getElementById('budget-name').value;
-            const income = parseFloat(document.getElementById('income').value);
-            const expenses = parseFloat(document.getElementById('expenses').value);
+        const goalName = document.getElementById("goal-name").value;
+        const goalAmount = document.getElementById("goal-amount").value;
 
-            if (budgetName && !isNaN(income) && !isNaN(expenses)) {
-            const remainingBudget = income - expenses;
-            remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
+        if (goalName && goalAmount) {
+          const goalItem = document.createElement("div");
+          goalItem.className = "goal-item";
+          goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
+          goalsSection.appendChild(goalItem);
 
-            const savedBudgets = JSON.parse(localStorage.getItem('budgets')) || [];
-            savedBudgets.push({ name: budgetName, amount: remainingBudget.toFixed(2) });
-            localStorage.setItem('budgets', JSON.stringify(savedBudgets));
+          const savedGoals = JSON.parse(localStorage.getItem("goals")) || [];
+          savedGoals.push({ name: goalName, amount: goalAmount });
+          localStorage.setItem("goals", JSON.stringify(savedGoals));
 
-            const budgetTableBody = document.querySelector('#budget-table tbody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `<td>${budgetName}</td><td>$${remainingBudget.toFixed(2)}</td>`;
-            budgetTableBody.appendChild(newRow);
+          form.reset();
+        }
+      });
 
-            budgetForm.reset();
-            }
+      // Save new budget to localStorage
+      const budgetForm = document.getElementById("budget-calculator-form");
+      const remainingBudgetDiv = document.getElementById("remaining-budget");
+
+      budgetForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const budgetName = document.getElementById("budget-name").value;
+        const income = parseFloat(document.getElementById("income").value);
+        const expenses = parseFloat(document.getElementById("expenses").value);
+
+        if (budgetName && !isNaN(income) && !isNaN(expenses)) {
+          const remainingBudget = income - expenses;
+          remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(
+            2
+          )}`;
+
+          const savedBudgets =
+            JSON.parse(localStorage.getItem("budgets")) || [];
+          savedBudgets.push({
+            name: budgetName,
+            amount: remainingBudget.toFixed(2),
+          });
+          localStorage.setItem("budgets", JSON.stringify(savedBudgets));
+
+          const budgetTableBody = document.querySelector("#budget-table tbody");
+          const newRow = document.createElement("tr");
+          newRow.innerHTML = `<td>${budgetName}</td><td>$${remainingBudget.toFixed(
+            2
+          )}</td>`;
+          budgetTableBody.appendChild(newRow);
+
+          budgetForm.reset();
+        }
+      });
+      localStorage.setItem("page", "budget");
+      let page = localStorage.getItem("page");
+      document.querySelector(".dash").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "dashb");
+      });
+      if (page && page === "dashb") {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document
+        .querySelector(".transaction")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.add("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.remove("active");
+          return localStorage.setItem("page", "transaction");
         });
-    let page = localStorage.getItem("page");
-    document.querySelector(".dash").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "dashb") {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document
-      .querySelector(".transaction")
-      .addEventListener("click", function (e) {
+      if (page && page === "transaction") {
         document.querySelector(".dash").classList.remove("active");
         document.querySelector(".transaction").classList.add("active");
         document.querySelector(".budget").classList.remove("active");
         document.querySelector(".report").classList.remove("active");
         document.querySelector(".setting").classList.remove("active");
-        return localStorage.setItem("page", "transaction");
+      }
+
+      document.querySelector(".budget").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "budget");
       });
-    if (page && page === "transaction") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.add("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
+      if (page && page === "budget") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
 
-    document.querySelector(".budget").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "budget");
-    });
-    if (page && page === "budget") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
+      document.querySelector(".report").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "report");
+      });
+      if (page && page === "report") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
 
-    document.querySelector(".report").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "report");
-    });
-    if (page && page === "report") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".setting").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-      return localStorage.setItem("page", "setting");
-    });
-    if (page && page === "setting") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-    }
-
-        document.querySelector(".navbar").addEventListener("click", function () {
-            document.querySelector(".navbar").classList.remove("show");
+      document
+        .querySelector(".setting")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.remove("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.add("active");
+          return localStorage.setItem("page", "setting");
         });
+      if (page && page === "setting") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.add("active");
+      }
 
-        document.querySelector(".bar").addEventListener("click", function () {
-            document.querySelector(".navbar").classList.add("show");
-        });
+      document.querySelector(".navbar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.remove("show");
+      });
 
-        // const form = document.getElementById('create-goal-form');
-        // const goalsSection = document.getElementById('goals-section');
+      document.querySelector(".bar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.add("show");
+      });
 
-        // form.addEventListener('submit', function(event) {
-        //     event.preventDefault();
+      // const form = document.getElementById('create-goal-form');
+      // const goalsSection = document.getElementById('goals-section');
 
-        //     const goalName = document.getElementById('goal-name').value;
-        //     const goalAmount = document.getElementById('goal-amount').value;
+      // form.addEventListener('submit', function(event) {
+      //     event.preventDefault();
 
-        //     if (goalName && goalAmount) {
-        //         const goalItem = document.createElement('div');
-        //         goalItem.className = 'goal-item';
-        //         goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
-        //         goalsSection.appendChild(goalItem);
+      //     const goalName = document.getElementById('goal-name').value;
+      //     const goalAmount = document.getElementById('goal-amount').value;
 
-        //         form.reset();
-        //     }
-        // });
+      //     if (goalName && goalAmount) {
+      //         const goalItem = document.createElement('div');
+      //         goalItem.className = 'goal-item';
+      //         goalItem.innerHTML = `<span>${goalName}</span><span>$${goalAmount}</span>`;
+      //         goalsSection.appendChild(goalItem);
 
-        // const budgetForm = document.getElementById('budget-calculator-form');
-        // const remainingBudgetDiv = document.getElementById('remaining-budget');
+      //         form.reset();
+      //     }
+      // });
 
-        // budgetForm.addEventListener('submit', function(event) {
-        //     event.preventDefault();
+      // const budgetForm = document.getElementById('budget-calculator-form');
+      // const remainingBudgetDiv = document.getElementById('remaining-budget');
 
-        //     const income = parseFloat(document.getElementById('income').value);
-        //     const expenses = parseFloat(document.getElementById('expenses').value);
+      // budgetForm.addEventListener('submit', function(event) {
+      //     event.preventDefault();
 
-        //     if (!isNaN(income) && !isNaN(expenses)) {
-        //         const remainingBudget = income - expenses;
-        //         remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
-        //     }
-        // });
+      //     const income = parseFloat(document.getElementById('income').value);
+      //     const expenses = parseFloat(document.getElementById('expenses').value);
+
+      //     if (!isNaN(income) && !isNaN(expenses)) {
+      //         const remainingBudget = income - expenses;
+      //         remainingBudgetDiv.textContent = `Remaining Budget: $${remainingBudget.toFixed(2)}`;
+      //     }
+      // });
     </script>
-</body>
+  </body>
 </html>
