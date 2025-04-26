@@ -1,13 +1,8 @@
-.container {
-  width: 90%;
+.budget_form,
+.edit_budget_form,
+.income_form {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  gap: 2rem;
-}
-.container button {
-  width: 100%;
-}
-.container form {
-  width: 100%;
+  align-items: center;
+  position: fixed;
 }/*# sourceMappingURL=budget.css.map */
