@@ -75,350 +75,396 @@
 
       <!-- Main Content -->
       <div class="budget-calculator">
-        <h2>Budget Calculator</h2>
-        <button id="openBudgetForm">+Add Budget</button>
-        <button id="updateIncomeButton">Update Income</button>
-        <div id="budgetFormContainer" class="budget_form">
-          <div class="form-container">
-            <header>
-              <h2>Add New Budget</h2>
-              <i class="fas fa-x" id="closeBudgetForm"></i>
-            </header>
-            <form id="budgetForm">
-              <div class="form-group">
-                <label for="budgetName">Budget Name:</label>
-                <input
-                  type="text"
-                  id="budgetName"
-                  placeholder="Enter budget name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="expenses">Expenses:</label>
-                <input
-                  type="number"
-                  id="expenses"
-                  placeholder="Enter your total expenses"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn-submit">Add Budget</button>
-            </form>
-          </div>
+        <div class="budget-calculator_top">
+          <header>
+            <h2>Active Budget</h2>
+          </header>
+          <button id="openBudgetForm">+Add Budget</button>
+          <button id="updateIncomeButton">Update Income</button>
         </div>
-
-        <div id="editBudgetFormContainer" class="edit_budget_form">
-          <div class="form-container">
-            <header>
-              <h2>Edit Budget</h2>
-              <i class="fas fa-x" id="closeEditBudgetForm"></i>
-            </header>
-            <form id="editBudgetForm">
-              <div class="form-group">
-                <label for="editBudgetName">Budget Name:</label>
-                <input type="text" id="editBudgetName" readonly />
-              </div>
-              <div class="form-group">
-                <label for="editExpenses">Expenses:</label>
-                <input
-                  type="number"
-                  id="editExpenses"
-                  placeholder="Enter your total expenses"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn-submit">Update Budget</button>
-            </form>
+        <div class="budget-calculator_inner">
+          <div id="budgetFormContainer" class="budget_form">
+            <div class="form-container">
+              <header>
+                <h2>Add New Budget</h2>
+                <i class="fas fa-x" id="closeBudgetForm"></i>
+              </header>
+              <form id="budgetForm">
+                <div class="form-group">
+                  <label for="budgetName">Budget Name:</label>
+                  <input
+                    type="text"
+                    id="budgetName"
+                    placeholder="Enter budget name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="expenses">Expenses:</label>
+                  <input
+                    type="number"
+                    id="expenses"
+                    placeholder="Enter your total expenses"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn-submit">Add Budget</button>
+              </form>
+            </div>
           </div>
-        </div>
-
-        <div id="incomeFormContainer" class="income_form">
-          <div class="form-container">
-            <header>
-              <h2>Update Monthly Income</h2>
-              <i class="fas fa-x" id="closeIncomeForm"></i>
-            </header>
-            <form id="incomeForm">
-              <div class="form-group">
-                <label for="monthlyIncome">Monthly Income:</label>
-                <input
-                  type="number"
-                  id="monthlyIncome"
-                  placeholder="Enter your monthly income"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn-submit">Update Income</button>
-            </form>
+          <div id="editBudgetFormContainer" class="edit_budget_form">
+            <div class="form-container">
+              <header>
+                <h2>Edit Budget</h2>
+                <i class="fas fa-x" id="closeEditBudgetForm"></i>
+              </header>
+              <form id="editBudgetForm">
+                <div class="form-group">
+                  <label for="editBudgetName">Budget Name:</label>
+                  <input type="text" id="editBudgetName" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="editExpenses">Expenses:</label>
+                  <input
+                    type="number"
+                    id="editExpenses"
+                    placeholder="Enter your total expenses"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn-submit">Update Budget</button>
+              </form>
+            </div>
           </div>
-        </div>
-
-        <div class="budget-list">
-          <h2>Saved Budgets</h2>
-          <div id="budgetCardsContainer">
-            <!-- Budget cards will be dynamically added here -->
+          <div id="incomeFormContainer" class="income_form">
+            <div class="form-container">
+              <header>
+                <h2>Update Monthly Income</h2>
+                <i class="fas fa-x" id="closeIncomeForm"></i>
+              </header>
+              <form id="incomeForm">
+                <div class="form-group">
+                  <label for="monthlyIncome">Monthly Income:</label>
+                  <input
+                    type="number"
+                    id="monthlyIncome"
+                    placeholder="Enter your monthly income"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn-submit">Update Income</button>
+              </form>
+            </div>
           </div>
-          <div id="totalIncomeContainer">
-            <h3>Total Monthly Income: <span id="totalIncome">$0.00</span></h3>
-          </div>
-          <div id="remainingIncomeContainer">
-            <h3>
-              Total Remaining Income:
-              <span id="remainingIncome" style="color: green">$0.00</span>
-            </h3>
+          <div class="budget-list">
+            <div id="budgetCardsContainer">
+              <!-- Budget cards will be dynamically added here -->
+            </div>
+            <div id="totalIncomeContainer">
+              <h3>Total Monthly Income: <span id="totalIncome">$0.00</span></h3>
+            </div>
+            <div id="remainingIncomeContainer">
+              <h3>
+                Total Remaining Income:
+                <span id="remainingIncome" style="color: green">$0.00</span>
+              </h3>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </body>
   <script>
-    document.getElementById("openBudgetForm").addEventListener("click", function () {
-document.getElementById("budgetFormContainer").classList.add("show")
-    });
+    document
+      .getElementById("openBudgetForm")
+      .addEventListener("click", function () {
+        document.getElementById("budgetFormContainer").classList.add("show");
+      });
 
-    document.getElementById("closeBudgetForm").addEventListener("click", function () {
-document.getElementById("budgetFormContainer").classList.remove("show")
-    });
+    document
+      .getElementById("closeBudgetForm")
+      .addEventListener("click", function () {
+        document.getElementById("budgetFormContainer").classList.remove("show");
+      });
 
-    document.getElementById("updateIncomeButton").addEventListener("click", function () {
-document.getElementById("incomeFormContainer").classList.add("show")
-    });
+    document
+      .getElementById("updateIncomeButton")
+      .addEventListener("click", function () {
+        document.getElementById("incomeFormContainer").classList.add("show");
+      });
 
-    document.getElementById("closeIncomeForm").addEventListener("click", function () {
-document.getElementById("incomeFormContainer").classList.remove("show")
-    });
+    document
+      .getElementById("closeIncomeForm")
+      .addEventListener("click", function () {
+        document.getElementById("incomeFormContainer").classList.remove("show");
+      });
 
-    document.getElementById("incomeForm").addEventListener("submit", function (e) {
-e.preventDefault();
+    document
+      .getElementById("incomeForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
-const monthlyIncome = parseFloat(document.getElementById("monthlyIncome").value);
+        const monthlyIncome = parseFloat(
+          document.getElementById("monthlyIncome").value
+        );
 
-if (isNaN(monthlyIncome) || monthlyIncome < 0) {
-  alert("Please enter a valid number for income.");
-  return;
-}
+        if (isNaN(monthlyIncome) || monthlyIncome < 0) {
+          alert("Please enter a valid number for income.");
+          return;
+        }
 
-localStorage.setItem("monthlyIncome", monthlyIncome);
-document.getElementById("totalIncome").textContent = `$${monthlyIncome.toFixed(2)}`;
-document.getElementById("incomeFormContainer").classList.remove("show")
+        localStorage.setItem("monthlyIncome", monthlyIncome);
+        document.getElementById(
+          "totalIncome"
+        ).textContent = `$${monthlyIncome.toFixed(2)}`;
+        document.getElementById("incomeFormContainer").classList.remove("show");
 
-const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-refreshBudgetCards(budgets);
-    });
+        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        refreshBudgetCards(budgets);
+      });
 
-    document.getElementById("closeEditBudgetForm").addEventListener("click", function () {
-document.getElementById("editBudgetFormContainer").classList.remove("show")
-    });
+    document
+      .getElementById("closeEditBudgetForm")
+      .addEventListener("click", function () {
+        document
+          .getElementById("editBudgetFormContainer")
+          .classList.remove("show");
+      });
 
-    document.getElementById("budgetForm").addEventListener("submit", function (e) {
-e.preventDefault();
+    document
+      .getElementById("budgetForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
-const budgetName = document.getElementById("budgetName").value.trim();
-const monthlyIncome = parseFloat(localStorage.getItem("monthlyIncome")) || 0;
-const expenses = parseFloat(document.getElementById("expenses").value);
+        const budgetName = document.getElementById("budgetName").value.trim();
+        const monthlyIncome =
+          parseFloat(localStorage.getItem("monthlyIncome")) || 0;
+        const expenses = parseFloat(document.getElementById("expenses").value);
 
-if (!budgetName) {
-  alert("Please enter a name for the budget.");
-  return;
-}
+        if (!budgetName) {
+          alert("Please enter a name for the budget.");
+          return;
+        }
 
-if (isNaN(monthlyIncome) || isNaN(expenses)) {
-  alert("Please enter valid numbers for income and expenses.");
-  return;
-}
+        if (isNaN(monthlyIncome) || isNaN(expenses)) {
+          alert("Please enter valid numbers for income and expenses.");
+          return;
+        }
 
-const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-const newBudget = { budgetName, expenses };
-budgets.push(newBudget);
+        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        const newBudget = { budgetName, expenses };
+        budgets.push(newBudget);
 
-localStorage.setItem("budgets", JSON.stringify(budgets));
-refreshBudgetCards(budgets);
+        localStorage.setItem("budgets", JSON.stringify(budgets));
+        refreshBudgetCards(budgets);
 
-document.getElementById("budgetFormContainer").classList.remove("show")
-    });
+        document.getElementById("budgetFormContainer").classList.remove("show");
+      });
 
-    document.getElementById("editBudgetForm").addEventListener("submit", function (e) {
-e.preventDefault();
+    document
+      .getElementById("editBudgetForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
-const budgetName = document.getElementById("editBudgetName").value;
-const expenses = parseFloat(document.getElementById("editExpenses").value);
+        const budgetName = document.getElementById("editBudgetName").value;
+        const expenses = parseFloat(
+          document.getElementById("editExpenses").value
+        );
 
-if (isNaN(expenses)) {
-  alert("Please enter a valid number for expenses.");
-  return;
-}
+        if (isNaN(expenses)) {
+          alert("Please enter a valid number for expenses.");
+          return;
+        }
 
-const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-const budgetIndex = budgets.findIndex(budget => budget.budgetName === budgetName);
+        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+        const budgetIndex = budgets.findIndex(
+          (budget) => budget.budgetName === budgetName
+        );
 
-if (budgetIndex !== -1) {
-  budgets[budgetIndex].expenses = expenses;
+        if (budgetIndex !== -1) {
+          budgets[budgetIndex].expenses = expenses;
 
-  localStorage.setItem("budgets", JSON.stringify(budgets));
-  refreshBudgetCards(budgets);
+          localStorage.setItem("budgets", JSON.stringify(budgets));
+          refreshBudgetCards(budgets);
 
-  document.getElementById("editBudgetFormContainer").classList.remove("show")
-} else {
-  alert("Budget not found!");
-}
-    });
+          document
+            .getElementById("editBudgetFormContainer")
+            .classList.remove("show");
+        } else {
+          alert("Budget not found!");
+        }
+      });
 
     function addBudgetCard(budget) {
-const container = document.getElementById("budgetCardsContainer");
-const card = document.createElement("div");
-card.className = "budget-card";
+      const container = document.getElementById("budgetCardsContainer");
+      const card = document.createElement("div");
+      card.className = "budget-card";
 
-card.innerHTML = `
-  <h3>${budget.budgetName}</h3>
-  <p>Expenses: $${budget.expenses.toFixed(2)}</p>
-  <div class="actions">
-    <i class="fas fa-edit edit-budget" data-name="${budget.budgetName}"></i>
-    <i class="fas fa-trash delete-budget" data-name="${budget.budgetName}"></i>
+      card.innerHTML = `
+<div class="left">
+    <h3>${budget.budgetName}</h3>
+      <p>Expenses: $${budget.expenses.toFixed(2)}</p>
   </div>
+    <div class="actions">
+    <i class="far fa-edit edit-budget" data-name="${budget.budgetName}"></i>
+    <i class="far fa-trash-can delete-budget" data-name="${
+      budget.budgetName
+    }"></i>
+  </div>
+  
 `;
 
-container.appendChild(card);
+      container.appendChild(card);
 
-card.querySelector(".delete-budget").addEventListener("click", function () {
-  deleteBudget(budget.budgetName);
-});
+      card
+        .querySelector(".delete-budget")
+        .addEventListener("click", function () {
+          deleteBudget(budget.budgetName);
+        });
 
-card.querySelector(".edit-budget").addEventListener("click", function () {
-  openEditBudgetForm(budget);
-});
+      card.querySelector(".edit-budget").addEventListener("click", function () {
+        openEditBudgetForm(budget);
+      });
     }
 
     function refreshBudgetCards(budgets) {
-const container = document.getElementById("budgetCardsContainer");
-container.innerHTML = "";
-budgets.forEach(addBudgetCard);
+      const container = document.getElementById("budgetCardsContainer");
+      container.innerHTML = "";
+      budgets.forEach(addBudgetCard);
 
-const totalIncome = parseFloat(localStorage.getItem("monthlyIncome")) || 0;
-const totalExpenses = budgets.reduce((sum, budget) => sum + budget.expenses, 0);
-const remainingIncome = totalIncome - totalExpenses;
+      const totalIncome =
+        parseFloat(localStorage.getItem("monthlyIncome")) || 0;
+      const totalExpenses = budgets.reduce(
+        (sum, budget) => sum + budget.expenses,
+        0
+      );
+      const remainingIncome = totalIncome - totalExpenses;
 
-document.getElementById("totalIncome").textContent = `$${totalIncome.toFixed(2)}`;
-const remainingIncomeElement = document.getElementById("remainingIncome");
-remainingIncomeElement.textContent = `$${remainingIncome.toFixed(2)}`;
+      document.getElementById(
+        "totalIncome"
+      ).textContent = `$${totalIncome.toFixed(2)}`;
+      const remainingIncomeElement = document.getElementById("remainingIncome");
+      remainingIncomeElement.textContent = `$${remainingIncome.toFixed(2)}`;
 
-if (remainingIncome <= 0) {
-  remainingIncomeElement.style.color = "red";
-} else if (remainingIncome > 0 && remainingIncome <= 999) {
-  remainingIncomeElement.style.color = "orange";
-} else {
-  remainingIncomeElement.style.color = "green";
-}
+      if (remainingIncome <= 0) {
+        remainingIncomeElement.style.color = "red";
+      } else if (remainingIncome > 0 && remainingIncome <= 999) {
+        remainingIncomeElement.style.color = "orange";
+      } else {
+        remainingIncomeElement.style.color = "green";
+      }
     }
 
     function deleteBudget(budgetName) {
-const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-const updatedBudgets = budgets.filter(budget => budget.budgetName !== budgetName);
-localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
-refreshBudgetCards(updatedBudgets);
-alert(`Budget "${budgetName}" deleted successfully!`);
+      const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
+      const updatedBudgets = budgets.filter(
+        (budget) => budget.budgetName !== budgetName
+      );
+      localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
+      refreshBudgetCards(updatedBudgets);
+      alert(`Budget "${budgetName}" deleted successfully!`);
     }
 
     function openEditBudgetForm(budget) {
-document.getElementById("editBudgetName").value = budget.budgetName;
-document.getElementById("editExpenses").value = budget.expenses;
-document.getElementById("editBudgetFormContainer").classList.add("show")
+      document.getElementById("editBudgetName").value = budget.budgetName;
+      document.getElementById("editExpenses").value = budget.expenses;
+      document.getElementById("editBudgetFormContainer").classList.add("show");
     }
 
     window.addEventListener("load", function () {
-const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
-refreshBudgetCards(savedBudgets);
+      const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+      refreshBudgetCards(savedBudgets);
     });
 
-let page = localStorage.getItem("page");
-document.querySelector(".dash").addEventListener("click", function (e) {
-document.querySelector(".dash").classList.add("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-return localStorage.setItem("page", "dashb");
-});
-if (page && page === "dashb") {
-document.querySelector(".dash").classList.add("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-}
+    let page = localStorage.getItem("page");
+    document.querySelector(".dash").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "dashb");
+    });
+    if (page && page === "dashb") {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
 
-document
-.querySelector(".transaction")
-.addEventListener("click", function (e) {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.add("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-return localStorage.setItem("page", "transaction");
-});
-if (page && page === "transaction") {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.add("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-}
+    document
+      .querySelector(".transaction")
+      .addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "transaction");
+      });
+    if (page && page === "transaction") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.add("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
 
-document.querySelector(".budget").addEventListener("click", function (e) {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.add("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-return localStorage.setItem("page", "budget");
-});
-if (page && page === "budget") {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.add("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.remove("active");
-}
+    document.querySelector(".budget").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "budget");
+    });
+    if (page && page === "budget") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
 
-document.querySelector(".report").addEventListener("click", function (e) {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.add("active");
-document.querySelector(".setting").classList.remove("active");
-return localStorage.setItem("page", "report");
-});
-if (page && page === "report") {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.add("active");
-document.querySelector(".setting").classList.remove("active");
-}
+    document.querySelector(".report").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "report");
+    });
+    if (page && page === "report") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
 
-document.querySelector(".setting").addEventListener("click", function (e) {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.add("active");
-return localStorage.setItem("page", "setting");
-});
-if (page && page === "setting") {
-document.querySelector(".dash").classList.remove("active");
-document.querySelector(".transaction").classList.remove("active");
-document.querySelector(".budget").classList.remove("active");
-document.querySelector(".report").classList.remove("active");
-document.querySelector(".setting").classList.add("active");
-}
+    document.querySelector(".setting").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+      return localStorage.setItem("page", "setting");
+    });
+    if (page && page === "setting") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+    }
 
-document.querySelector(".navbar").addEventListener("click", function () {
-  document.querySelector(".navbar").classList.remove("show");
-});
+    document.querySelector(".navbar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.remove("show");
+    });
 
-document.querySelector(".bar").addEventListener("click", function () {
-  document.querySelector(".navbar").classList.add("show");
-});
-</script>
+    document.querySelector(".bar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.add("show");
+    });
+  </script>
 </html>
