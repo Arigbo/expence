@@ -1,13 +1,85 @@
-.container {
-  width: 90%;
+.budget-calculator {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.budget-calculator .budget_form,
+.budget-calculator .edit_budget_form,
+.budget-calculator .income_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.244);
+  transition: all 0.5s ease;
+  right: 100%;
+  left: -100%;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100%;
+}
+.budget-calculator .budget_form.show,
+.budget-calculator .edit_budget_form.show,
+.budget-calculator .income_form.show {
+  right: 0;
+  left: 0;
+}
+.budget-calculator .budget_form .form-container,
+.budget-calculator .edit_budget_form .form-container,
+.budget-calculator .income_form .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 1rem;
+  background-color: white;
+  width: 30rem;
+  height: 23rem;
+  border-radius: 0.5rem;
+}
+.budget-calculator .budget_form .form-container header,
+.budget-calculator .edit_budget_form .form-container header,
+.budget-calculator .income_form .form-container header {
   display: flex;
   align-items: center;
-  flex-direction: column;
-  gap: 2rem;
+  width: 90%;
+  justify-content: space-between;
 }
-.container button {
+.budget-calculator .budget_form .form-container header h2,
+.budget-calculator .edit_budget_form .form-container header h2,
+.budget-calculator .income_form .form-container header h2 {
+  font-size: 18px;
+  font-weight: 400;
+}
+.budget-calculator .budget_form .form-container form,
+.budget-calculator .edit_budget_form .form-container form,
+.budget-calculator .income_form .form-container form {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.budget-calculator .budget_form .form-container form .form-group,
+.budget-calculator .edit_budget_form .form-container form .form-group,
+.budget-calculator .income_form .form-container form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.budget-calculator .budget_form .form-container form .form-group label,
+.budget-calculator .edit_budget_form .form-container form .form-group label,
+.budget-calculator .income_form .form-container form .form-group label {
   width: 100%;
 }
-.container form {
+.budget-calculator .budget_form .form-container form button,
+.budget-calculator .edit_budget_form .form-container form button,
+.budget-calculator .income_form .form-container form button {
   width: 100%;
 }/*# sourceMappingURL=budget.css.map */
