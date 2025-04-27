@@ -1,8 +1,88 @@
 .budget-calculator {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding-block: 1rem;
+  border-radius: 1rem;
+}
+.budget-calculator_top {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.budget-calculator_top button {
+  padding-inline: 1rem;
+}
+.budget-calculator_inner {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.budget-calculator_inner .budget-list {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.budget-calculator_inner .budget-list h2 {
+  width: 100%;
+}
+.budget-calculator_inner .budget-list #remainingIncomeContainer,
+.budget-calculator_inner .budget-list #totalIncomeContainer {
+  width: 100%;
+}
+.budget-calculator_inner .budget-list #remainingIncomeContainer h3,
+.budget-calculator_inner .budget-list #totalIncomeContainer h3 {
+  font-size: 16px;
+  font-weight: 400;
+}
+.budget-calculator_inner .budget-list #remainingIncomeContainer h3 span,
+.budget-calculator_inner .budget-list #totalIncomeContainer h3 span {
+  font-weight: 600;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card {
+  border: 1px solid;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3 {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i {
+  font-size: 18px;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i.fa-trash-can {
+  color: red;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions {
+  display: flex;
+  align-items: center;
+}
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions,
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3,
+.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
+  width: 90%;
 }
 .budget-calculator .budget_form,
 .budget-calculator .edit_budget_form,
