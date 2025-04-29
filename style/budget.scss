@@ -1,222 +1,269 @@
-.goal{
-    #editGoalFormContainer,
-    #goalFormContainer{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        background-color: rgba(0, 0, 0, 0.244);
-        transition: all 0.5s ease;
-        right: 100%;
-        left: -100%;
-        top: 0;
-        bottom: 0;
-        width: 100vw;
-        height: 100%;
-        &.show {
-          right: 0;
-          left: 0;
-        }
-        .form-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 3rem;
-          width: 1rem;
-          background-color: white;
-          width: 90%;
-          height: 60%;
-          border-radius: 0.5rem;
-    
-          header {
-            display: flex;
-            align-items: center;
-            width: 90%;
-            justify-content: space-between;
-            h2 {
-              font-size: 18px;
-              font-weight: 400;
-            }
-          }
-          form {
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            .form-group {
-              width: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 0.5rem;
-              label {
-                width: 100%;
-              }
-            }
-            button {
-              width: 100%;
-            }
-          }
-        }
-      }
-}
-.budget-calculator {
-  width: 95%;
+.goal_budget {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
-  padding-block: 1rem;
-  border-radius: 1rem;
-
-  &_top {
-    width: 95%;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    header {
-      width: 100%;
-      h2 {
-        width: 100%;
-        font-size: 18px;
-        font-weight: 500;
-      }
-    }
-    button {
-      height: 2rem;
-    }
+  .fa-trash-can {
+    background-color: red;
+    width: 1rem;
+    height: 1rem;
   }
-  &_inner {
+  button {
+    width: 100%;
+  }
+  .goal {
     width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    .budget-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      h2 {
-        width: 100%;
-      }
-      #remainingIncomeContainer,
-      #totalIncomeContainer {
-        width: 100%;
-
-        h3 {
-          font-size: 16px;
-          font-weight: 400;
-          span {
-            font-weight: 600;
-          }
-        }
-      }
-      #budgetCardsContainer {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr;
-        gap: 1rem;
-        width: 100%;
-        .budget-card {
-          border: 1px solid;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 1rem;
-          h3 {
-            width: 100%;
-            font-size: 18px;
-            font-weight: 600;
-          }
-          p {
-            width: 100%;
-            font-size: 16px;
-            font-weight: 400;
-          }
-          i {
-            font-size: 18px;
-            &.fa-trash-can {
-              color: red;
-            }
-          }
-          .actions {
-            // width: 100%;
-            display: flex;
-            align-items: center;
-          }
-          .actions,
-          h3,
-          p {
-            width: 90%;
-          }
-        }
-      }
-    }
-  }
-  .budget_form,
-  .edit_budget_form,
-  .income_form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.244);
-    transition: all 0.5s ease;
-    right: 100%;
-    left: -100%;
-    top: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100%;
-    &.show {
-      right: 0;
-      left: 0;
-    }
-    .form-container {
+    #editGoalFormContainer,
+    #goalFormContainer {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3rem;
-      width: 1rem;
-      background-color: white;
-      width: 90%;
-      height: 60%;
-      border-radius: 0.5rem;
-
-      header {
-        display: flex;
-        align-items: center;
-        width: 90%;
-        justify-content: space-between;
-        h2 {
-          font-size: 18px;
-          font-weight: 400;
-        }
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.244);
+      transition: all 0.5s ease;
+      right: 100%;
+      left: -100%;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100%;
+      &.show {
+        right: 0;
+        left: 0;
       }
-      form {
-        width: 90%;
+      .form-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
-        .form-group {
-          width: 100%;
+        justify-content: center;
+        gap: 3rem;
+        width: 1rem;
+        background-color: white;
+        width: 90%;
+        height: 60%;
+        border-radius: 0.5rem;
+
+        header {
+          display: flex;
+          align-items: center;
+          width: 90%;
+          justify-content: space-between;
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+          }
+        }
+        form {
+          width: 90%;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.5rem;
-          label {
+          gap: 1.5rem;
+          .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            label {
+              width: 100%;
+            }
+          }
+          button {
             width: 100%;
           }
         }
-        button {
+      }
+    }
+    #goalListContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      .goal-item {
+        display: flex;
+        width: 100%;
+        .left {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          input {
+            height: 1rem;
+            width: 1em;
+            border: 1px solid;
+          }
+          p {
+            text-transform: capitalize;
+            font-size: 14px;
+            font-weight: 200;
+          
+          }
+          span {
+            font-size: 900;
+          }
+        }
+      }
+    }
+  }
+  .budget-calculator {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding-block: 1rem;
+    border-radius: 1rem;
+
+    &_top {
+      width: 95%;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      header {
+        width: 100%;
+        h2 {
           width: 100%;
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+      button {
+        height: 2rem;
+      }
+    }
+    &_inner {
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .budget-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h2 {
+          width: 100%;
+        }
+        #remainingIncomeContainer,
+        #totalIncomeContainer {
+          width: 100%;
+
+          h3 {
+            font-size: 16px;
+            font-weight: 400;
+            span {
+              font-weight: 600;
+            }
+          }
+        }
+        #budgetCardsContainer {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 1fr;
+          gap: 1rem;
+          width: 100%;
+          .budget-card {
+            border: 1px solid;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            h3 {
+              width: 100%;
+              font-size: 18px;
+              font-weight: 600;
+            }
+            p {
+              width: 100%;
+              font-size: 16px;
+              font-weight: 400;
+            }
+            i {
+              font-size: 18px;
+              &.fa-trash-can {
+                color: red;
+              }
+            }
+            .actions {
+              // width: 100%;
+              display: flex;
+              align-items: center;
+            }
+            .actions,
+            h3,
+            p {
+              width: 90%;
+            }
+          }
+        }
+      }
+    }
+    .budget_form,
+    .edit_budget_form,
+    .income_form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.244);
+      transition: all 0.5s ease;
+      right: 100%;
+      left: -100%;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100%;
+      &.show {
+        right: 0;
+        left: 0;
+      }
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        width: 1rem;
+        background-color: white;
+        width: 90%;
+        height: 60%;
+        border-radius: 0.5rem;
+
+        header {
+          display: flex;
+          align-items: center;
+          width: 90%;
+          justify-content: space-between;
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+          }
+        }
+        form {
+          width: 90%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.5rem;
+          .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            label {
+              width: 100%;
+            }
+          }
+          button {
+            width: 100%;
+          }
         }
       }
     }
