@@ -1,92 +1,25 @@
-.budget-calculator {
-  width: 90%;
+.goal_budget {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
-  padding-block: 1rem;
-  border-radius: 1rem;
 }
-.budget-calculator_top {
-  width: 95%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.goal_budget .fa-trash-can {
+  background-color: red;
+  width: 1rem;
+  height: 1rem;
 }
-.budget-calculator_top button {
-  padding-inline: 1rem;
+.goal_budget button {
+  width: 100%;
 }
-.budget-calculator_inner {
+.goal_budget .goal {
   width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.budget-calculator_inner .budget-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.budget-calculator_inner .budget-list h2 {
-  width: 100%;
-}
-.budget-calculator_inner .budget-list #remainingIncomeContainer,
-.budget-calculator_inner .budget-list #totalIncomeContainer {
-  width: 100%;
-}
-.budget-calculator_inner .budget-list #remainingIncomeContainer h3,
-.budget-calculator_inner .budget-list #totalIncomeContainer h3 {
-  font-size: 16px;
-  font-weight: 400;
-}
-.budget-calculator_inner .budget-list #remainingIncomeContainer h3 span,
-.budget-calculator_inner .budget-list #totalIncomeContainer h3 span {
-  font-weight: 600;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 1rem;
-  width: 100%;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card {
-  border: 1px solid;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3 {
-  width: 100%;
-  font-size: 18px;
-  font-weight: 600;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
-  width: 100%;
-  font-size: 16px;
-  font-weight: 400;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i {
-  font-size: 18px;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i.fa-trash-can {
-  color: red;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions {
-  display: flex;
-  align-items: center;
-}
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions,
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3,
-.budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
-  width: 90%;
-}
-.budget-calculator .budget_form,
-.budget-calculator .edit_budget_form,
-.budget-calculator .income_form {
+.goal_budget .goal #editGoalFormContainer,
+.goal_budget .goal #goalFormContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,15 +34,13 @@
   width: 100vw;
   height: 100%;
 }
-.budget-calculator .budget_form.show,
-.budget-calculator .edit_budget_form.show,
-.budget-calculator .income_form.show {
+.goal_budget .goal #editGoalFormContainer.show,
+.goal_budget .goal #goalFormContainer.show {
   right: 0;
   left: 0;
 }
-.budget-calculator .budget_form .form-container,
-.budget-calculator .edit_budget_form .form-container,
-.budget-calculator .income_form .form-container {
+.goal_budget .goal #editGoalFormContainer .form-container,
+.goal_budget .goal #goalFormContainer .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,49 +48,244 @@
   gap: 3rem;
   width: 1rem;
   background-color: white;
-  width: 30rem;
-  height: 23rem;
+  width: 90%;
+  height: 60%;
   border-radius: 0.5rem;
 }
-.budget-calculator .budget_form .form-container header,
-.budget-calculator .edit_budget_form .form-container header,
-.budget-calculator .income_form .form-container header {
+.goal_budget .goal #editGoalFormContainer .form-container header,
+.goal_budget .goal #goalFormContainer .form-container header {
   display: flex;
   align-items: center;
   width: 90%;
   justify-content: space-between;
 }
-.budget-calculator .budget_form .form-container header h2,
-.budget-calculator .edit_budget_form .form-container header h2,
-.budget-calculator .income_form .form-container header h2 {
+.goal_budget .goal #editGoalFormContainer .form-container header h2,
+.goal_budget .goal #goalFormContainer .form-container header h2 {
   font-size: 18px;
   font-weight: 400;
 }
-.budget-calculator .budget_form .form-container form,
-.budget-calculator .edit_budget_form .form-container form,
-.budget-calculator .income_form .form-container form {
+.goal_budget .goal #editGoalFormContainer .form-container form,
+.goal_budget .goal #goalFormContainer .form-container form {
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
 }
-.budget-calculator .budget_form .form-container form .form-group,
-.budget-calculator .edit_budget_form .form-container form .form-group,
-.budget-calculator .income_form .form-container form .form-group {
+.goal_budget .goal #editGoalFormContainer .form-container form .form-group,
+.goal_budget .goal #goalFormContainer .form-container form .form-group {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
-.budget-calculator .budget_form .form-container form .form-group label,
-.budget-calculator .edit_budget_form .form-container form .form-group label,
-.budget-calculator .income_form .form-container form .form-group label {
+.goal_budget .goal #editGoalFormContainer .form-container form .form-group label,
+.goal_budget .goal #goalFormContainer .form-container form .form-group label {
   width: 100%;
 }
-.budget-calculator .budget_form .form-container form button,
-.budget-calculator .edit_budget_form .form-container form button,
-.budget-calculator .income_form .form-container form button {
+.goal_budget .goal #editGoalFormContainer .form-container form button,
+.goal_budget .goal #goalFormContainer .form-container form button {
+  width: 100%;
+}
+.goal_budget .goal #goalListContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.goal_budget .goal #goalListContainer .goal-item {
+  display: flex;
+  width: 100%;
+}
+.goal_budget .goal #goalListContainer .goal-item .left {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.goal_budget .goal #goalListContainer .goal-item .left input {
+  height: 1rem;
+  width: 1em;
+  border: 1px solid;
+}
+.goal_budget .goal #goalListContainer .goal-item .left p {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 200;
+}
+.goal_budget .goal #goalListContainer .goal-item .left span {
+  font-size: 900;
+}
+.goal_budget .budget-calculator {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding-block: 1rem;
+  border-radius: 1rem;
+}
+.goal_budget .budget-calculator_top {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.goal_budget .budget-calculator_top header {
+  width: 100%;
+}
+.goal_budget .budget-calculator_top header h2 {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+}
+.goal_budget .budget-calculator_top button {
+  height: 2rem;
+}
+.goal_budget .budget-calculator_inner {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.goal_budget .budget-calculator_inner .budget-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.goal_budget .budget-calculator_inner .budget-list h2 {
+  width: 100%;
+}
+.goal_budget .budget-calculator_inner .budget-list #remainingIncomeContainer,
+.goal_budget .budget-calculator_inner .budget-list #totalIncomeContainer {
+  width: 100%;
+}
+.goal_budget .budget-calculator_inner .budget-list #remainingIncomeContainer h3,
+.goal_budget .budget-calculator_inner .budget-list #totalIncomeContainer h3 {
+  font-size: 16px;
+  font-weight: 400;
+}
+.goal_budget .budget-calculator_inner .budget-list #remainingIncomeContainer h3 span,
+.goal_budget .budget-calculator_inner .budget-list #totalIncomeContainer h3 span {
+  font-weight: 600;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card {
+  border: 1px solid;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3 {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i {
+  font-size: 18px;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card i.fa-trash-can {
+  color: red;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions {
+  display: flex;
+  align-items: center;
+}
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card .actions,
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card h3,
+.goal_budget .budget-calculator_inner .budget-list #budgetCardsContainer .budget-card p {
+  width: 90%;
+}
+.goal_budget .budget-calculator .budget_form,
+.goal_budget .budget-calculator .edit_budget_form,
+.goal_budget .budget-calculator .income_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.244);
+  transition: all 0.5s ease;
+  right: 100%;
+  left: -100%;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100%;
+}
+.goal_budget .budget-calculator .budget_form.show,
+.goal_budget .budget-calculator .edit_budget_form.show,
+.goal_budget .budget-calculator .income_form.show {
+  right: 0;
+  left: 0;
+}
+.goal_budget .budget-calculator .budget_form .form-container,
+.goal_budget .budget-calculator .edit_budget_form .form-container,
+.goal_budget .budget-calculator .income_form .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 1rem;
+  background-color: white;
+  width: 90%;
+  height: 60%;
+  border-radius: 0.5rem;
+}
+.goal_budget .budget-calculator .budget_form .form-container header,
+.goal_budget .budget-calculator .edit_budget_form .form-container header,
+.goal_budget .budget-calculator .income_form .form-container header {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  justify-content: space-between;
+}
+.goal_budget .budget-calculator .budget_form .form-container header h2,
+.goal_budget .budget-calculator .edit_budget_form .form-container header h2,
+.goal_budget .budget-calculator .income_form .form-container header h2 {
+  font-size: 18px;
+  font-weight: 400;
+}
+.goal_budget .budget-calculator .budget_form .form-container form,
+.goal_budget .budget-calculator .edit_budget_form .form-container form,
+.goal_budget .budget-calculator .income_form .form-container form {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.goal_budget .budget-calculator .budget_form .form-container form .form-group,
+.goal_budget .budget-calculator .edit_budget_form .form-container form .form-group,
+.goal_budget .budget-calculator .income_form .form-container form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.goal_budget .budget-calculator .budget_form .form-container form .form-group label,
+.goal_budget .budget-calculator .edit_budget_form .form-container form .form-group label,
+.goal_budget .budget-calculator .income_form .form-container form .form-group label {
+  width: 100%;
+}
+.goal_budget .budget-calculator .budget_form .form-container form button,
+.goal_budget .budget-calculator .edit_budget_form .form-container form button,
+.goal_budget .budget-calculator .income_form .form-container form button {
   width: 100%;
 }/*# sourceMappingURL=budget.css.map */
