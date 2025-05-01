@@ -131,10 +131,12 @@
             <header>
               <h2>Active Budget</h2>
             </header>
-            <button id="openBudgetForm">+Add Budget</button>
-            <button id="updateIncomeButton">
-              <i class="fas fa-sync-alt"></i> Update Income
-            </button>
+            <div class="right">
+              <button id="openBudgetForm">+Add Budget</button>
+              <button id="updateIncomeButton">
+                <i class="fas fa-sync-alt"></i> Update Income
+              </button>
+            </div>
           </div>
           <div class="budget-calculator_inner">
             <div id="budgetFormContainer" class="budget_form">
@@ -340,9 +342,9 @@
       item.innerHTML = `
         <div class="left">
           <input type="checkbox" class="goal-checkbox" data-name="${goal.goalName}" />
-<p>${goal.goalName}<span> (Complete by: ${goal.goalDate})</span></p>
+<h2>${goal.goalName}</h2><span class="time"> (Complete by: ${goal.goalDate})</span>
         </div>
-        <div class="actions">
+        <div class="right">
           <i class="far fa-edit edit-goal" data-name="${goal.goalName}"></i>
           <i class="far fa-trash-can delete-goal" data-name="${goal.goalName}"></i>
         </div>

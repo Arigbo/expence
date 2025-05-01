@@ -54,14 +54,15 @@ html {
   background-color: #035c97;
   color: white;
   border: none;
-  height: 2.5rem;
+  height: 2rem;
+  padding-inline: 0.2rem;
   width: -moz-fit-content;
   width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.3rem;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -70,6 +71,12 @@ html {
   color: #035c97;
   background-color: white;
   border: 1px solid #035c97;
+}
+@media screen and (min-width: 778px) {
+  * button {
+    font-size: 16px;
+    height: 2.5rem;
+  }
 }
 * img {
   width: 100%;
