@@ -25,18 +25,33 @@
 .dashboard .transaction_inner .fourth header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
 }
 .dashboard .transaction_inner .fourth header h1 {
   font-size: 18px;
   font-weight: 500;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
-.dashboard .transaction_inner .fourth header a {
-  font-size: 14px;
-  font-weight: 400;
-  width: auto;
-  height: auto;
+.dashboard .transaction_inner .fourth header .right {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+  width: 40%;
+}
+.dashboard .transaction_inner .fourth header .right select {
+  height: 2rem;
+  border: 1px solid;
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+.dashboard .transaction_inner .fourth header .right select option {
+  width: 90%;
 }
 .dashboard .transaction_inner .fourth_inner {
   display: flex;
@@ -46,16 +61,17 @@
   background-color: white;
   padding-block: 1rem;
   border-radius: 0.5rem;
+  overflow-x: scroll;
 }
 .dashboard .transaction_inner .fourth_inner_top {
   width: 95%;
   height: 4rem;
   display: grid;
-  grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
-  justify-content: center;
-  align-items: center;
+  grid-template-columns: 20% 40% 20% 10% 10%;
   gap: 1rem;
-  border-block: 1px solid rgb(245, 246, 247);
+  justify-content: start;
+  align-items: center;
+  border-bottom: 1px solid rgb(245, 246, 247);
 }
 .dashboard .transaction_inner .fourth_inner_top h1 {
   display: flex;
@@ -63,7 +79,7 @@
   justify-content: start;
   font-size: 16px;
   font-weight: 400;
-  height: 100%;
+  height: 30%;
   width: 100%;
 }
 .dashboard .transaction_inner .fourth_inner .transacts {
@@ -83,8 +99,8 @@
   display: grid;
   height: 4rem;
   border-block: 1px solid rgb(245, 246, 247);
-  grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
-  justify-content: center;
+  grid-template-columns: 20% 40% 20% 10% 10%;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
 }
@@ -96,8 +112,14 @@
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .dashboard .transaction_inner .fourth_inner .transacts_inner .transact .firstCl p {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  height: 100%;
   font-size: 14px;
   font-weight: 300;
 }
@@ -106,8 +128,14 @@
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .dashboard .transaction_inner .fourth_inner .transacts_inner .transact .secondCl p {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  height: 100%;
   font-size: 16px;
   font-weight: 300;
 }
@@ -116,8 +144,23 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .thirdCl h5 {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .thirdCl p {
+  font-weight: 400;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl h5 {
   font-size: 16px;
   font-weight: 300;
   text-transform: capitalize;
@@ -127,22 +170,22 @@
   height: 60%;
   border-radius: 0.2rem;
   color: white;
-  width: 7rem;
+  width: 100%;
   padding-inline: 0.3rem;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .thirdCl .red {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl .red {
   background-color: red;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .thirdCl .green {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl .green {
   background-color: green;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fifthCl {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl h4 {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fifthCl h4 {
   width: 100%;
   height: 100%;
   font-size: 16px;
@@ -150,10 +193,10 @@
   display: flex;
   align-items: center;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl h4.red {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fifthCl h4.red {
   color: red;
 }
-.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fourthCl h4.green {
+.dashboard .transaction_inner .fourth_inner .transacts_inner .transact .fifthCl h4.green {
   color: green;
 }
 @media screen and (min-width: 768px) {

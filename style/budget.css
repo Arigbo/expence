@@ -6,14 +6,24 @@
   gap: 1rem;
 }
 .goal_budget i {
-  font-size: 14px;
+  font-size: 16px;
 }
 .goal_budget i.fa-trash-can {
   color: rgb(185, 14, 14);
 }
 .goal_budget button {
   width: 100%;
-  gap: 0.3rem;
+  gap: 0.7rem;
+}
+.goal_budget button i {
+  border: 1.5px solid;
+  font-size: 10px;
+  height: 45%;
+  width: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.2rem;
 }
 .goal_budget .goal {
   width: 95%;
@@ -25,10 +35,9 @@
   border-radius: 1rem;
 }
 .goal_budget .goal header {
-  width: 95%;
+  width: 92%;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid;
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
@@ -36,11 +45,11 @@
 }
 .goal_budget .goal header h2 {
   width: 100%;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
 }
 .goal_budget .goal header button {
-  width: 30%;
+  width: 60%;
 }
 .goal_budget .goal #editGoalFormContainer,
 .goal_budget .goal #goalFormContainer {
@@ -116,7 +125,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 95%;
+  width: 100%;
 }
 .goal_budget .goal #goalListContainer p {
   font-size: 18px;
@@ -134,10 +143,9 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 3.5rem;
-  padding-inline: 1rem;
-  border-radius: 0.5rem;
-  background-color: whitesmoke;
+  height: 5rem;
+  padding-inline: 1.5rem;
+  border-block: 1px solid rgb(228, 225, 225);
   cursor: pointer;
 }
 .goal_budget .goal #goalListContainer .goal-item .left {
@@ -152,12 +160,13 @@
 }
 .goal_budget .goal #goalListContainer .goal-item .left h2 {
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
 }
 .goal_budget .goal #goalListContainer .goal-item .left .time {
   font-size: 14px;
-  font-size: 300;
+  font-size: 400;
+  color: grey;
 }
 .goal_budget .goal #goalListContainer .goal-item .right {
   display: flex;
@@ -177,10 +186,9 @@
   border-radius: 1rem;
 }
 .goal_budget .budget-calculator_top {
-  width: 95%;
+  width: 92%;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid;
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
@@ -191,7 +199,7 @@
 }
 .goal_budget .budget-calculator_top header h2 {
   width: 100%;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
 }
 .goal_budget .budget-calculator_top .right {
@@ -201,7 +209,7 @@
   gap: 1rem;
 }
 .goal_budget .budget-calculator_inner {
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -221,7 +229,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
   width: 100%;
 }
 .goal_budget .budget-calculator_inner .budget-list ul p {
@@ -235,47 +242,52 @@
   width: 100%;
   justify-content: center;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card {
+.goal_budget .budget-calculator_inner .budget-list ul li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   width: 100%;
-  height: 3.5rem;
-  padding-inline: 1rem;
-  border-radius: 0.5rem;
-  background-color: whitesmoke;
+  height: 5rem;
+  padding-inline: 1.5rem;
+  border-block: 1px solid rgb(228, 225, 225);
   cursor: pointer;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card .left {
+.goal_budget .budget-calculator_inner .budget-list ul li .left {
   display: flex;
   align-items: start;
   justify-content: center;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.3rem;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card .left .amount {
+.goal_budget .budget-calculator_inner .budget-list ul li .left h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: grey;
   text-transform: capitalize;
-  font-size: 16px;
+}
+.goal_budget .budget-calculator_inner .budget-list ul li .left span {
+  font-size: 17px;
   font-weight: 500;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card .left h3 {
-  font-size: 16px;
-  font-weight: 600;
+.goal_budget .budget-calculator_inner .budget-list ul li .left span.amount {
+  text-transform: capitalize;
+  font-weight: 500;
+  color: rgb(232, 67, 16);
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card .left {
+.goal_budget .budget-calculator_inner .budget-list ul li .left {
   width: 100%;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card .actions {
+.goal_budget .budget-calculator_inner .budget-list ul li .actions {
   display: flex;
   align-items: center;
   gap: 0.3rem;
 }
-.goal_budget .budget-calculator_inner .budget-list ul .budget-card:hover {
+.goal_budget .budget-calculator_inner .budget-list ul li:hover {
   background-color: rgb(222, 219, 219);
 }
 .goal_budget .budget-calculator_inner .bottom {
-  width: 100%;
+  width: 92%;
   display: flex;
   flex-direction: column;
   align-items: center;

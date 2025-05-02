@@ -22,17 +22,32 @@
       header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         width: 100%;
         h1 {
           font-size: 18px;
           font-weight: 500;
+          width: 60%;
+          display: flex;
+          align-items: center;
+          justify-content: start;
         }
-        a {
-          font-size: 14px;
-          font-weight: 400;
-          width: auto;
-          height: auto;
+        .right{
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          gap: 1rem;
+          width: 40%;
+          select{
+            height: 2rem;
+            border: 1px solid;
+            width: 30%;
+            display: flex;
+            align-items: center;
+            option{
+              width: 90%;
+            }
+          }
         }
       }
       &_inner {
@@ -43,23 +58,26 @@
         background-color: white;
         padding-block: 1rem;
         border-radius: 0.5rem;
+        overflow-x: scroll;
         &_top {
           width: 95%;
           height: 4rem;
           display: grid;
-          grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
-          justify-content: center;
-          align-items: center;
+          grid-template-columns: 20% 40% 20% 10% 10%;
           gap: 1rem;
-          border-block: 1px solid rgba(245, 246, 247, 1);
+          justify-content: start;
+          align-items: center;
+          border-bottom: 1px solid rgba(245, 246, 247, 1);
           h1 {
             display: flex;
             align-items: center;
             justify-content: start;
             font-size: 16px;
             font-weight: 400;
-            height: 100%;
+            height: 30%;
+            // padding-inline-start: 0.2rem;
             width: 100%;
+            // border-left: 1px solid grey;
           }
         }
         .transacts {
@@ -72,13 +90,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
             .transact {
               width: 100%;
               display: grid;
               height: 4rem;
               border-block: 1px solid rgba(245, 246, 247, 1);
-              grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr;
-              justify-content: center;
+              grid-template-columns: 20% 40% 20% 10% 10%;
+              justify-content: space-between;
               align-items: center;
               gap: 1rem;
               &.none {
@@ -89,7 +108,16 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 p {
+                  // border-left: 1px solid grey;
+                  // padding-inline-start: 0.2rem;
+
+                  display: flex;
+                  align-items: center;
+                  justify-content: start;
+                  width: 100%;
+                  height: 100%;
                   font-size: 14px;
                   font-weight: 300;
                 }
@@ -99,7 +127,15 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 p {
+                  // border-left: 1px solid grey;
+                  // padding-inline-start: 0.2rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: start;
+                  width: 100%;
+                  height: 100%;
                   font-size: 16px;
                   font-weight: 300;
                 }
@@ -109,6 +145,22 @@
                 width: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: center;
+
+                p {
+                  font-weight: 400;
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: start;
+                }
+              }
+              .fourthCl {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 h5 {
                   font-size: 16px;
                   font-weight: 300;
@@ -119,7 +171,7 @@
                   height: 60%;
                   border-radius: 0.2rem;
                   color: white;
-                  width: 7rem;
+                  width: 100%;
                   padding-inline: 0.3rem;
                 }
                 .red {
@@ -129,7 +181,7 @@
                   background-color: green;
                 }
               }
-              .fourthCl {
+              .fifthCl {
                 height: 100%;
                 width: 100%;
                 display: flex;
