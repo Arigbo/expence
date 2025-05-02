@@ -24,7 +24,7 @@
             "type": "expense",
             "amount": 50.0,
             "category": "Food",
-            "date": "2023-10-02T14:00:00Z",
+            "date": "2023-10-02",
             "description": "Lunch at a restaurant"
         },
         {
@@ -33,7 +33,16 @@
             "type": "income",
             "amount": 50.0,
             "category": "Food",
-            "date": "2023-10-02T14:00:00Z",
+            "date": "2025-9-02",
+            "description": "Lunch at a restaurant"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "type": "income",
+            "amount": 50.0,
+            "category": "Bread",
+            "date": "2021-4-03",
             "description": "Lunch at a restaurant"
         }
     ],
