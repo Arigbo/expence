@@ -109,6 +109,17 @@
       flex-direction: column;
       align-items: center;
       width: 95%;
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: grey;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+      }
       .goal-item {
         display: flex;
         align-items: center;
@@ -158,7 +169,7 @@
     background-color: white;
     padding-block: 1rem;
     border-radius: 1rem;
-    gap: 1rem;
+
     &_top {
       width: 95%;
       display: flex;
@@ -188,68 +199,97 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 1rem;
       .budget-list {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
         h2 {
           width: 100%;
         }
-        #remainingIncomeContainer,
-        #totalIncomeContainer {
-          width: 100%;
-
-          h3 {
-            font-size: 16px;
-            font-weight: 400;
-            span {
-              font-weight: 600;
-            }
-          }
-        }
-        #budgetCardsContainer {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-template-rows: 1fr;
+        ul {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           gap: 1rem;
           width: 100%;
-          .budget-card {
-            border: 1px solid;
-            width: 100%;
+          p {
+            font-size: 18px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: grey;
+            height: 4rem;
             display: flex;
             align-items: center;
+            width: 100%;
+            justify-content: center;
+          }
+
+          .budget-card {
+            display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 1rem;
-            h3 {
-              width: 100%;
-              font-size: 18px;
-              font-weight: 600;
-            }
-            p {
-              width: 100%;
-              font-size: 16px;
-              font-weight: 400;
-            }
-            i {
-              font-size: 18px;
-              &.fa-trash-can {
-                color: red;
+            width: 100%;
+            height: 3.5rem;
+            padding-inline: 1rem;
+            border-radius: 0.5rem;
+            background-color: whitesmoke;
+            cursor: pointer;
+            .left {
+              display: flex;
+              align-items: start;
+              justify-content: center;
+              flex-direction: column;
+              gap: 0.2rem;
+
+              .amount {
+                text-transform: capitalize;
+                font-size: 16px;
+                font-weight: 500;
+              }
+              h3 {
+                font-size: 16px;
+                font-weight: 600;
               }
             }
+            .left {
+              width: 100%;
+            }
             .actions {
-              // width: 100%;
               display: flex;
               align-items: center;
+              gap: 0.3rem;
             }
-            .actions,
-            h3,
-            p {
-              width: 90%;
+            &:hover {
+              background-color: rgb(222, 219, 219);
             }
           }
         }
       }
+      .bottom{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        #remainingIncomeContainer,
+        #totalIncomeContainer {
+          width: 100%;
+  
+          h3 {
+            font-size: 16px;
+            font-weight: 400;
+            span {
+              
+              font-weight: 600;
+            }
+          }
+        }
+      }
+
     }
     .budget_form,
     .edit_budget_form,

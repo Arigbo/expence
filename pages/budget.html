@@ -217,9 +217,11 @@
               </div>
             </div>
             <div class="budget-list">
-              <div id="budgetCardsContainer">
+              <ul id="budgetCardsContainer">
                 <!-- Budget cards will be dynamically added here -->
-              </div>
+              </ul>
+            </div>
+            <div class="bottom">
               <div id="totalIncomeContainer">
                 <h3>
                   Total Monthly Income: <span id="totalIncome">$0.00</span>
@@ -331,7 +333,11 @@
     function refreshGoalList(goals) {
       const container = document.getElementById("goalListContainer");
       container.innerHTML = "";
-      goals.forEach(addGoalItem);
+      if (goals.length === 0) {
+        container.innerHTML = "<p>No goals set.</p>";
+      } else {
+        goals.forEach(addGoalItem);
+      }
     }
 
     function addGoalItem(goal) {
@@ -509,24 +515,25 @@
 
     function addBudgetCard(budget) {
       const container = document.getElementById("budgetCardsContainer");
-      const card = document.createElement("div");
+      const card = document.createElement("li");
       card.className = "budget-card";
 
       card.innerHTML = `
-<div class="left">
+         <div class="left">
     <h3>${budget.budgetName}</h3>
-      <p>Expenses: $${budget.expenses.toFixed(2)}</p>
+      <span>Expenses: <span class="amount">$${budget.expenses.toFixed(
+        2
+      )}</span></span>
   </div>
     <div class="actions">
     <i class="far fa-edit edit-budget" data-name="${budget.budgetName}"></i>
     <i class="far fa-trash-can delete-budget" data-name="${
       budget.budgetName
     }"></i>
-  </div>
+  </div> 
+
 `;
-
       container.appendChild(card);
-
       card
         .querySelector(".delete-budget")
         .addEventListener("click", function () {
@@ -541,7 +548,11 @@
     function refreshBudgetCards(budgets) {
       const container = document.getElementById("budgetCardsContainer");
       container.innerHTML = "";
-      budgets.forEach(addBudgetCard);
+      if (budgets.length === 0) {
+        container.innerHTML = "<p>No budgets set.</p>";
+      } else {
+        budgets.forEach(addBudgetCard);
+      }
 
       const totalIncome =
         parseFloat(localStorage.getItem("monthlyIncome")) || 0;
@@ -586,7 +597,7 @@
       const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
       refreshBudgetCards(savedBudgets);
     });
-
+    localStorage.setItem("page", "budget");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.add("active");
