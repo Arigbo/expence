@@ -212,87 +212,47 @@
       document.querySelector(".navbar").classList.add("show");
     });
     // Sample expense and income data
-    let transactions = [
-      {
-        id: 1,
-        date: "2022-01-01",
-        type: "expense",
-        amount: 100,
-        descrip: "Bag",
-      },
-      {
-        id: 2,
-        date: "2022-01-05",
-        type: "income",
-        amount: 200,
-        descrip: "Bag",
-      },
-      {
-        id: 3,
-        date: "2022-01-15",
-        type: "expense",
-        amount: 300,
-        descrip: "Bag",
-      },
-      {
-        id: 4,
-        date: "2022-02-01",
-        type: "income",
-        amount: 400,
-        descrip: "Bag",
-      },
-      {
-        id: 5,
-        date: "2022-02-10",
-        type: "expense",
-        amount: 500,
-        descrip: "Bag",
-      },
-      {
-        id: 6,
-        date: "2022-03-01",
-        type: "income",
-        amount: 600,
-        descrip: "Bag",
-      },
-    ];
-    transactions.map((transact) => {
-      return document.querySelector(".transacts_inner").insertAdjacentHTML(
+    // Fetch transactions from db.json
+    let transactions = [];
+    fetch('/db.json')
+      .then(response => response.json())
+      .then(data => {
+      transactions = data.transactions;
+
+      // Map through and display transactions
+      transactions.map((transact) => {
+        return document.querySelector(".transacts_inner").insertAdjacentHTML(
         "beforeend",
         `   
-        <div class="transact ${transact.id > 4 ? "none" : ""}" key={${
-          transact.id
-        }}>
-                  <div class="firstCl">
-                    <p>
-                    ${transact.date}</p>
-                  </div>
-                  <div class="secondCl">
-                    <p>
-                      ${transact.descrip}
-                      </p>
-                  </div>
-                  <div class="thirdCl">
-                    <h5 class=${transact.type === "income" ? "green" : "red"}>
-                      ${transact.type}
-                      </h5>
-                  </div>
-                  <div class="fourthCl">
-                    <h4 class=${transact.type == "expense" ? "red" : "green"}>
-                    ${transact.type == "expense" ? "-" : "+"}${
-          transact.amount
-        }</h4>
-                  </div>
-                </div>
-      `
-      );
-    });
+        <div class="transact ${transact.id > 4 ? "none" : ""}" key=${transact.id}>
+          <div class="firstCl">
+          <p>${transact.date}</p>
+          </div>
+          <div class="secondCl">
+          <p>${transact.description}</p>
+          </div>
+          <div class="thirdCl">
+          <h5 class=${transact.type === "income" ? "green" : "red"}>
+            ${transact.type}
+          </h5>
+          </div>
+          <div class="fourthCl">
+          <h4 class=${transact.type == "expense" ? "red" : "green"}>
+            ${transact.type == "expense" ? "-" : "+"}${transact.amount}
+          </h4>
+          </div>
+        </div>
+        `
+        );
+      });
+      })
+      .catch(error => console.error('Error fetching transactions:', error));
 
     // Function to filter transactions before current date
     function filterTransactionsBeforeCurrentDate(transactions) {
       let currentDate = new Date();
       return transactions.filter(
-        (transaction) => new Date(transaction.date) <= currentDate
+      (transaction) => new Date(transaction.date) <= currentDate
       );
     }
 
@@ -301,17 +261,17 @@
       let weeklyExpenses = {};
       let weeklyIncomes = {};
       for (let i = 1; i <= 53; i++) {
-        weeklyExpenses[`Week ${i}`] = 0;
-        weeklyIncomes[`Week ${i}`] = 0;
+      weeklyExpenses[`Week ${i}`] = 0;
+      weeklyIncomes[`Week ${i}`] = 0;
       }
       transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let weekNumber = getWeekNumber(date);
-        if (transaction.type === "expense") {
-          weeklyExpenses[`Week ${weekNumber}`] += transaction.amount;
-        } else if (transaction.type === "income") {
-          weeklyIncomes[`Week ${weekNumber}`] += transaction.amount;
-        }
+      let date = new Date(transaction.date);
+      let weekNumber = getWeekNumber(date);
+      if (transaction.type === "expense") {
+        weeklyExpenses[`Week ${weekNumber}`] += parseFloat(transaction.amount);
+      } else if (transaction.type === "income") {
+        weeklyIncomes[`Week ${weekNumber}`] += parseFloat(transaction.amount);
+      }
       });
       return { weeklyExpenses, weeklyIncomes };
     }
@@ -321,31 +281,31 @@
       let monthlyExpenses = {};
       let monthlyIncomes = {};
       let months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
       ];
       months.forEach((month) => {
-        monthlyExpenses[month] = 0;
-        monthlyIncomes[month] = 0;
+      monthlyExpenses[month] = 0;
+      monthlyIncomes[month] = 0;
       });
       transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let month = date.toLocaleString("default", { month: "long" });
-        if (transaction.type === "expense") {
-          monthlyExpenses[month] += transaction.amount;
-        } else if (transaction.type === "income") {
-          monthlyIncomes[month] += transaction.amount;
-        }
+      let date = new Date(transaction.date);
+      let month = date.toLocaleString("default", { month: "long" });
+      if (transaction.type === "expense") {
+        monthlyExpenses[month] += parseFloat(transaction.amount);
+      } else if (transaction.type === "income") {
+        monthlyIncomes[month] += parseFloat(transaction.amount);
+      }
       });
       return { monthlyExpenses, monthlyIncomes };
     }
@@ -355,19 +315,19 @@
       let yearlyExpenses = {};
       let yearlyIncomes = {};
       transactions.forEach((transaction) => {
-        let date = new Date(transaction.date);
-        let year = date.getFullYear();
-        if (transaction.type === "expense") {
-          if (!yearlyExpenses[year]) {
-            yearlyExpenses[year] = 0;
-          }
-          yearlyExpenses[year] += transaction.amount;
-        } else if (transaction.type === "income") {
-          if (!yearlyIncomes[year]) {
-            yearlyIncomes[year] = 0;
-          }
-          yearlyIncomes[year] += transaction.amount;
+      let date = new Date(transaction.date);
+      let year = date.getFullYear();
+      if (transaction.type === "expense") {
+        if (!yearlyExpenses[year]) {
+        yearlyExpenses[year] = 0;
         }
+        yearlyExpenses[year] += parseFloat(transaction.amount);
+      } else if (transaction.type === "income") {
+        if (!yearlyIncomes[year]) {
+        yearlyIncomes[year] = 0;
+        }
+        yearlyIncomes[year] += parseFloat(transaction.amount);
+      }
       });
       return { yearlyExpenses, yearlyIncomes };
     }
@@ -378,87 +338,101 @@
       return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
     }
 
-    // Filter transactions before current date
-    let filteredTransactions =
-      filterTransactionsBeforeCurrentDate(transactions);
+    // Fetch transactions and initialize chart
+    fetch('/db.json')
+      .then(response => response.json())
+      .then(data => {
+      let transactions = data.transactions;
+      let filteredTransactions = filterTransactionsBeforeCurrentDate(transactions);
 
-    // Create chart
-    let ctx = document.getElementById("expenseChart").getContext("2d");
-    let chart = new Chart(ctx, {
-      type: "line",
-      data: {
+      // Create chart
+      let ctx = document.getElementById("expenseChart").getContext("2d");
+      let chart = new Chart(ctx, {
+        type: "line",
+        data: {
         labels: [],
         datasets: [
           {
-            label: "Expenses",
-            data: [],
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 1,
+          label: "Expenses",
+          data: [],
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
           },
           {
-            label: "Incomes",
-            data: [],
-            backgroundColor: " rgba(0, 128, 0, 0.413)",
-            borderColor: "rgba(0, 128, 0, 1)",
-            borderWidth: 1,
+          label: "Incomes",
+          data: [],
+          backgroundColor: "rgba(0, 128, 0, 0.413)",
+          borderColor: "rgba(0, 128, 0, 1)",
+          borderWidth: 1,
           },
         ],
-      },
-      options: {
+        },
+        options: {
         scales: {
           y: {
-            beginAtZero: true,
+          beginAtZero: true,
           },
         },
-      },
-    });
+        },
+      });
 
-    function updateChart() {
-      let selectedOption = document.getElementById("btns_inner").value;
-      if (selectedOption === "weekly") {
+      function updateChart() {
+        let selectedOption = document.getElementById("btns_inner").value;
+        if (selectedOption === "weekly") {
         updatedWeeklyTransactions();
-      } else if (selectedOption === "monthly") {
+        } else if (selectedOption === "monthly") {
         updatedMonthlyTransactions();
-      } else if (selectedOption === "yearly") {
+        } else if (selectedOption === "yearly") {
         updatedYearlyTransactions();
+        }
       }
-    }
-    function updatedWeeklyTransactions() {
-      let { weeklyExpenses, weeklyIncomes } =
-        groupTransactionsByWeek(filteredTransactions);
+
+      function updatedWeeklyTransactions() {
+        let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
+        chart.data.labels = Object.keys(weeklyExpenses);
+        chart.data.datasets[0].data = Object.values(weeklyExpenses);
+        chart.data.datasets[1].data = Object.values(weeklyIncomes);
+        chart.update();
+      }
+
+      function updatedMonthlyTransactions() {
+        let { monthlyExpenses, monthlyIncomes } = groupTransactionsByMonth(filteredTransactions);
+        chart.data.labels = Object.keys(monthlyExpenses);
+        chart.data.datasets[0].data = Object.values(monthlyExpenses);
+        chart.data.datasets[1].data = Object.values(monthlyIncomes);
+        chart.update();
+      }
+
+      function updatedYearlyTransactions() {
+        let { yearlyExpenses, yearlyIncomes } = groupTransactionsByYear(filteredTransactions);
+        chart.data.labels = Object.keys(yearlyExpenses);
+        chart.data.datasets[0].data = Object.values(yearlyExpenses);
+        chart.data.datasets[1].data = Object.values(yearlyIncomes);
+        chart.update();
+      }
+
+      // Initialize chart with weekly transactions
+      let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
       chart.data.labels = Object.keys(weeklyExpenses);
       chart.data.datasets[0].data = Object.values(weeklyExpenses);
       chart.data.datasets[1].data = Object.values(weeklyIncomes);
       chart.update();
-    }
-    // Update chart with monthly transactions
-    function updatedMonthlyTransactions() {
-      let { monthlyExpenses, monthlyIncomes } =
-        groupTransactionsByMonth(filteredTransactions);
+
+      // Attach updateChart function to dropdown
+      document.getElementById("btns_inner").addEventListener("change", updateChart);
+
+      // Initialize chart with monthly transactions as default
+      let { monthlyExpenses, monthlyIncomes } = groupTransactionsByMonth(filteredTransactions);
       chart.data.labels = Object.keys(monthlyExpenses);
       chart.data.datasets[0].data = Object.values(monthlyExpenses);
       chart.data.datasets[1].data = Object.values(monthlyIncomes);
       chart.update();
-    }
+      })
+      .catch(error => console.error('Error fetching transactions:', error));
+      document.getElementById("btns_inner").addEventListener("change", updateChart);
 
-    // Update chart with yearly transactions
-    function updatedYearlyTransactions() {
-      let { yearlyExpenses, yearlyIncomes } =
-        groupTransactionsByYear(filteredTransactions);
-      chart.data.labels = Object.keys(yearlyExpenses);
-      chart.data.datasets[0].data = Object.values(yearlyExpenses);
-      chart.data.datasets[1].data = Object.values(yearlyIncomes);
-      chart.update();
-    }
 
-    // Initialize chart with weekly transactions
-    let { weeklyExpenses, weeklyIncomes } =
-      groupTransactionsByWeek(filteredTransactions);
-    chart.data.labels = Object.keys(weeklyExpenses);
-    chart.data.datasets[0].data = Object.values(weeklyExpenses);
-    chart.data.datasets[1].data = Object.values(weeklyIncomes);
-    chart.update();
     localStorage.setItem("page", "dashb");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {

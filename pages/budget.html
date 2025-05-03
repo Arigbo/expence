@@ -75,77 +75,81 @@
       <div class="goal_budget">
         <div class="goal">
           <div id="editGoalFormContainer" class="edit_goal_form">
-            <div class="form-container">
-              <header>
-                <h2>Edit Goal</h2>
-                <i class="fas fa-x" id="closeEditGoalForm"></i>
-              </header>
-              <form id="editGoalForm">
-                <div class="form-group">
-                  <label for="editGoalName">Goal Name:</label>
-                  <input type="text" id="editGoalName" required />
-                </div>
-                <div class="form-group">
-                  <label for="editGoalDate">Date to Complete:</label>
-                  <input type="date" id="editGoalDate" required />
-                </div>
-                <button type="submit" class="btn-submit">Update Goal</button>
-              </form>
+        <div class="form-container">
+          <header>
+            <h2>Edit Goal</h2>
+            <i class="fas fa-x" id="closeEditGoalForm"></i>
+          </header>
+          <form id="editGoalForm">
+            <div class="form-group">
+          <label for="editGoalName">Goal Name:</label>
+          <input type="text" id="editGoalName" required />
             </div>
+            <div class="form-group">
+          <label for="editGoalDate">Date to Complete:</label>
+          <input type="date" id="editGoalDate" required />
+            </div>
+            <button type="submit" class="btn-submit">Update Goal</button>
+          </form>
+        </div>
           </div>
           <header>
-            <h2>Goals</h2>
-            <button id="addGoalButton">+Add Goal</button>
+        <h2>Goals</h2>
+        <button id="addGoalButton">
+          Add New Goal <i class="fas fa-plus"></i>
+        </button>
           </header>
           <div id="goalFormContainer" class="goal_form">
-            <div class="form-container">
-              <header>
-                <h2>Add New Goal</h2>
-                <i class="fas fa-x" id="closeGoalForm"></i>
-              </header>
-              <form id="goalForm">
-                <div class="form-group">
-                  <label for="goalName">Goal Name:</label>
-                  <input
-                    type="text"
-                    id="goalName"
-                    placeholder="Enter your goal"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="goalDate">Date to Complete:</label>
-                  <input type="date" id="goalDate" required />
-                </div>
-                <button type="submit" class="btn-submit">Add Goal</button>
-              </form>
+        <div class="form-container">
+          <header>
+            <h2>Add New Goal</h2>
+            <i class="fas fa-x" id="closeGoalForm"></i>
+          </header>
+          <form id="goalForm">
+            <div class="form-group">
+          <label for="goalName">Goal Name:</label>
+          <input
+            type="text"
+            id="goalName"
+            placeholder="Enter your goal"
+            required
+          />
             </div>
+            <div class="form-group">
+          <label for="goalDate">Date to Complete:</label>
+          <input type="date" id="goalDate" required />
+            </div>
+            <button type="submit" class="btn-submit">Add Goal</button>
+          </form>
+        </div>
           </div>
           <div id="goalListContainer" class="goal-list">
-            <!-- Goals will be dynamically added here -->
+        <!-- Goals will be dynamically added here -->
           </div>
         </div>
         <!-- Main Content -->
         <div class="budget-calculator">
           <div class="budget-calculator_top">
-            <header>
-              <h2>Active Budget</h2>
-            </header>
-            <div class="right">
-              <button id="openBudgetForm">+Add Budget</button>
-              <button id="updateIncomeButton">
-                <i class="fas fa-sync-alt"></i> Update Income
-              </button>
-            </div>
+        <header>
+          <h2>Active Budget</h2>
+        </header>
+        <div class="right">
+          <button id="openBudgetForm">
+            Add Budget <i class="fas fa-plus"></i>
+          </button>
+          <button id="updateIncomeButton">
+            <i class="far fa-edit"></i> Edit Income
+          </button>
+        </div>
           </div>
           <div class="budget-calculator_inner">
-            <div id="budgetFormContainer" class="budget_form">
-              <div class="form-container">
-                <header>
-                  <h2>Add New Budget</h2>
-                  <i class="fas fa-x" id="closeBudgetForm"></i>
-                </header>
-                <form id="budgetForm">
+        <div id="budgetFormContainer" class="budget_form">
+          <div class="form-container">
+            <header>
+          <h2>Add New Budget</h2>
+          <i class="fas fa-x" id="closeBudgetForm"></i>
+            </header>
+            <form id="budgetForm">
                   <div class="form-group">
                     <label for="budgetName">Budget Name:</label>
                     <input
@@ -217,9 +221,11 @@
               </div>
             </div>
             <div class="budget-list">
-              <div id="budgetCardsContainer">
+              <ul id="budgetCardsContainer">
                 <!-- Budget cards will be dynamically added here -->
-              </div>
+              </ul>
+            </div>
+            <div class="bottom">
               <div id="totalIncomeContainer">
                 <h3>
                   Total Monthly Income: <span id="totalIncome">$0.00</span>
@@ -331,7 +337,11 @@
     function refreshGoalList(goals) {
       const container = document.getElementById("goalListContainer");
       container.innerHTML = "";
-      goals.forEach(addGoalItem);
+      if (goals.length === 0) {
+        container.innerHTML = "<p>No goals set.</p>";
+      } else {
+        goals.forEach(addGoalItem);
+      }
     }
 
     function addGoalItem(goal) {
@@ -509,24 +519,25 @@
 
     function addBudgetCard(budget) {
       const container = document.getElementById("budgetCardsContainer");
-      const card = document.createElement("div");
+      const card = document.createElement("li");
       card.className = "budget-card";
 
       card.innerHTML = `
-<div class="left">
+         <div class="left">
     <h3>${budget.budgetName}</h3>
-      <p>Expenses: $${budget.expenses.toFixed(2)}</p>
+      <span>Expenses: <span class="amount">$${budget.expenses.toFixed(
+        2
+      )}</span></span>
   </div>
     <div class="actions">
     <i class="far fa-edit edit-budget" data-name="${budget.budgetName}"></i>
     <i class="far fa-trash-can delete-budget" data-name="${
       budget.budgetName
     }"></i>
-  </div>
+  </div> 
+
 `;
-
       container.appendChild(card);
-
       card
         .querySelector(".delete-budget")
         .addEventListener("click", function () {
@@ -541,7 +552,11 @@
     function refreshBudgetCards(budgets) {
       const container = document.getElementById("budgetCardsContainer");
       container.innerHTML = "";
-      budgets.forEach(addBudgetCard);
+      if (budgets.length === 0) {
+        container.innerHTML = "<p>No budgets set.</p>";
+      } else {
+        budgets.forEach(addBudgetCard);
+      }
 
       const totalIncome =
         parseFloat(localStorage.getItem("monthlyIncome")) || 0;
@@ -586,7 +601,7 @@
       const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
       refreshBudgetCards(savedBudgets);
     });
-
+    localStorage.setItem("page", "budget");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.add("active");
