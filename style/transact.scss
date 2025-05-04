@@ -11,6 +11,7 @@
     align-items: center;
     width: 95%;
     gap: 2rem;
+    padding-block-end: 6rem;
     section {
       width: 100%;
       display: flex;
@@ -24,10 +25,11 @@
         align-items: center;
         justify-content: center;
         width: 100%;
+        gap: 1rem;
         h1 {
           font-size: 18px;
           font-weight: 500;
-          width: 60%;
+          width: 30%;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -37,13 +39,14 @@
           align-items: center;
           justify-content: end;
           gap: 1rem;
-          width: 40%;
+          width: 70%;
           select {
-            height: 2rem;
+            height: 1.5rem;
             border: 1px solid;
-            width: 30%;
+            width: 35%;
             display: flex;
             align-items: center;
+            background-color: whitesmoke;
             option {
               width: 90%;
             }

@@ -13,7 +13,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
   </head>
   <body>
     <div class="dashboard">
@@ -28,7 +28,9 @@
           ><a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
-          <a href="./budget.html" class="budget"><i class="fas fa-rocket"></i> Budgets</a>
+          <a href="./budget.html" class="budget"
+            ><i class="fas fa-rocket"></i> Budgets</a
+          >
           <a href="/" class="report"
             ><i class="fas fa-chart-line"></i> Reports</a
           >
@@ -73,148 +75,109 @@
       </div>
       <div class="dashboard_inner">
         <div class="dashboard_inner_left">
-            <section class="first">
-              <div class="first_top">
-                <h5>Total Balance:</h5>
-                <a href="">View all</a>
-              </div>
-              <div class="first_bottom"><h1 id="displayTotalBalance">$0</h1></div>
-            </section>
-
-            <script>
-            fetch('/db.json')
-              .then(response => response.json())
-              .then(data => {
-              const transactions = data.transactions;
-
-              // Calculate totals
-              const totals = transactions.reduce(
-                (acc, transact) => {
-                acc[transact.type] += transact.amount;
-                return acc;
-                },
-                { income: 0, expense: 0 }
-              );
-              const balance = totals.income - totals.expense;
-
-              // Update total balance in the DOM
-              document.getElementById('displayTotalBalance').textContent = `$${balance.toLocaleString()}`;
-              })
-              .catch(error => console.error('Error fetching transactions:', error));
-            </script>
+          <section class="first">
+            <div class="first_top">
+              <h5>Total Balance:</h5>
+              <a href="">View all</a>
+            </div>
+            <div class="first_bottom"><h1 id="displayTotalBalance">$0</h1></div>
+          </section>
           <section class="second">
             <div class="second_header">
               <h1>Transaction Overview</h1>
               <p>An overview of all your transactions</p>
             </div>
             <div class="second_inner">
-              <div class="card">
-                <div class="card_inner">
-                <div class="left income">
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                >
-                <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="green"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                />
-                <path
-                d="M21 7L17 7M21 7L21 11"
-                stroke="green"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                />
-                </svg>
-                </div>
-                <div class="right">
-                <h4 class="income">Income</h4>
-                <h1 id="totalIncome">$0</h1>
-                </div>
-                </div>
+              <div class="second_inner_inner">
+                <div class="card">
+                  <div class="card_inner">
+                    <div class="left income">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M3 17L9 11L13 15L21 7"
+                          stroke="green"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M21 7L17 7M21 7L21 11"
+                          stroke="green"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div class="right">
+                      <h4 class="income">Income</h4>
+                      <h1 id="totalIncome">$0</h1>
+                    </div>
+                  </div>
                 </div>
                 <div class="card">
-                <div class="card_inner">
-                <div class="left expense">
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                >
-                <path
-                d="M3 7L9 13L13 9L21 17"
-                stroke="red"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                />
-                <path
-                d="M21 17L17 17M21 17L21 13"
-                stroke="red"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                />
-                </svg>
-                </div>
-                <div class="right">
-                <h4 class="expense">Expense</h4>
-                <h1 id="totalExpense">$0</h1>
-                </div>
-                </div>
-                </div>
-                <div class="card">
-                <div class="card_inner">
-                <div class="left saving">
-                <i class="fas fa-wallet"></i>
-                </div>
-                <div class="right">
-                <h4 class="saving">Savings</h4>
-                <h1 id="totalSavings">$0</h1>
-                </div>
-                </div>
+                  <div class="card_inner">
+                    <div class="left expense">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M3 7L9 13L13 9L21 17"
+                          stroke="red"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M21 17L17 17M21 17L21 13"
+                          stroke="red"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div class="right">
+                      <h4 class="expense">Expense</h4>
+                      <h1 id="totalExpense">$0</h1>
+                    </div>
+                  </div>
                 </div>
                 <div class="card">
-                <div class="card_inner">
-                <div class="left balance" style="background-color: rgba(255, 165, 0, 0.2); border-radius: 100%;">
-                <i class="fas fa-coins" style="color: orange;"></i>
+                  <div class="card_inner">
+                    <div class="left saving">
+                      <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="right">
+                      <h4 class="saving">Savings</h4>
+                      <h1 id="totalSavings">$0</h1>
+                    </div>
+                  </div>
                 </div>
-                <div class="right">
-                <h4 class="balance" style="color: orange;">Balance</h4>
-                <h1 id="totalBalance">$0</h1>
+                <div class="card">
+                  <div class="card_inner">
+                    <div
+                      class="left balance"
+                      style="
+                        background-color: rgba(255, 165, 0, 0.2);
+                        border-radius: 100%;
+                      "
+                    >
+                      <i class="fas fa-coins" style="color: orange"></i>
+                    </div>
+                    <div class="right">
+                      <h4 class="balance" style="color: orange">Balance</h4>
+                      <h1 id="totalBalance">$0</h1>
+                    </div>
+                  </div>
                 </div>
-                </div>
-                </div>
-              <script>
-              fetch('/db.json')
-              .then(response => response.json())
-              .then(data => {
-              const transactions = data.transactions;
-
-              // Calculate totals
-              const totals = transactions.reduce(
-              (acc, transact) => {
-                acc[transact.type] += transact.amount;
-                return acc;
-              },
-              { income: 0, expense: 0 }
-              );
-              const savings = totals.income - totals.expense;
-              const balance = savings; // Assuming balance is equivalent to savings
-
-              // Update totals in the DOM
-              document.getElementById('totalIncome').textContent = `$${totals.income.toLocaleString()}`;
-              document.getElementById('totalExpense').textContent = `$${totals.expense.toLocaleString()}`;
-              document.getElementById('totalSavings').textContent = `$${savings.toLocaleString()}`;
-              document.getElementById('totalBalance').textContent = `$${balance.toLocaleString()}`;
-              })
-              .catch(error => console.error('Error fetching transactions:', error));
-              </script>
+              </div>
             </div>
           </section>
           <section class="third">
@@ -223,7 +186,11 @@
             </header>
             <div class="third_inner">
               <div class="btns">
-                <select name="Select" id="btns_inner" onchange="updateChart(this.value)">
+                <select
+                  name="Select"
+                  id="btns_inner"
+                  onchange="updateChart(this.value)"
+                >
                   <option value="Select" disabled>Select</option>
                   <option value="daily" id="daily-btn">Daily</option>
                   <option value="weekly" id="weekly-btn">Weekly</option>
@@ -244,54 +211,480 @@
                 <h1>Date</h1>
                 <h1>Description</h1>
                 <h1>Category</h1>
+                <h1>Type</h1>
                 <h1>Amount</h1>
               </div>
-              <div class="transacts">
-                <div class="transacts_inner"></div>
-              </div>
+              <div class="transacts"></div>
             </div>
           </section>
         </div>
         <div class="dashboard_inner_right">
           <section class="blog">
-            <div class="blog_header">Daily tips</div>
-            <div class="blog_inner">
-              <div class="box"></div>
-            </div>
+            <div class="blog_header"><h2>Daily tips</h2></div>
+            <div class="blog_inner"></div>
           </section>
+          <section class="single_blog"></section>
         </div>
       </div>
     </div>
   </body>
   <script>
-    fetch('/db.json')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/db.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const transactions = data.transactions;
+
+        // Calculate totals
+        const totals = transactions.reduce(
+          (acc, transact) => {
+            acc[transact.type] += transact.amount;
+            return acc;
+          },
+          { income: 0, expense: 0 }
+        );
+        const balance = totals.income - totals.expense;
+
+        // Update total balance in the DOM
+        document.getElementById(
+          "displayTotalBalance"
+        ).textContent = `$${balance.toLocaleString()}`;
+      })
+      .catch((error) => console.error("Error fetching transactions:", error));
+    fetch("/db.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const transactions = data.transactions;
+
+        // Calculate totals
+        const totals = transactions.reduce(
+          (acc, transact) => {
+            acc[transact.type] += transact.amount;
+            return acc;
+          },
+          { income: 0, expense: 0 }
+        );
+        const savings = totals.income - totals.expense;
+        const balance = savings; // Assuming balance is equivalent to savings
+
+        // Update totals in the DOM
+        document.getElementById(
+          "totalIncome"
+        ).textContent = `$${totals.income.toLocaleString()}`;
+        document.getElementById(
+          "totalExpense"
+        ).textContent = `$${totals.expense.toLocaleString()}`;
+        document.getElementById(
+          "totalSavings"
+        ).textContent = `$${savings.toLocaleString()}`;
+        document.getElementById(
+          "totalBalance"
+        ).textContent = `$${balance.toLocaleString()}`;
+      })
+      .catch((error) => console.error("Error fetching transactions:", error));
+    localStorage.setItem("isLoggedIn", "true");
+    fetch("/db.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+        if (!isLoggedIn || isLoggedIn !== "true") {
+          document.querySelector(".box").innerHTML = `
+                  <div class="login_prompt">
+                  <h3>Please log in first to view blogs.</h3>
+                  </div>
+                  `;
+          return;
+        }
+
+        const blogs = data.blogs;
+
+        // Shuffle blogs to get a random order
+        const shuffledBlogs = blogs.sort(() => Math.random() - 0.5);
+
+        // Display only the first 20 blogs in the DOM
+        shuffledBlogs.slice(0, 10).forEach((blog) => {
+          const truncatedContent =
+            blog.content.split(" ").slice(0, 30).join(" ") +
+            ` ... <a href="#" class='see_more' data-id="${blog.id}">See more</a>`;
+          document.querySelector(".blog_inner").insertAdjacentHTML(
+            "beforeend",
+            `
+              <div class="blog_item" data-id="${blog.id}">
+                <div class="blog_item_inner">
+                  <div class="blog_item_inner_body">
+                    <h2><span class="dot"></span><span>${blog.title}</span></h2>
+                    <p><strong>By:</strong> ${blog.author}</p>
+                    <p class="content">${truncatedContent}</p>
+                  </div>
+                  <div class="blog_item_inner_footer">
+                    <div class="likes">
+                      <p> <span class="like_count">${blog.likes}</span></p>
+                      <i class="far fa-thumbs-up like_icon" style="color: gray;" title="Like"></i>
+                    </div>
+                    <div class="dislikes">
+                      <p><span class="dislike_count">${
+                        blog.dislikes || 0
+                      }</span></p>
+                      <i class="far fa-thumbs-down dislike_icon" style="color: gray;" title="Dislike"></i>
+                    </div>
+                    <div class="engage">
+                      <p>${blog.engagements}</p>
+                      <i class="fas fa-cube"></i>
+                    </div>
+                  </div>
+                  <div class="dislike_reason" style="display: none;">
+                    <label for="reason">Why don't you like this blog?</label>
+                    <select name="reason" class="reason_select">
+                      <option value="dont_approve">Don't approve</option>
+                      <option value="tried_failed">Tried it and failed</option>
+                      <option value="copied_idea">Copied your idea</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+                  `
+          );
+        });
+
+        // Add event listener for "See more" links
+        document.querySelectorAll(".see_more").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const blogId = this.getAttribute("data-id");
+            const blog = blogs.find((b) => b.id == blogId);
+
+            if (blog) {
+              document.querySelector(".single_blog").insertAdjacentHTML(
+                "beforeend",
+                `
+                  <div class="blog_details">
+<div class="blog_details_inner">
+
+                <div class="blog_details_inner_body">
+                    <h2>${blog.title}</h2>
+                  <p><strong>By:</strong> ${blog.author}</p>
+                  <p class="content">${blog.content}</p>
+                       <p class="content">${blog.content}</p>
+                           <p class="content">${blog.content}</p>
+                </div>
+                  <div class="blog_details_inner_footer">
+                  <div class="likes">
+                     <p> <span class="like_count">${blog.likes}</span></p>
+                  <i class="far fa-thumbs-up like_icon" style="color: gray;" title="Like"></i>
+                  </div>
+                     <div class="dislikes">
+                                        <p><span class="dislike_count">${
+                                          blog.dislikes || 0
+                                        }</span></p>
+
+                  <i class="far fa-thumbs-down dislike_icon" style="color: gray;" title="Dislike"></i>
+                      </div>
+                      <div class="engage">
+                        <p>${blog.engagements}</p>
+                        <i class="fas fa-cube"></i>
+                        </div>
+                  </div>
+                  </div>
+                  </div>
+                  `
+              );
+
+              // Add event listener to toggle like icon and update likes in single blog
+              const likeIcon = document.querySelector(
+                ".single_blog .like_icon"
+              );
+              likeIcon.addEventListener("click", function () {
+                let currentLikes = parseInt(blog.likes);
+                if (this.classList.contains("fas")) {
+                  this.classList.remove("fas");
+                  this.classList.add("far");
+                  this.style.color = "gray";
+                  currentLikes -= 1;
+                } else {
+                  this.classList.remove("far");
+                  this.classList.add("fas");
+                  this.style.color = "blue";
+                  currentLikes += 1;
+                }
+                blog.likes = currentLikes;
+                document.querySelector(".single_blog .like_count").textContent =
+                  currentLikes;
+              });
+
+              // Add event listener to toggle dislike icon and update dislikes in single blog
+              const dislikeIcon = document.querySelector(
+                ".single_blog .dislike_icon"
+              );
+              dislikeIcon.addEventListener("click", function () {
+                let currentDislikes = parseInt(blog.dislikes || 0);
+                if (this.classList.contains("fas")) {
+                  this.classList.remove("fas");
+                  this.classList.add("far");
+                  this.style.color = "gray";
+                  currentDislikes -= 1;
+                } else {
+                  this.classList.remove("far");
+                  this.classList.add("fas");
+                  this.style.color = "red";
+                  currentDislikes += 1;
+                }
+                blog.dislikes = currentDislikes;
+                document.querySelector(
+                  ".single_blog .dislike_count"
+                ).textContent = currentDislikes;
+              });
+            }
+          });
+        });
+
+        // Add event listener to toggle like icon and update likes
+        document.querySelectorAll(".like_icon").forEach((icon) => {
+          icon.addEventListener("click", function () {
+            const blogItem = this.closest(".blog_item");
+            const blogId = blogItem.getAttribute("data-id");
+            const likeCountElement = blogItem.querySelector(".like_count");
+            let currentLikes = parseInt(likeCountElement.textContent);
+
+            if (this.classList.contains("fas")) {
+              this.classList.remove("fas");
+              this.classList.add("far");
+              this.style.color = "gray";
+              currentLikes -= 1; // Decrease like count
+            } else {
+              this.classList.remove("far");
+              this.classList.add("fas");
+              this.style.color = "blue";
+              currentLikes += 1; // Increase like count
+            }
+
+            likeCountElement.textContent = currentLikes;
+
+            // Save liked blogs in localStorage
+            let likedBlogs =
+              JSON.parse(localStorage.getItem("likedBlogs")) || {};
+            likedBlogs[blogId] = currentLikes;
+            localStorage.setItem("likedBlogs", JSON.stringify(likedBlogs));
+
+            // Optionally, send the updated like count to the server
+            fetch(`/update-like/${blogId}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ likes: currentLikes }),
+            }).catch((error) => console.error("Error updating likes:", error));
+          });
+        });
+
+        // Add event listener to toggle dislike icon and update dislikes
+        document.querySelectorAll(".dislike_icon").forEach((icon) => {
+          icon.addEventListener("click", function () {
+            const blogItem = this.closest(".blog_item");
+            const blogId = blogItem.getAttribute("data-id");
+            const dislikeCountElement =
+              blogItem.querySelector(".dislike_count");
+            const dislikeReasonDiv = blogItem.querySelector(".dislike_reason");
+            let currentDislikes = parseInt(dislikeCountElement.textContent);
+
+            if (this.classList.contains("fas")) {
+              this.classList.remove("fas");
+              this.classList.add("far");
+              this.style.color = "gray";
+              currentDislikes -= 1; // Decrease dislike count
+              dislikeReasonDiv.style.display = "none"; // Hide reason select
+            } else {
+              this.classList.remove("far");
+              this.classList.add("fas");
+              this.style.color = "red";
+              currentDislikes += 1; // Increase dislike count
+              dislikeReasonDiv.style.display = "block"; // Show reason select
+            }
+
+            dislikeCountElement.textContent = currentDislikes;
+
+            // Save disliked blogs in localStorage
+            let dislikedBlogs =
+              JSON.parse(localStorage.getItem("dislikedBlogs")) || {};
+            dislikedBlogs[blogId] = currentDislikes;
+            localStorage.setItem(
+              "dislikedBlogs",
+              JSON.stringify(dislikedBlogs)
+            );
+
+            // Optionally, send the updated dislike count to the server
+            fetch(`/update-dislike/${blogId}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                dislikes: currentDislikes,
+              }),
+            }).catch((error) =>
+              console.error("Error updating dislikes:", error)
+            );
+          });
+        });
+
+        // Restore liked blogs from localStorage
+        const likedBlogs = JSON.parse(localStorage.getItem("likedBlogs")) || {};
+        document.querySelectorAll(".blog_item").forEach((blogItem) => {
+          const blogId = blogItem.getAttribute("data-id");
+          if (likedBlogs[blogId]) {
+            const likeIcon = blogItem.querySelector(".like_icon");
+            const likeCountElement = blogItem.querySelector(".like_count");
+            likeIcon.classList.remove("far");
+            likeIcon.classList.add("fas");
+            likeIcon.style.color = "blue";
+            likeCountElement.textContent = likedBlogs[blogId];
+          }
+        });
+
+        // Restore disliked blogs from localStorage
+        const dislikedBlogs =
+          JSON.parse(localStorage.getItem("dislikedBlogs")) || {};
+        document.querySelectorAll(".blog_item").forEach((blogItem) => {
+          const blogId = blogItem.getAttribute("data-id");
+          if (dislikedBlogs[blogId]) {
+            const dislikeIcon = blogItem.querySelector(".dislike_icon");
+            const dislikeCountElement =
+              blogItem.querySelector(".dislike_count");
+            dislikeIcon.classList.remove("far");
+            dislikeIcon.classList.add("fas");
+            dislikeIcon.style.color = "red";
+            dislikeCountElement.textContent = dislikedBlogs[blogId];
+          }
+        });
+      })
+      .catch((error) => console.error("Error fetching blogs:", error));
+    localStorage.setItem("page", "dashb");
+    let page = localStorage.getItem("page");
+    document.querySelector(".dash").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "dashb");
+    });
+    if (page && page === "dashb") {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document
+      .querySelector(".transaction")
+      .addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "transaction");
+      });
+    if (page && page === "transaction") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.add("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".budget").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "budget");
+    });
+    if (page && page === "budget") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".report").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "report");
+    });
+    if (page && page === "report") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".setting").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+      return localStorage.setItem("page", "setting");
+    });
+    if (page && page === "setting") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+    }
+
+    document.querySelector(".navbar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+
+    document.querySelector(".bar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.add("show");
+    });
+
+    fetch("/db.json")
+      .then((response) => response.json())
+      .then((data) => {
         const transactions = data.transactions;
 
         // Populate transaction table
-        transactions.forEach(transact => {
-          document.querySelector(".transacts_inner").insertAdjacentHTML(
+        transactions.forEach((transact) => {
+          document.querySelector(".transacts").insertAdjacentHTML(
             "beforeend",
             `
-            <div class="transact">
-              <div class="firstCl">
-                <p>${transact.date}</p>
-              </div>
-              <div class="secondCl">
-                <p>${transact.description}</p>
-              </div>
+   ${
+     transact.id > 8
+       ? ""
+       : `              <div class="transact" key=${transact.id}>
+          <div class="firstCl">
+          <p>${transact.date}</p>
+          </div>
+          <div class="secondCl">
+          <p>${transact.description}</p>
+          </div>
               <div class="thirdCl">
-                <h5 class=${transact.type === "income" ? "green" : "red"}>
-                  ${transact.type}
-                </h5>
-              </div>
-              <div class="fourthCl">
-                <h4 class=${transact.type === "expense" ? "red" : "green"}>
-                  ${transact.type === "expense" ? "-" : "+"}${transact.amount}
-                </h4>
-              </div>
+                <p>${transact.category}</p>
             </div>
+          <div class="fourthCl">
+          <h5 class=${transact.type === "income" ? "green" : "red"}>
+   <span>       ${transact.type}</span>
+          </h5>
+          </div>
+      
+          <div class="fifthCl">
+          <h4 class=${transact.type == "expense" ? "red" : "green"}>
+          ${transact.type == "expense" ? "-" : "+"}${transact.amount}
+          </h4>
+          </div>
+          </div>`
+   }
             `
           );
         });
@@ -304,7 +697,9 @@
             if (period === "daily") {
               key = date.toISOString().split("T")[0];
             } else if (period === "weekly") {
-              const weekStart = new Date(date.setDate(date.getDate() - date.getDay()));
+              const weekStart = new Date(
+                date.setDate(date.getDate() - date.getDay())
+              );
               key = weekStart.toISOString().split("T")[0];
             } else if (period === "monthly") {
               key = date.toLocaleString("default", { month: "long" });
@@ -325,9 +720,9 @@
         const updateChart = (period = "monthly") => {
           const groupedData = groupByPeriod(transactions, period);
           const labels = Object.keys(groupedData);
-          const incomeData = labels.map(label => groupedData[label].income);
-          const expenseData = labels.map(label => groupedData[label].expense);
-          const savingsData = labels.map(label => groupedData[label].savings);
+          const incomeData = labels.map((label) => groupedData[label].income);
+          const expenseData = labels.map((label) => groupedData[label].expense);
+          const savingsData = labels.map((label) => groupedData[label].savings);
 
           // Destroy existing chart instance if it exists
           if (chartInstance) {
@@ -337,7 +732,7 @@
           // Create new chart instance
           const ctx = document.getElementById("expenseChart").getContext("2d");
           chartInstance = new Chart(ctx, {
-            type: "line",
+            type: "bar",
             data: {
               labels: labels,
               datasets: [
@@ -351,15 +746,15 @@
                 {
                   label: "Expense",
                   data: expenseData,
-                  backgroundColor: "rgba(255, 99, 132, 0.5)",
-                  borderColor: "rgba(255, 99, 132, 1)",
+                  backgroundColor: "rgba(255, 0, 0, 0.413)",
+                  borderColor: "red",
                   borderWidth: 1,
                 },
                 {
                   label: "Savings",
                   data: savingsData,
-                  backgroundColor: "rgba(54, 162, 235, 0.5)",
-                  borderColor: "rgba(54, 162, 235, 1)",
+                  backgroundColor: " rgba(202, 202, 19, 0.413)",
+                  borderColor: "rgb(202, 202, 19)",
                   borderWidth: 1,
                 },
               ],
@@ -379,10 +774,12 @@
         updateChart();
 
         // Add event listener for period selection
-        document.getElementById("btns_inner").addEventListener("change", (event) => {
-          updateChart(event.target.value);
-        });
+        document
+          .getElementById("btns_inner")
+          .addEventListener("change", (event) => {
+            updateChart(event.target.value);
+          });
       })
-      .catch(error => console.error("Error fetching transactions:", error));
+      .catch((error) => console.error("Error fetching transactions:", error));
   </script>
 </html>
