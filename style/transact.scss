@@ -80,7 +80,6 @@
           width: 200vw;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
           align-items: center;
           justify-content: center;
           .transact {
@@ -94,6 +93,9 @@
             align-items: center;
             &:last-child{
               border: 0;
+            }
+            &:hover{
+              background-color: whitesmoke;
             }
             .firstCl {
               p {

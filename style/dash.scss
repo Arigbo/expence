@@ -585,23 +585,22 @@
         align-items: center;
         justify-content: center;
         .blog {
-          height: 100vh;
-          overflow-y: scroll;
+          height: fit-content;
+          // overflow-y: scroll;
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1rem;
-
           &_header {
             width: 90%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            border-bottom: 1.5px solid whitesmoke;
             h2 {
               font-size: 14px;
               font-weight: 600;
-              border-bottom: 1.5px solid black;
               height: 1.4rem;
             }
           }
@@ -610,15 +609,15 @@
             flex-direction: column;
             align-items: center;
             width: 95%;
-            gap: 1rem;
-            // padding-block: 1rem;
             .blog_item {
               display: flex;
               align-items: center;
               flex-direction: column;
-              background-color: whitesmoke;
-              border-radius: 0.5rem;
+           border-block-end: 1px solid whitesmoke;
               width: 100%;
+              &:last-child{
+                border: none;
+              }
               &_inner {
                 display: flex;
                 flex-direction: column;
@@ -683,6 +682,7 @@
                     }
                     i {
                       cursor: pointer;
+                      color: grey;
                     }
                   }
                 }
@@ -760,6 +760,7 @@
                 i {
                   cursor: pointer;
                   font-size: 18px;
+                  color: grey;
                 }
               }
             }

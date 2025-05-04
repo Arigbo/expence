@@ -587,8 +587,8 @@
     justify-content: center;
   }
   .dashboard_inner_right .blog {
-    height: 100vh;
-    overflow-y: scroll;
+    height: -moz-fit-content;
+    height: fit-content;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -600,11 +600,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-bottom: 1.5px solid whitesmoke;
   }
   .dashboard_inner_right .blog_header h2 {
     font-size: 14px;
     font-weight: 600;
-    border-bottom: 1.5px solid black;
     height: 1.4rem;
   }
   .dashboard_inner_right .blog_inner {
@@ -612,15 +612,16 @@
     flex-direction: column;
     align-items: center;
     width: 95%;
-    gap: 1rem;
   }
   .dashboard_inner_right .blog_inner .blog_item {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: whitesmoke;
-    border-radius: 0.5rem;
+    border-block-end: 1px solid whitesmoke;
     width: 100%;
+  }
+  .dashboard_inner_right .blog_inner .blog_item:last-child {
+    border: none;
   }
   .dashboard_inner_right .blog_inner .blog_item_inner {
     display: flex;
@@ -688,6 +689,7 @@
   }
   .dashboard_inner_right .blog_inner .blog_item_inner_footer div i {
     cursor: pointer;
+    color: grey;
   }
   .dashboard_inner_right .blog_inner .blog_item_inner a {
     color: blue;
@@ -762,6 +764,7 @@
   .dashboard_inner_right .single_blog .blog_details_inner_footer i {
     cursor: pointer;
     font-size: 18px;
+    color: grey;
   }
   .dashboard_inner .first {
     display: none;
