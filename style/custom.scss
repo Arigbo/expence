@@ -43,6 +43,37 @@ html {
     font-size: 14px;
     font-weight: 400;
   }
+  select {
+    width: fit-content;
+
+    padding-block: 0.4rem;
+    padding-inline: 0.5rem;
+    border-radius: 0.3rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: whitesmoke;
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+    &::selection {
+      background-color: #035c97;
+      color: white;
+    }
+  }
+  option {
+    height: 90%;
+    border-radius: 0;
+    width: 5.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+  }
   button {
     background-color: #035c97;
     color: white;

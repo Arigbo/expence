@@ -28,7 +28,7 @@
   justify-content: center;
   height: 90%;
   transition: all 0.3s ease;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 }
 .navbar_inner a.active {
