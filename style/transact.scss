@@ -32,19 +32,19 @@
           align-items: center;
           justify-content: start;
         }
-        .right{
+        .right {
           display: flex;
           align-items: center;
           justify-content: end;
           gap: 1rem;
           width: 40%;
-          select{
+          select {
             height: 2rem;
             border: 1px solid;
             width: 30%;
             display: flex;
             align-items: center;
-            option{
+            option {
               width: 90%;
             }
           }
@@ -53,117 +53,78 @@
       &_inner {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        padding-block: 1rem;
         width: 100%;
         background-color: white;
-        padding-block: 1rem;
         border-radius: 0.5rem;
         overflow-x: scroll;
+    
         &_top {
-          width: 95%;
-          height: 4rem;
+          width: 200vw;
           display: grid;
-          grid-template-columns: 20% 40% 20% 10% 10%;
+          grid-template-columns: 15% 40% 15% 20% 10%;
           gap: 1rem;
-          justify-content: start;
+          border-block-end: 1px solid rgb(199, 201, 202);
           align-items: center;
-          border-bottom: 1px solid rgba(245, 246, 247, 1);
+          height: 4rem;
+          padding-inline: 1rem;
           h1 {
-            display: flex;
-            align-items: center;
-            justify-content: start;
             font-size: 16px;
             font-weight: 400;
-            height: 30%;
-            // padding-inline-start: 0.2rem;
-            width: 100%;
-            // border-left: 1px solid grey;
           }
         }
         .transacts {
-          width: 95%;
+          width: 200vw;
           display: flex;
           flex-direction: column;
+          gap: 1rem;
           align-items: center;
-          &_inner {
+          justify-content: center;
+          .transact {
             width: 100%;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            padding-inline: 1rem;
+            grid-template-columns: 15% 40% 15% 20% 10%;
+            gap: 1rem;
+            height: 4rem;
+            border-block-end: 1px solid rgb(199, 201, 202);
             align-items: center;
-
-            .transact {
-              width: 100%;
-              display: grid;
-              height: 4rem;
-              border-block: 1px solid rgba(245, 246, 247, 1);
-              grid-template-columns: 20% 40% 20% 10% 10%;
-              justify-content: space-between;
-              align-items: center;
-              gap: 1rem;
-              &.none {
-                display: none;
-              }
-              .firstCl {
-                width: 100%;
-                height: 100%;
+            &:last-child{
+              border: 0;
+            }
+            .firstCl {
+              p {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                p {
-                  // border-left: 1px solid grey;
-                  // padding-inline-start: 0.2rem;
-
-                  display: flex;
-                  align-items: center;
-                  justify-content: start;
-                  width: 100%;
-                  height: 100%;
-                  font-size: 14px;
-                  font-weight: 300;
-                }
+                justify-content: start;
+                font-size: 14.5px;
+                font-weight: 300;
               }
-              .secondCl {
-                width: 100%;
-                height: 100%;
+            }
+            .secondCl {
+              p {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                p {
-                  // border-left: 1px solid grey;
-                  // padding-inline-start: 0.2rem;
-                  display: flex;
-                  align-items: center;
-                  justify-content: start;
-                  width: 100%;
-                  height: 100%;
-                  font-size: 16px;
-                  font-weight: 300;
-                }
+                justify-content: start;
+                font-size: 14.5px;
+                font-weight: 400;
               }
+            }
               .thirdCl {
-                height: 100%;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
                 p {
-                  font-weight: 400;
-                  width: 100%;
                   display: flex;
                   align-items: center;
                   justify-content: start;
+                  font-size: 14.5px;
+                  font-weight: 300;
                 }
               }
               .fourthCl {
                 height: 100%;
-                width: 100%;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: start;
                 h5 {
-                  font-size: 16px;
-                  font-weight: 300;
                   text-transform: capitalize;
                   display: flex;
                   align-items: center;
@@ -171,8 +132,18 @@
                   height: 60%;
                   border-radius: 0.2rem;
                   color: white;
-                  width: 100%;
-                  padding-inline: 0.3rem;
+                  width: 6rem;
+                  span {
+                    width: 95%;
+                    padding-inline: 1rem;
+                    font-size: 12px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 14px;
+                    font-weight: 400;
+                  }
                 }
                 .red {
                   background-color: red;
@@ -182,17 +153,12 @@
                 }
               }
               .fifthCl {
-                height: 100%;
-                width: 100%;
-                display: flex;
-                align-items: center;
                 h4 {
-                  width: 100%;
-                  height: 100%;
                   font-size: 16px;
-                  font-weight: 400;
+                  font-weight: 300;
                   display: flex;
                   align-items: center;
+                  justify-content: start;
                   &.red {
                     color: red;
                   }
@@ -200,8 +166,12 @@
                     color: green;
                   }
                 }
-              }
             }
+          }
+        }
+        @media screen and (min-width:777px){
+          &_top,.transacts{
+            width: 100%;
           }
         }
       }

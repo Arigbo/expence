@@ -103,7 +103,7 @@
               <h1>Amount</h1>
             </div>
             <div class="transacts">
-              <div class="transacts_inner"></div>
+     
             </div>
           </div>
         </section>
@@ -165,7 +165,7 @@
 
       // Function to display filtered transactions
       function displayTransactions(filteredTransactions) {
-        const container = document.querySelector(".transacts_inner");
+        const container = document.querySelector(".transacts");
         container.innerHTML = ""; // Clear existing transactions
         filteredTransactions.map((transact) => {
         container.insertAdjacentHTML(
@@ -183,7 +183,7 @@
             </div>
           <div class="fourthCl">
           <h5 class=${transact.type === "income" ? "green" : "red"}>
-          ${transact.type}
+   <span>       ${transact.type}</span>
           </h5>
           </div>
       

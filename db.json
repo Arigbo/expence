@@ -1,22 +1,4 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "John Doe",
-            "email": "johndoe@example.com",
-            "password": "hashed_password",
-            "created_at": "2023-10-01T12:00:00Z"
-        }
-    ],
-    "notifications": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "message": "Welcome to Expense Calculator!",
-            "read": false,
-            "created_at": "2023-10-01T12:05:00Z"
-        }
-    ],
     "transactions": [
         {
             "id": 1,
@@ -33,7 +15,7 @@
             "type": "income",
             "amount": 50.0,
             "category": "Food",
-            "date": "2025-9-02",
+            "date": "2025-09-02",
             "description": "Lunch at a restaurant"
         },
         {
@@ -42,45 +24,53 @@
             "type": "income",
             "amount": 50.0,
             "category": "Bread",
-            "date": "2021-4-03",
+            "date": "2021-04-03",
             "description": "Lunch at a restaurant"
-        }
-    ],
-    "goals": [
+        },
         {
-            "id": 1,
+            "id": 4,
             "user_id": 1,
-            "name": "Vacation Fund",
-            "target_amount": 2000.0,
-            "current_amount": 500.0,
-            "deadline": "2024-06-01T00:00:00Z"
-        }
-    ],
-    "budgets": [
+            "type": "expense",
+            "amount": 20.0,
+            "category": "Transport",
+            "date": "2023-10-03",
+            "description": "Bus ticket"
+        },
         {
-            "id": 1,
+            "id": 5,
             "user_id": 1,
+            "type": "income",
+            "amount": 100.0,
+            "category": "Salary",
+            "date": "2023-10-05",
+            "description": "Monthly salary"
+        },
+        {
+            "id": 6,
+            "user_id": 1,
+            "type": "expense",
+            "amount": 15.0,
+            "category": "Entertainment",
+            "date": "2023-10-06",
+            "description": "Movie ticket"
+        },
+        {
+            "id": 7,
+            "user_id": 1,
+            "type": "expense",
+            "amount": 30.0,
             "category": "Groceries",
-            "limit": 300.0,
-            "start_date": "2023-10-01T00:00:00Z",
-            "end_date": "2023-10-31T23:59:59Z"
-        }
-    ],
-    "savings": [
+            "date": "2023-10-07",
+            "description": "Weekly groceries"
+        },
         {
-            "id": 1,
+            "id": 8,
             "user_id": 1,
-            "amount": 1000.0,
-            "created_at": "2023-10-01T12:00:00Z"
-        }
-    ],
-    "income": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "amount": 3000.0,
-            "current_balance": 2500.0,
-            "created_at": "2023-10-01T12:00:00Z"
+            "type": "income",
+            "amount": 200.0,
+            "category": "Freelance",
+            "date": "2023-10-08",
+            "description": "Freelance project payment"
         }
     ]
 }
