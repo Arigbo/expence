@@ -73,13 +73,35 @@
       </div>
       <div class="dashboard_inner">
         <div class="dashboard_inner_left">
-          <section class="first">
-            <div class="first_top">
-              <h5>Total Balance:</h5>
-              <a href="">View all</a>
-            </div>
-            <div class="first_bottom"><h1>$223,876</h1></div>
-          </section>
+            <section class="first">
+              <div class="first_top">
+                <h5>Total Balance:</h5>
+                <a href="">View all</a>
+              </div>
+              <div class="first_bottom"><h1 id="displayTotalBalance">$0</h1></div>
+            </section>
+
+            <script>
+            fetch('/db.json')
+              .then(response => response.json())
+              .then(data => {
+              const transactions = data.transactions;
+
+              // Calculate totals
+              const totals = transactions.reduce(
+                (acc, transact) => {
+                acc[transact.type] += transact.amount;
+                return acc;
+                },
+                { income: 0, expense: 0 }
+              );
+              const balance = totals.income - totals.expense;
+
+              // Update total balance in the DOM
+              document.getElementById('displayTotalBalance').textContent = `$${balance.toLocaleString()}`;
+              })
+              .catch(error => console.error('Error fetching transactions:', error));
+            </script>
           <section class="second">
             <div class="second_header">
               <h1>Transaction Overview</h1>
@@ -88,85 +110,122 @@
             <div class="second_inner">
               <div class="card">
                 <div class="card_inner">
-                  <div class="left income">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 17L9 11L13 15L21 7"
-                        stroke="green"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M21 7L17 7M21 7L21 11"
-                        stroke="green"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <div class="right">
-                    <h4 class="income">Income</h4>
-                    <h1>$273,876</h1>
-                  </div>
+                <div class="left income">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                >
+                <path
+                d="M3 17L9 11L13 15L21 7"
+                stroke="green"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                />
+                <path
+                d="M21 7L17 7M21 7L21 11"
+                stroke="green"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                />
+                </svg>
                 </div>
-              </div>
-              <div class="card">
+                <div class="right">
+                <h4 class="income">Income</h4>
+                <h1 id="totalIncome">$0</h1>
+                </div>
+                </div>
+                </div>
+                <div class="card">
                 <div class="card_inner">
-                  <div class="left expense">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 7L9 13L13 9L21 17"
-                        stroke="red"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M21 17L17 17M21 17L21 13"
-                        stroke="red"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <div class="right">
-                    <h4 class="expense">Expense</h4>
-                    <h1>$273,876</h1>
-                  </div>
+                <div class="left expense">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                >
+                <path
+                d="M3 7L9 13L13 9L21 17"
+                stroke="red"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                />
+                <path
+                d="M21 17L17 17M21 17L21 13"
+                stroke="red"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                />
+                </svg>
                 </div>
-              </div>
-              <div class="card">
+                <div class="right">
+                <h4 class="expense">Expense</h4>
+                <h1 id="totalExpense">$0</h1>
+                </div>
+                </div>
+                </div>
+                <div class="card">
                 <div class="card_inner">
-                  <div class="left saving">
-                    <i class="fas fa-wallet"></i>
-                  </div>
-                  <div class="right">
-                    <h4 class="saving">Savings</h4>
-                    <h1>$273,876</h1>
-                  </div>
+                <div class="left saving">
+                <i class="fas fa-wallet"></i>
                 </div>
-              </div>
+                <div class="right">
+                <h4 class="saving">Savings</h4>
+                <h1 id="totalSavings">$0</h1>
+                </div>
+                </div>
+                </div>
+                <div class="card">
+                <div class="card_inner">
+                <div class="left balance" style="background-color: rgba(255, 165, 0, 0.2); border-radius: 100%;">
+                <i class="fas fa-coins" style="color: orange;"></i>
+                </div>
+                <div class="right">
+                <h4 class="balance" style="color: orange;">Balance</h4>
+                <h1 id="totalBalance">$0</h1>
+                </div>
+                </div>
+                </div>
+              <script>
+              fetch('/db.json')
+              .then(response => response.json())
+              .then(data => {
+              const transactions = data.transactions;
+
+              // Calculate totals
+              const totals = transactions.reduce(
+              (acc, transact) => {
+                acc[transact.type] += transact.amount;
+                return acc;
+              },
+              { income: 0, expense: 0 }
+              );
+              const savings = totals.income - totals.expense;
+              const balance = savings; // Assuming balance is equivalent to savings
+
+              // Update totals in the DOM
+              document.getElementById('totalIncome').textContent = `$${totals.income.toLocaleString()}`;
+              document.getElementById('totalExpense').textContent = `$${totals.expense.toLocaleString()}`;
+              document.getElementById('totalSavings').textContent = `$${savings.toLocaleString()}`;
+              document.getElementById('totalBalance').textContent = `$${balance.toLocaleString()}`;
+              })
+              .catch(error => console.error('Error fetching transactions:', error));
+              </script>
             </div>
           </section>
           <section class="third">
             <header>
-              <h1>Expence & Income Chart</h1>
+              <h1>Expence, Savings & Income Chart</h1>
             </header>
             <div class="third_inner">
               <div class="btns">
-                <select name="Select" id="btns_inner" onclick="updateChart()">
+                <select name="Select" id="btns_inner" onchange="updateChart(this.value)">
                   <option value="Select" disabled>Select</option>
+                  <option value="daily" id="daily-btn">Daily</option>
                   <option value="weekly" id="weekly-btn">Weekly</option>
                   <option value="monthly" id="monthly-btn">Monthly</option>
                   <option value="yearly" id="yearly-btn">Yearly</option>
@@ -205,316 +264,125 @@
     </div>
   </body>
   <script>
-    document.querySelector(".navbar").addEventListener("click", function (e) {
-      document.querySelector(".navbar").classList.remove("show");
-    });
-    document.querySelector(".bar").addEventListener("click", function (e) {
-      document.querySelector(".navbar").classList.add("show");
-    });
-    // Sample expense and income data
-    // Fetch transactions from db.json
-    let transactions = [];
     fetch('/db.json')
       .then(response => response.json())
       .then(data => {
-      transactions = data.transactions;
+        const transactions = data.transactions;
 
-      // Map through and display transactions
-      transactions.map((transact) => {
-        return document.querySelector(".transacts_inner").insertAdjacentHTML(
-        "beforeend",
-        `   
-        <div class="transact ${transact.id > 4 ? "none" : ""}" key=${transact.id}>
-          <div class="firstCl">
-          <p>${transact.date}</p>
-          </div>
-          <div class="secondCl">
-          <p>${transact.description}</p>
-          </div>
-          <div class="thirdCl">
-          <h5 class=${transact.type === "income" ? "green" : "red"}>
-            ${transact.type}
-          </h5>
-          </div>
-          <div class="fourthCl">
-          <h4 class=${transact.type == "expense" ? "red" : "green"}>
-            ${transact.type == "expense" ? "-" : "+"}${transact.amount}
-          </h4>
-          </div>
-        </div>
-        `
-        );
-      });
+        // Populate transaction table
+        transactions.forEach(transact => {
+          document.querySelector(".transacts_inner").insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="transact">
+              <div class="firstCl">
+                <p>${transact.date}</p>
+              </div>
+              <div class="secondCl">
+                <p>${transact.description}</p>
+              </div>
+              <div class="thirdCl">
+                <h5 class=${transact.type === "income" ? "green" : "red"}>
+                  ${transact.type}
+                </h5>
+              </div>
+              <div class="fourthCl">
+                <h4 class=${transact.type === "expense" ? "red" : "green"}>
+                  ${transact.type === "expense" ? "-" : "+"}${transact.amount}
+                </h4>
+              </div>
+            </div>
+            `
+          );
+        });
+
+        // Group transactions by period
+        const groupByPeriod = (transactions, period) => {
+          return transactions.reduce((acc, transact) => {
+            const date = new Date(transact.date);
+            let key;
+            if (period === "daily") {
+              key = date.toISOString().split("T")[0];
+            } else if (period === "weekly") {
+              const weekStart = new Date(date.setDate(date.getDate() - date.getDay()));
+              key = weekStart.toISOString().split("T")[0];
+            } else if (period === "monthly") {
+              key = date.toLocaleString("default", { month: "long" });
+            } else if (period === "yearly") {
+              key = date.getFullYear();
+            }
+            if (!acc[key]) {
+              acc[key] = { income: 0, expense: 0, savings: 0 };
+            }
+            acc[key][transact.type] += transact.amount;
+            acc[key].savings = acc[key].income - acc[key].expense;
+            return acc;
+          }, {});
+        };
+
+        let chartInstance;
+
+        const updateChart = (period = "monthly") => {
+          const groupedData = groupByPeriod(transactions, period);
+          const labels = Object.keys(groupedData);
+          const incomeData = labels.map(label => groupedData[label].income);
+          const expenseData = labels.map(label => groupedData[label].expense);
+          const savingsData = labels.map(label => groupedData[label].savings);
+
+          // Destroy existing chart instance if it exists
+          if (chartInstance) {
+            chartInstance.destroy();
+          }
+
+          // Create new chart instance
+          const ctx = document.getElementById("expenseChart").getContext("2d");
+          chartInstance = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Income",
+                  data: incomeData,
+                  backgroundColor: "rgba(0, 128, 0, 0.5)",
+                  borderColor: "rgba(0, 128, 0, 1)",
+                  borderWidth: 1,
+                },
+                {
+                  label: "Expense",
+                  data: expenseData,
+                  backgroundColor: "rgba(255, 99, 132, 0.5)",
+                  borderColor: "rgba(255, 99, 132, 1)",
+                  borderWidth: 1,
+                },
+                {
+                  label: "Savings",
+                  data: savingsData,
+                  backgroundColor: "rgba(54, 162, 235, 0.5)",
+                  borderColor: "rgba(54, 162, 235, 1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        };
+
+        // Initialize chart with default period
+        updateChart();
+
+        // Add event listener for period selection
+        document.getElementById("btns_inner").addEventListener("change", (event) => {
+          updateChart(event.target.value);
+        });
       })
-      .catch(error => console.error('Error fetching transactions:', error));
-
-    // Function to filter transactions before current date
-    function filterTransactionsBeforeCurrentDate(transactions) {
-      let currentDate = new Date();
-      return transactions.filter(
-      (transaction) => new Date(transaction.date) <= currentDate
-      );
-    }
-
-    // Function to group transactions by week
-    function groupTransactionsByWeek(transactions) {
-      let weeklyExpenses = {};
-      let weeklyIncomes = {};
-      for (let i = 1; i <= 53; i++) {
-      weeklyExpenses[`Week ${i}`] = 0;
-      weeklyIncomes[`Week ${i}`] = 0;
-      }
-      transactions.forEach((transaction) => {
-      let date = new Date(transaction.date);
-      let weekNumber = getWeekNumber(date);
-      if (transaction.type === "expense") {
-        weeklyExpenses[`Week ${weekNumber}`] += parseFloat(transaction.amount);
-      } else if (transaction.type === "income") {
-        weeklyIncomes[`Week ${weekNumber}`] += parseFloat(transaction.amount);
-      }
-      });
-      return { weeklyExpenses, weeklyIncomes };
-    }
-
-    // Function to group transactions by month
-    function groupTransactionsByMonth(transactions) {
-      let monthlyExpenses = {};
-      let monthlyIncomes = {};
-      let months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-      ];
-      months.forEach((month) => {
-      monthlyExpenses[month] = 0;
-      monthlyIncomes[month] = 0;
-      });
-      transactions.forEach((transaction) => {
-      let date = new Date(transaction.date);
-      let month = date.toLocaleString("default", { month: "long" });
-      if (transaction.type === "expense") {
-        monthlyExpenses[month] += parseFloat(transaction.amount);
-      } else if (transaction.type === "income") {
-        monthlyIncomes[month] += parseFloat(transaction.amount);
-      }
-      });
-      return { monthlyExpenses, monthlyIncomes };
-    }
-
-    // Function to group transactions by year
-    function groupTransactionsByYear(transactions) {
-      let yearlyExpenses = {};
-      let yearlyIncomes = {};
-      transactions.forEach((transaction) => {
-      let date = new Date(transaction.date);
-      let year = date.getFullYear();
-      if (transaction.type === "expense") {
-        if (!yearlyExpenses[year]) {
-        yearlyExpenses[year] = 0;
-        }
-        yearlyExpenses[year] += parseFloat(transaction.amount);
-      } else if (transaction.type === "income") {
-        if (!yearlyIncomes[year]) {
-        yearlyIncomes[year] = 0;
-        }
-        yearlyIncomes[year] += parseFloat(transaction.amount);
-      }
-      });
-      return { yearlyExpenses, yearlyIncomes };
-    }
-
-    // Function to get week number
-    function getWeekNumber(date) {
-      let oneJan = new Date(date.getFullYear(), 0, 1);
-      return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
-    }
-
-    // Fetch transactions and initialize chart
-    fetch('/db.json')
-      .then(response => response.json())
-      .then(data => {
-      let transactions = data.transactions;
-      let filteredTransactions = filterTransactionsBeforeCurrentDate(transactions);
-
-      // Create chart
-      let ctx = document.getElementById("expenseChart").getContext("2d");
-      let chart = new Chart(ctx, {
-        type: "line",
-        data: {
-        labels: [],
-        datasets: [
-          {
-          label: "Expenses",
-          data: [],
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 1,
-          },
-          {
-          label: "Incomes",
-          data: [],
-          backgroundColor: "rgba(0, 128, 0, 0.413)",
-          borderColor: "rgba(0, 128, 0, 1)",
-          borderWidth: 1,
-          },
-        ],
-        },
-        options: {
-        scales: {
-          y: {
-          beginAtZero: true,
-          },
-        },
-        },
-      });
-
-      function updateChart() {
-        let selectedOption = document.getElementById("btns_inner").value;
-        if (selectedOption === "weekly") {
-        updatedWeeklyTransactions();
-        } else if (selectedOption === "monthly") {
-        updatedMonthlyTransactions();
-        } else if (selectedOption === "yearly") {
-        updatedYearlyTransactions();
-        }
-      }
-
-      function updatedWeeklyTransactions() {
-        let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
-        chart.data.labels = Object.keys(weeklyExpenses);
-        chart.data.datasets[0].data = Object.values(weeklyExpenses);
-        chart.data.datasets[1].data = Object.values(weeklyIncomes);
-        chart.update();
-      }
-
-      function updatedMonthlyTransactions() {
-        let { monthlyExpenses, monthlyIncomes } = groupTransactionsByMonth(filteredTransactions);
-        chart.data.labels = Object.keys(monthlyExpenses);
-        chart.data.datasets[0].data = Object.values(monthlyExpenses);
-        chart.data.datasets[1].data = Object.values(monthlyIncomes);
-        chart.update();
-      }
-
-      function updatedYearlyTransactions() {
-        let { yearlyExpenses, yearlyIncomes } = groupTransactionsByYear(filteredTransactions);
-        chart.data.labels = Object.keys(yearlyExpenses);
-        chart.data.datasets[0].data = Object.values(yearlyExpenses);
-        chart.data.datasets[1].data = Object.values(yearlyIncomes);
-        chart.update();
-      }
-
-      // Initialize chart with weekly transactions
-      let { weeklyExpenses, weeklyIncomes } = groupTransactionsByWeek(filteredTransactions);
-      chart.data.labels = Object.keys(weeklyExpenses);
-      chart.data.datasets[0].data = Object.values(weeklyExpenses);
-      chart.data.datasets[1].data = Object.values(weeklyIncomes);
-      chart.update();
-
-      // Attach updateChart function to dropdown
-      document.getElementById("btns_inner").addEventListener("change", updateChart);
-
-      // Initialize chart with monthly transactions as default
-      let { monthlyExpenses, monthlyIncomes } = groupTransactionsByMonth(filteredTransactions);
-      chart.data.labels = Object.keys(monthlyExpenses);
-      chart.data.datasets[0].data = Object.values(monthlyExpenses);
-      chart.data.datasets[1].data = Object.values(monthlyIncomes);
-      chart.update();
-      })
-      .catch(error => console.error('Error fetching transactions:', error));
-      document.getElementById("btns_inner").addEventListener("change", updateChart);
-
-
-    localStorage.setItem("page", "dashb");
-    let page = localStorage.getItem("page");
-    document.querySelector(".dash").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "dashb") {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document
-      .querySelector(".transaction")
-      .addEventListener("click", function (e) {
-        document.querySelector(".dash").classList.remove("active");
-        document.querySelector(".transaction").classList.add("active");
-        document.querySelector(".budget").classList.remove("active");
-        document.querySelector(".report").classList.remove("active");
-        document.querySelector(".setting").classList.remove("active");
-        return localStorage.setItem("page", "dashb");
-      });
-    if (page && page === "transaction") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.add("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".budget").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "budget") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".report").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "report") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".setting").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "setting") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-    }
+      .catch(error => console.error("Error fetching transactions:", error));
   </script>
 </html>
