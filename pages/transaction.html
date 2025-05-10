@@ -12,11 +12,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
   </head>
   <body>
     <div class="dashboard">
-    <nav class="navbar">
+      <nav class="navbar">
         <div class="navbar_inner">
           <div class="top">
             <div><img src="/Logomark.png" alt="" /></div>
@@ -27,7 +27,9 @@
           ><a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
-          <a href="./budget.html" class="budget"><i class="fas fa-rocket"></i> Budgets</a>
+          <a href="./budget.html" class="budget"
+            ><i class="fas fa-rocket"></i> Budgets</a
+          >
           <a href="/" class="report"
             ><i class="fas fa-chart-line"></i> Reports</a
           >
@@ -48,7 +50,7 @@
           <i class="far fa-bell"></i>
         </div>
       </div>
-    <div class="dashboard_header desktop">
+      <div class="dashboard_header desktop">
         <div class="left">
           <i class="fas fa-bars bar"></i>
         </div>
@@ -71,46 +73,485 @@
         </div>
       </div>
       <div class="transaction_inner">
+        <div class="single_transact"></div>
         <section class="fourth">
           <header>
             <h1>Transactions</h1>
             <div class="right">
-        <select id="timeFilter">
-          <option value="">Filter by Time</option>
-          <option value="Week">Week</option>
-          <option value="Month">Month</option>
-          <option value="Year">Year</option>
-        </select>
-        <select id="sortFilter">
-          <option value=""><i class="fas fa-user"></i>Sort Transactions</option>
-          <option value="A-Z">A-Z</option>
-          <option value="Most Recently">Most Recently</option>
-          <option value="Most Past">Most Past</option>
-        </select>
-        <select id="typeFilter">
-          <option value="">Filter by Type</option>
-          <option value="Expense">Expense</option>
-          <option value="Income">Income</option>
-        </select>
+              <i class="fas fa-sort"></i>
+              <div class="sort">
+                <select id="filter" onchange="filterTransactions()">
+                  <option value="all">All</option>
+                  <option value="day">Today</option>
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
+                  <option value="recent">Most Recent</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="expenses">Expenses</option>
+                  <option value="income">Income</option>
+                </select>
+                <script>
+                  async function fetchTransactions() {
+                    const response = await fetch("/db.json");
+                    const data = await response.json();
+                    return data.transactions; // Assuming transactions are stored in a "transactions" array
+                  }
+
+                  async function filterTransactions() {
+                    const filter = document.getElementById("filter").value;
+                    const transactions = await fetchTransactions();
+                    let filteredTransactions = [];
+
+                    const now = new Date();
+                    switch (filter) {
+                      case "day":
+                        filteredTransactions = transactions.filter(
+                          (transaction) => {
+                            const transactionDate = new Date(transaction.date);
+                            return (
+                              transactionDate.toDateString() ===
+                              now.toDateString()
+                            );
+                          }
+                        );
+                        break;
+                      case "week":
+                        const startOfWeek = new Date(now);
+                        startOfWeek.setHours(0, 0, 0, 0); // Reset time to midnight
+                        startOfWeek.setDate(now.getDate() - now.getDay());
+                        filteredTransactions = transactions.filter(
+                          (transaction) => {
+                            const transactionDate = new Date(transaction.date);
+                            return (
+                              transactionDate >= startOfWeek &&
+                              transactionDate <= now
+                            );
+                          }
+                        );
+                        break;
+                      case "month":
+                        filteredTransactions = transactions.filter(
+                          (transaction) => {
+                            const transactionDate = new Date(transaction.date);
+                            return (
+                              transactionDate.getMonth() === now.getMonth() &&
+                              transactionDate.getFullYear() ===
+                                now.getFullYear()
+                            );
+                          }
+                        );
+                        break;
+                      case "year":
+                        filteredTransactions = transactions.filter(
+                          (transaction) => {
+                            const transactionDate = new Date(transaction.date);
+                            return (
+                              transactionDate.getFullYear() ===
+                              now.getFullYear()
+                            );
+                          }
+                        );
+                        break;
+                      case "recent":
+                        filteredTransactions = [...transactions].sort(
+                          (a, b) => new Date(b.date) - new Date(a.date)
+                        );
+                        break;
+                      case "oldest":
+                        filteredTransactions = [...transactions].sort(
+                          (a, b) => new Date(a.date) - new Date(b.date)
+                        );
+                        break;
+                      case "expenses":
+                        filteredTransactions = transactions.filter(
+                          (transaction) => transaction.type === "expense"
+                        );
+                        break;
+                      case "income":
+                        filteredTransactions = transactions.filter(
+                          (transaction) => transaction.type === "income"
+                        );
+                        break;
+                      default:
+                        filteredTransactions = transactions;
+                    }
+
+                    displayTransactions(filteredTransactions);
+                  }
+
+                  function displayTransactions(transactions) {
+                    const transactsContainer =
+                      document.querySelector(".transacts");
+                    transactsContainer.innerHTML = ""; // Clear existing transactions
+
+                    const header = document.createElement("div");
+                    header.classList.add("transaction-header", "sticky-header");
+                    header.innerHTML = `
+      <div>Date</div>
+      <div>Description</div>
+      <div>Category</div>
+      <div>Type</div>
+      <div>Amount</div>
+      `;
+                    transactsContainer.appendChild(header);
+
+                    const groupedByYear = transactions.reduce(
+                      (acc, transaction) => {
+                        const year = new Date(transaction.date).getFullYear();
+                        if (!acc[year]) acc[year] = [];
+                        acc[year].push(transaction);
+                        return acc;
+                      },
+                      {}
+                    );
+
+                    const sortedYears = Object.keys(groupedByYear).sort(
+                      (a, b) => b - a
+                    );
+                    for (const year of sortedYears) {
+                      const yearContainer = document.createElement("div");
+                      yearContainer.classList.add("year-group", "sticky-year");
+                      yearContainer.innerHTML = `<h2>${year}</h2>`;
+
+                      const groupedByMonth = groupedByYear[year].reduce(
+                        (acc, transaction) => {
+                          const month = new Date(
+                            transaction.date
+                          ).toLocaleString("default", { month: "long" });
+                          if (!acc[month]) acc[month] = [];
+                          acc[month].push(transaction);
+                          return acc;
+                        },
+                        {}
+                      );
+
+                      const sortedMonths = Object.keys(groupedByMonth).sort(
+                        (a, b) => {
+                          const monthA = new Date(`${a} 1, ${year}`);
+                          const monthB = new Date(`${b} 1, ${year}`);
+                          return monthB - monthA;
+                        }
+                      );
+
+                      for (const month of sortedMonths) {
+                        const monthContainer = document.createElement("div");
+                        monthContainer.classList.add(
+                          "month-group",
+                          "sticky-month"
+                        );
+                        monthContainer.innerHTML = `<h3>${month}</h3>`;
+
+                        groupedByMonth[month].forEach((transaction) => {
+                          const transactionElement =
+                            document.createElement("div");
+                          transactionElement.classList.add("transaction");
+                          transactionElement.innerHTML = `
+      <div class="transaction-item ${transaction.type}">
+      <div class="day">${new Date(transaction.date).toLocaleString("default", {
+        weekday: "short",
+      })} / ${new Date(transaction.date).getDate()}</div>
+      <div>${transaction.description}</div>
+      <div>${transaction.category}</div>
+      <div>${transaction.type}</div>
+      <div class="amount">$${transaction.amount}</div>
+      </div>
+      `;
+                          transactionElement.addEventListener("click", () => {
+                            renderSingleTransaction(transaction);
+                          });
+                          monthContainer.appendChild(transactionElement);
+                        });
+
+                        yearContainer.appendChild(monthContainer);
+                      }
+
+                      transactsContainer.appendChild(yearContainer);
+                    }
+                  }
+
+                  function renderSingleTransaction(transaction) {
+                    const singleTransactContainer =
+                      document.querySelector(".single_transact");
+                    singleTransactContainer.innerHTML = `
+      <div class="transaction-detail">
+   <div class="close">
+   <i class=" close-btn fas fa-times"></i>
+    </div>
+      <h2>Transaction Details</h2>
+      <div class="detail-row"><strong>Date:</strong> <span>${new Date(
+        transaction.date
+      ).toLocaleDateString()}</span></div>
+      <div class="detail-row"><strong>Description:</strong> <span>${
+        transaction.description
+      }</span></div>
+      <div class="detail-row"><strong>Category:</strong> <span>${
+        transaction.category
+      }</span></div>
+      <div class="detail-row">
+        <strong>Type:</strong>
+        <span class="type-detail ${
+          transaction.type
+        }" style="background-color: ${
+                      transaction.type === "expense" ? "#d32f2f" : "#388e3c"
+                    };">
+          ${transaction.type}
+        </span>
+      </div>
+      <div class="detail-row"><strong>Amount:</strong> <span>$${
+        transaction.amount
+      }</span></div>
+      </div>
+      `;
+                    singleTransactContainer.style.display = "flex"; // Ensure it is visible
+
+                    document
+                      .querySelector(".close-btn")
+                      .addEventListener("click", () => {
+                        singleTransactContainer.style.display = "none";
+                      });
+                  }
+
+                  // Initial load
+                  filterTransactions();
+                </script>
+                <style lang="scss">
+                  select#filter {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+      
+                  }
+
+                  .transaction-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-weight: 500;
+                    position: sticky;
+                    top: 0rem;
+                    z-index: 1;
+                    height: 2rem;
+                    background-color: white;
+
+                    div {
+                      flex: 1;
+                      text-align: center;
+                    }
+                  }
+
+                  .transaction-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin: 5px 0;
+                    border-radius: 5px;
+                    color: #fff;
+                    height: 3rem;
+                    padding: 0.2rem 0.5rem;
+                    font-size: 14px;
+                    font-weight: 500;
+
+                    &.income {
+                      background-color: #388e3c;
+                      text-transform: capitalize;
+                    }
+
+                    &.expense {
+                      background-color: #d32f2f;
+                      text-transform: capitalize;
+                    }
+
+                    div {
+                      flex: 1;
+                      text-align: center;
+                    }
+                  }
+
+                  .transaction-item {
+                    &.amount {
+                      display: block;
+                    }
+                  }
+
+                  .transacts {
+                    max-height: 100vh;
+                    overflow-y: auto;
+                    width: 100%; /* Ensure it spans the full width */
+                    box-sizing: border-box; /* Include padding and border in width */
+                  }
+
+                  @media (max-width: 768px) {
+                    .transacts {
+                      max-height: 150vh; /* Adjust height for smaller screens */
+                      overflow-y: scroll; /* Ensure scrolling works on mobile */
+                      padding: 0 10px; /* Add padding for better spacing */
+                    }
+                  }
+
+                  .year-group {
+                    h2 {
+                      margin: 10px 0;
+                      color: #333;
+                    }
+                  }
+
+                  .month-group {
+                    h3 {
+                      margin: 10px 0;
+                      color: #333;
+                    }
+                    &:not(:has(.transaction)) {
+                      display: none;
+                    }
+                  }
+
+                  @media (max-width: 768px) {
+                    .transaction-item {
+                      flex-direction: column;
+                      align-items: flex-start;
+
+                      div {
+                        text-align: left;
+                        margin-bottom: 5px;
+                      }
+                    }
+
+                    .transaction-item .amount {
+                      text-align: left;
+                      font-weight: bold;
+                      margin-top: 5px;
+                      width: 100%; /* Ensure it spans the full width */
+                      display: block; /* Ensure it is displayed properly */
+                      word-wrap: break-word; /* Handle long amounts */
+                    }
+
+                    .transaction-header {
+                      display: none;
+                      flex-direction: column;
+                      align-items: flex-start;
+
+                      div {
+                        text-align: left;
+                        margin-bottom: 5px;
+                      }
+                    }
+
+                    .year-group {
+                      display: flex;
+                      flex-direction: column; /* Arrange years in descending order */
+                    }
+
+                    .month-group {
+                      display: flex;
+                      flex-direction: column; /* Arrange months in descending order */
+                    }
+                  }
+
+                  .single_transact {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.8);
+                    display: none; /* Initially hidden */
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+
+                    .transaction-detail {
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      background-color: #fff;
+                      padding: 20px;
+                      border-radius: 0.3rem;
+                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                      max-width: 400px;
+                      width: 90%;
+                      height: 20rem;
+                      font-family: Arial, sans-serif;
+                      .close {
+                        display: flex;
+                        align-items: end;
+                        justify-content: end;
+                        width: 100%;
+
+                        height: 3rem;
+                        i {
+                          width: 2rem;
+                          height: 100%;
+                          background-color: red;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          color: white;
+                          font-size: 1rem;
+                          border-radius: 0.2rem;
+                          cursor: pointer;
+                        }
+                      }
+                      h2 {
+                        text-align: center;
+                        margin-bottom: 20px;
+                        color: #333;
+                      }
+
+                      .detail-row {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin: 10px 0;
+                        font-size: 14px;
+                        color: #555;
+                        height: 2rem;
+                        width: 100%;
+
+                        strong {
+                          text-align: left;
+                          font-size: 14px;
+                          font-weight: 600;
+                        }
+
+                        span {
+                          text-align: right;
+                          font-weight: 500;
+                          font-size: 14px;
+                          &.type-detail {
+                            height: 2rem;
+                            padding-inline: 0.3rem;
+                            color: white;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-transform: capitalize;
+                            border-radius: 0.2rem;
+                            font-size: 14px;
+                            font-weight: 400;
+                          }
+                        }
+                      }
+                    }
+                  }
+                </style>
+              </div>
             </div>
           </header>
           <div class="fourth_inner">
-            <div class="fourth_inner_top">
-              <h1>Date</h1>
-              <h1>Description</h1>
-              <h1>Category</h1>
-              <h1>Type</h1>
-              <h1>Amount</h1>
-            </div>
-            <div class="transacts">
-     
-            </div>
+            <div class="transacts"></div>
           </div>
         </section>
       </div>
     </div>
   </body>
   <script>
+    document.querySelector(".fa-sort").addEventListener("click", () => {
+      document.querySelector(".sort").classList.add("show");
+    });
     document.querySelector(".navbar").addEventListener("click", function (e) {
       document.querySelector(".navbar").classList.remove("show");
     });
@@ -119,127 +560,6 @@
     });
     // Sample expense and income data
     // Fetch transactions from db.json
-    fetch('/db.json')
-      .then(response => response.json())
-      .then(data => {
-      let transactions = data.transactions;
-
-      // Function to filter transactions by week
-      function filterByWeek(transactions) {
-        const oneWeekAgo = new Date();
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-        return transactions.filter((transaction) => new Date(transaction.date) >= oneWeekAgo);
-      }
-
-      // Function to filter transactions by month
-      function filterByMonth(transactions) {
-        const oneMonthAgo = new Date();
-        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-        return transactions.filter((transaction) => new Date(transaction.date) >= oneMonthAgo);
-      }
-
-      // Function to filter transactions by year
-      function filterByYear(transactions) {
-        const oneYearAgo = new Date();
-        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-        return transactions.filter((transaction) => new Date(transaction.date) >= oneYearAgo);
-      }
-
-      // Function to filter transactions by type (expense or income)
-      function filterByType(transactions, type) {
-        return transactions.filter((transaction) => transaction.type === type);
-      }
-
-      // Function to sort transactions alphabetically (A-Z or Z-A)
-      function sortTransactions(transactions, order = "asc") {
-        return transactions.sort((a, b) => {
-        const descA = a.descrip.toLowerCase();
-        const descB = b.descrip.toLowerCase();
-        if (order === "asc") {
-          return descA < descB ? -1 : descA > descB ? 1 : 0;
-        } else {
-          return descA > descB ? -1 : descA < descB ? 1 : 0;
-        }
-        });
-      }
-
-      // Function to display filtered transactions
-      function displayTransactions(filteredTransactions) {
-        const container = document.querySelector(".transacts");
-        container.innerHTML = ""; // Clear existing transactions
-        filteredTransactions.map((transact) => {
-        container.insertAdjacentHTML(
-          "beforeend",
-          `   
-          <div class="transact" key=${transact.id}>
-          <div class="firstCl">
-          <p>${transact.date}</p>
-          </div>
-          <div class="secondCl">
-          <p>${transact.description}</p>
-          </div>
-              <div class="thirdCl">
-                <p>${transact.category}</p>
-            </div>
-          <div class="fourthCl">
-          <h5 class=${transact.type === "income" ? "green" : "red"}>
-   <span>       ${transact.type}</span>
-          </h5>
-          </div>
-      
-          <div class="fifthCl">
-          <h4 class=${transact.type == "expense" ? "red" : "green"}>
-          ${transact.type == "expense" ? "-" : "+"}${transact.amount}
-          </h4>
-          </div>
-          </div>
-        `
-        );
-        });
-      }
-
-      // Add event listeners to the select elements
-      document.querySelectorAll("select").forEach((select, index) => {
-        select.addEventListener("change", function () {
-        let filteredTransactions = transactions;
-
-        if (index === 0) {
-          // Filter by time (Week, Month, Year)
-          if (this.value === "Week") {
-          filteredTransactions = filterByWeek(transactions);
-          } else if (this.value === "Month") {
-          filteredTransactions = filterByMonth(transactions);
-          } else if (this.value === "Year") {
-          filteredTransactions = filterByYear(transactions);
-          }
-        } else if (index === 1) {
-          // Sort transactions (A-Z, Most Recently, Most Past)
-          if (this.value === "A-Z") {
-          filteredTransactions = sortTransactions(transactions, "asc");
-          } else if (this.value === "Most Recently") {
-          filteredTransactions = transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-          } else if (this.value === "Most Past") {
-          filteredTransactions = transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
-          }
-        } else if (index === 2) {
-          // Filter by type (Expense, Income)
-          if (this.value === "Expense") {
-          filteredTransactions = filterByType(transactions, "expense");
-          } else if (this.value === "Income") {
-          filteredTransactions = filterByType(transactions, "income");
-          }
-        }
-
-        displayTransactions(filteredTransactions);
-        });
-      });
-
-      // Initialize the display with all transactions
-      displayTransactions(transactions);
-      })
-      .catch(error => console.error('Error fetching transactions:', error));
-
-    // Function to filter transactions before current date
 
     localStorage.setItem("page", "transaction");
     let page = localStorage.getItem("page");

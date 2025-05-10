@@ -26,24 +26,16 @@
 .dashboard .transaction_inner .fourth header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   gap: 1rem;
 }
 .dashboard .transaction_inner .fourth header h1 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
-  width: 30%;
   display: flex;
   align-items: center;
   justify-content: start;
-}
-.dashboard .transaction_inner .fourth header .right {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  gap: 1rem;
-  width: 70%;
 }
 .dashboard .transaction_inner .fourth_inner {
   display: flex;
@@ -53,115 +45,6 @@
   background-color: white;
   border-radius: 0.5rem;
   overflow-x: scroll;
-}
-.dashboard .transaction_inner .fourth_inner_top {
-  width: 200vw;
-  display: grid;
-  grid-template-columns: 15% 40% 15% 20% 10%;
-  gap: 1rem;
-  border-block-end: 1px solid rgb(199, 201, 202);
-  align-items: center;
-  height: 4rem;
-  padding-inline: 1rem;
-}
-.dashboard .transaction_inner .fourth_inner_top h1 {
-  font-size: 16px;
-  font-weight: 400;
-}
-.dashboard .transaction_inner .fourth_inner .transacts {
-  width: 200vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact {
-  width: 100%;
-  display: grid;
-  padding-inline: 1rem;
-  grid-template-columns: 15% 40% 15% 20% 10%;
-  gap: 1rem;
-  height: 4rem;
-  border-block-end: 1px solid rgb(199, 201, 202);
-  align-items: center;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact:last-child {
-  border: 0;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact:hover {
-  background-color: whitesmoke;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .firstCl p {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  font-size: 14.5px;
-  font-weight: 300;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .secondCl p {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  font-size: 14.5px;
-  font-weight: 400;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .thirdCl p {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  font-size: 14.5px;
-  font-weight: 300;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fourthCl {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fourthCl h5 {
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 60%;
-  border-radius: 0.2rem;
-  color: white;
-  width: 6rem;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fourthCl h5 span {
-  width: 95%;
-  padding-inline: 1rem;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 400;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fourthCl .red {
-  background-color: red;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fourthCl .green {
-  background-color: green;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fifthCl h4 {
-  font-size: 16px;
-  font-weight: 300;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fifthCl h4.red {
-  color: red;
-}
-.dashboard .transaction_inner .fourth_inner .transacts .transact .fifthCl h4.green {
-  color: green;
-}
-@media screen and (min-width: 777px) {
-  .dashboard .transaction_inner .fourth_inner_top, .dashboard .transaction_inner .fourth_inner .transacts {
-    width: 100%;
-  }
 }
 @media screen and (min-width: 768px) {
   .dashboard .transaction_inner {
@@ -176,5 +59,12 @@
     width: 100%;
     border-radius: 0.5rem;
     padding: 2rem;
+  }
+  .dashboard .transaction_inner .fa-sort {
+    display: none;
+  }
+  .dashboard .transaction_inner .fourth header h1 {
+    font-size: 16px;
+    font-weight: 500;
   }
 }/*# sourceMappingURL=transact.css.map */
