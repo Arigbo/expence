@@ -2,9 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  padding-block-end: 7rem;
   width: 100vw;
   gap: 1.5rem;
+  @media screen and (min-width: 768px) {
+    padding-block-end: 0;
+    
+  }
   &_header {
     display: flex;
     align-items: center;
@@ -645,11 +649,29 @@
       }
       .single_blog {
         position: fixed;
-        width: 0;
-
+        width: 100%;
+        display: none;
+        &.show {
+          display: flex;
+        }
+        .exitblog {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          z-index: 5;
+          width: 2rem;
+          height: 2rem;
+          border-radius: 100%;
+          right: 5%;
+          top: 2rem;
+          color: white;
+          position: fixed;
+          background-color: black;
+          cursor: pointer;
+        }
         .blog_details {
           transition: all 0.5s ease;
-          display: flex;
           align-items: center;
           justify-content: center;
           flex-direction: column;
@@ -659,7 +681,9 @@
           left: 0;
           right: 0;
           bottom: 0;
-          background-color: rgba(0, 0, 0, 0.18);
+          background-color: rgba(0, 0, 0, 0.388);
+          display: flex;
+
           top: 0;
           &_inner {
             display: flex;
@@ -677,18 +701,25 @@
             &_body {
               display: flex;
               flex-direction: column;
-              align-items: center;
+              align-items: start;
               width: 100%;
               gap: 1rem;
               h2 {
-                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: center;
+                font-size: 18px;
+                font-weight: 500;
+                width: 90%;
               }
+
               p {
                 width: 100%;
                 &.content {
                   line-height: 1.4;
                   font-weight: 300;
-                  font-size: 18px;
+                  font-size: 14px;
                 }
               }
             }
@@ -696,20 +727,51 @@
               width: 100%;
               display: flex;
               align-items: center;
-              justify-content: end;
-              gap: 1.5rem;
+              justify-content: space-between;
               position: sticky;
               bottom: 0;
-              height: 5rem;
-              padding: 1rem;
+              top: 0;
+              padding-block: 0.4rem;
               background-color: white;
+              &_left {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: 50%;
+                gap: 0.2rem;
+                i {
+                  font-size: 12px;
+                  width: 1.8rem;
+                  height: 1.8rem;
+                  background-color: black;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 100%;
+                }
+              }
+              &_right {
+                display: flex;
+                height: 100%;
+                width: 50%;
+                justify-content: end;
+                gap: 0.5rem;
+                align-items: center;
+                div {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  height: 100%;
+                }
+              }
               p {
-                font-size: 16px;
-                font-weight: 500;
+                font-size: 12px;
+                font-weight: 400;
               }
               i {
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 16px;
                 color: grey;
               }
             }
@@ -897,45 +959,15 @@
           }
         }
         .single_blog {
-          position: fixed;
-          width: 0;
-
           .blog_details {
-            transition: all 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.18);
-            top: 0;
             &_inner {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: space-between;
-              gap: 1rem;
-              width: 95%;
-              height: 95%;
-              overflow-y: scroll;
-              background-color: white;
-              padding-inline: 1.5rem;
-              padding-block-start: 1.5rem;
-              border-radius: 0.5rem;
               &_body {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                gap: 1rem;
                 h2 {
-                  width: 100%;
+                  font-size: 24px;
+                  font-weight: 600;
+                  width: 90%;
                 }
+
                 p {
                   width: 100%;
                   &.content {
@@ -946,24 +978,29 @@
                 }
               }
               &_footer {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: end;
-                gap: 1.5rem;
-                position: sticky;
-                bottom: 0;
-                height: 5rem;
-                padding: 1rem;
-                background-color: white;
-                p {
-                  font-size: 16px;
-                  font-weight: 500;
+                padding-block: 0.6rem;
+                &_left {
+                  i {
+                    height: 2rem;
+                    width: 2rem;
+                  }
+                  p {
+                    font-size: 18px;
+                  }
                 }
-                i {
-                  cursor: pointer;
-                  font-size: 18px;
-                  color: grey;
+
+                &_right {
+                  gap: 2rem;
+                  div {
+                    gap: 0.2rem;
+                  }
+                  p {
+                    font-size: 14px;
+                    font-weight: 600;
+                  }
+                  i {
+                    font-size: 18px;
+                  }
                 }
               }
             }

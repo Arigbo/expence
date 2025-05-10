@@ -223,7 +223,9 @@
             <div class="blog_header"><h2>Daily tips</h2></div>
             <div class="blog_inner"></div>
           </section>
-          <section class="single_blog"></section>
+          <section class="single_blog">
+            <i class="fas fa-x exitblog"></i>
+          </section>
         </div>
       </div>
     </div>
@@ -352,43 +354,50 @@
             e.preventDefault();
             const blogId = this.getAttribute("data-id");
             const blog = blogs.find((b) => b.id == blogId);
-
+            document.querySelector(".single_blog").classList.add("show");
             if (blog) {
               document.querySelector(".single_blog").insertAdjacentHTML(
                 "beforeend",
                 `
-                  <div class="blog_details">
-<div class="blog_details_inner">
-
-                <div class="blog_details_inner_body">
+              <div class="blog_details">
+                <div class="blog_details_inner">
+                  <div class="blog_details_inner_body">
                     <h2>${blog.title}</h2>
-                  <p><strong>By:</strong> ${blog.author}</p>
-                  <p class="content">${blog.content}</p>
-                       <p class="content">${blog.content}</p>
-                           <p class="content">${blog.content}</p>
-                </div>
-                  <div class="blog_details_inner_footer">
-                  <div class="likes">
-                     <p> <span class="like_count">${blog.likes}</span></p>
-                  <i class="far fa-thumbs-up like_icon" style="color: gray;" title="Like"></i>
+                    <p class="content">${blog.content}</p>
+                    <p class="content">${blog.content}</p>
+                    <p class="content">${blog.content}</p>
                   </div>
-                     <div class="dislikes">
-                                        <p><span class="dislike_count">${
-                                          blog.dislikes || 0
-                                        }</span></p>
-
-                  <i class="far fa-thumbs-down dislike_icon" style="color: gray;" title="Dislike"></i>
+                  <div class="blog_details_inner_footer">
+                    <div class="blog_details_inner_footer_left">
+                      <i class="fas fa-user"></i>
+                      <p class="author">${blog.author}</p>
+                    </div>
+                    <div class="blog_details_inner_footer_right">
+                      <div class="likes">
+                        <p><span class="like_count">${blog.likes}</span></p>
+                        <i class="far fa-thumbs-up like_icon" style="color: gray;" title="Like"></i>
+                      </div>
+                      <div class="dislikes">
+                       <p><span class="dislike_count">${blog.dislikes || 0}</span></p>
+                       <i class="far fa-thumbs-down dislike_icon" style="color: gray;" title="Dislike"></i>
                       </div>
                       <div class="engage">
                         <p>${blog.engagements}</p>
                         <i class="far fa-eye"></i>
-                        </div>
+                      </div>
+                    </div>
                   </div>
-                  </div>
-                  </div>
+                </div>
+              </div>
                   `
               );
-
+              document
+                .querySelector(".exitblog")
+                .addEventListener("click", () => {
+                  document
+                    .querySelector(".single_blog")
+                    .classList.remove("show");
+                });
               // Add event listener to toggle like icon and update likes in single blog
               const likeIcon = document.querySelector(
                 ".single_blog .like_icon"

@@ -8,7 +8,6 @@
 @import "./budget.css";
 html {
   background-color: whitesmoke;
-  padding-block-end: 7rem;
 }
 
 * {
@@ -54,19 +53,27 @@ html {
 * select {
   width: -moz-fit-content;
   width: fit-content;
-  padding-block: 0.4rem;
-  padding-inline: 0.5rem;
+  padding-block: 0.3rem;
+  padding-inline: 0.2rem;
+  width: fit-content;
   border-radius: 0.3rem;
   display: flex;
   gap: 1rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: none;
+  border: 1px solid;
   background-color: whitesmoke;
   font-size: 14px;
   font-weight: 400;
   outline: none;
+}
+@media screen and (min-width: 777px) {
+  * select {
+    padding-block: 0.4rem;
+    padding-inline: 0.5rem;
+    border: none;
+  }
 }
 * select::-moz-selection {
   background-color: #035c97;
