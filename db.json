@@ -1,611 +1,564 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "John Doe",
-            "email": "johndoe@example.com",
-            "password": "hashed_password",
-            "created_at": "2023-10-01T12:00:00Z"
-        }
-    ],
-    "notifications": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "message": "Welcome to Expense Calculator!",
-            "read": false,
-            "created_at": "2023-10-01T12:05:00Z"
-        }
-    ],
-    "blogs": [
-        {
-            "id": 1,
-            "title": "5 Simple Ways to Save Money",
-            "content": "Saving money is an essential skill that can help you achieve financial stability and reach your goals. To start, tracking your expenses is crucial. By understanding where your money goes, you can identify areas where you can cut back. Setting a budget is another effective way to manage your finances. A budget allows you to allocate your income towards necessities, savings, and discretionary spending. Cutting unnecessary costs is also important. For example, consider canceling subscriptions you no longer use or finding more affordable alternatives for services. Additionally, cooking at home instead of dining out can save you a significant amount of money over time. Lastly, consider automating your savings. By setting up automatic transfers to a savings account, you can ensure that you consistently save a portion of your income without having to think about it. These simple steps can make a big difference in your financial health and help you build a secure future.",
-            "author": "Alice Johnson",
-            "created_at": "2023-10-01T14:00:00Z",
-            "likes": 120,
-            "dislikes": 10,
-            "engagements": 500
-        },
-        {
-            "id": 2,
-            "title": "How to Save on Groceries",
-            "content": "Groceries are a significant expense for most households, but there are many ways to save money without compromising on quality. Start by planning your meals for the week. Meal planning helps you create a shopping list of only the items you need, reducing impulse purchases. Using coupons and taking advantage of store discounts can also lead to substantial savings. Buying in bulk is another effective strategy, especially for non-perishable items. However, be cautious not to overbuy perishable goods that may go to waste. Shopping at discount stores or local farmers' markets can also help you find affordable options. Additionally, consider purchasing store-brand products, which are often cheaper than name-brand items but offer similar quality. Avoid shopping when you're hungry, as this can lead to unnecessary purchases. By implementing these strategies, you can significantly reduce your grocery bill and free up money for other priorities.",
-            "author": "Bob Smith",
-            "created_at": "2023-10-02T10:00:00Z",
-            "likes": 85,
-            "dislikes": 5,
-            "engagements": 400
-        },
-        {
-            "id": 3,
-            "title": "The Importance of an Emergency Fund",
-            "content": "An emergency fund is a financial safety net that can protect you from unexpected expenses and provide peace of mind. Building an emergency fund starts with setting a goal. Financial experts recommend saving three to six months' worth of living expenses. To achieve this, set aside a portion of your income each month. Automating your savings can make this process easier and more consistent. It's important to keep your emergency fund in a separate, easily accessible account, such as a high-yield savings account. This ensures that the money is available when you need it but not too tempting to spend on non-emergencies. Avoid using your emergency fund for discretionary expenses; it should only be used for true emergencies, such as medical bills, car repairs, or unexpected job loss. Having an emergency fund can reduce financial stress and help you navigate life's uncertainties with confidence.",
-            "author": "Alice Johnson",
-            "created_at": "2023-10-03T09:30:00Z",
-            "likes": 95,
-            "dislikes": 8,
-            "engagements": 450
-        },
-        {
-            "id": 4,
-            "title": "Cutting Down on Utility Bills",
-            "content": "Utility bills can take up a significant portion of your monthly budget, but there are many ways to reduce these costs. Start by switching to energy-efficient appliances, which use less electricity and can lower your energy bills over time. Installing a programmable thermostat can also help you save money by optimizing your heating and cooling usage. Simple habits, such as turning off lights when you leave a room and unplugging electronics when they're not in use, can make a big difference. Sealing drafts around windows and doors can prevent heat loss in the winter and keep your home cooler in the summer, reducing your reliance on heating and air conditioning. Additionally, consider using water-saving fixtures, such as low-flow showerheads and faucets, to reduce your water bill. By implementing these strategies, you can cut down on utility costs and free up money for other financial goals.",
-            "author": "Charlie Brown",
-            "created_at": "2023-10-04T08:45:00Z",
-            "likes": 70,
-            "dislikes": 6,
-            "engagements": 300
-        },
-        {
-            "id": 5,
-            "title": "How to Save for Retirement",
-            "content": "Saving for retirement is one of the most important financial goals you can set. The earlier you start, the more time your money has to grow through compound interest. Begin by contributing to a retirement account, such as a 401(k) or an IRA. If your employer offers a 401(k) match, take full advantage of it, as it's essentially free money. Setting a specific retirement savings goal can help you stay motivated and on track. Consider working with a financial advisor to determine how much you need to save based on your desired retirement lifestyle. Regularly review and adjust your contributions as your income and expenses change. Diversifying your investments can also help you manage risk and maximize returns. Remember, the key to successful retirement planning is consistency and discipline. By prioritizing your retirement savings now, you can enjoy financial security and peace of mind in your later years.",
-            "author": "Alice Johnson",
-            "created_at": "2023-10-05T11:15:00Z",
-            "likes": 110,
-            "dislikes": 7,
-            "engagements": 550
-        },
-        {
-            "id": 6,
-            "title": "Tips for Managing Debt Effectively",
-            "content": "Managing debt is a critical aspect of financial health. Start by creating a list of all your debts, including the amounts owed, interest rates, and minimum payments. Prioritize paying off high-interest debts first, as they cost you the most over time. Consider using the snowball or avalanche method to tackle your debts systematically. The snowball method involves paying off the smallest debts first to build momentum, while the avalanche method focuses on the highest-interest debts. Creating a budget can help you allocate more funds towards debt repayment. Avoid taking on new debt while you're working to pay off existing balances. If possible, negotiate with creditors for lower interest rates or payment plans. Consolidating debts into a single loan with a lower interest rate can also simplify repayment. By staying disciplined and focused, you can reduce your debt burden and achieve financial freedom.",
-            "author": "Bob Smith",
-            "created_at": "2023-10-06T13:00:00Z",
-            "likes": 90,
-            "dislikes": 4,
-            "engagements": 420
-        },
-        {
-            "id": 7,
-            "title": "Investing for Beginners",
-            "content": "Investing is a powerful way to grow your wealth over time, but it can be intimidating for beginners. Start by setting clear financial goals and determining your risk tolerance. Educate yourself about different investment options, such as stocks, bonds, mutual funds, and ETFs. Diversification is key to managing risk, so avoid putting all your money into a single investment. Consider starting with low-cost index funds, which provide broad market exposure and are ideal for long-term growth. Open a brokerage account or use a robo-advisor to begin investing. Consistency is crucial, so aim to invest regularly, even if it's a small amount. Avoid trying to time the market, as this can lead to costly mistakes. Instead, focus on a long-term strategy and stay disciplined. By starting early and staying informed, you can build a strong investment portfolio and achieve your financial goals.",
-            "author": "Charlie Brown",
-            "created_at": "2023-10-07T15:30:00Z",
-            "likes": 100,
-            "dislikes": 5,
-            "engagements": 480
-        },
-        {
-            "id": 8,
-            "title": "The Benefits of Financial Literacy",
-            "content": "Financial literacy is the foundation of sound financial decision-making. It empowers individuals to manage their money effectively, avoid debt, and achieve their financial goals. Start by learning the basics of budgeting, saving, and investing. Understanding how interest rates, credit scores, and loans work can help you make informed choices. Financial literacy also involves recognizing the importance of emergency funds and retirement planning. By improving your financial knowledge, you can identify opportunities to grow your wealth and protect yourself from financial pitfalls. Many resources, such as books, online courses, and workshops, are available to help you enhance your financial literacy. Remember, the more you know about managing money, the better equipped you'll be to navigate life's financial challenges and build a secure future.",
-            "author": "Alice Johnson",
-            "created_at": "2023-10-08T10:00:00Z",
-            "likes": 120,
-            "dislikes": 6,
-            "engagements": 520
-        },
-        {
-            "id": 9,
-            "title": "How to Create a Monthly Budget",
-            "content": "Creating a monthly budget is a crucial step towards achieving financial stability. Start by calculating your total income, including your salary, freelance earnings, and any other sources of revenue. Next, list all your expenses, such as rent, utilities, groceries, and discretionary spending. Categorize your expenses into fixed and variable costs. Allocate a portion of your income towards savings and debt repayment. Use budgeting tools or apps to track your spending and ensure you stay within your limits. Review your budget regularly and make adjustments as needed. By sticking to a budget, you can avoid overspending, save for future goals, and gain better control over your finances.",
-            "author": "Bob Smith",
-            "created_at": "2023-10-09T14:00:00Z",
-            "likes": 95,
-            "dislikes": 3,
-            "engagements": 450
-        },
-        {
-            "id": 10,
-            "title": "The Power of Compound Interest",
-            "content": "Compound interest is a powerful financial concept that can significantly grow your wealth over time. It works by earning interest on both your initial investment and the interest that accumulates over time. The earlier you start investing, the more time your money has to compound. For example, investing $1,000 at an annual interest rate of 5% will grow to $1,628 in 10 years and $2,653 in 20 years. To maximize the benefits of compound interest, contribute regularly to your savings or investment accounts. Avoid withdrawing funds prematurely, as this can disrupt the compounding process. By understanding and leveraging compound interest, you can achieve your financial goals faster and build a secure future.",
-            "author": "Charlie Brown",
-            "created_at": "2023-10-10T16:30:00Z",
-            "likes": 130,
-            "dislikes": 7,
-            "engagements": 600
-        }
-    ],
-    "transactions": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 45.0,
-            "category": "Food",
-            "date": "2023-11-02",
-            "description": "Lunch at a cafe"
-        },
-        {
-            "id": 2,
-            "user_id": 1,
-            "type": "income",
-            "amount": 150.0,
-            "category": "Freelance",
-            "date": "2023-11-03",
-            "description": "Freelance project payment"
-        },
-        {
-            "id": 3,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 25.0,
-            "category": "Transport",
-            "date": "2023-11-04",
-            "description": "Taxi fare"
-        },
-        {
-            "id": 4,
-            "user_id": 1,
-            "type": "income",
-            "amount": 200.0,
-            "category": "Gift",
-            "date": "2023-11-05",
-            "description": "Birthday gift"
-        },
-        {
-            "id": 5,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 60.0,
-            "category": "Entertainment",
-            "date": "2023-11-06",
-            "description": "Concert ticket"
-        },
-        {
-            "id": 6,
-            "user_id": 1,
-            "type": "income",
-            "amount": 500.0,
-            "category": "Salary",
-            "date": "2023-12-01",
-            "description": "Monthly salary"
-        },
-        {
-            "id": 7,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 80.0,
-            "category": "Groceries",
-            "date": "2023-12-02",
-            "description": "Weekly groceries"
-        },
-        {
-            "id": 8,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 30.0,
-            "category": "Dining",
-            "date": "2023-12-03",
-            "description": "Dinner with friends"
-        },
-        {
-            "id": 9,
-            "user_id": 1,
-            "type": "income",
-            "amount": 300.0,
-            "category": "Bonus",
-            "date": "2023-12-04",
-            "description": "Performance bonus"
-        },
-        {
-            "id": 10,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 20.0,
-            "category": "Health",
-            "date": "2023-12-05",
-            "description": "Pharmacy purchase"
-        },
-        {
-            "id": 11,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 100.0,
-            "category": "Rent",
-            "date": "2024-01-01",
-            "description": "Monthly rent"
-        },
-        {
-            "id": 12,
-            "user_id": 1,
-            "type": "income",
-            "amount": 50.0,
-            "category": "Investment",
-            "date": "2024-01-02",
-            "description": "Stock dividends"
-        },
-        {
-            "id": 13,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 15.0,
-            "category": "Snacks",
-            "date": "2024-01-03",
-            "description": "Coffee and snacks"
-        },
-        {
-            "id": 14,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 250.0,
-            "category": "Travel",
-            "date": "2024-01-04",
-            "description": "Weekend trip"
-        },
-        {
-            "id": 15,
-            "user_id": 1,
-            "type": "income",
-            "amount": 100.0,
-            "category": "Freelance",
-            "date": "2024-01-05",
-            "description": "Freelance project"
-        },
-        {
-            "id": 16,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 40.0,
-            "category": "Fitness",
-            "date": "2024-02-01",
-            "description": "Gym membership"
-        },
-        {
-            "id": 17,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 90.0,
-            "category": "Education",
-            "date": "2024-02-02",
-            "description": "Online course"
-        },
-        {
-            "id": 18,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 50.0,
-            "category": "Books",
-            "date": "2024-02-03",
-            "description": "Bought a novel"
-        },
-        {
-            "id": 19,
-            "user_id": 1,
-            "type": "income",
-            "amount": 150.0,
-            "category": "Freelance",
-            "date": "2024-02-04",
-            "description": "Freelance writing"
-        },
-        {
-            "id": 20,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 70.0,
-            "category": "Dining",
-            "date": "2024-02-05",
-            "description": "Dinner with family"
-        },
-        {
-            "id": 21,
-            "user_id": 1,
-            "type": "income",
-            "amount": 250.0,
-            "category": "Gift",
-            "date": "2024-03-01",
-            "description": "Received a gift"
-        },
-        {
-            "id": 22,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 100.0,
-            "category": "Clothing",
-            "date": "2024-03-02",
-            "description": "Bought a jacket"
-        },
-        {
-            "id": 23,
-            "user_id": 1,
-            "type": "income",
-            "amount": 400.0,
-            "category": "Bonus",
-            "date": "2024-03-03",
-            "description": "Quarterly bonus"
-        },
-        {
-            "id": 24,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 30.0,
-            "category": "Health",
-            "date": "2024-03-04",
-            "description": "Pharmacy purchase"
-        },
-        {
-            "id": 25,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 60.0,
-            "category": "Transport",
-            "date": "2024-03-05",
-            "description": "Taxi fare"
-        },
-        {
-            "id": 26,
-            "user_id": 1,
-            "type": "income",
-            "amount": 450.0,
-            "category": "Salary",
-            "date": "2024-04-01",
-            "description": "Part-time job salary"
-        },
-        {
-            "id": 27,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 85.0,
-            "category": "Groceries",
-            "date": "2024-04-02",
-            "description": "Weekly groceries"
-        },
-        {
-            "id": 28,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 50.0,
-            "category": "Dining",
-            "date": "2024-04-03",
-            "description": "Dinner with colleagues"
-        },
-        {
-            "id": 29,
-            "user_id": 1,
-            "type": "income",
-            "amount": 350.0,
-            "category": "Bonus",
-            "date": "2024-04-04",
-            "description": "Performance bonus"
-        },
-        {
-            "id": 30,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 25.0,
-            "category": "Health",
-            "date": "2024-04-05",
-            "description": "Pharmacy purchase"
-        },
-        {
-            "id": 31,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 120.0,
-            "category": "Rent",
-            "date": "2024-05-01",
-            "description": "Monthly rent"
-        },
-        {
-            "id": 32,
-            "user_id": 1,
-            "type": "income",
-            "amount": 60.0,
-            "category": "Investment",
-            "date": "2024-05-02",
-            "description": "Stock dividends"
-        },
-        {
-            "id": 33,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 20.0,
-            "category": "Snacks",
-            "date": "2024-05-03",
-            "description": "Coffee and snacks"
-        },
-        {
-            "id": 34,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 300.0,
-            "category": "Travel",
-            "date": "2024-05-04",
-            "description": "Vacation trip"
-        },
-        {
-            "id": 35,
-            "user_id": 1,
-            "type": "income",
-            "amount": 200.0,
-            "category": "Freelance",
-            "date": "2024-05-05",
-            "description": "Freelance project"
-        },
-        {
-            "id": 36,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 50.0,
-            "category": "Fitness",
-            "date": "2024-06-01",
-            "description": "Gym membership"
-        },
-        {
-            "id": 37,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 100.0,
-            "category": "Education",
-            "date": "2024-06-02",
-            "description": "Online course"
-        },
-        {
-            "id": 38,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 60.0,
-            "category": "Books",
-            "date": "2024-06-03",
-            "description": "Bought a textbook"
-        },
-        {
-            "id": 39,
-            "user_id": 1,
-            "type": "income",
-            "amount": 180.0,
-            "category": "Freelance",
-            "date": "2024-06-04",
-            "description": "Freelance writing"
-        },
-        {
-            "id": 40,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 90.0,
-            "category": "Dining",
-            "date": "2024-06-05",
-            "description": "Dinner with family"
-        },
-        {
-            "id": 41,
-            "user_id": 1,
-            "type": "income",
-            "amount": 300.0,
-            "category": "Gift",
-            "date": "2024-07-01",
-            "description": "Received a gift"
-        },
-        {
-            "id": 42,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 120.0,
-            "category": "Clothing",
-            "date": "2024-07-02",
-            "description": "Bought a suit"
-        },
-        {
-            "id": 43,
-            "user_id": 1,
-            "type": "income",
-            "amount": 500.0,
-            "category": "Bonus",
-            "date": "2024-07-03",
-            "description": "Quarterly bonus"
-        },
-        {
-            "id": 44,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 40.0,
-            "category": "Health",
-            "date": "2024-07-04",
-            "description": "Pharmacy purchase"
-        },
-        {
-            "id": 45,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 70.0,
-            "category": "Transport",
-            "date": "2024-07-05",
-            "description": "Taxi fare"
-        },
-        {
-            "id": 46,
-            "user_id": 1,
-            "type": "income",
-            "amount": 600.0,
-            "category": "Salary",
-            "date": "2024-08-01",
-            "description": "Part-time job salary"
-        },
-        {
-            "id": 47,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 100.0,
-            "category": "Groceries",
-            "date": "2024-08-02",
-            "description": "Weekly groceries"
-        },
-        {
-            "id": 48,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 60.0,
-            "category": "Dining",
-            "date": "2024-08-03",
-            "description": "Dinner with colleagues"
-        },
-        {
-            "id": 49,
-            "user_id": 1,
-            "type": "income",
-            "amount": 400.0,
-            "category": "Bonus",
-            "date": "2024-08-04",
-            "description": "Performance bonus"
-        },
-        {
-            "id": 50,
-            "user_id": 1,
-            "type": "expense",
-            "amount": 35.0,
-            "category": "Health",
-            "date": "2024-08-05",
-            "description": "Pharmacy purchase"
-        }
-    ],
-    "goals": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "name": "Vacation Fund",
-            "target_amount": 2000.0,
-            "current_amount": 500.0,
-            "deadline": "2024-06-01T00:00:00Z"
-        }
-    ],
-    "budgets": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "category": "Groceries",
-            "limit": 300.0,
-            "start_date": "2023-10-01T00:00:00Z",
-            "end_date": "2023-10-31T23:59:59Z"
-        }
-    ],
-    "savings": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "amount": 1000.0,
-            "created_at": "2023-10-01T12:00:00Z"
-        }
-    ],
-    "income": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "amount": 3000.0,
-            "current_balance": 2500.0,
-            "created_at": "2023-10-01T12:00:00Z"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "password": "123abc",
+      "created_at": "2023-10-01T12:00:00Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "message": "Welcome to Expense Calculator!",
+      "read": false,
+      "created_at": "2023-10-01T12:05:00Z"
+    }
+  ],
+"blogs": [
+    {
+        "id": 1,
+        "user_id": 1,
+        "title": "5 Simple Ways to Save Money",
+        "content": "Saving money is an essential skill that can help you achieve financial stability and reach your goals. To start, tracking your expenses is crucial. By understanding where your money goes, you can identify areas where you can cut back. Setting a budget is another effective way to manage your finances. A budget allows you to allocate your income towards necessities, savings, and discretionary spending. Cutting unnecessary costs is also important. For example, consider canceling subscriptions you no longer use or finding more affordable alternatives for services. Additionally, cooking at home instead of dining out can save you a significant amount of money over time. Lastly, consider automating your savings. By setting up automatic transfers to a savings account, you can ensure that you consistently save a portion of your income without having to think about it. These simple steps can make a big difference in your financial health and help you build a secure future.",
+        "author": "Alice Johnson",
+        "created_at": "2023-10-01T14:00:00Z",
+        "likes": 120,
+        "dislikes": 10,
+        "engagements": 500
+    },
+    {
+        "id": 2,
+        "user_id": 2,
+        "title": "How to Save on Groceries",
+        "content": "Groceries are a significant expense for most households, but there are many ways to save money without compromising on quality. Start by planning your meals for the week. Meal planning helps you create a shopping list of only the items you need, reducing impulse purchases. Using coupons and taking advantage of store discounts can also lead to substantial savings. Buying in bulk is another effective strategy, especially for non-perishable items. However, be cautious not to overbuy perishable goods that may go to waste. Shopping at discount stores or local farmers' markets can also help you find affordable options. Additionally, consider purchasing store-brand products, which are often cheaper than name-brand items but offer similar quality. Avoid shopping when you're hungry, as this can lead to unnecessary purchases. By implementing these strategies, you can significantly reduce your grocery bill and free up money for other priorities.",
+        "author": "Bob Smith",
+        "created_at": "2023-10-02T10:00:00Z",
+        "likes": 85,
+        "dislikes": 5,
+        "engagements": 400
+    },
+    {
+        "id": 3,
+        "user_id": 3,
+        "title": "The Importance of an Emergency Fund",
+        "content": "An emergency fund is a financial safety net that can protect you from unexpected expenses and provide peace of mind. Building an emergency fund starts with setting a goal. Financial experts recommend saving three to six months' worth of living expenses. To achieve this, set aside a portion of your income each month. Automating your savings can make this process easier and more consistent. It's important to keep your emergency fund in a separate, easily accessible account, such as a high-yield savings account. This ensures that the money is available when you need it but not too tempting to spend on non-emergencies. Avoid using your emergency fund for discretionary expenses; it should only be used for true emergencies, such as medical bills, car repairs, or unexpected job loss. Having an emergency fund can reduce financial stress and help you navigate life's uncertainties with confidence.",
+        "author": "Alice Johnson",
+        "created_at": "2023-10-03T09:30:00Z",
+        "likes": 95,
+        "dislikes": 8,
+        "engagements": 450
+    },
+    {
+        "id": 4,
+        "user_id": 4,
+        "title": "Cutting Down on Utility Bills",
+        "content": "Utility bills can take up a significant portion of your monthly budget, but there are many ways to reduce these costs. Start by switching to energy-efficient appliances, which use less electricity and can lower your energy bills over time. Installing a programmable thermostat can also help you save money by optimizing your heating and cooling usage. Simple habits, such as turning off lights when you leave a room and unplugging electronics when they're not in use, can make a big difference. Sealing drafts around windows and doors can prevent heat loss in the winter and keep your home cooler in the summer, reducing your reliance on heating and air conditioning. Additionally, consider using water-saving fixtures, such as low-flow showerheads and faucets, to reduce your water bill. By implementing these strategies, you can cut down on utility costs and free up money for other financial goals.",
+        "author": "Charlie Brown",
+        "created_at": "2023-10-04T08:45:00Z",
+        "likes": 70,
+        "dislikes": 6,
+        "engagements": 300
+    },
+    {
+        "id": 5,
+        "user_id": 5,
+        "title": "How to Save for Retirement",
+        "content": "Saving for retirement is one of the most important financial goals you can set. The earlier you start, the more time your money has to grow through compound interest. Begin by contributing to a retirement account, such as a 401(k) or an IRA. If your employer offers a 401(k) match, take full advantage of it, as it's essentially free money. Setting a specific retirement savings goal can help you stay motivated and on track. Consider working with a financial advisor to determine how much you need to save based on your desired retirement lifestyle. Regularly review and adjust your contributions as your income and expenses change. Diversifying your investments can also help you manage risk and maximize returns. Remember, the key to successful retirement planning is consistency and discipline. By prioritizing your retirement savings now, you can enjoy financial security and peace of mind in your later years.",
+        "author": "Alice Johnson",
+        "created_at": "2023-10-05T11:15:00Z",
+        "likes": 110,
+        "dislikes": 7,
+        "engagements": 550
+    },
+    {
+        "id": 6,
+        "user_id": 6,
+        "title": "Tips for Managing Debt Effectively",
+        "content": "Managing debt is a critical aspect of financial health. Start by creating a list of all your debts, including the amounts owed, interest rates, and minimum payments. Prioritize paying off high-interest debts first, as they cost you the most over time. Consider using the snowball or avalanche method to tackle your debts systematically. The snowball method involves paying off the smallest debts first to build momentum, while the avalanche method focuses on the highest-interest debts. Creating a budget can help you allocate more funds towards debt repayment. Avoid taking on new debt while you're working to pay off existing balances. If possible, negotiate with creditors for lower interest rates or payment plans. Consolidating debts into a single loan with a lower interest rate can also simplify repayment. By staying disciplined and focused, you can reduce your debt burden and achieve financial freedom.",
+        "author": "Bob Smith",
+        "created_at": "2023-10-06T13:00:00Z",
+        "likes": 90,
+        "dislikes": 4,
+        "engagements": 420
+    },
+    {
+        "id": 7,
+        "user_id": 7,
+        "title": "Investing for Beginners",
+        "content": "Investing is a powerful way to grow your wealth over time, but it can be intimidating for beginners. Start by setting clear financial goals and determining your risk tolerance. Educate yourself about different investment options, such as stocks, bonds, mutual funds, and ETFs. Diversification is key to managing risk, so avoid putting all your money into a single investment. Consider starting with low-cost index funds, which provide broad market exposure and are ideal for long-term growth. Open a brokerage account or use a robo-advisor to begin investing. Consistency is crucial, so aim to invest regularly, even if it's a small amount. Avoid trying to time the market, as this can lead to costly mistakes. Instead, focus on a long-term strategy and stay disciplined. By starting early and staying informed, you can build a strong investment portfolio and achieve your financial goals.",
+        "author": "Charlie Brown",
+        "created_at": "2023-10-07T15:30:00Z",
+        "likes": 100,
+        "dislikes": 5,
+        "engagements": 480
+    },
+    {
+        "id": 8,
+        "user_id": 8,
+        "title": "The Benefits of Financial Literacy",
+        "content": "Financial literacy is the foundation of sound financial decision-making. It empowers individuals to manage their money effectively, avoid debt, and achieve their financial goals. Start by learning the basics of budgeting, saving, and investing. Understanding how interest rates, credit scores, and loans work can help you make informed choices. Financial literacy also involves recognizing the importance of emergency funds and retirement planning. By improving your financial knowledge, you can identify opportunities to grow your wealth and protect yourself from financial pitfalls. Many resources, such as books, online courses, and workshops, are available to help you enhance your financial literacy. Remember, the more you know about managing money, the better equipped you'll be to navigate life's financial challenges and build a secure future.",
+        "author": "Alice Johnson",
+        "created_at": "2023-10-08T10:00:00Z",
+        "likes": 120,
+        "dislikes": 6,
+        "engagements": 520
+    },
+    {
+        "id": 9,
+        "user_id": 9,
+        "title": "How to Create a Monthly Budget",
+        "content": "Creating a monthly budget is a crucial step towards achieving financial stability. Start by calculating your total income, including your salary, freelance earnings, and any other sources of revenue. Next, list all your expenses, such as rent, utilities, groceries, and discretionary spending. Categorize your expenses into fixed and variable costs. Allocate a portion of your income towards savings and debt repayment. Use budgeting tools or apps to track your spending and ensure you stay within your limits. Review your budget regularly and make adjustments as needed. By sticking to a budget, you can avoid overspending, save for future goals, and gain better control over your finances.",
+        "author": "Bob Smith",
+        "created_at": "2023-10-09T14:00:00Z",
+        "likes": 95,
+        "dislikes": 3,
+        "engagements": 450
+    },
+    {
+        "id": 10,
+        "user_id": 10,
+        "title": "The Power of Compound Interest",
+        "content": "Compound interest is a powerful financial concept that can significantly grow your wealth over time. It works by earning interest on both your initial investment and the interest that accumulates over time. The earlier you start investing, the more time your money has to compound. For example, investing $1,000 at an annual interest rate of 5% will grow to $1,628 in 10 years and $2,653 in 20 years. To maximize the benefits of compound interest, contribute regularly to your savings or investment accounts. Avoid withdrawing funds prematurely, as this can disrupt the compounding process. By understanding and leveraging compound interest, you can achieve your financial goals faster and build a secure future.",
+        "author": "Charlie Brown",
+        "created_at": "2023-10-10T16:30:00Z",
+        "likes": 130,
+        "dislikes": 7,
+        "engagements": 600
+    },
+    {
+        "id": 11,
+        "user_id": 11,
+        "title": "Understanding Credit Scores",
+        "content": "A credit score is a numerical representation of your creditworthiness, and it plays a crucial role in your financial life. Lenders use credit scores to assess the risk of lending you money. A higher credit score can lead to better loan terms and lower interest rates. To maintain a good credit score, pay your bills on time, keep your credit utilization low, and avoid opening too many new accounts at once. Regularly check your credit report for errors and dispute any inaccuracies. Building a strong credit history takes time, so start early and be consistent in managing your finances. By understanding and improving your credit score, you can unlock better financial opportunities.",
+        "author": "Alice Johnson",
+        "created_at": "2023-10-11T12:00:00Z",
+        "likes": 110,
+        "dislikes": 4,
+        "engagements": 550
+    },
+    {
+        "id": 12,
+        "user_id": 12,
+        "title": "The Importance of Setting Financial Goals",
+        "content": "Setting financial goals is essential for achieving financial success. Goals provide direction and motivation, helping you stay focused on your financial journey. Start by identifying short-term, medium-term, and long-term goals. Short-term goals may include saving for a vacation or paying off a credit card, while long-term goals could involve retirement planning or buying a home. Make your goals SMART: Specific, Measurable, Achievable, Relevant, and Time-bound. Break down larger goals into smaller, manageable steps to track your progress. Regularly review and adjust your goals as needed to stay aligned with your financial situation. By setting clear financial goals, you can create a roadmap for your financial future and work towards achieving your dreams.",
+        "author": "Bob Smith",
+        "created_at": "2023-10-12T14:30:00Z",
+        "likes": 100,
+        "dislikes": 5,
+        "engagements": 500
+    },
+    {
+        "id": 13,
+        "user_id": 13,
+        "title": "How to Build Wealth Over Time",
+        "content": "Building wealth is a long-term process that requires discipline, patience, and smart financial decisions. Start by creating a budget to track your income and expenses. Prioritize saving and investing a portion of your income each month. Consider diversifying your investments across different asset classes, such as stocks, bonds, and real estate, to manage risk. Take advantage of employer-sponsored retirement plans and individual retirement accounts (IRAs) to maximize your savings. Continuously educate yourself about personal finance and investment strategies to make informed decisions. Avoid lifestyle inflation by keeping your expenses in check as your income grows. By consistently saving and investing over time, you can build significant wealth and achieve financial independence.",
+        "author": "Charlie Brown",
+        "created_at": "2023-10-13T09:00:00Z",
+        "likes": 120,
+        "dislikes": 6,
+        "engagements": 520
+    }
+],
+  "transactions": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 95.0,
+      "category": "Food",
+      "date": "2023-11-02",
+      "description": "Lunch at a cafe"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "type": "income",
+      "amount": 200.0,
+      "category": "Freelance",
+      "date": "2023-11-03",
+      "description": "Freelance project payment"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 75.0,
+      "category": "Transport",
+      "date": "2023-11-04",
+      "description": "Taxi fare"
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "type": "income",
+      "amount": 250.0,
+      "category": "Gift",
+      "date": "2023-11-05",
+      "description": "Birthday gift"
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 110.0,
+      "category": "Entertainment",
+      "date": "2023-11-06",
+      "description": "Concert ticket"
+    },
+    {
+      "id": 6,
+      "user_id": 1,
+      "type": "income",
+      "amount": 550.0,
+      "category": "Salary",
+      "date": "2023-12-01",
+      "description": "Monthly salary"
+    },
+    {
+      "id": 7,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 130.0,
+      "category": "Groceries",
+      "date": "2023-12-02",
+      "description": "Weekly groceries"
+    },
+    {
+      "id": 8,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 80.0,
+      "category": "Dining",
+      "date": "2023-12-03",
+      "description": "Dinner with friends"
+    },
+    {
+      "id": 9,
+      "user_id": 1,
+      "type": "income",
+      "amount": 350.0,
+      "category": "Bonus",
+      "date": "2023-12-04",
+      "description": "Performance bonus"
+    },
+    {
+      "id": 10,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 70.0,
+      "category": "Health",
+      "date": "2023-12-05",
+      "description": "Pharmacy purchase"
+    },
+    {
+      "id": 11,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 150.0,
+      "category": "Rent",
+      "date": "2024-01-01",
+      "description": "Monthly rent"
+    },
+    {
+      "id": 12,
+      "user_id": 1,
+      "type": "income",
+      "amount": 100.0,
+      "category": "Investment",
+      "date": "2024-01-02",
+      "description": "Stock dividends"
+    },
+    {
+      "id": 13,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 65.0,
+      "category": "Snacks",
+      "date": "2024-01-03",
+      "description": "Coffee and snacks"
+    },
+    {
+      "id": 14,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 300.0,
+      "category": "Travel",
+      "date": "2024-01-04",
+      "description": "Weekend trip"
+    },
+    {
+      "id": 15,
+      "user_id": 1,
+      "type": "income",
+      "amount": 150.0,
+      "category": "Freelance",
+      "date": "2024-01-05",
+      "description": "Freelance project"
+    },
+    {
+      "id": 16,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 90.0,
+      "category": "Fitness",
+      "date": "2024-02-01",
+      "description": "Gym membership"
+    },
+    {
+      "id": 17,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 140.0,
+      "category": "Education",
+      "date": "2024-02-02",
+      "description": "Online course"
+    },
+    {
+      "id": 18,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 100.0,
+      "category": "Books",
+      "date": "2024-02-03",
+      "description": "Bought a novel"
+    },
+    {
+      "id": 19,
+      "user_id": 1,
+      "type": "income",
+      "amount": 200.0,
+      "category": "Freelance",
+      "date": "2024-02-04",
+      "description": "Freelance writing"
+    },
+    {
+      "id": 20,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 120.0,
+      "category": "Dining",
+      "date": "2024-02-05",
+      "description": "Dinner with family"
+    },
+    {
+      "id": 71,
+      "user_id": 1,
+      "type": "income",
+      "amount": 300.0,
+      "category": "Gift",
+      "date": "2025-01-10",
+      "description": "Received a gift"
+    },
+    {
+      "id": 72,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 120.0,
+      "category": "Clothing",
+      "date": "2025-01-15",
+      "description": "Bought a pair of shoes"
+    },
+    {
+      "id": 73,
+      "user_id": 1,
+      "type": "income",
+      "amount": 400.0,
+      "category": "Bonus",
+      "date": "2025-02-10",
+      "description": "Quarterly bonus"
+    },
+    {
+      "id": 74,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 90.0,
+      "category": "Health",
+      "date": "2025-02-15",
+      "description": "Pharmacy purchase"
+    },
+    {
+      "id": 75,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 100.0,
+      "category": "Transport",
+      "date": "2025-03-01",
+      "description": "Bus pass"
+    },
+    {
+      "id": 76,
+      "user_id": 1,
+      "type": "income",
+      "amount": 600.0,
+      "category": "Salary",
+      "date": "2025-03-05",
+      "description": "Part-time job salary"
+    },
+    {
+      "id": 77,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 140.0,
+      "category": "Groceries",
+      "date": "2025-03-10",
+      "description": "Weekly groceries"
+    },
+    {
+      "id": 78,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 110.0,
+      "category": "Dining",
+      "date": "2025-04-01",
+      "description": "Dinner with friends"
+    },
+    {
+      "id": 79,
+      "user_id": 1,
+      "type": "income",
+      "amount": 450.0,
+      "category": "Bonus",
+      "date": "2025-04-05",
+      "description": "Performance bonus"
+    },
+    {
+      "id": 80,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 85.0,
+      "category": "Health",
+      "date": "2025-04-10",
+      "description": "Pharmacy purchase"
+    },
+    {
+      "id": 81,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 180.0,
+      "category": "Rent",
+      "date": "2025-05-01",
+      "description": "Monthly rent"
+    },
+    {
+      "id": 82,
+      "user_id": 1,
+      "type": "income",
+      "amount": 120.0,
+      "category": "Investment",
+      "date": "2025-05-05",
+      "description": "Stock dividends"
+    },
+    {
+      "id": 83,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 75.0,
+      "category": "Snacks",
+      "date": "2025-05-10",
+      "description": "Coffee and snacks"
+    },
+    {
+      "id": 84,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 400.0,
+      "category": "Travel",
+      "date": "2025-06-01",
+      "description": "Vacation trip"
+    },
+    {
+      "id": 85,
+      "user_id": 1,
+      "type": "income",
+      "amount": 300.0,
+      "category": "Freelance",
+      "date": "2025-06-05",
+      "description": "Freelance project"
+    },
+    {
+      "id": 86,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 110.0,
+      "category": "Fitness",
+      "date": "2025-06-10",
+      "description": "Gym membership"
+    },
+    {
+      "id": 87,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 160.0,
+      "category": "Education",
+      "date": "2025-07-01",
+      "description": "Online course"
+    },
+    {
+      "id": 88,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 120.0,
+      "category": "Books",
+      "date": "2025-07-05",
+      "description": "Bought a novel"
+    },
+    {
+      "id": 89,
+      "user_id": 1,
+      "type": "income",
+      "amount": 250.0,
+      "category": "Freelance",
+      "date": "2025-07-10",
+      "description": "Freelance writing"
+    },
+    {
+      "id": 90,
+      "user_id": 1,
+      "type": "expense",
+      "amount": 150.0,
+      "category": "Dining",
+      "date": "2025-08-01",
+      "description": "Dinner with family"
+    }
+  ],
+  "goals": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "name": "Vacation Fund",
+      "target_amount": 2000.0,
+      "current_amount": 500.0,
+      "deadline": "2024-06-01T00:00:00Z"
+    }
+  ],
+  "budgets": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "category": "Groceries",
+      "limit": 300.0,
+      "start_date": "2023-10-01T00:00:00Z",
+      "end_date": "2023-10-31T23:59:59Z"
+    }
+  ],
+  "savings": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "amount": 1000.0,
+      "created_at": "2023-10-01T12:00:00Z"
+    }
+  ],
+  "income": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "amount": 3000.0,
+      "current_balance": 2500.0,
+      "created_at": "2023-10-01T12:00:00Z"
+    }
+  ]
 }
