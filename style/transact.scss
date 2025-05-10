@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 95%;
+    width: 100%;
     gap: 2rem;
     padding-block-end: 6rem;
     section {
@@ -37,11 +37,234 @@
       &_inner {
         display: flex;
         flex-direction: column;
-        padding-block: 1rem;
+        padding-block: 0.5rem;
         width: 100%;
         background-color: white;
         border-radius: 0.5rem;
         overflow-x: scroll;
+        .transaction{
+display: flex;
+flex-direction: column;
+width: 100%;
+gap: 1rem;
+        }
+        .transaction-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 500;
+          position: sticky;
+          top: 0rem;
+          z-index: 1;
+          height: 2rem;
+          background-color: white;
+
+          div {
+            flex: 1;
+            text-align: center;
+          }
+        }
+
+        .transaction-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 5px 0;
+          border-radius: 5px;
+          color: #fff;
+          height: 3rem;
+          padding: 0.2rem 0.5rem;
+          font-size: 14px;
+          font-weight: 500;
+
+          &.income {
+            background-color: #388e3c;
+            text-transform: capitalize;
+          }
+
+          &.expense {
+            background-color: #d32f2f;
+            text-transform: capitalize;
+          }
+
+          div {
+            flex: 1;
+            text-align: center;
+          }
+        }
+
+        .transaction-item {
+          &.amount {
+            display: block;
+          }
+        }
+
+        .transacts {
+          max-height: 100vh;
+          overflow-y: auto;
+          width: 100%; /* Ensure it spans the full width */
+          box-sizing: border-box; /* Include padding and border in width */
+        
+        }
+
+        @media (max-width: 768px) {
+          .transacts {
+            max-height: 150vh; /* Adjust height for smaller screens */
+            overflow-y: scroll; /* Ensure scrolling works on mobile */
+            padding: 0 10px; /* Add padding for better spacing */
+          }
+        }
+
+        .year-group {
+          h2 {
+            margin: 10px 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+          }
+        }
+
+        .month-group {
+          h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+          }
+          &:not(:has(.transaction)) {
+            display: none;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .transaction-item {
+            flex-direction: column;
+            align-items: flex-start;
+
+            div {
+              text-align: left;
+              margin-bottom: 5px;
+            }
+          }
+
+          .transaction-item .amount {
+            text-align: left;
+            font-weight: bold;
+            margin-top: 5px;
+            width: 100%; /* Ensure it spans the full width */
+            display: block; /* Ensure it is displayed properly */
+            word-wrap: break-word; /* Handle long amounts */
+          }
+
+          .transaction-header {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+
+            div {
+              text-align: left;
+              margin-bottom: 5px;
+            }
+          }
+
+          .year-group {
+            display: flex;
+            flex-direction: column; /* Arrange years in descending order */
+          }
+
+          .month-group {
+            display: flex;
+            flex-direction: column; /* Arrange months in descending order */
+          }
+        }
+
+        .single_transact {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          display: none; /* Initially hidden */
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+
+          .transaction-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 0.3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            height: 20rem;
+            font-family: Arial, sans-serif;
+            .close {
+              display: flex;
+              align-items: end;
+              justify-content: end;
+              width: 100%;
+
+              height: 3rem;
+              i {
+                width: 2rem;
+                height: 100%;
+                background-color: red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1rem;
+                border-radius: 0.2rem;
+                cursor: pointer;
+              }
+            }
+            h2 {
+              text-align: center;
+              margin-bottom: 20px;
+              color: #333;
+            }
+
+            .detail-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin: 10px 0;
+              font-size: 14px;
+              color: #555;
+              height: 2rem;
+              width: 100%;
+
+              strong {
+                text-align: left;
+                font-size: 14px;
+                font-weight: 600;
+              }
+
+              span {
+                text-align: right;
+                font-weight: 500;
+                font-size: 14px;
+                &.type-detail {
+                  height: 2rem;
+                  padding-inline: 0.3rem;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  text-transform: capitalize;
+                  border-radius: 0.2rem;
+                  font-size: 14px;
+                  font-weight: 400;
+                }
+              }
+            }
+          }
+        }
       }
     }
     @media screen and (min-width: 768px) {
@@ -49,6 +272,7 @@
       align-items: start;
       justify-content: center;
       flex-direction: row;
+      padding-block-end: 1rem;
       section {
         background-color: white;
         align-items: center;
