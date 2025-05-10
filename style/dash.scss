@@ -5,6 +5,10 @@
   padding-block-end: 7rem;
   width: 100vw;
   gap: 1.5rem;
+  @media screen and (min-width: 768px) {
+    padding-block-end: 0;
+    
+  }
   &_header {
     display: flex;
     align-items: center;
