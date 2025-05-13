@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign up</title>
     <link rel="stylesheet" href="/style/custom.css" />
-  </head>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
   <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
+  </head>
+
   <body>
     <div class="signup">
       <div class="signup_left">
@@ -20,7 +28,7 @@
             <h5>Lets get you started</h5>
           </div>
           <div class="signup_left_inner_second">
-            <form action="/signup" method="POST">
+            <form method="POST" action="./sigin.html">
               <input
                 type="text"
                 name="username"
@@ -42,7 +50,7 @@
                   <a href="/privacy">conditions</a>
                 </p>
               </div>
-              <button type="submit">Create account</button>
+            <button type="submit">Create account</button>
             </form>
           </div>
           <div class="signup_left_inner_third">
@@ -53,4 +61,161 @@
       <div class="signup_right"></div>
     </div>
   </body>
+  <script>
+    const style = document.createElement('style');
+    style.textContent = `
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .loading-icon img {
+        width: 2.5rem;
+        height: 4rem;
+      }
+      @keyframes heartbeat {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+      .password-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+      }
+      .password-container input {
+        // flex: 1;
+      }
+      .password-container .toggle-icon {
+        width: 0;
+        position: absolute;
+        right: 2rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: grey;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const form = document.querySelector('form');
+    const body = document.body;
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent form submission for demonstration purposes
+
+      const name = event.target.name.value;
+      const email = event.target.email.value;
+      const password = event.target.password.value;
+      const createdAt = new Date().toISOString(); // Add creation time
+
+      // Validate password
+      const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-]{8}$/;
+      if (!passwordRegex.test(password)) {
+        alert('Password must be exactly 8 characters long and can only contain letters, numbers, and symbols.');
+        return;
+      }
+
+      if (name && email && password) {
+        // Show loading screen
+        const loadingScreen = document.createElement('div');
+        loadingScreen.id = 'loading-screen';
+        loadingScreen.innerHTML = `
+          <div class="loading-icon">
+            <img src="/Logomark.png" alt="Loading" />
+          </div>
+        `;
+        body.appendChild(loadingScreen);
+
+        const loadingIcon = document.querySelector('.loading-icon img');
+        loadingIcon.style.animation = 'heartbeat 1s infinite';
+
+        try {
+          // Check if user already exists
+          const existingUsersResponse = await fetch('http://localhost:3000/users');
+          const existingUsers = await existingUsersResponse.json();
+
+          const userExists = existingUsers.some(
+            user => user.email === email && user.password === password
+          );
+
+          if (userExists) {
+            alert('An account with this email and password already exists. Please use different credentials.');
+          } else {
+            const response = await fetch('http://localhost:3000/users', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ name, email, password, createdAt }),
+            });
+
+            if (response.ok) {
+              alert('Account created successfully!');
+              event.target.reset(); // Reset the form
+
+              // Store signed-up user info in localStorage
+              const signedUpUser = { name, email, createdAt };
+              localStorage.setItem('signedUpUser', JSON.stringify(signedUpUser));
+
+              // Redirect to the redirect page
+              window.location.href = './signin.html';
+            } else if (response.status === 409) {
+              alert('User already exists. Please try a different email or username.');
+            } else {
+              alert('Failed to create account. Please try again.');
+            }
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again later.');
+        } finally {
+          // Remove loading screen
+          body.removeChild(loadingScreen);
+        }
+      } else {
+        alert('Please fill in all fields.');
+      }
+    });
+
+    // Function to toggle password visibility
+    function togglePasswordVisibility() {
+      const passwordInput = document.querySelector('input[name="password"]');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    }
+
+    // Add a toggle icon for password visibility
+    const passwordInput = document.querySelector('input[name="password"]');
+    const passwordContainer = document.createElement('div');
+    passwordContainer.classList.add('password-container');
+    passwordInput.parentNode.insertBefore(passwordContainer, passwordInput);
+    passwordContainer.appendChild(passwordInput);
+
+    const toggleIcon = document.createElement('i');
+    toggleIcon.classList.add('fas', 'fa-eye', 'toggle-icon');
+
+    toggleIcon.addEventListener('click', function() {
+      togglePasswordVisibility();
+      toggleIcon.classList.toggle('fa-eye');
+      toggleIcon.classList.toggle('fa-eye-slash');
+    });
+
+    passwordContainer.appendChild(toggleIcon);
+  </script>
 </html>

@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in</title>
     <link rel="stylesheet" href="/style/custom.css" />
-  </head>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
   <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon">
+  </head>
+
   <body>
     <div class="signin">
       <div class="signin_left">
@@ -36,6 +44,7 @@
                 </div>
                 <div class="right">
                   <a href="">Forgot password</a>
+                
                 </div>
               </div>
               <a href="/pages/index.html">
@@ -53,4 +62,168 @@
       </div>
     </div>
   </body>
+  <script>
+        const style = document.createElement('style');
+    style.textContent = `
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .loading-icon img {
+        width: 2.5rem;
+        height: 4rem;
+      }
+      @keyframes heartbeat {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+      .password-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+      }
+      .password-container input {
+        // flex: 1;
+      }
+      .password-container .toggle-icon {
+        width: 0;
+        position: absolute;
+        right: 2rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: grey;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.querySelector("form").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const email = document.querySelector('input[name="email"]').value.trim();
+      const password = document.querySelector('input[name="password"]').value.trim();
+
+      if (!email || !password) {
+        const errorMessage = document.querySelector(".error-message");
+        if (!errorMessage) {
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "error-message";
+          errorDiv.style.color = "red";
+          errorDiv.textContent = "Please fill in both email and password.";
+          document.querySelector(".signin_left_inner_second").appendChild(errorDiv);
+        }
+        return;
+      }
+
+      const loadingScreen = document.createElement("div");
+      loadingScreen.className = "loading-screen";
+      loadingScreen.style.position = "fixed";
+      loadingScreen.style.top = "0";
+      loadingScreen.style.left = "0";
+      loadingScreen.style.width = "100%";
+      loadingScreen.style.height = "100%";
+      loadingScreen.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      loadingScreen.style.display = "flex";
+      loadingScreen.style.flexDirection = "column";
+      loadingScreen.style.justifyContent = "center";
+      loadingScreen.style.alignItems = "center";
+      loadingScreen.style.color = "white";
+      loadingScreen.style.fontSize = "1.5rem";
+
+      const favicon = document.createElement("img");
+      favicon.src = "/Logomark.png";
+      favicon.alt = "Loading...";
+      favicon.style.width = "2.5rem";
+      favicon.style.height = "4rem";
+      favicon.style.marginBottom = "10px";
+
+      const loadingText = document.createElement("div");
+      loadingText.textContent = "Loading...";
+
+      loadingScreen.appendChild(favicon);
+      loadingScreen.appendChild(loadingText);
+      document.body.appendChild(loadingScreen);
+
+      try {
+        const response = await fetch('/db.json', { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data.");
+        }
+        const data = await response.json();
+        const users = Array.isArray(data) ? data : data.users || [];
+
+        let loggedInUser = null;
+        for (const user of users) {
+          if (user.email.trim().toLowerCase() === email.toLowerCase() && user.password === password) {
+            loggedInUser = user;
+            break;
+          }
+        }
+
+        if (loggedInUser) {
+          localStorage.setItem("loggedInUser", JSON.stringify({
+            id: loggedInUser.id,
+            name: loggedInUser.name,
+            email: loggedInUser.email
+          }));
+          alert("Login successful!");
+          window.location.href = "/pages/index.html";
+        } else {
+          const errorMessage = document.querySelector(".error-message");
+          if (!errorMessage) {
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "error-message";
+            errorDiv.style.color = "red";
+            errorDiv.textContent = "Invalid email or password. Please try again.";
+            document.querySelector(".signin_left_inner_second").appendChild(errorDiv);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("An error occurred. Please try again later.");
+      } finally {
+        document.body.removeChild(loadingScreen);
+      }
+    });
+    // Function to toggle password visibility
+    function togglePasswordVisibility() {
+      const passwordInput = document.querySelector('input[name="password"]');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    }
+    // Add a toggle icon for password visibility
+    const passwordInput = document.querySelector('input[name="password"]');
+    const passwordContainer = document.createElement('div');
+    passwordContainer.classList.add('password-container');
+    passwordInput.parentNode.insertBefore(passwordContainer, passwordInput);
+    passwordContainer.appendChild(passwordInput);
+
+    const toggleIcon = document.createElement('i');
+    toggleIcon.classList.add('fas', 'fa-eye', 'toggle-icon');
+
+    toggleIcon.addEventListener('click', function() {
+      togglePasswordVisibility();
+      toggleIcon.classList.toggle('fa-eye');
+      toggleIcon.classList.toggle('fa-eye-slash');
+    });
+
+    passwordContainer.appendChild(toggleIcon);
+  </script>
 </html>
