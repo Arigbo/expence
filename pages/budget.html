@@ -42,9 +42,23 @@
             <i class="far fa-user"></i>
           </div>
           <div class="left_right">
-            <h1>Hello</h1>
-            <h4>Chally Pepper</h4>
+            <h1>Welcome</h1>
+            <h4 id="loggedInUser">Guest</h4>
           </div>
+          <script>
+            const user = JSON.parse(localStorage.getItem("loggedInUser")) || {
+              name: "Guest",
+            };
+            const signedUpUser = JSON.parse(
+              localStorage.getItem("signedUpUser")
+            );
+            document.getElementById("loggedInUser").textContent =
+              user.name !== "Guest"
+                ? user.name
+                : signedUpUser && signedUpUser.name
+                ? signedUpUser.name
+                : "Guest";
+          </script>
         </div>
         <div class="right">
           <i class="far fa-bell"></i>
@@ -56,8 +70,24 @@
         </div>
         <div class="middle">
           <div class="middle_left">
-            <p>Hello Colins, good morning!</p>
+            <p>
+              Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
+            </p>
           </div>
+          <script>
+            const userMiddle = JSON.parse(
+              localStorage.getItem("loggedInUser")
+            ) || { name: "Guest" };
+            const signedUpUserMiddle = JSON.parse(
+              localStorage.getItem("signedUpUser")
+            );
+            document.getElementById("loggedInUserMiddle").textContent =
+              userMiddle.name !== "Guest"
+                ? userMiddle.name
+                : signedUpUserMiddle && signedUpUserMiddle.name
+                ? signedUpUserMiddle.name
+                : "Guest";
+          </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -68,88 +98,88 @@
             <h1><i class="far fa-bell"></i></h1>
           </div>
           <div class="right_right">
-            <i class="fas fa-user"></i>
+            <a href="./profile.html"> <i class="fas fa-user"></i></a>
           </div>
         </div>
       </div>
       <div class="goal_budget">
         <div class="goal">
           <div id="editGoalFormContainer" class="edit_goal_form">
-        <div class="form-container">
-          <header>
-            <h2>Edit Goal</h2>
-            <i class="fas fa-x" id="closeEditGoalForm"></i>
-          </header>
-          <form id="editGoalForm">
-            <div class="form-group">
-          <label for="editGoalName">Goal Name:</label>
-          <input type="text" id="editGoalName" required />
+            <div class="form-container">
+              <header>
+                <h2>Edit Goal</h2>
+                <i class="fas fa-x" id="closeEditGoalForm"></i>
+              </header>
+              <form id="editGoalForm">
+                <div class="form-group">
+                  <label for="editGoalName">Goal Name:</label>
+                  <input type="text" id="editGoalName" required />
+                </div>
+                <div class="form-group">
+                  <label for="editGoalDate">Date to Complete:</label>
+                  <input type="date" id="editGoalDate" required />
+                </div>
+                <button type="submit" class="btn-submit">Update Goal</button>
+              </form>
             </div>
-            <div class="form-group">
-          <label for="editGoalDate">Date to Complete:</label>
-          <input type="date" id="editGoalDate" required />
-            </div>
-            <button type="submit" class="btn-submit">Update Goal</button>
-          </form>
-        </div>
           </div>
           <header>
-        <h2>Goals</h2>
-        <button id="addGoalButton">
-          Add New Goal <i class="fas fa-plus"></i>
-        </button>
+            <h2>Goals</h2>
+            <button id="addGoalButton">
+              Add New Goal <i class="fas fa-plus"></i>
+            </button>
           </header>
           <div id="goalFormContainer" class="goal_form">
-        <div class="form-container">
-          <header>
-            <h2>Add New Goal</h2>
-            <i class="fas fa-x" id="closeGoalForm"></i>
-          </header>
-          <form id="goalForm">
-            <div class="form-group">
-          <label for="goalName">Goal Name:</label>
-          <input
-            type="text"
-            id="goalName"
-            placeholder="Enter your goal"
-            required
-          />
+            <div class="form-container">
+              <header>
+                <h2>Add New Goal</h2>
+                <i class="fas fa-x" id="closeGoalForm"></i>
+              </header>
+              <form id="goalForm">
+                <div class="form-group">
+                  <label for="goalName">Goal Name:</label>
+                  <input
+                    type="text"
+                    id="goalName"
+                    placeholder="Enter your goal"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="goalDate">Date to Complete:</label>
+                  <input type="date" id="goalDate" required />
+                </div>
+                <button type="submit" class="btn-submit">Add Goal</button>
+              </form>
             </div>
-            <div class="form-group">
-          <label for="goalDate">Date to Complete:</label>
-          <input type="date" id="goalDate" required />
-            </div>
-            <button type="submit" class="btn-submit">Add Goal</button>
-          </form>
-        </div>
           </div>
           <div id="goalListContainer" class="goal-list">
-        <!-- Goals will be dynamically added here -->
+            <!-- Goals will be dynamically added here -->
           </div>
         </div>
         <!-- Main Content -->
         <div class="budget-calculator">
           <div class="budget-calculator_top">
-        <header>
-          <h2>Active Budget</h2>
-        </header>
-        <div class="right">
-          <button id="openBudgetForm">
-            Add Budget <i class="fas fa-plus"></i>
-          </button>
-          <button id="updateIncomeButton">
-            <i class="far fa-edit"></i> Edit Income
-          </button>
-        </div>
+            <header>
+              <h2>Active Budget</h2>
+            </header>
+            <div class="right">
+              <button id="openBudgetForm">
+                Add Budget <i class="fas fa-plus"></i>
+              </button>
+              <button id="updateIncomeButton">
+                <i class="far fa-edit"></i> Edit Income
+              </button>
+            </div>
           </div>
           <div class="budget-calculator_inner">
-        <div id="budgetFormContainer" class="budget_form">
-          <div class="form-container">
-            <header>
-          <h2>Add New Budget</h2>
-          <i class="fas fa-x" id="closeBudgetForm"></i>
-            </header>
-            <form id="budgetForm">
+            <div id="budgetFormContainer" class="budget_form">
+              <div class="form-container">
+                <header>
+                  <h2>Add New Budget</h2>
+                  <i class="fas fa-x" id="closeBudgetForm"></i>
+                </header>
+                <form id="budgetForm">
                   <div class="form-group">
                     <label for="budgetName">Budget Name:</label>
                     <input

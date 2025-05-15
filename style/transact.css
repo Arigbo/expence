@@ -12,10 +12,9 @@
   align-items: center;
   width: 100%;
   gap: 2rem;
-  padding-block-end: 6rem;
 }
 .dashboard .transaction_inner section {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,28 +45,33 @@
   border-radius: 0.5rem;
   overflow-x: scroll;
 }
-.dashboard .transaction_inner .fourth_inner .transaction {
+.dashboard .transaction_inner .fourth_inner .transacts {
+  max-height: 100vh;
+  overflow-y: auto;
+  width: 100%; /* Ensure it spans the full width */
+}
+.dashboard .transaction_inner .fourth_inner .transacts .transaction {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 1rem;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-header {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 500;
   position: sticky;
-  top: 0rem;
+  top: -0.1rem;
   z-index: 1;
-  height: 2rem;
+  height: 3rem;
   background-color: white;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-header div {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-header div {
   flex: 1;
   text-align: center;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-item {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,34 +82,25 @@
   padding: 0.2rem 0.5rem;
   font-size: 14px;
   font-weight: 500;
+  transition: all 0.2s ease;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-item.income {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item.income {
   background-color: #388e3c;
   text-transform: capitalize;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-item.expense {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item.income:hover {
+  background-color: #2f6b32;
+}
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item.expense {
   background-color: #d32f2f;
   text-transform: capitalize;
 }
-.dashboard .transaction_inner .fourth_inner .transaction-item div {
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item.expense:hover {
+  background-color: #a22626;
+}
+.dashboard .transaction_inner .fourth_inner .transacts .transaction-item div {
   flex: 1;
   text-align: center;
-}
-.dashboard .transaction_inner .fourth_inner .transaction-item.amount {
-  display: block;
-}
-.dashboard .transaction_inner .fourth_inner .transacts {
-  max-height: 100vh;
-  overflow-y: auto;
-  width: 100%; /* Ensure it spans the full width */
-  box-sizing: border-box; /* Include padding and border in width */
-}
-@media (max-width: 768px) {
-  .dashboard .transaction_inner .fourth_inner .transacts {
-    max-height: 150vh; /* Adjust height for smaller screens */
-    overflow-y: scroll; /* Ensure scrolling works on mobile */
-    padding: 0 10px; /* Add padding for better spacing */
-  }
 }
 .dashboard .transaction_inner .fourth_inner .year-group h2 {
   margin: 10px 0;
@@ -123,30 +118,35 @@
   display: none;
 }
 @media (max-width: 768px) {
-  .dashboard .transaction_inner .fourth_inner .transaction-item {
+  .dashboard .transaction_inner .fourth_inner .transacts {
+    max-height: 80vh; /* Adjust height for smaller screens */
+    overflow-y: scroll; /* Ensure scrolling works on mobile */
+    padding: 0 10px; /* Add padding for better spacing */
+  }
+  .dashboard .transaction_inner .fourth_inner .transacts .transaction-header {
+    display: none;
     flex-direction: column;
     align-items: flex-start;
   }
-  .dashboard .transaction_inner .fourth_inner .transaction-item div {
+  .dashboard .transaction_inner .fourth_inner .transacts .transaction-header div {
     text-align: left;
     margin-bottom: 5px;
   }
-  .dashboard .transaction_inner .fourth_inner .transaction-item .amount {
+  .dashboard .transaction_inner .fourth_inner .transacts .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dashboard .transaction_inner .fourth_inner .transacts .transaction-item div {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  .dashboard .transaction_inner .fourth_inner .transacts .transaction-item .amount {
     text-align: left;
     font-weight: bold;
     margin-top: 5px;
     width: 100%; /* Ensure it spans the full width */
     display: block; /* Ensure it is displayed properly */
     word-wrap: break-word; /* Handle long amounts */
-  }
-  .dashboard .transaction_inner .fourth_inner .transaction-header {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .dashboard .transaction_inner .fourth_inner .transaction-header div {
-    text-align: left;
-    margin-bottom: 5px;
   }
   .dashboard .transaction_inner .fourth_inner .year-group {
     display: flex;
@@ -245,7 +245,6 @@
     align-items: start;
     justify-content: center;
     flex-direction: row;
-    padding-block-end: 1rem;
   }
   .dashboard .transaction_inner section {
     background-color: white;
