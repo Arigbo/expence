@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <h1>Profile Page</h1>
+    <div id="profiles"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loggedInId = localStorage.getItem("loggedin_id")
+          ? Number(localStorage.getItem("loggedin_id"))
+          : null;
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (!loggedInId) {
+          console.error("No logged in user ID found in localStorage.");
+          return;
+        }
+
+        fetch("/db.json")
+          .then((response) => response.json())
+          .then((data) => {
+            const profilesContainer = document.getElementById("profiles");
+            const user = data.find((profile) => profile.id === loggedInId);
+
+            if (user) {
+              const profileDiv = document.createElement("div");
+              profileDiv.classList.add("profile-container");
+              profileDiv.innerHTML = `
+                            <img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture">
+                            <h2>${user.name}</h2>
+                            <p>Email: ${user.email}</p>
+                            <p>Phone: ${user.phone}</p>
+                            <p>Address: ${user.address || "N/A"}</p>
+                        `;
+              profilesContainer.appendChild(profileDiv);
+            } else {
+              profilesContainer.innerHTML =
+                "<p>No user found for the logged-in ID.</p>";
+            }
+          })
+          .catch((error) =>
+            console.error("Error fetching profile data:", error)
+          );
+      });
+    </script>
+
+    <div class="profile-container">
+      <img
+        src="profile-picture.jpg"
+        alt="Profile Picture"
+        class="profile-picture"
+      />
+      <h2>John Doe</h2>
+      <p>Email: johndoe@example.com</p>
+      <p>Phone: +1234567890</p>
+      <p>Address: 123 Main Street, City, Country</p>
+    </div>
+  </body>
 </html>
