@@ -294,9 +294,6 @@
             // Calculate estimated income (e.g., assuming 10% growth)
             const estimatedIncome = totals.income * 1.1;
 
-            // Calculate percentage of income spent
-            const percentageSpent = ((totals.expense / totals.income) * 100).toFixed(2);
-
             // Update totals in the DOM
             const incomeElement = document.getElementById("totalIncome");
             incomeElement.textContent = `$${totals.income.toLocaleString()}`;
@@ -304,11 +301,11 @@
             "afterend",
             `<p>(Estimated income: $${estimatedIncome.toLocaleString()}</p>`
             );
-          const savings = totals.income - totals.expense;
+            const savings = totals.income - totals.expense;
 
           // Update totals in the DOM
           document.getElementById(
-            "displayTotalBalance"
+            "totalBalance"
           ).textContent = `$${savings.toLocaleString()}`;
           document.getElementById(
             "totalIncome"
@@ -631,131 +628,131 @@
     fetch("/db.json")
       .then((response) => response.json())
       .then((data) => {
-        const transactions = data.transactions.filter(
-          (transact) => transact.user_id === loggedInId
-        );
+      const transactions = data.transactions
+        .filter((transact) => transact.user_id === loggedInId)
+        .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by recent transactions
 
-        // Populate transaction table
-        const displayedTransactions = transactions.slice(0, 8);
-        displayedTransactions.forEach((transact) => {
-          document.querySelector(".transacts").insertAdjacentHTML(
-            "beforeend",
-            `
-            <div class="transact">
-              <div class="firstCl">
+      // Populate transaction table
+      const displayedTransactions = transactions.slice(0, 8);
+      displayedTransactions.forEach((transact) => {
+        document.querySelector(".transacts").insertAdjacentHTML(
+        "beforeend",
+        `
+        <div class="transact">
+          <div class="firstCl">
           <p>${transact.date}</p>
-              </div>
-              <div class="secondCl">
+          </div>
+          <div class="secondCl">
           <p>${transact.description}</p>
-              </div>
-              <div class="thirdCl">
+          </div>
+          <div class="thirdCl">
           <p>${transact.category}</p>
-              </div>
-              <div class="fourthCl">
+          </div>
+          <div class="fourthCl">
           <h5 class=${transact.type === "income" ? "green" : "red"}>
             <span>${transact.type}</span>
           </h5>
-              </div>
-              <div class="fifthCl">
+          </div>
+          <div class="fifthCl">
           <h4 class=${transact.type === "expense" ? "red" : "green"}>
             ${transact.type === "expense" ? "-" : "+"}${transact.amount}
           </h4>
-              </div>
-            </div>
-            `
+          </div>
+        </div>
+        `
+        );
+      });
+
+      //
+      const groupByPeriod = (transactions, period) => {
+        return transactions.reduce((acc, transact) => {
+        const date = new Date(transact.date);
+        let key;
+        if (period === "daily") {
+          key = date.toISOString().split("T")[0];
+        } else if (period === "weekly") {
+          const weekStart = new Date(
+          date.setDate(date.getDate() - date.getDay())
           );
+          key = weekStart.toISOString().split("T")[0];
+        } else if (period === "monthly") {
+          key = date.toLocaleString("default", { month: "long" });
+        } else if (period === "yearly") {
+          key = date.getFullYear();
+        }
+        if (!acc[key]) {
+          acc[key] = { income: 0, expense: 0, savings: 0 };
+        }
+        acc[key][transact.type] += transact.amount;
+        acc[key].savings = acc[key].income - acc[key].expense;
+        return acc;
+        }, {});
+      };
+
+      let chartInstance;
+
+      const updateChart = (period = "monthly") => {
+        const groupedData = groupByPeriod(transactions, period);
+        const labels = Object.keys(groupedData);
+        const incomeData = labels.map((label) => groupedData[label].income);
+        const expenseData = labels.map((label) => groupedData[label].expense);
+        const savingsData = labels.map((label) => groupedData[label].savings);
+
+        // Destroy existing chart instance if it exists
+        if (chartInstance) {
+        chartInstance.destroy();
+        }
+
+        // Create new chart instance
+        const ctx = document.getElementById("expenseChart").getContext("2d");
+        chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+          {
+            label: "Income",
+            data: incomeData,
+            backgroundColor: "rgba(0, 128, 0, 0.5)",
+            borderColor: "rgba(0, 128, 0, 1)",
+            borderWidth: 1,
+          },
+          {
+            label: "Expense",
+            data: expenseData,
+            backgroundColor: "rgba(255, 0, 0, 0.413)",
+            borderColor: "red",
+            borderWidth: 1,
+          },
+          {
+            label: "Savings",
+            data: savingsData,
+            backgroundColor: " rgba(202, 202, 19, 0.413)",
+            borderColor: "rgb(202, 202, 19)",
+            borderWidth: 1,
+          },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+          y: {
+            beginAtZero: true,
+          },
+          },
+        },
         });
+      };
 
-        // Group transactions by period
-        const groupByPeriod = (transactions, period) => {
-          return transactions.reduce((acc, transact) => {
-            const date = new Date(transact.date);
-            let key;
-            if (period === "daily") {
-              key = date.toISOString().split("T")[0];
-            } else if (period === "weekly") {
-              const weekStart = new Date(
-                date.setDate(date.getDate() - date.getDay())
-              );
-              key = weekStart.toISOString().split("T")[0];
-            } else if (period === "monthly") {
-              key = date.toLocaleString("default", { month: "long" });
-            } else if (period === "yearly") {
-              key = date.getFullYear();
-            }
-            if (!acc[key]) {
-              acc[key] = { income: 0, expense: 0, savings: 0 };
-            }
-            acc[key][transact.type] += transact.amount;
-            acc[key].savings = acc[key].income - acc[key].expense;
-            return acc;
-          }, {});
-        };
+      // Initialize chart with default period
+      updateChart();
 
-        let chartInstance;
-
-        const updateChart = (period = "monthly") => {
-          const groupedData = groupByPeriod(transactions, period);
-          const labels = Object.keys(groupedData);
-          const incomeData = labels.map((label) => groupedData[label].income);
-          const expenseData = labels.map((label) => groupedData[label].expense);
-          const savingsData = labels.map((label) => groupedData[label].savings);
-
-          // Destroy existing chart instance if it exists
-          if (chartInstance) {
-            chartInstance.destroy();
-          }
-
-          // Create new chart instance
-          const ctx = document.getElementById("expenseChart").getContext("2d");
-          chartInstance = new Chart(ctx, {
-            type: "bar",
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: "Income",
-                  data: incomeData,
-                  backgroundColor: "rgba(0, 128, 0, 0.5)",
-                  borderColor: "rgba(0, 128, 0, 1)",
-                  borderWidth: 1,
-                },
-                {
-                  label: "Expense",
-                  data: expenseData,
-                  backgroundColor: "rgba(255, 0, 0, 0.413)",
-                  borderColor: "red",
-                  borderWidth: 1,
-                },
-                {
-                  label: "Savings",
-                  data: savingsData,
-                  backgroundColor: " rgba(202, 202, 19, 0.413)",
-                  borderColor: "rgb(202, 202, 19)",
-                  borderWidth: 1,
-                },
-              ],
-            },
-            options: {
-              responsive: true,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                },
-              },
-            },
-          });
-        };
-
-        // Initialize chart with default period
-        updateChart();
-
-        // Add event listener for period selection
-        document
-          .getElementById("btns_inner")
-          .addEventListener("change", (event) => {
-            updateChart(event.target.value);
-          });
+      // Add event listener for period selection
+      document
+        .getElementById("btns_inner")
+        .addEventListener("change", (event) => {
+        updateChart(event.target.value);
+        });
       })
       .catch((error) => console.error("Error fetching transactions:", error));
   </script>
