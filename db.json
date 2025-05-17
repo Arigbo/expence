@@ -287,368 +287,368 @@
       "engagements": 520
     }
   ],
-  "transactions": [
+"transactions": [
     {
-      "id": "1",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 95,
-      "category": "Food",
-      "date": "2023-11-02",
-      "description": "Lunch at a cafe"
+        "id": "1",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 95,
+        "category": "Food",
+        "date": "2023-11-02",
+        "description": "Lunch at a cafe"
     },
     {
-      "id": "2",
-      "user_id": 1,
-      "type": "income",
-      "amount": 200,
-      "category": "Freelance",
-      "date": "2023-11-03",
-      "description": "Freelance project payment"
+        "id": "2",
+        "user_id": 30,
+        "type": "income",
+        "amount": 200,
+        "category": "Freelance",
+        "date": "2023-11-03",
+        "description": "Freelance project payment"
     },
     {
-      "id": "3",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 75,
-      "category": "Transport",
-      "date": "2023-11-04",
-      "description": "Taxi fare"
+        "id": "3",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 75,
+        "category": "Transport",
+        "date": "2023-11-04",
+        "description": "Taxi fare"
     },
     {
-      "id": "4",
-      "user_id": 1,
-      "type": "income",
-      "amount": 250,
-      "category": "Gift",
-      "date": "2023-11-05",
-      "description": "Birthday gift"
+        "id": "4",
+        "user_id": 30,
+        "type": "income",
+        "amount": 250,
+        "category": "Gift",
+        "date": "2023-11-05",
+        "description": "Birthday gift"
     },
     {
-      "id": "5",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 110,
-      "category": "Entertainment",
-      "date": "2023-11-06",
-      "description": "Concert ticket"
+        "id": "5",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 110,
+        "category": "Entertainment",
+        "date": "2023-11-06",
+        "description": "Concert ticket"
     },
     {
-      "id": "6",
-      "user_id": 1,
-      "type": "income",
-      "amount": 550,
-      "category": "Salary",
-      "date": "2023-12-01",
-      "description": "Monthly salary"
+        "id": "6",
+        "user_id": 30,
+        "type": "income",
+        "amount": 550,
+        "category": "Salary",
+        "date": "2023-12-01",
+        "description": "Monthly salary"
     },
     {
-      "id": "7",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 130,
-      "category": "Groceries",
-      "date": "2023-12-02",
-      "description": "Weekly groceries"
+        "id": "7",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 130,
+        "category": "Groceries",
+        "date": "2023-12-02",
+        "description": "Weekly groceries"
     },
     {
-      "id": "8",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 80,
-      "category": "Dining",
-      "date": "2023-12-03",
-      "description": "Dinner with friends"
+        "id": "8",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 80,
+        "category": "Dining",
+        "date": "2023-12-03",
+        "description": "Dinner with friends"
     },
     {
-      "id": "9",
-      "user_id": 1,
-      "type": "income",
-      "amount": 350,
-      "category": "Bonus",
-      "date": "2023-12-04",
-      "description": "Performance bonus"
+        "id": "9",
+        "user_id": 30,
+        "type": "income",
+        "amount": 350,
+        "category": "Bonus",
+        "date": "2023-12-04",
+        "description": "Performance bonus"
     },
     {
-      "id": "10",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 70,
-      "category": "Health",
-      "date": "2023-12-05",
-      "description": "Pharmacy purchase"
+        "id": "10",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 70,
+        "category": "Health",
+        "date": "2023-12-05",
+        "description": "Pharmacy purchase"
     },
     {
-      "id": "11",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 150,
-      "category": "Rent",
-      "date": "2024-01-01",
-      "description": "Monthly rent"
+        "id": "11",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 150,
+        "category": "Rent",
+        "date": "2024-01-01",
+        "description": "Monthly rent"
     },
     {
-      "id": "12",
-      "user_id": 1,
-      "type": "income",
-      "amount": 100,
-      "category": "Investment",
-      "date": "2024-01-02",
-      "description": "Stock dividends"
+        "id": "12",
+        "user_id": 30,
+        "type": "income",
+        "amount": 100,
+        "category": "Investment",
+        "date": "2024-01-02",
+        "description": "Stock dividends"
     },
     {
-      "id": "13",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 65,
-      "category": "Snacks",
-      "date": "2024-01-03",
-      "description": "Coffee and snacks"
+        "id": "13",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 65,
+        "category": "Snacks",
+        "date": "2024-01-03",
+        "description": "Coffee and snacks"
     },
     {
-      "id": "14",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 300,
-      "category": "Travel",
-      "date": "2024-01-04",
-      "description": "Weekend trip"
+        "id": "14",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 300,
+        "category": "Travel",
+        "date": "2024-01-04",
+        "description": "Weekend trip"
     },
     {
-      "id": "15",
-      "user_id": 1,
-      "type": "income",
-      "amount": 150,
-      "category": "Freelance",
-      "date": "2024-01-05",
-      "description": "Freelance project"
+        "id": "15",
+        "user_id": 30,
+        "type": "income",
+        "amount": 150,
+        "category": "Freelance",
+        "date": "2024-01-05",
+        "description": "Freelance project"
     },
     {
-      "id": "16",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 90,
-      "category": "Fitness",
-      "date": "2024-02-01",
-      "description": "Gym membership"
+        "id": "16",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 90,
+        "category": "Fitness",
+        "date": "2024-02-01",
+        "description": "Gym membership"
     },
     {
-      "id": "17",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 140,
-      "category": "Education",
-      "date": "2024-02-02",
-      "description": "Online course"
+        "id": "17",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 140,
+        "category": "Education",
+        "date": "2024-02-02",
+        "description": "Online course"
     },
     {
-      "id": "18",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 100,
-      "category": "Books",
-      "date": "2024-02-03",
-      "description": "Bought a novel"
+        "id": "18",
+        "user_id": 30,
+        "type": "expense",
+        "amount": 100,
+        "category": "Books",
+        "date": "2024-02-03",
+        "description": "Bought a novel"
     },
     {
-      "id": "19",
-      "user_id": 1,
-      "type": "income",
-      "amount": 200,
-      "category": "Freelance",
-      "date": "2024-02-04",
-      "description": "Freelance writing"
+        "id": "19",
+        "user_id": 30,
+        "type": "income",
+        "amount": 200,
+        "category": "Freelance",
+        "date": "2024-02-04",
+        "description": "Freelance writing"
     },
     {
-      "id": "20",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 120,
-      "category": "Dining",
-      "date": "2024-02-05",
-      "description": "Dinner with family"
+        "id": "20",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 120,
+        "category": "Dining",
+        "date": "2024-02-05",
+        "description": "Dinner with family"
     },
     {
-      "id": "71",
-      "user_id": 1,
-      "type": "income",
-      "amount": 300,
-      "category": "Gift",
-      "date": "2025-01-10",
-      "description": "Received a gift"
+        "id": "21",
+        "user_id": 1,
+        "type": "income",
+        "amount": 500,
+        "category": "Salary",
+        "date": "2024-03-01",
+        "description": "Monthly salary"
     },
     {
-      "id": "72",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 120,
-      "category": "Clothing",
-      "date": "2025-01-15",
-      "description": "Bought a pair of shoes"
+        "id": "22",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 200,
+        "category": "Rent",
+        "date": "2024-03-02",
+        "description": "Monthly rent"
     },
     {
-      "id": "73",
-      "user_id": 1,
-      "type": "income",
-      "amount": 400,
-      "category": "Bonus",
-      "date": "2025-02-10",
-      "description": "Quarterly bonus"
+        "id": "23",
+        "user_id": 1,
+        "type": "income",
+        "amount": 300,
+        "category": "Freelance",
+        "date": "2024-03-03",
+        "description": "Freelance project"
     },
     {
-      "id": "74",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 90,
-      "category": "Health",
-      "date": "2025-02-15",
-      "description": "Pharmacy purchase"
+        "id": "24",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 50,
+        "category": "Snacks",
+        "date": "2024-03-04",
+        "description": "Coffee and snacks"
     },
     {
-      "id": "75",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 100,
-      "category": "Transport",
-      "date": "2025-03-01",
-      "description": "Bus pass"
+        "id": "25",
+        "user_id": 1,
+        "type": "income",
+        "amount": 400,
+        "category": "Bonus",
+        "date": "2024-03-05",
+        "description": "Performance bonus"
     },
     {
-      "id": "76",
-      "user_id": 1,
-      "type": "income",
-      "amount": 600,
-      "category": "Salary",
-      "date": "2025-03-05",
-      "description": "Part-time job salary"
+        "id": "26",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 100,
+        "category": "Health",
+        "date": "2024-03-06",
+        "description": "Pharmacy purchase"
     },
     {
-      "id": "77",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 140,
-      "category": "Groceries",
-      "date": "2025-03-10",
-      "description": "Weekly groceries"
+        "id": "27",
+        "user_id": 1,
+        "type": "income",
+        "amount": 600,
+        "category": "Salary",
+        "date": "2024-03-07",
+        "description": "Monthly salary"
     },
     {
-      "id": "78",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 110,
-      "category": "Dining",
-      "date": "2025-04-01",
-      "description": "Dinner with friends"
+        "id": "28",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 150,
+        "category": "Groceries",
+        "date": "2024-03-08",
+        "description": "Weekly groceries"
     },
     {
-      "id": "79",
-      "user_id": 1,
-      "type": "income",
-      "amount": 450,
-      "category": "Bonus",
-      "date": "2025-04-05",
-      "description": "Performance bonus"
+        "id": "29",
+        "user_id": 1,
+        "type": "income",
+        "amount": 700,
+        "category": "Gift",
+        "date": "2024-03-09",
+        "description": "Received a gift"
     },
     {
-      "id": "80",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 85,
-      "category": "Health",
-      "date": "2025-04-10",
-      "description": "Pharmacy purchase"
+        "id": "30",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 200,
+        "category": "Travel",
+        "date": "2024-03-10",
+        "description": "Vacation trip"
     },
     {
-      "id": "81",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 180,
-      "category": "Rent",
-      "date": "2025-05-01",
-      "description": "Monthly rent"
+        "id": "31",
+        "user_id": 1,
+        "type": "income",
+        "amount": 800,
+        "category": "Freelance",
+        "date": "2024-03-11",
+        "description": "Freelance project"
     },
     {
-      "id": "82",
-      "user_id": 1,
-      "type": "income",
-      "amount": 120,
-      "category": "Investment",
-      "date": "2025-05-05",
-      "description": "Stock dividends"
+        "id": "32",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 300,
+        "category": "Education",
+        "date": "2024-03-12",
+        "description": "Online course"
     },
     {
-      "id": "83",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 75,
-      "category": "Snacks",
-      "date": "2025-05-10",
-      "description": "Coffee and snacks"
+        "id": "33",
+        "user_id": 1,
+        "type": "income",
+        "amount": 900,
+        "category": "Investment",
+        "date": "2024-03-13",
+        "description": "Stock dividends"
     },
     {
-      "id": "84",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 400,
-      "category": "Travel",
-      "date": "2025-06-01",
-      "description": "Vacation trip"
+        "id": "34",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 400,
+        "category": "Fitness",
+        "date": "2024-03-14",
+        "description": "Gym membership"
     },
     {
-      "id": "85",
-      "user_id": 1,
-      "type": "income",
-      "amount": 300,
-      "category": "Freelance",
-      "date": "2025-06-05",
-      "description": "Freelance project"
+        "id": "35",
+        "user_id": 1,
+        "type": "income",
+        "amount": 1000,
+        "category": "Salary",
+        "date": "2024-03-15",
+        "description": "Monthly salary"
     },
     {
-      "id": "86",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 110,
-      "category": "Fitness",
-      "date": "2025-06-10",
-      "description": "Gym membership"
+        "id": "36",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 500,
+        "category": "Rent",
+        "date": "2024-03-16",
+        "description": "Monthly rent"
     },
     {
-      "id": "87",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 160,
-      "category": "Education",
-      "date": "2025-07-01",
-      "description": "Online course"
+        "id": "37",
+        "user_id": 1,
+        "type": "income",
+        "amount": 1100,
+        "category": "Bonus",
+        "date": "2024-03-17",
+        "description": "Performance bonus"
     },
     {
-      "id": "88",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 120,
-      "category": "Books",
-      "date": "2025-07-05",
-      "description": "Bought a novel"
+        "id": "38",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 600,
+        "category": "Travel",
+        "date": "2024-03-18",
+        "description": "Vacation trip"
     },
     {
-      "id": "89",
-      "user_id": 1,
-      "type": "income",
-      "amount": 250,
-      "category": "Freelance",
-      "date": "2025-07-10",
-      "description": "Freelance writing"
+        "id": "39",
+        "user_id": 1,
+        "type": "income",
+        "amount": 1200,
+        "category": "Freelance",
+        "date": "2024-03-19",
+        "description": "Freelance project"
     },
     {
-      "id": "90",
-      "user_id": 1,
-      "type": "expense",
-      "amount": 150,
-      "category": "Dining",
-      "date": "2025-08-01",
-      "description": "Dinner with family"
+        "id": "40",
+        "user_id": 1,
+        "type": "expense",
+        "amount": 700,
+        "category": "Groceries",
+        "date": "2024-03-20",
+        "description": "Weekly groceries"
     }
-  ],
+],
   "goals": [
     {
       "id": "1",
@@ -674,15 +674,6 @@
       "id": "1",
       "user_id": 1,
       "amount": 1000,
-      "created_at": "2023-10-01T12:00:00Z"
-    }
-  ],
-  "income": [
-    {
-      "id": "1",
-      "user_id": 1,
-      "amount": 3000,
-      "current_balance": 2500,
       "created_at": "2023-10-01T12:00:00Z"
     }
   ]

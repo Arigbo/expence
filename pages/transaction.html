@@ -46,19 +46,39 @@
             <h4 id="loggedInUser">Guest</h4>
           </div>
           <script>
-            const user = JSON.parse(localStorage.getItem("loggedInUser")) || {
-              name: "Guest",
-            };
-            const signedUpUser = JSON.parse(
-              localStorage.getItem("signedUpUser")
-            );
-            document.getElementById("loggedInUser").textContent =
-              user.name !== "Guest"
-                ? user.name
-                : signedUpUser && signedUpUser.name
-                ? signedUpUser.name
-                : "Guest";
-          </script>
+            const loggedInId = Number(
+               JSON.parse(localStorage.getItem("loggedin_id"))
+             );
+             const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+ 
+             async function fetchUserName() {
+               if (!isLoggedIn || !loggedInId) {
+               console.error("User is not logged in or no loggedin_id found");
+               return "Guest";
+               }
+               try {
+               const response = await fetch("/db.json");
+               if (!response.ok) {
+                 throw new Error("Failed to fetch db.json");
+               }
+               const data = await response.json();
+               if (!data || !data.users) {
+                 console.error("Users data not found in db.json");
+                 return "Guest";
+               }
+               const user = data.users.find((u) => Number(u.id) === Number(loggedInId));
+               return user ? user.name : "Guest";
+               } catch (error) {
+               console.error("Error fetching user data:", error);
+               return "Guest";
+               }
+             }
+ 
+             fetchUserName().then((name) => {
+               document.getElementById("loggedInUser").textContent = name;
+               document.getElementById("loggedInUserMiddle").textContent = name;
+             });
+             </script>
         </div>
         <div class="right">
           <i class="far fa-bell"></i>
@@ -74,20 +94,6 @@
               Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
             </p>
           </div>
-          <script>
-            const userMiddle = JSON.parse(
-              localStorage.getItem("loggedInUser")
-            ) || { name: "Guest" };
-            const signedUpUserMiddle = JSON.parse(
-              localStorage.getItem("signedUpUser")
-            );
-            document.getElementById("loggedInUserMiddle").textContent =
-              userMiddle.name !== "Guest"
-                ? userMiddle.name
-                : signedUpUserMiddle && signedUpUserMiddle.name
-                ? signedUpUserMiddle.name
-                : "Guest";
-          </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -138,78 +144,43 @@
       document.querySelector(".navbar").classList.add("show");
     });
     async function fetchTransactions() {
-      const response = await fetch("/db.json");
+      const response = await fetch("/db.json"); // Adjusted path to match relative location
       const data = await response.json();
-      return data.transactions; // Assuming transactions are stored in a "transactions" array
+      if (!data || !data.transactions) {
+        console.error("Transactions data not found in db.json");
+        return [];
+      }
+      return data.transactions; // Ensure transactions exist before returning
     }
 
     async function filterTransactions() {
-      const filter = document.getElementById("filter").value;
-      const transactions = await fetchTransactions();
-      let filteredTransactions = [];
+      const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+      const loggedInId = JSON.parse(localStorage.getItem("loggedin_id"));
+      const transactsContainer = document.querySelector(".transacts");
 
-      const now = new Date();
-      switch (filter) {
-        case "day":
-          filteredTransactions = transactions.filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
-            return transactionDate.toDateString() === now.toDateString();
-          });
-          break;
-        case "week":
-          const startOfWeek = new Date(now);
-          startOfWeek.setHours(0, 0, 0, 0); // Reset time to midnight
-          startOfWeek.setDate(now.getDate() - now.getDay());
-          filteredTransactions = transactions.filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
-            return transactionDate >= startOfWeek && transactionDate <= now;
-          });
-          break;
-        case "month":
-          filteredTransactions = transactions.filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
-            return (
-              transactionDate.getMonth() === now.getMonth() &&
-              transactionDate.getFullYear() === now.getFullYear()
-            );
-          });
-          break;
-        case "year":
-          filteredTransactions = transactions.filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
-            return transactionDate.getFullYear() === now.getFullYear();
-          });
-          break;
-        case "recent":
-          filteredTransactions = [...transactions].sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
-          );
-          break;
-        case "oldest":
-          filteredTransactions = [...transactions].sort(
-            (a, b) => new Date(a.date) - new Date(b.date)
-          );
-          break;
-        case "expenses":
-          filteredTransactions = transactions.filter(
-            (transaction) => transaction.type === "expense"
-          );
-          break;
-        case "income":
-          filteredTransactions = transactions.filter(
-            (transaction) => transaction.type === "income"
-          );
-          break;
-        default:
-          filteredTransactions = transactions;
+      if (!isLoggedIn) {
+      transactsContainer.innerHTML = `
+        <div style="text-align: center; margin-top: 20px;">
+        <p style="font-size: 20px; font-weight: 600;">You are not logged in.</p>
+        <a href="/verification/signin.html">
+          <button style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Log In</button>
+        </a>
+        </div>
+      `;
+      return;
       }
 
-      if (filteredTransactions.length === 0) {
-        const transactsContainer = document.querySelector(".transacts");
-        transactsContainer.innerHTML =
-          "<p class='no-results' style='text-align: center; font-size: 28px; font-weight: 600;'>No results found for the selected filter.</p>";
+      const transactions = await fetchTransactions();
+      const userTransactions = transactions.filter(
+      (transaction) => transaction.user_id === loggedInId
+      );
+
+      if (userTransactions.length === 0) {
+      transactsContainer.innerHTML = `
+        <p class='no-results' style='text-align: center; font-size: 28px; font-weight: 600;'>No transaction records found.</p>
+      `;
       } else {
-        displayTransactions(filteredTransactions);
+      displayTransactions(userTransactions);
       }
     }
 
@@ -220,121 +191,121 @@
       const header = document.createElement("div");
       header.classList.add("transaction-header", "sticky-header");
       header.innerHTML = `
-              <div>Date</div>
-              <div>Description</div>
-              <div>Category</div>
-              <div>Type</div>
-              <div>Amount</div>
-              `;
+          <div>Date</div>
+          <div>Description</div>
+          <div>Category</div>
+          <div>Type</div>
+          <div>Amount</div>
+          `;
       transactsContainer.appendChild(header);
 
       const groupedByYear = transactions.reduce((acc, transaction) => {
-        const year = new Date(transaction.date).getFullYear();
-        if (!acc[year]) acc[year] = [];
-        acc[year].push(transaction);
-        return acc;
+      const year = new Date(transaction.date).getFullYear();
+      if (!acc[year]) acc[year] = [];
+      acc[year].push(transaction);
+      return acc;
       }, {});
 
       const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
       for (const year of sortedYears) {
-        const yearContainer = document.createElement("div");
-        yearContainer.classList.add("year-group", "sticky-year");
-        yearContainer.innerHTML = `<h2>${year}</h2>`;
+      const yearContainer = document.createElement("div");
+      yearContainer.classList.add("year-group", "sticky-year");
+      yearContainer.innerHTML = `<h2>${year}</h2>`;
 
-        const groupedByMonth = groupedByYear[year].reduce(
-          (acc, transaction) => {
-            const month = new Date(transaction.date).toLocaleString("default", {
-              month: "long",
-            });
-            if (!acc[month]) acc[month] = [];
-            acc[month].push(transaction);
-            return acc;
-          },
-          {}
+      const groupedByMonth = groupedByYear[year].reduce(
+        (acc, transaction) => {
+        const month = new Date(transaction.date).toLocaleString("default", {
+          month: "long",
+        });
+        if (!acc[month]) acc[month] = [];
+        acc[month].push(transaction);
+        return acc;
+        },
+        {}
+      );
+
+      const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
+        const monthA = new Date(`${a} 1, ${year}`);
+        const monthB = new Date(`${b} 1, ${year}`);
+        return monthB - monthA;
+      });
+
+      for (const month of sortedMonths) {
+        const monthContainer = document.createElement("div");
+        monthContainer.classList.add("month-group", "sticky-month");
+        monthContainer.innerHTML = `<h3>${month}</h3>`;
+
+        const sortedTransactions = groupedByMonth[month].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
         );
 
-        const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
-          const monthA = new Date(`${a} 1, ${year}`);
-          const monthB = new Date(`${b} 1, ${year}`);
-          return monthB - monthA;
+        sortedTransactions.forEach((transaction) => {
+        const transactionElement = document.createElement("div");
+        transactionElement.classList.add("transaction");
+        transactionElement.innerHTML = `
+          <div class="transaction-item ${transaction.type}">
+          <div class="day">${new Date(transaction.date).toLocaleString(
+          "default",
+          {
+            weekday: "short",
+          }
+          )} / ${new Date(transaction.date).getDate()}</div>
+          <div>${transaction.description}</div>
+          <div>${transaction.category}</div>
+          <div>${transaction.type}</div>
+          <div class="amount">$${transaction.amount}</div>
+          </div>
+          `;
+        transactionElement.addEventListener("click", () => {
+          renderSingleTransaction(transaction);
+        });
+        monthContainer.appendChild(transactionElement);
         });
 
-        for (const month of sortedMonths) {
-          const monthContainer = document.createElement("div");
-          monthContainer.classList.add("month-group", "sticky-month");
-          monthContainer.innerHTML = `<h3>${month}</h3>`;
+        yearContainer.appendChild(monthContainer);
+      }
 
-          const sortedTransactions = groupedByMonth[month].sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
-          );
-
-          sortedTransactions.forEach((transaction) => {
-            const transactionElement = document.createElement("div");
-            transactionElement.classList.add("transaction");
-            transactionElement.innerHTML = `
-              <div class="transaction-item ${transaction.type}">
-              <div class="day">${new Date(transaction.date).toLocaleString(
-                "default",
-                {
-                  weekday: "short",
-                }
-              )} / ${new Date(transaction.date).getDate()}</div>
-              <div>${transaction.description}</div>
-              <div>${transaction.category}</div>
-              <div>${transaction.type}</div>
-              <div class="amount">$${transaction.amount}</div>
-              </div>
-              `;
-            transactionElement.addEventListener("click", () => {
-              renderSingleTransaction(transaction);
-            });
-            monthContainer.appendChild(transactionElement);
-          });
-
-          yearContainer.appendChild(monthContainer);
-        }
-
-        transactsContainer.appendChild(yearContainer);
+      transactsContainer.appendChild(yearContainer);
       }
     }
 
     function renderSingleTransaction(transaction) {
       const singleTransactContainer =
-        document.querySelector(".single_transact");
+      document.querySelector(".single_transact");
       singleTransactContainer.innerHTML = `
       <div class="transaction-detail">
-   <div class="close">
-   <i class=" close-btn fas fa-times"></i>
+     <div class="close">
+     <i class=" close-btn fas fa-times"></i>
     </div>
       <h2>Transaction Details</h2>
       <div class="detail-row"><strong>Date:</strong> <span>${new Date(
-        transaction.date
+      transaction.date
       ).toLocaleDateString()}</span></div>
       <div class="detail-row"><strong>Description:</strong> <span>${
-        transaction.description
+      transaction.description
       }</span></div>
       <div class="detail-row"><strong>Category:</strong> <span>${
-        transaction.category
+      transaction.category
       }</span></div>
       <div class="detail-row">
-        <strong>Type:</strong>
-        <span class="type-detail ${
-          transaction.type
-        }" style="background-color: ${
-        transaction.type === "expense" ? "#d32f2f" : "#388e3c"
+      <strong>Type:</strong>
+      <span class="type-detail ${
+        transaction.type
+      }" style="background-color: ${
+      transaction.type === "expense" ? "#d32f2f" : "#388e3c"
       };">
-          ${transaction.type}
-        </span>
+        ${transaction.type}
+      </span>
       </div>
       <div class="detail-row"><strong>Amount:</strong> <span>$${
-        transaction.amount
+      transaction.amount
       }</span></div>
       </div>
       `;
       singleTransactContainer.style.display = "flex"; // Ensure it is visible
 
       document.querySelector(".close-btn").addEventListener("click", () => {
-        singleTransactContainer.style.display = "none";
+      singleTransactContainer.style.display = "none";
       });
     }
 

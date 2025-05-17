@@ -46,20 +46,6 @@
             <h1>Welcome</h1>
             <h4 id="loggedInUser">Guest</h4>
           </div>
-          <script>
-            const user = JSON.parse(localStorage.getItem("loggedInUser")) || {
-              name: "Guest",
-            };
-            const signedUpUser = JSON.parse(
-              localStorage.getItem("signedUpUser")
-            );
-            document.getElementById("loggedInUser").textContent =
-              user.name !== "Guest"
-                ? user.name
-                : signedUpUser && signedUpUser.name
-                ? signedUpUser.name
-                : "Guest";
-          </script>
         </div>
         <div class="right">
           <i class="far fa-bell"></i>
@@ -75,20 +61,42 @@
               Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
             </p>
           </div>
-          <script>
-            const userMiddle = JSON.parse(
-              localStorage.getItem("loggedInUser")
-            ) || { name: "Guest" };
-            const signedUpUserMiddle = JSON.parse(
-              localStorage.getItem("signedUpUser")
-            );
-            document.getElementById("loggedInUserMiddle").textContent =
-              userMiddle.name !== "Guest"
-                ? userMiddle.name
-                : signedUpUserMiddle && signedUpUserMiddle.name
-                ? signedUpUserMiddle.name
-                : "Guest";
-          </script>
+            <script>
+          //  const loggedInId = Number(
+          //     JSON.parse(localStorage.getItem("loggedin_id"))
+          //   );
+          //   const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+          const loggedInId = localStorage.getItem("loggedin_id") ? Number(localStorage.getItem("loggedin_id")) : null;
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+            async function fetchUserName() {
+              if (!isLoggedIn || !loggedInId) {
+              console.error("User is not logged in or no loggedin_id found");
+              return "Guest";
+              }
+              try {
+              const response = await fetch("/db.json");
+              if (!response.ok) {
+                throw new Error("Failed to fetch db.json");
+              }
+              const data = await response.json();
+              if (!data || !data.users) {
+                console.error("Users data not found in db.json");
+                return "Guest";
+              }
+              const user = data.users.find((u) => Number(u.id) === Number(loggedInId));
+              return user ? user.name : "Guest";
+              } catch (error) {
+              console.error("Error fetching user data:", error);
+              return "Guest";
+              }
+            }
+
+            fetchUserName().then((name) => {
+              document.getElementById("loggedInUser").textContent = name;
+              document.getElementById("loggedInUserMiddle").textContent = name;
+            });
+            </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -145,7 +153,9 @@
                     </div>
                     <div class="right">
                       <h4 class="income">Income</h4>
-                      <h1 id="totalIncome">$0</h1>
+                   <div>
+                    <h1 id="totalIncome">$0</h1>
+                   </div>
                     </div>
                   </div>
                 </div>
@@ -261,59 +271,58 @@
     </div>
   </body>
   <script>
-    fetch("/db.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const transactions = data.transactions;
 
-        // Calculate totals
-        const totals = transactions.reduce(
-          (acc, transact) => {
-            acc[transact.type] += transact.amount;
-            return acc;
-          },
-          { income: 0, expense: 0 }
-        );
-        const balance = totals.income - totals.expense;
+    if (!loggedInId || !isLoggedIn) {
+      console.error("User is not logged in or loggedin_id is missing");
+    } else {
+      fetch("/db.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const transactions = data.transactions.filter(
+            (transact) => transact.user_id === loggedInId
+          );
 
-        // Update total balance in the DOM
-        document.getElementById(
-          "displayTotalBalance"
-        ).textContent = `$${balance.toLocaleString()}`;
-      })
-      .catch((error) => console.error("Error fetching transactions:", error));
-    fetch("/db.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const transactions = data.transactions;
+            // Calculate totals
+            const totals = transactions.reduce(
+            (acc, transact) => {
+              acc[transact.type] += transact.amount;
+              return acc;
+            },
+            { income: 0, expense: 0 }
+            );
 
-        // Calculate totals
-        const totals = transactions.reduce(
-          (acc, transact) => {
-            acc[transact.type] += transact.amount;
-            return acc;
-          },
-          { income: 0, expense: 0 }
-        );
-        const savings = totals.income - totals.expense;
-        const balance = savings; // Assuming balance is equivalent to savings
+            // Calculate estimated income (e.g., assuming 10% growth)
+            const estimatedIncome = totals.income * 1.1;
 
-        // Update totals in the DOM
-        document.getElementById(
-          "totalIncome"
-        ).textContent = `$${totals.income.toLocaleString()}`;
-        document.getElementById(
-          "totalExpense"
-        ).textContent = `$${totals.expense.toLocaleString()}`;
-        document.getElementById(
-          "totalSavings"
-        ).textContent = `$${savings.toLocaleString()}`;
-        document.getElementById(
-          "totalBalance"
-        ).textContent = `$${balance.toLocaleString()}`;
-      })
-      .catch((error) => console.error("Error fetching transactions:", error));
-    localStorage.setItem("isLoggedIn", "true");
+            // Calculate percentage of income spent
+            const percentageSpent = ((totals.expense / totals.income) * 100).toFixed(2);
+
+            // Update totals in the DOM
+            const incomeElement = document.getElementById("totalIncome");
+            incomeElement.textContent = `$${totals.income.toLocaleString()}`;
+            incomeElement.insertAdjacentHTML(
+            "afterend",
+            `<p>(Estimated income: $${estimatedIncome.toLocaleString()}</p>`
+            );
+          const savings = totals.income - totals.expense;
+
+          // Update totals in the DOM
+          document.getElementById(
+            "displayTotalBalance"
+          ).textContent = `$${savings.toLocaleString()}`;
+          document.getElementById(
+            "totalIncome"
+          ).textContent = `$${totals.income.toLocaleString()}`;
+          document.getElementById(
+            "totalExpense"
+          ).textContent = `$${totals.expense.toLocaleString()}`;
+          document.getElementById(
+            "totalSavings"
+          ).textContent = `$${savings.toLocaleString()}`;
+        })
+        .catch((error) => console.error("Error fetching transactions:", error));
+    }
+
     fetch("/db.json")
       .then((response) => response.json())
       .then((data) => {
@@ -328,13 +337,13 @@
           return;
         }
 
-        const blogs = data.blogs;
+        const blogs = data.blogs
 
         // Shuffle blogs to get a random order
         const shuffledBlogs = blogs.sort(() => Math.random() - 0.5);
 
         // Display only the first 20 blogs in the DOM
-        shuffledBlogs.slice(0, 10).forEach((blog) => {
+        shuffledBlogs.forEach((blog) => {
           const truncatedContent =
             blog.content.split(" ").slice(0, 30).join(" ") +
             ` ... <a href="#" class='see_more' data-id="${blog.id}">See more</a>`;
@@ -364,22 +373,13 @@
                       <i class="far fa-eye"></i>
                     </div>
                   </div>
-                  <div class="dislike_reason" style="display: none;">
-                    <label for="reason">Why don't you like this blog?</label>
-                    <select name="reason" class="reason_select">
-                      <option value="dont_approve">Don't approve</option>
-                      <option value="tried_failed">Tried it and failed</option>
-                      <option value="copied_idea">Copied your idea</option>
-                    </select>
-                  </div>
                 </div>
               </div>
                   `
           );
         });
-
-        // Add event listener for "See more" links
-        document.querySelectorAll(".see_more").forEach((link) => {
+                // Add event listener for "See more" links
+                document.querySelectorAll(".see_more").forEach((link) => {
           link.addEventListener("click", function (e) {
             e.preventDefault();
             const blogId = this.getAttribute("data-id");
@@ -597,135 +597,71 @@
           }
         });
       })
+      
       .catch((error) => console.error("Error fetching blogs:", error));
-    localStorage.setItem("page", "dashb");
-    let page = localStorage.getItem("page");
-    document.querySelector(".dash").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "dashb") {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document
-      .querySelector(".transaction")
-      .addEventListener("click", function (e) {
-        document.querySelector(".dash").classList.remove("active");
-        document.querySelector(".transaction").classList.add("active");
-        document.querySelector(".budget").classList.remove("active");
-        document.querySelector(".report").classList.remove("active");
-        document.querySelector(".setting").classList.remove("active");
-        return localStorage.setItem("page", "transaction");
+      document.querySelector(".blog_inner").addEventListener("click", function (e) {
+        if (e.target.classList.contains("see_more")) {
+          const blogId = e.target.getAttribute("data-id");
+          fetch("/db.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const blog = data.blogs.find((b) => b.id === Number(blogId));
+          if (blog) {
+            document.querySelector(".single_blog").innerHTML = `
+          <div class="single_blog_content">
+            <h1>${blog.title}</h1>
+            <p><strong>By:</strong> ${blog.author}</p>
+            <p>${blog.content}</p>
+            <button class="exitblog">Close</button>
+          </div>
+            `;
+            document.querySelector(".single_blog").classList.add("show");
+          }
+        })
+        .catch((error) => console.error("Error fetching blog details:", error));
+        }
       });
-    if (page && page === "transaction") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.add("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
 
-    document.querySelector(".budget").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "budget");
-    });
-    if (page && page === "budget") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".report").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "report");
-    });
-    if (page && page === "report") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-
-    document.querySelector(".setting").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-      return localStorage.setItem("page", "setting");
-    });
-    if (page && page === "setting") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-    }
-
-    document.querySelector(".navbar").addEventListener("click", function () {
-      document.querySelector(".navbar").classList.remove("show");
-    });
-
-    document.querySelector(".bar").addEventListener("click", function () {
-      document.querySelector(".navbar").classList.add("show");
-    });
+      document.querySelector(".single_blog").addEventListener("click", function (e) {
+        if (e.target.classList.contains("exitblog")) {
+          document.querySelector(".single_blog").classList.remove("show");
+        }
+      });
 
     fetch("/db.json")
       .then((response) => response.json())
       .then((data) => {
-        const transactions = data.transactions;
+        const transactions = data.transactions.filter(
+          (transact) => transact.user_id === loggedInId
+        );
 
         // Populate transaction table
-        transactions.forEach((transact) => {
+        const displayedTransactions = transactions.slice(0, 8);
+        displayedTransactions.forEach((transact) => {
           document.querySelector(".transacts").insertAdjacentHTML(
             "beforeend",
             `
-   ${
-     transact.id > 8
-       ? ""
-       : `              <div class="transact" key=${transact.id}>
-          <div class="firstCl">
+            <div class="transact">
+              <div class="firstCl">
           <p>${transact.date}</p>
-          </div>
-          <div class="secondCl">
+              </div>
+              <div class="secondCl">
           <p>${transact.description}</p>
-          </div>
+              </div>
               <div class="thirdCl">
-                <p>${transact.category}</p>
-            </div>
-          <div class="fourthCl">
+          <p>${transact.category}</p>
+              </div>
+              <div class="fourthCl">
           <h5 class=${transact.type === "income" ? "green" : "red"}>
-   <span>       ${transact.type}</span>
+            <span>${transact.type}</span>
           </h5>
-          </div>
-      
-          <div class="fifthCl">
-          <h4 class=${transact.type == "expense" ? "red" : "green"}>
-          ${transact.type == "expense" ? "-" : "+"}${transact.amount}
+              </div>
+              <div class="fifthCl">
+          <h4 class=${transact.type === "expense" ? "red" : "green"}>
+            ${transact.type === "expense" ? "-" : "+"}${transact.amount}
           </h4>
-          </div>
-          </div>`
-   }
+              </div>
+            </div>
             `
           );
         });
@@ -822,5 +758,98 @@
           });
       })
       .catch((error) => console.error("Error fetching transactions:", error));
+  </script>
+  <script>
+     localStorage.setItem("page", "dashb");
+    let page = localStorage.getItem("page");
+    document.querySelector(".dash").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "dashb");
+    });
+    if (page && page === "dashb") {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document
+      .querySelector(".transaction")
+      .addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "transaction");
+      });
+    if (page && page === "transaction") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.add("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".budget").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "budget");
+    });
+    if (page && page === "budget") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".report").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "report");
+    });
+    if (page && page === "report") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".setting").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+      return localStorage.setItem("page", "setting");
+    });
+    if (page && page === "setting") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+    }
+
+    document.querySelector(".navbar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+
+    document.querySelector(".bar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.add("show");
+    });
   </script>
 </html>

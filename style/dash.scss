@@ -6,8 +6,7 @@
   width: 100vw;
   gap: 1.5rem;
   @media screen and (min-width: 768px) {
-    padding-block-end: 0;
-    
+    padding-block-end: 0.8rem;
   }
   &_header {
     display: flex;
@@ -155,7 +154,7 @@
             align-items: center;
             justify-content: center;
             width: fit-content;
-            a{
+            a {
               width: fit-content;
               display: flex;
               align-items: center;
@@ -170,7 +169,7 @@
               align-items: center;
               color: white;
               background-color: black;
-          height: 100%;
+              height: 100%;
               border-radius: 100%;
             }
           }
@@ -273,15 +272,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 16rem;
+            width: 18rem;
             height: 7rem;
             border-radius: 0.5rem;
             background-color: white;
             &_inner {
-              width: 90%;
+              width: 94%;
               height: 100%;
               display: flex;
               align-items: center;
+              justify-content: center;
               gap: 0.8rem;
               .left {
                 height: 4rem;
@@ -321,11 +321,23 @@
                 }
               }
               .right {
+                width: 64%;
                 display: flex;
                 flex-direction: column;
                 align-items: start;
                 gap: 0.4rem;
                 justify-content: center;
+                div {
+                  justify-content: space-between;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.2rem;
+                  p {
+                    font-size: 12px;
+                    font-weight: 300;
+                    color: gray;
+                  }
+                }
                 h1 {
                   font-size: 22px;
                   font-weight: 500;

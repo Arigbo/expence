@@ -63,7 +63,7 @@
     </div>
   </body>
   <script>
-        const style = document.createElement('style');
+    const style = document.createElement('style');
     style.textContent = `
       #loading-screen {
         position: fixed;
@@ -175,11 +175,8 @@
         }
 
         if (loggedInUser) {
-          localStorage.setItem("loggedInUser", JSON.stringify({
-            id: loggedInUser.id,
-            name: loggedInUser.name,
-            email: loggedInUser.email
-          }));
+          localStorage.setItem("isLoggedIn", true); // Store isLoggedIn as true
+          localStorage.setItem("loggedin_id", loggedInUser.id); // Store user ID in "loggedin_id"
           alert("Login successful!");
           window.location.href = "/pages/index.html";
         } else {
