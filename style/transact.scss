@@ -11,9 +11,8 @@
     align-items: center;
     width: 100%;
     gap: 2rem;
-    padding-block-end: 6rem;
     section {
-      width: 100%;
+      width: 95%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,79 +41,68 @@
         background-color: white;
         border-radius: 0.5rem;
         overflow-x: scroll;
-        .transaction{
-display: flex;
-flex-direction: column;
-width: 100%;
-gap: 1rem;
-        }
-        .transaction-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-weight: 500;
-          position: sticky;
-          top: 0rem;
-          z-index: 1;
-          height: 2rem;
-          background-color: white;
-
-          div {
-            flex: 1;
-            text-align: center;
-          }
-        }
-
-        .transaction-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 5px 0;
-          border-radius: 5px;
-          color: #fff;
-          height: 3rem;
-          padding: 0.2rem 0.5rem;
-          font-size: 14px;
-          font-weight: 500;
-
-          &.income {
-            background-color: #388e3c;
-            text-transform: capitalize;
-          }
-
-          &.expense {
-            background-color: #d32f2f;
-            text-transform: capitalize;
-          }
-
-          div {
-            flex: 1;
-            text-align: center;
-          }
-        }
-
-        .transaction-item {
-          &.amount {
-            display: block;
-          }
-        }
-
+   
         .transacts {
           max-height: 100vh;
           overflow-y: auto;
           width: 100%; /* Ensure it spans the full width */
-          box-sizing: border-box; /* Include padding and border in width */
-        
-        }
-
-        @media (max-width: 768px) {
-          .transacts {
-            max-height: 150vh; /* Adjust height for smaller screens */
-            overflow-y: scroll; /* Ensure scrolling works on mobile */
-            padding: 0 10px; /* Add padding for better spacing */
+          .transaction {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+            &-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-weight: 500;
+              position: sticky;
+              top: -0.1rem;
+              z-index: 1;
+              height:3rem;
+              background-color: white;
+  
+              div {
+                flex: 1;
+                text-align: center;
+              }
+            }
+  
+            &-item {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin: 5px 0;
+              border-radius: 5px;
+              color: #fff;
+              height: 3rem;
+              padding: 0.2rem 0.5rem;
+              font-size: 14px;
+              font-weight: 500;
+              transition: all 0.2s ease;
+              &.income {
+                background-color: #388e3c;
+                text-transform: capitalize;
+                &:hover {
+                  background-color: #2f6b32;
+                }
+              }
+  
+              &.expense {
+                background-color: #d32f2f;
+                text-transform: capitalize;
+                &:hover {
+                  background-color: #a22626;
+                }
+              }
+  
+              div {
+                flex: 1;
+                text-align: center;
+              }
+            }
           }
         }
-
         .year-group {
           h2 {
             margin: 10px 0;
@@ -137,36 +125,41 @@ gap: 1rem;
         }
 
         @media (max-width: 768px) {
-          .transaction-item {
-            flex-direction: column;
-            align-items: flex-start;
-
-            div {
-              text-align: left;
-              margin-bottom: 5px;
+          .transacts {
+            max-height: 80vh; /* Adjust height for smaller screens */
+            overflow-y: scroll; /* Ensure scrolling works on mobile */
+            padding: 0 10px; /* Add padding for better spacing */
+            .transaction {
+              &-header {
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+  
+                div {
+                  text-align: left;
+                  margin-bottom: 5px;
+                }
+              }
+              &-item {
+                flex-direction: column;
+                align-items: flex-start;
+  
+                div {
+                  text-align: left;
+                  margin-bottom: 5px;
+                }
+                .amount {
+                  text-align: left;
+                  font-weight: bold;
+                  margin-top: 5px;
+                  width: 100%; /* Ensure it spans the full width */
+                  display: block; /* Ensure it is displayed properly */
+                  word-wrap: break-word; /* Handle long amounts */
+                }
+              }
             }
           }
-
-          .transaction-item .amount {
-            text-align: left;
-            font-weight: bold;
-            margin-top: 5px;
-            width: 100%; /* Ensure it spans the full width */
-            display: block; /* Ensure it is displayed properly */
-            word-wrap: break-word; /* Handle long amounts */
-          }
-
-          .transaction-header {
-            display: none;
-            flex-direction: column;
-            align-items: flex-start;
-
-            div {
-              text-align: left;
-              margin-bottom: 5px;
-            }
-          }
-
+     
           .year-group {
             display: flex;
             flex-direction: column; /* Arrange years in descending order */
@@ -272,7 +265,6 @@ gap: 1rem;
       align-items: start;
       justify-content: center;
       flex-direction: row;
-      padding-block-end: 1rem;
       section {
         background-color: white;
         align-items: center;
