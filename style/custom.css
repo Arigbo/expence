@@ -6,6 +6,7 @@
 @import "./nav.css";
 @import "./transact.css";
 @import "./budget.css";
+@import "./profile.css";
 html {
   background-color: whitesmoke;
 }

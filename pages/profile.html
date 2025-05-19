@@ -1,62 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+        <link rel="stylesheet" href="/style/custom.css" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
+      </head>
   <body>
-    <h1>Profile Page</h1>
-    <div id="profiles"></div>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const loggedInId = localStorage.getItem("loggedin_id")
-          ? Number(localStorage.getItem("loggedin_id"))
-          : null;
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        if (!loggedInId) {
-          console.error("No logged in user ID found in localStorage.");
-          return;
-        }
-
-        fetch("/db.json")
-          .then((response) => response.json())
-          .then((data) => {
-            const profilesContainer = document.getElementById("profiles");
-            const user = data.find((profile) => profile.id === loggedInId);
-
-            if (user) {
-              const profileDiv = document.createElement("div");
-              profileDiv.classList.add("profile-container");
-              profileDiv.innerHTML = `
-                            <img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture">
-                            <h2>${user.name}</h2>
-                            <p>Email: ${user.email}</p>
-                            <p>Phone: ${user.phone}</p>
-                            <p>Address: ${user.address || "N/A"}</p>
-                        `;
-              profilesContainer.appendChild(profileDiv);
-            } else {
-              profilesContainer.innerHTML =
-                "<p>No user found for the logged-in ID.</p>";
-            }
-          })
-          .catch((error) =>
-            console.error("Error fetching profile data:", error)
-          );
-      });
-    </script>
-
-    <div class="profile-container">
-      <img
-        src="profile-picture.jpg"
-        alt="Profile Picture"
-        class="profile-picture"
-      />
-      <h2>John Doe</h2>
-      <p>Email: johndoe@example.com</p>
-      <p>Phone: +1234567890</p>
-      <p>Address: 123 Main Street, City, Country</p>
+<div class="profile">
+    <div class="profile_header">
+        <h1>Your Profile</h1>
+        <a href="./index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
     </div>
+    <div id="profiles" class="profile_inner">
+        <div class="profiles"></div>
+        <div class="profiles_actions">
+            <a href="/pages/edit_profile.html" class="edit_profile"><i class="far fa-edit"></i> <div>
+                Edit Profile
+                <p>Edit personal data</p>
+            </div></a>
+            <a href="/notifications"><i class="far fa-bell"></i> <div>
+                Notifications
+                <p>Check your notifications</p>
+            </div></a>
+            <a href="/settings"><i class="fas fa-user-gear"></i><div>
+                 Account Settings
+                <p>Check your notifications</p>
+            </div></a>
+            <a href="/pages/change_password.html" class="change_password"><i class="fas fa-lock"></i> Change Password</a>
+            <a href="/pages/delete_account.html" class="delete_account"><i class="far fa-trash-can"></i>
+                 Delete Account</a>
+            <a href="/pages/logout.html" class="logout"><i class="fas fa-logout"></i> Logout</a>
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const loggedInId = localStorage.getItem("loggedin_id");
+            if (!loggedInId) {
+                document.getElementById("profiles").innerHTML = "<p>No user logged in.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch("/db.json");
+                const data = await response.json();
+                const user = data.users.find(user => user.id === parseInt(loggedInId));
+
+                if (user) {
+                    document.querySelector(".profiles").innerHTML = `
+                        <div class="user-profile">
+                           ${user.image ? `<img src="${user.image}" alt="${user.name}" />` : `<i class="far fa-user"></i>`}
+                            <div class="user-info">
+                                <h2>${user.name}</h2>
+                                <p>${user.username}</p>
+                            </div>
+                        </div>
+
+                    `;
+                } else {
+                    document.getElementById("profiles").innerHTML = "<p>User not found.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                document.getElementById("profiles").innerHTML = "<p>Error loading user data.</p>";
+            }
+        });
+    </script>
   </body>
 </html>

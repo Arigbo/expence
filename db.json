@@ -8,14 +8,9 @@
         "created_at": "2023-10-01T12:00:00Z"
     },
     {
-        "id": 2,
-        "name": "jessearigbo",
-        "email": "arigbojesse@gmail.com",
-        "password": "223233"
-    },
-    {
         "id": 3,
-        "name": "jessearigbo",
+        "name": "Jesse Arigbo",
+        "username": "@jessearigbo",
         "email": "arigbojesse75@gmail.com",
         "password": "je$$ear1",
         "createdAt": "2025-05-13T21:11:59.420Z"

@@ -40,11 +40,11 @@
       <div class="dashboard_header">
         <div class="left">
           <div class="left_left">
-            <i class="far fa-user"></i>
+            <a href="./profile.html"> <i class="far fa-user"></i></a>
           </div>
           <div class="left_right">
             <h1>Welcome</h1>
-            <h4 id="loggedInUser">Guest</h4>
+            <a href="profile.html" id="loggedInUser">Guest</a>
           </div>
         </div>
         <div class="right">
@@ -61,34 +61,38 @@
               Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
             </p>
           </div>
-            <script>
-          //  const loggedInId = Number(
-          //     JSON.parse(localStorage.getItem("loggedin_id"))
-          //   );
-          //   const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-          const loggedInId = localStorage.getItem("loggedin_id") ? Number(localStorage.getItem("loggedin_id")) : null;
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+          <script>
+            //  const loggedInId = Number(
+            //     JSON.parse(localStorage.getItem("loggedin_id"))
+            //   );
+            //   const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+            const loggedInId = localStorage.getItem("loggedin_id")
+              ? Number(localStorage.getItem("loggedin_id"))
+              : null;
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
             async function fetchUserName() {
               if (!isLoggedIn || !loggedInId) {
-              console.error("User is not logged in or no loggedin_id found");
-              return "Guest";
-              }
-              try {
-              const response = await fetch("/db.json");
-              if (!response.ok) {
-                throw new Error("Failed to fetch db.json");
-              }
-              const data = await response.json();
-              if (!data || !data.users) {
-                console.error("Users data not found in db.json");
+                console.error("User is not logged in or no loggedin_id found");
                 return "Guest";
               }
-              const user = data.users.find((u) => Number(u.id) === Number(loggedInId));
-              return user ? user.name : "Guest";
+              try {
+                const response = await fetch("/db.json");
+                if (!response.ok) {
+                  throw new Error("Failed to fetch db.json");
+                }
+                const data = await response.json();
+                if (!data || !data.users) {
+                  console.error("Users data not found in db.json");
+                  return "Guest";
+                }
+                const user = data.users.find(
+                  (u) => Number(u.id) === Number(loggedInId)
+                );
+                return user ? user.name : "Guest";
               } catch (error) {
-              console.error("Error fetching user data:", error);
-              return "Guest";
+                console.error("Error fetching user data:", error);
+                return "Guest";
               }
             }
 
@@ -96,7 +100,7 @@
               document.getElementById("loggedInUser").textContent = name;
               document.getElementById("loggedInUserMiddle").textContent = name;
             });
-            </script>
+          </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -153,9 +157,9 @@
                     </div>
                     <div class="right">
                       <h4 class="income">Income</h4>
-                   <div>
-                    <h1 id="totalIncome">$0</h1>
-                   </div>
+                      <div>
+                        <h1 id="totalIncome">$0</h1>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -271,7 +275,6 @@
     </div>
   </body>
   <script>
-
     if (!loggedInId || !isLoggedIn) {
       console.error("User is not logged in or loggedin_id is missing");
     } else {
@@ -282,30 +285,33 @@
             (transact) => transact.user_id === loggedInId
           );
 
-            // Calculate totals
-            const totals = transactions.reduce(
+          // Calculate totals
+          const totals = transactions.reduce(
             (acc, transact) => {
               acc[transact.type] += transact.amount;
               return acc;
             },
             { income: 0, expense: 0 }
-            );
+          );
 
-            // Calculate estimated income (e.g., assuming 10% growth)
-            const estimatedIncome = totals.income * 1.1;
+          // Calculate estimated income (e.g., assuming 10% growth)
+          const estimatedIncome = totals.income * 1.1;
 
-            // Update totals in the DOM
-            const incomeElement = document.getElementById("totalIncome");
-            incomeElement.textContent = `$${totals.income.toLocaleString()}`;
-            incomeElement.insertAdjacentHTML(
+          // Update totals in the DOM
+          const incomeElement = document.getElementById("totalIncome");
+          incomeElement.textContent = `$${totals.income.toLocaleString()}`;
+          incomeElement.insertAdjacentHTML(
             "afterend",
             `<p>(Estimated income: $${estimatedIncome.toLocaleString()}</p>`
-            );
-            const savings = totals.income - totals.expense;
+          );
+          const savings = totals.income - totals.expense;
 
           // Update totals in the DOM
           document.getElementById(
             "totalBalance"
+          ).textContent = `$${savings.toLocaleString()}`;
+          document.getElementById(
+            "displayTotalBalance"
           ).textContent = `$${savings.toLocaleString()}`;
           document.getElementById(
             "totalIncome"
@@ -334,7 +340,7 @@
           return;
         }
 
-        const blogs = data.blogs
+        const blogs = data.blogs;
 
         // Shuffle blogs to get a random order
         const shuffledBlogs = blogs.sort(() => Math.random() - 0.5);
@@ -375,8 +381,8 @@
                   `
           );
         });
-                // Add event listener for "See more" links
-                document.querySelectorAll(".see_more").forEach((link) => {
+        // Add event listener for "See more" links
+        document.querySelectorAll(".see_more").forEach((link) => {
           link.addEventListener("click", function (e) {
             e.preventDefault();
             const blogId = this.getAttribute("data-id");
@@ -594,17 +600,19 @@
           }
         });
       })
-      
+
       .catch((error) => console.error("Error fetching blogs:", error));
-      document.querySelector(".blog_inner").addEventListener("click", function (e) {
+    document
+      .querySelector(".blog_inner")
+      .addEventListener("click", function (e) {
         if (e.target.classList.contains("see_more")) {
           const blogId = e.target.getAttribute("data-id");
           fetch("/db.json")
-        .then((response) => response.json())
-        .then((data) => {
-          const blog = data.blogs.find((b) => b.id === Number(blogId));
-          if (blog) {
-            document.querySelector(".single_blog").innerHTML = `
+            .then((response) => response.json())
+            .then((data) => {
+              const blog = data.blogs.find((b) => b.id === Number(blogId));
+              if (blog) {
+                document.querySelector(".single_blog").innerHTML = `
           <div class="single_blog_content">
             <h1>${blog.title}</h1>
             <p><strong>By:</strong> ${blog.author}</p>
@@ -612,14 +620,18 @@
             <button class="exitblog">Close</button>
           </div>
             `;
-            document.querySelector(".single_blog").classList.add("show");
-          }
-        })
-        .catch((error) => console.error("Error fetching blog details:", error));
+                document.querySelector(".single_blog").classList.add("show");
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching blog details:", error)
+            );
         }
       });
 
-      document.querySelector(".single_blog").addEventListener("click", function (e) {
+    document
+      .querySelector(".single_blog")
+      .addEventListener("click", function (e) {
         if (e.target.classList.contains("exitblog")) {
           document.querySelector(".single_blog").classList.remove("show");
         }
@@ -628,16 +640,16 @@
     fetch("/db.json")
       .then((response) => response.json())
       .then((data) => {
-      const transactions = data.transactions
-        .filter((transact) => transact.user_id === loggedInId)
-        .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by recent transactions
+        const transactions = data.transactions
+          .filter((transact) => transact.user_id === loggedInId)
+          .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by recent transactions
 
-      // Populate transaction table
-      const displayedTransactions = transactions.slice(0, 8);
-      displayedTransactions.forEach((transact) => {
-        document.querySelector(".transacts").insertAdjacentHTML(
-        "beforeend",
-        `
+        // Populate transaction table
+        const displayedTransactions = transactions.slice(0, 8);
+        displayedTransactions.forEach((transact) => {
+          document.querySelector(".transacts").insertAdjacentHTML(
+            "beforeend",
+            `
         <div class="transact">
           <div class="firstCl">
           <p>${transact.date}</p>
@@ -660,104 +672,104 @@
           </div>
         </div>
         `
-        );
-      });
-
-      //
-      const groupByPeriod = (transactions, period) => {
-        return transactions.reduce((acc, transact) => {
-        const date = new Date(transact.date);
-        let key;
-        if (period === "daily") {
-          key = date.toISOString().split("T")[0];
-        } else if (period === "weekly") {
-          const weekStart = new Date(
-          date.setDate(date.getDate() - date.getDay())
           );
-          key = weekStart.toISOString().split("T")[0];
-        } else if (period === "monthly") {
-          key = date.toLocaleString("default", { month: "long" });
-        } else if (period === "yearly") {
-          key = date.getFullYear();
-        }
-        if (!acc[key]) {
-          acc[key] = { income: 0, expense: 0, savings: 0 };
-        }
-        acc[key][transact.type] += transact.amount;
-        acc[key].savings = acc[key].income - acc[key].expense;
-        return acc;
-        }, {});
-      };
-
-      let chartInstance;
-
-      const updateChart = (period = "monthly") => {
-        const groupedData = groupByPeriod(transactions, period);
-        const labels = Object.keys(groupedData);
-        const incomeData = labels.map((label) => groupedData[label].income);
-        const expenseData = labels.map((label) => groupedData[label].expense);
-        const savingsData = labels.map((label) => groupedData[label].savings);
-
-        // Destroy existing chart instance if it exists
-        if (chartInstance) {
-        chartInstance.destroy();
-        }
-
-        // Create new chart instance
-        const ctx = document.getElementById("expenseChart").getContext("2d");
-        chartInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: labels,
-          datasets: [
-          {
-            label: "Income",
-            data: incomeData,
-            backgroundColor: "rgba(0, 128, 0, 0.5)",
-            borderColor: "rgba(0, 128, 0, 1)",
-            borderWidth: 1,
-          },
-          {
-            label: "Expense",
-            data: expenseData,
-            backgroundColor: "rgba(255, 0, 0, 0.413)",
-            borderColor: "red",
-            borderWidth: 1,
-          },
-          {
-            label: "Savings",
-            data: savingsData,
-            backgroundColor: " rgba(202, 202, 19, 0.413)",
-            borderColor: "rgb(202, 202, 19)",
-            borderWidth: 1,
-          },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-          y: {
-            beginAtZero: true,
-          },
-          },
-        },
         });
-      };
 
-      // Initialize chart with default period
-      updateChart();
+        //
+        const groupByPeriod = (transactions, period) => {
+          return transactions.reduce((acc, transact) => {
+            const date = new Date(transact.date);
+            let key;
+            if (period === "daily") {
+              key = date.toISOString().split("T")[0];
+            } else if (period === "weekly") {
+              const weekStart = new Date(
+                date.setDate(date.getDate() - date.getDay())
+              );
+              key = weekStart.toISOString().split("T")[0];
+            } else if (period === "monthly") {
+              key = date.toLocaleString("default", { month: "long" });
+            } else if (period === "yearly") {
+              key = date.getFullYear();
+            }
+            if (!acc[key]) {
+              acc[key] = { income: 0, expense: 0, savings: 0 };
+            }
+            acc[key][transact.type] += transact.amount;
+            acc[key].savings = acc[key].income - acc[key].expense;
+            return acc;
+          }, {});
+        };
 
-      // Add event listener for period selection
-      document
-        .getElementById("btns_inner")
-        .addEventListener("change", (event) => {
-        updateChart(event.target.value);
-        });
+        let chartInstance;
+
+        const updateChart = (period = "monthly") => {
+          const groupedData = groupByPeriod(transactions, period);
+          const labels = Object.keys(groupedData);
+          const incomeData = labels.map((label) => groupedData[label].income);
+          const expenseData = labels.map((label) => groupedData[label].expense);
+          const savingsData = labels.map((label) => groupedData[label].savings);
+
+          // Destroy existing chart instance if it exists
+          if (chartInstance) {
+            chartInstance.destroy();
+          }
+
+          // Create new chart instance
+          const ctx = document.getElementById("expenseChart").getContext("2d");
+          chartInstance = new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Income",
+                  data: incomeData,
+                  backgroundColor: "rgba(0, 128, 0, 0.5)",
+                  borderColor: "rgba(0, 128, 0, 1)",
+                  borderWidth: 1,
+                },
+                {
+                  label: "Expense",
+                  data: expenseData,
+                  backgroundColor: "rgba(255, 0, 0, 0.413)",
+                  borderColor: "red",
+                  borderWidth: 1,
+                },
+                {
+                  label: "Savings",
+                  data: savingsData,
+                  backgroundColor: " rgba(202, 202, 19, 0.413)",
+                  borderColor: "rgb(202, 202, 19)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        };
+
+        // Initialize chart with default period
+        updateChart();
+
+        // Add event listener for period selection
+        document
+          .getElementById("btns_inner")
+          .addEventListener("change", (event) => {
+            updateChart(event.target.value);
+          });
       })
       .catch((error) => console.error("Error fetching transactions:", error));
   </script>
   <script>
-     localStorage.setItem("page", "dashb");
+    localStorage.setItem("page", "dashb");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.add("active");
