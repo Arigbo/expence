@@ -1,0 +1,127 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-block: 1rem;
+  gap: 3rem;
+}
+.profile_header {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profile_header h1 {
+  font-size: 18px;
+}
+.profile_header a {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.profile_inner {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.profile_inner .profiles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.profile_inner .profiles .user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.7rem;
+}
+.profile_inner .profiles .user-profile i {
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+}
+.profile_inner .profiles .user-profile i,
+.profile_inner .profiles .user-profile img {
+  border: 1px solid black;
+  padding: 0.2rem;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile_inner .profiles .user-profile img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.profile_inner .profiles .user-profile .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+.profile_inner .profiles .user-profile .user-info p {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 1rem;
+  padding-inline: 0.6rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 1.6rem;
+  background-color: rgba(0, 0, 0, 0.141);
+}
+.profile_inner .profiles_actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.profile_inner .profiles_actions a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.296);
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 16px;
+  font-weight: 500;
+  width: 97%;
+  transition: all 0.3s ease-in-out;
+}
+.profile_inner .profiles_actions a div {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 55%;
+  justify-content: space-between;
+}
+.profile_inner .profiles_actions a div p {
+  font-size: 12px;
+  font-weight: 400;
+}
+.profile_inner .profiles_actions a i {
+  font-size: 1rem;
+  height: 64%;
+  border-radius: 0.6rem;
+  font-size: 18px;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: white;
+}
+.profile_inner .profiles_actions a:hover {
+  background-color: rgba(0, 0, 0, 0.141);
+  padding-inline: 0.5rem;
+  color: black;
+}/*# sourceMappingURL=profile.css.map */
