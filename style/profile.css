@@ -5,10 +5,11 @@
   justify-content: center;
   padding-block: 1rem;
   gap: 3rem;
+  width: 100%;
 }
 .profile_header {
-  width: 90%;
   display: flex;
+  width: 90%;
   align-items: center;
   justify-content: space-between;
 }
@@ -103,10 +104,23 @@
   align-items: start;
   height: 55%;
   justify-content: space-between;
+  width: 100%;
 }
 .profile_inner .profiles_actions a div p {
+  width: 100%;
   font-size: 12px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+.profile_inner .profiles_actions a div p .no_of_noties {
+  background-color: blue;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 12px;
 }
 .profile_inner .profiles_actions a i {
   font-size: 1rem;
@@ -124,4 +138,43 @@
   background-color: rgba(0, 0, 0, 0.141);
   padding-inline: 0.5rem;
   color: black;
-}/*# sourceMappingURL=profile.css.map */
+}
+@media screen and (min-width: 768px) {
+  .profile_header {
+    display: none;
+  }
+  .profile_desktopNav {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 4rem;
+    width: 15rem;
+    top: 5rem;
+    border-radius: 1rem;
+    height: 25rem;
+  }
+  .profile_desktopNav_inner {
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .profile_desktopNav_inner a {
+    display: flex;
+    align-items: center;
+    height: 4rem;
+  }
+  .profile_desktopNav_inner a i {
+    color: white;
+    background-color: black;
+    height: 100%;
+    width: 3rem;
+    border-radius: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .profile .profiles_
