@@ -1,64 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Profile</title>
-        <link rel="stylesheet" href="/style/custom.css" />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
-        />
-        <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
-      </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="/style/custom.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
+  </head>
   <body>
-<div class="profile">
-    <div class="profile_header">
-        <h1>Your Profile</h1>
-        <a href="./index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
-    </div>
-    <div id="profiles" class="profile_inner">
-        <div class="profiles"></div>
-        <div class="profiles_actions">
-            <a href="/pages/edit_profile.html" class="edit_profile"><i class="far fa-edit"></i> <div>
-                Edit Profile
-                <p>Edit personal data</p>
-            </div></a>
-            <a href="/notifications"><i class="far fa-bell"></i> <div>
-                Notifications
-                <p>Check your notifications</p>
-            </div></a>
-            <a href="/settings"><i class="fas fa-user-gear"></i><div>
-                 Account Settings
-                <p>Check your notifications</p>
-            </div></a>
-            <a href="/pages/change_password.html" class="change_password"><i class="fas fa-lock"></i> Change Password</a>
-            <a href="/pages/delete_account.html" class="delete_account"><i class="far fa-trash-can"></i>
-                 Delete Account</a>
-            <a href="/pages/logout.html" class="logout"><i class="fas fa-logout"></i> Logout</a>
+    <div class="dashboard">
+      <nav class="navbar">
+        <div class="navbar_inner">
+          <div class="top">
+            <div><img src="/Logomark.png" alt="" /></div>
+            <h1 class="">Spen<span>track</span></h1>
+          </div>
+          <a href="./index.html" class="dash"
+            ><i class="fas fa-cube"></i> Dashboard</a
+          ><a href="/pages/transaction.html" class="transaction"
+            ><i class="fas fa-exchange-alt"></i> Transactions</a
+          >
+          <a href="./budget.html" class="budget"
+            ><i class="fas fa-rocket"></i> Budgets</a
+          >
+          <a href="/" class="report"
+            ><i class="fas fa-chart-line"></i> Reports</a
+          >
+          <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
-    </div>
-</div>
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const loggedInId = localStorage.getItem("loggedin_id");
-            if (!loggedInId) {
-                document.getElementById("profiles").innerHTML = "<p>No user logged in.</p>";
-                return;
+      </nav>
+      <div class="dashboard_header desktop">
+        <div class="left">
+          <i class="fas fa-bars bar"></i>
+        </div>
+        <div class="middle">
+          <div class="middle_left">
+            <p>
+              Hello <span id="loggedInUserMiddle">Guest</span>,
+              <span id="day"></span>!
+            </p>
+          </div>
+          <script>
+            function greeting() {
+              const date = new Date();
+              const hours = date.getHours();
+              const minutes = date.getMinutes();
+              const seconds = date.getSeconds();
+              const time = `${hours}:${minutes}:${seconds}`;
+              console.log("Current time:", time);
+              if (hours >= 0 && hours < 12) {
+                document.querySelector("#day").textContent = "morning";
+              } else if (hours >= 12 && hours < 18) {
+                document.querySelector("#day").textContent = "afternoon";
+              } else if (hours >= 18 && hours < 24) {
+                document.querySelector("#day").textContent = "evening";
+              } else {
+                document.querySelector("#day").textContent = "night";
+              }
+              const day = date.getDay();
+              const days = [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ];
+              document.querySelector("#day").textContent =
+                days[day] + " " + document.querySelector("#day").textContent;
+            }
+            greeting();
+            const loggedInId = localStorage.getItem("loggedin_id")
+              ? Number(localStorage.getItem("loggedin_id"))
+              : null;
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+            async function fetchUserName() {
+              if (!isLoggedIn || !loggedInId) {
+                console.error("User is not logged in or no loggedin_id found");
+                return "Guest";
+              }
+              try {
+                const response = await fetch("/db.json");
+                if (!response.ok) {
+                  throw new Error("Failed to fetch db.json");
+                }
+                const data = await response.json();
+                if (!data || !data.users) {
+                  console.error("Users data not found in db.json");
+                  return "Guest";
+                }
+                const user = data.users.find(
+                  (u) => Number(u.id) === Number(loggedInId)
+                );
+                return user ? user.name : "Guest";
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+                return "Guest";
+              }
             }
 
-            try {
-                const response = await fetch("/db.json");
-                const data = await response.json();
-                const user = data.users.find(user => user.id === parseInt(loggedInId));
+            fetchUserName().then((name) => {
+              document.getElementById("loggedInUserMiddle").textContent = name;
+            });
+          </script>
+          <div class="middle_right">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search here...." />
+          </div>
+        </div>
+        <div class="right">
+          <div class="right_left">
+            <h1><i class="far fa-bell"></i></h1>
+          </div>
+          <div class="right_right">
+            <a href="./profile.html"> <i class="fas fa-user"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="profile">
+        <div class="profile_header">
+          <h1>Your Profile</h1>
+          <a href="./index.html" class="back-button"
+            ><i class="fas fa-arrow-left"></i> Back</a
+          >
+        </div>
+        <div class="profile_desktopNav">
+          <div class="profile_desktopNav_inner">
+            <a href="/pages/edit_profile.html" class="edit_profile"
+              ><div class="left">
+                <i class="far fa-edit"></i>
+              </div>
+              <div class="right">
+                Edit Profile
+                <p>Edit personal data</p>
+              </div></a
+            >
+            <a href="./notifications.html"
+              ><div class="left">
+                <i class="far fa-bell"></i>
+              </div>
+              <div class="right">
+                Notifications
+                <p>
+                  <span>Check your notifications</span>
+                  <span class="no_of_noties"></span>
+                </p>
+              </div>
+            </a>
+            <a href="/settings"
+              ><div class="left">
+                <i class="fas fa-user-gear"></i>
+              </div>
+              <div class="right">
+                Account Settings
+                <p>Check your notifications</p>
+              </div></a
+            >
+            <a href="/pages/change_password.html" class="change_password"
+              ><div class="left">
+                <i class="fas fa-lock"></i>
+              </div>
+              <div class="right">Change Password</div></a
+            >
+            <a href="/pages/delete_account.html" class="delete_account"
+              ><div class="left">
+                <i class="far fa-trash-can"></i>
+              </div>
+              <div class="right">Delete Account</div></a
+            >
+            <a href="/pages/logout.html" class="logout"
+              ><div class="left">
+                <i class="fas fa-logout"></i>
+              </div>
+              <div class="right">Logout</div></a
+            >
+          </div>
+        </div>
+        <div class="profile_inner">
+          <div id="profiles" class="profiles"></div>
+          <div class="profiles_actions">
+            <a href="/pages/edit_profile.html" class="edit_profile"
+              ><i class="far fa-edit"></i>
+              <div>
+                Edit Profile
+                <p>Edit personal data</p>
+              </div></a
+            >
+            <a href="./notifications.html"
+              ><i class="far fa-bell"></i>
+              <div>
+                Notifications
+                <p>
+                  <span>Check your notifications</span>
+                  <span class="no_of_noties"></span>
+                </p>
+              </div>
+            </a>
+            <a href="/settings"
+              ><i class="fas fa-user-gear"></i>
+              <div>
+                Account Settings
+                <p>Check your notifications</p>
+              </div></a
+            >
+            <a href="/pages/change_password.html" class="change_password"
+              ><i class="fas fa-lock"></i> Change Password</a
+            >
+            <a href="/pages/delete_account.html" class="delete_account"
+              ><i class="far fa-trash-can"></i> Delete Account</a
+            >
+            <a href="/pages/logout.html" class="logout"
+              ><i class="fas fa-logout"></i> Logout</a
+            >
+          </div>
+        </div>
+        <!-- <div class="profile_inner desktop">
+          <div class="profiles"></div>
+          <div class="profiles_actions">
+            <a href="/pages/edit_profile.html" class="edit_profile"
+              ><i class="far fa-edit"></i>
+              <div>
+                Edit Profile
+                <p>Edit personal data</p>
+              </div></a
+            >
+            <a href="/pages/notifications.html"
+              ><i class="far fa-bell"></i>
+              <div>
+                Notifications
+                <p>
+                  <span>Check your notifications</span>
+                  <span class="no_of_noties"></span>
+                </p></div
+            ></a>
+            <a href="/settings"
+              ><i class="fas fa-user-gear"></i>
+              <div>
+                Account Settings
+                <p>Check your notifications</p>
+              </div></a
+            >
+            <a href="/pages/change_password.html" class="change_password"
+              ><i class="fas fa-lock"></i> Change Password</a
+            >
+            <a href="/pages/delete_account.html" class="delete_account"
+              ><i class="far fa-trash-can"></i> Delete Account</a
+            >
+            <a href="/pages/logout.html" class="logout"
+              ><i class="fas fa-logout"></i> Logout</a
+            >
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <script>
+      localStorage.setItem("page", "dashb");
+      let page = localStorage.getItem("page");
+      document.querySelector(".dash").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "dashb");
+      });
+      if (page && page === "dashb") {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
 
-                if (user) {
-                    document.querySelector(".profiles").innerHTML = `
+      document
+        .querySelector(".transaction")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.add("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.remove("active");
+          return localStorage.setItem("page", "transaction");
+        });
+      if (page && page === "transaction") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document.querySelector(".budget").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "budget");
+      });
+      if (page && page === "budget") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document.querySelector(".report").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "report");
+      });
+      if (page && page === "report") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document
+        .querySelector(".setting")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.remove("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.add("active");
+          return localStorage.setItem("page", "setting");
+        });
+      if (page && page === "setting") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.add("active");
+      }
+
+      document.querySelector(".navbar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.remove("show");
+      });
+
+      document.querySelector(".bar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.add("show");
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const loggedInId = localStorage.getItem("loggedin_id");
+        if (!loggedInId) {
+          document.getElementById("profiles").innerHTML =
+            "<p>No user logged in.</p>";
+          return;
+        }
+        try {
+          const response = await fetch("/db.json");
+          const data = await response.json();
+          const user = data.users.find(
+            (user) => user.id === parseInt(loggedInId)
+          );
+          const notifications = data.notifications.find(
+            (notifications) => notifications.user_id === parseInt(loggedInId)
+          );
+          const notificationslenght = data.notifications.filter(
+            (notifications) => notifications.user_id === parseInt(loggedInId)
+          );
+          const read = notificationslenght.filter(
+            (notifications) => notifications.read === false
+          );
+          if (user) {
+            document.querySelectorAll(".profiles").forEach((profile) => {
+              profile.innerHTML = `
                         <div class="user-profile">
-                           ${user.image ? `<img src="${user.image}" alt="${user.name}" />` : `<i class="far fa-user"></i>`}
+                           ${
+                             user.image
+                               ? `<img src="${user.image}" alt="${user.name}" />`
+                               : `<i class="far fa-user"></i>`
+                           }
                             <div class="user-info">
                                 <h2>${user.name}</h2>
                                 <p>${user.username}</p>
@@ -66,14 +396,28 @@
                         </div>
 
                     `;
-                } else {
-                    document.getElementById("profiles").innerHTML = "<p>User not found.</p>";
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                document.getElementById("profiles").innerHTML = "<p>Error loading user data.</p>";
-            }
-        });
+            });
+          } else {
+            document.querySelectorAll(".profiles").innerHTML =
+              "<p>User not found.</p>";
+          }
+
+          if (notifications) {
+            document.querySelectorAll(".no_of_noties").forEach((element) => {
+              element.innerHTML = `
+                        ${read.length}
+                    `;
+            });
+          } else {
+            document.querySelectorAll(".profiles").innerHTML =
+              "<p>User not found.</p>";
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          document.getElementById("profiles").innerHTML =
+            "<p>Error loading user data.</p>";
+        }
+      });
     </script>
   </body>
 </html>
