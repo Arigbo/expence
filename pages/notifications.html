@@ -15,6 +15,364 @@
     <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
   </head>
   <body>
-    <h1>My notifications</h1>
+    <div class="dashboard">
+      <nav class="navbar">
+        <div class="navbar_inner">
+          <div class="top">
+            <div><img src="/Logomark.png" alt="" /></div>
+            <h1 class="">Spen<span>track</span></h1>
+          </div>
+          <a href="./index.html" class="dash"
+            ><i class="fas fa-cube"></i> Dashboard</a
+          ><a href="/pages/transaction.html" class="transaction"
+            ><i class="fas fa-exchange-alt"></i> Transactions</a
+          >
+          <a href="./budget.html" class="budget"
+            ><i class="fas fa-rocket"></i> Budgets</a
+          >
+          <a href="/" class="report"
+            ><i class="fas fa-chart-line"></i> Reports</a
+          >
+          <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
+        </div>
+      </nav>
+      <div class="dashboard_header desktop">
+        <div class="left">
+          <i class="fas fa-bars bar"></i>
+        </div>
+        <div class="middle">
+          <div class="middle_left">
+            <p>
+              Hello <span id="loggedInUserMiddle">Guest</span>,
+              <span id="day"></span>!
+            </p>
+          </div>
+          <script>
+            function greeting() {
+              const date = new Date();
+              const hours = date.getHours();
+              const minutes = date.getMinutes();
+              const seconds = date.getSeconds();
+              const time = `${hours}:${minutes}:${seconds}`;
+              console.log("Current time:", time);
+              if (hours >= 0 && hours < 12) {
+                document.querySelector("#day").textContent = "morning";
+              } else if (hours >= 12 && hours < 18) {
+                document.querySelector("#day").textContent = "afternoon";
+              } else if (hours >= 18 && hours < 24) {
+                document.querySelector("#day").textContent = "evening";
+              } else {
+                document.querySelector("#day").textContent = "night";
+              }
+              const day = date.getDay();
+              const days = [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ];
+              document.querySelector("#day").textContent =
+                days[day] + " " + document.querySelector("#day").textContent;
+            }
+            greeting();
+            const loggedInId = localStorage.getItem("loggedin_id")
+              ? Number(localStorage.getItem("loggedin_id"))
+              : null;
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+            async function fetchUserName() {
+              if (!isLoggedIn || !loggedInId) {
+                console.error("User is not logged in or no loggedin_id found");
+                return "Guest";
+              }
+              try {
+                const response = await fetch("/db.json");
+                if (!response.ok) {
+                  throw new Error("Failed to fetch db.json");
+                }
+                const data = await response.json();
+                if (!data || !data.users) {
+                  console.error("Users data not found in db.json");
+                  return "Guest";
+                }
+                const user = data.users.find(
+                  (u) => Number(u.id) === Number(loggedInId)
+                );
+                return user ? user.name : "Guest";
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+                return "Guest";
+              }
+            }
+
+            fetchUserName().then((name) => {
+              document.getElementById("loggedInUserMiddle").textContent = name;
+            });
+          </script>
+          <div class="middle_right">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search here...." />
+          </div>
+        </div>
+        <div class="right">
+          <div class="right_left">
+            <h1><i class="far fa-bell"></i></h1>
+          </div>
+          <div class="right_right">
+            <a href="./profile.html"> <i class="fas fa-user"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="notification">
+        <div class="notification_header">
+          <div class="notification_header_left">
+            <a href="./profile.html"><i class="fas fa-chevron-left"></i></a>
+            <h1>Notifications</h1>
+          </div>
+          <div class="notification_header_right">
+            <a href="./notifications.html" class="back-button"
+              ><i class="fas fa-refresh"></i
+            ></a>
+          </div>
+        </div>
+        <div class="notification_body">
+          <div class="notification_desktopNav">
+            <div class="notification_desktopNav_inner">
+              <a href="/pages/profile.html" class="edit_profile"
+                ><div class="left">
+                  <i class="far fa-edit"></i>
+                </div>
+                <div class="right">
+                  Edit Profile
+                  <p>Edit personal data</p>
+                </div></a
+              >
+              <a href="./notifications.html"
+                ><div class="left">
+                  <i class="far fa-bell"></i>
+                </div>
+                <div class="right">
+                  Notifications
+                  <p>
+                    <span class="message">Check your notifications</span>
+                    <span class="no_of_noties"></span>
+                  </p>
+                </div>
+              </a>
+              <a href="/settings"
+                ><div class="left">
+                  <i class="fas fa-user-gear"></i>
+                </div>
+                <div class="right">
+                  Account Settings
+                  <p>Check your notifications</p>
+                </div></a
+              >
+              <a href="/pages/change_password.html" class="change_password"
+                ><div class="left">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <div class="right">Change Password</div></a
+              >
+              <a href="/pages/delete_account.html" class="delete_account"
+                ><div class="left">
+                  <i class="far fa-trash-can"></i>
+                </div>
+                <div class="right">Delete Account</div></a
+              >
+              <a href="/pages/logout.html" class="logout"
+                ><div class="left">
+                  <i class="fas fa-logout"></i>
+                </div>
+                <div class="right">Logout</div></a
+              >
+            </div>
+          </div>
+          <div class="notification_inner">
+            <div class="top">
+              <div class="top_inner">
+                <div class="top_inner_left">
+                  <select name="" id="">
+                    <option value="">
+                      All <i class="fas fa-chevron-down"></i>
+                    </option>
+                    <option value="">Settings</option>
+                    <i class="fas fa-chevron-down"></i>
+                  </select>
+                </div>
+                <div class="top_inner_right">
+                  <i class="fas fa-check"></i>
+                  <h1>Mark all as read</h1>
+                </div>
+              </div>
+            </div>
+            <div class="bottom" id="notifications"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const loggedInId = localStorage.getItem("loggedin_id");
+      if (!loggedInId) {
+        document.querySelector(".profile").classList.add("hide");
+        return;
+      }
+      try {
+        const response = await fetch("/db.json");
+        const data = await response.json();
+        const user = data.users.find(
+          (user) => user.id === parseInt(loggedInId)
+        );
+        const notifications = data.notifications.filter(
+          (notifications) => notifications.user_id === parseInt(loggedInId)
+        );
+        const read = notifications.filter(
+          (notifications) => notifications.read === false
+        );
+        if (notifications || read) {
+          document.querySelectorAll(".no_of_noties").forEach((element) => {
+            element.innerHTML = `
+                        ${read.length}
+                    `;
+          });
+          notifications.forEach((item) => {
+            document.querySelector("#notifications").insertAdjacentHTML(
+              "beforeend",
+              ` 
+              <div class="box ${item.read == false ? "not" : ""}" key=${
+                item.id
+              }>
+                <div class="box_inner">
+                  <div class="box_inner_left">
+<div>
+                  <img src=${item.sender_dp} alt=""/></div>
+                  </div>
+                  <div class="box_inner_middle">
+                    <div class="middle_top">
+                      <h1>${item.sender}</h1>
+                      <p>
+                  ${item.message.split("").slice(0, 30).join("") + "....."}
+                      </p>
+                    </div>
+                    <div class="box_inner_middle_bottom">
+                      <span>${item.created_at}</span> <span>09:00 PM</span>
+                    </div>
+                  </div>
+                  <div class="box_inner_right">
+${item.read == false ? "<span></span>" : ""}
+                  </div>
+                </div>
+              </div>
+            `
+            );
+          });
+        } else {
+          document.querySelectorAll(".no_of_noties").innerHTML =
+            "<p>User not found.</p>";
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        document.querySelectorAll(".no_of_noties").innerHTML =
+          "<p>Error loading user data.</p>";
+      }
+    });
+  </script>
+  <script>
+    localStorage.setItem("page", "dashb");
+    let page = localStorage.getItem("page");
+    document.querySelector(".dash").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "dashb");
+    });
+    if (page && page === "dashb") {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document
+      .querySelector(".transaction")
+      .addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "transaction");
+      });
+    if (page && page === "transaction") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.add("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".budget").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "budget");
+    });
+    if (page && page === "budget") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".report").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "report");
+    });
+    if (page && page === "report") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".setting").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+      return localStorage.setItem("page", "setting");
+    });
+    if (page && page === "setting") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+    }
+
+    document.querySelector(".navbar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+
+    document.querySelector(".bar").addEventListener("click", function () {
+      document.querySelector(".navbar").classList.add("show");
+    });
+  </script>
 </html>

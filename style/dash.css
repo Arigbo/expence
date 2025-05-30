@@ -857,6 +857,9 @@
     border-radius: 0;
     border-right: 1px solid rgb(230, 230, 230);
   }
+  .dashboard_inner_left .second_inner .card_inner {
+    width: 100%;
+  }
   .dashboard_inner_left .second_inner .card:last-child {
     border: none;
   }
