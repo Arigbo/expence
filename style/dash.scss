@@ -854,6 +854,9 @@
             .card {
               border-radius: 0;
               border-right: 1px solid rgba(230, 230, 230, 1);
+             &_inner{
+               width: 100%;
+             }
               &:last-child {
                 border: none;
               }

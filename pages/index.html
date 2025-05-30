@@ -48,7 +48,10 @@
           </div>
         </div>
         <div class="right">
-          <i class="far fa-bell"></i>
+          <a href="./notifications.html">
+            <i class="far fa-bell"></i>
+            <div class="no_of_noties"></div
+          ></a>
         </div>
       </div>
       <div class="dashboard_header desktop">
@@ -108,8 +111,48 @@
         </div>
         <div class="right">
           <div class="right_left">
-            <h1><i class="far fa-bell"></i></h1>
+            <a href="./notifications.html"
+              ><i class="far fa-bell"></i>
+              <div class="no_of_noties"></div
+            ></a>
           </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+              const loggedInId = localStorage.getItem("loggedin_id");
+              if (!loggedInId) {
+                document.querySelector(".profile").classList.add("hide");
+                return;
+              }
+              try {
+                const response = await fetch("/db.json");
+                const data = await response.json();
+
+                const notifications = data.notifications.filter(
+                  (notifications) =>
+                    notifications.user_id === parseInt(loggedInId)
+                );
+                const read = notifications.filter(
+                  (notifications) => notifications.read === false
+                );
+                if (notifications) {
+                  document
+                    .querySelectorAll(".no_of_noties")
+                    .forEach((element) => {
+                      element.innerHTML = `
+                        ${read.length}
+                    `;
+                    });
+                } else {
+                  document.querySelectorAll(".profiles").innerHTML =
+                    "<p>User not found.</p>";
+                }
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+                document.getElementById("profiles").innerHTML =
+                  "<p>Error loading user data.</p>";
+              }
+            });
+          </script>
           <div class="right_right">
             <a href="./profile.html"> <i class="fas fa-user"></i></a>
           </div>
@@ -302,7 +345,7 @@
           incomeElement.textContent = `$${totals.income.toLocaleString()}`;
           incomeElement.insertAdjacentHTML(
             "afterend",
-            `<p>(Estimated income: $${estimatedIncome.toLocaleString()}</p>`
+            `<p>Estimated Inc.: $${estimatedIncome.toLocaleString()}</p>`
           );
           const savings = totals.income - totals.expense;
 
