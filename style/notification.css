@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-block: 1rem;
   gap: 2rem;
   width: 100%;
 }
@@ -12,9 +11,10 @@
 }
 .dashboard .notification_header {
   display: flex;
-  width: 90%;
   align-items: center;
   justify-content: space-between;
+  width: 95%;
+  height: 6vh;
 }
 .dashboard .notification_header_left {
   display: flex;

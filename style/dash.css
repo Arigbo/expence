@@ -85,6 +85,9 @@
   align-items: center;
   justify-content: center;
 }
+.dashboard_header .right .hide {
+  display: none;
+}
 .dashboard_header.desktop {
   display: none;
 }

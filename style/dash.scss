@@ -80,6 +80,9 @@
         align-items: center;
         justify-content: center;
       }
+      .hide {
+        display: none;
+      }
     }
     &.desktop {
       display: none;
@@ -165,11 +168,11 @@
               font-size: 22px;
               height: 100%;
             }
-            .no_of_noties{
+            .no_of_noties {
               bottom: 3rem;
-                    &.hide {
-                    display: none;
-                  }
+              &.hide {
+                display: none;
+              }
             }
           }
           &_right {

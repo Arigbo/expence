@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-block: 1rem;
   gap: 3rem;
   width: 100%;
 }
@@ -12,16 +11,20 @@
 }
 .dashboard .profile_header {
   display: flex;
-  width: 90%;
   align-items: center;
   justify-content: space-between;
+  width: 95%;
+  height: 5vh;
 }
 .dashboard .profile_header h1 {
   font-size: 18px;
+  font-weight: 400;
 }
 .dashboard .profile_header a {
   width: -moz-fit-content;
   width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .dashboard .profile_body {
   width: 100%;
@@ -60,7 +63,7 @@
 }
 .dashboard .profile_inner .profiles .user-profile i,
 .dashboard .profile_inner .profiles .user-profile img {
-  border: 1px solid black;
+  background-color: black;
   padding: 0.2rem;
   height: 7rem;
   width: 7rem;
@@ -133,6 +136,9 @@
   padding: 0.2rem 0.5rem;
   border-radius: 1rem;
   font-size: 12px;
+}
+.dashboard .profile_inner .profiles_actions a div p .hide {
+  display: none;
 }
 .dashboard .profile_inner .profiles_actions a i {
   font-size: 1rem;

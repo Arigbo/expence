@@ -36,7 +36,7 @@
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
-    <div class="dashboard_header">
+      <div class="dashboard_header">
         <div class="left">
           <div class="left_left">
             <a href="./profile.html"> <i class="far fa-user"></i></a>
@@ -137,6 +137,9 @@
                   document
                     .querySelectorAll(".no_of_noties")
                     .forEach((element) => {
+                      if (read.length == 0) {
+                        element.classList.add("hide");
+                      }
                       element.innerHTML = `
                         ${read.length}
                     `;
@@ -208,7 +211,7 @@
       const transactsContainer = document.querySelector(".transacts");
 
       if (!isLoggedIn) {
-      transactsContainer.innerHTML = `
+        transactsContainer.innerHTML = `
         <div style="text-align: center; margin-top: 20px;">
         <p style="font-size: 20px; font-weight: 600;">You are not logged in.</p>
         <a href="/verification/signin.html">
@@ -216,20 +219,20 @@
         </a>
         </div>
       `;
-      return;
+        return;
       }
 
       const transactions = await fetchTransactions();
       const userTransactions = transactions.filter(
-      (transaction) => transaction.user_id === loggedInId
+        (transaction) => transaction.user_id === loggedInId
       );
 
       if (userTransactions.length === 0) {
-      transactsContainer.innerHTML = `
+        transactsContainer.innerHTML = `
         <p class='no-results' style='text-align: center; font-size: 28px; font-weight: 600;'>No transaction records found.</p>
       `;
       } else {
-      displayTransactions(userTransactions);
+        displayTransactions(userTransactions);
       }
     }
 
@@ -249,55 +252,55 @@
       transactsContainer.appendChild(header);
 
       const groupedByYear = transactions.reduce((acc, transaction) => {
-      const year = new Date(transaction.date).getFullYear();
-      if (!acc[year]) acc[year] = [];
-      acc[year].push(transaction);
-      return acc;
+        const year = new Date(transaction.date).getFullYear();
+        if (!acc[year]) acc[year] = [];
+        acc[year].push(transaction);
+        return acc;
       }, {});
 
       const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
       for (const year of sortedYears) {
-      const yearContainer = document.createElement("div");
-      yearContainer.classList.add("year-group", "sticky-year");
-      yearContainer.innerHTML = `<h2>${year}</h2>`;
+        const yearContainer = document.createElement("div");
+        yearContainer.classList.add("year-group", "sticky-year");
+        yearContainer.innerHTML = `<h2>${year}</h2>`;
 
-      const groupedByMonth = groupedByYear[year].reduce(
-        (acc, transaction) => {
-        const month = new Date(transaction.date).toLocaleString("default", {
-          month: "long",
-        });
-        if (!acc[month]) acc[month] = [];
-        acc[month].push(transaction);
-        return acc;
-        },
-        {}
-      );
-
-      const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
-        const monthA = new Date(`${a} 1, ${year}`);
-        const monthB = new Date(`${b} 1, ${year}`);
-        return monthB - monthA;
-      });
-
-      for (const month of sortedMonths) {
-        const monthContainer = document.createElement("div");
-        monthContainer.classList.add("month-group", "sticky-month");
-        monthContainer.innerHTML = `<h3>${month}</h3>`;
-
-        const sortedTransactions = groupedByMonth[month].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
+        const groupedByMonth = groupedByYear[year].reduce(
+          (acc, transaction) => {
+            const month = new Date(transaction.date).toLocaleString("default", {
+              month: "long",
+            });
+            if (!acc[month]) acc[month] = [];
+            acc[month].push(transaction);
+            return acc;
+          },
+          {}
         );
 
-        sortedTransactions.forEach((transaction) => {
-        const transactionElement = document.createElement("div");
-        transactionElement.classList.add("transaction");
-        transactionElement.innerHTML = `
+        const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
+          const monthA = new Date(`${a} 1, ${year}`);
+          const monthB = new Date(`${b} 1, ${year}`);
+          return monthB - monthA;
+        });
+
+        for (const month of sortedMonths) {
+          const monthContainer = document.createElement("div");
+          monthContainer.classList.add("month-group", "sticky-month");
+          monthContainer.innerHTML = `<h3>${month}</h3>`;
+
+          const sortedTransactions = groupedByMonth[month].sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
+
+          sortedTransactions.forEach((transaction) => {
+            const transactionElement = document.createElement("div");
+            transactionElement.classList.add("transaction");
+            transactionElement.innerHTML = `
           <div class="transaction-item ${transaction.type}">
           <div class="day">${new Date(transaction.date).toLocaleString(
-          "default",
-          {
-            weekday: "short",
-          }
+            "default",
+            {
+              weekday: "short",
+            }
           )} / ${new Date(transaction.date).getDate()}</div>
           <div>${transaction.description}</div>
           <div>${transaction.category}</div>
@@ -305,22 +308,22 @@
           <div class="amount">$${transaction.amount}</div>
           </div>
           `;
-        transactionElement.addEventListener("click", () => {
-          renderSingleTransaction(transaction);
-        });
-        monthContainer.appendChild(transactionElement);
-        });
+            transactionElement.addEventListener("click", () => {
+              renderSingleTransaction(transaction);
+            });
+            monthContainer.appendChild(transactionElement);
+          });
 
-        yearContainer.appendChild(monthContainer);
-      }
+          yearContainer.appendChild(monthContainer);
+        }
 
-      transactsContainer.appendChild(yearContainer);
+        transactsContainer.appendChild(yearContainer);
       }
     }
 
     function renderSingleTransaction(transaction) {
       const singleTransactContainer =
-      document.querySelector(".single_transact");
+        document.querySelector(".single_transact");
       singleTransactContainer.innerHTML = `
       <div class="transaction-detail">
      <div class="close">
@@ -328,33 +331,31 @@
     </div>
       <h2>Transaction Details</h2>
       <div class="detail-row"><strong>Date:</strong> <span>${new Date(
-      transaction.date
+        transaction.date
       ).toLocaleDateString()}</span></div>
       <div class="detail-row"><strong>Description:</strong> <span>${
-      transaction.description
+        transaction.description
       }</span></div>
       <div class="detail-row"><strong>Category:</strong> <span>${
-      transaction.category
+        transaction.category
       }</span></div>
       <div class="detail-row">
       <strong>Type:</strong>
-      <span class="type-detail ${
-        transaction.type
-      }" style="background-color: ${
-      transaction.type === "expense" ? "#d32f2f" : "#388e3c"
+      <span class="type-detail ${transaction.type}" style="background-color: ${
+        transaction.type === "expense" ? "#d32f2f" : "#388e3c"
       };">
         ${transaction.type}
       </span>
       </div>
       <div class="detail-row"><strong>Amount:</strong> <span>$${
-      transaction.amount
+        transaction.amount
       }</span></div>
       </div>
       `;
       singleTransactContainer.style.display = "flex"; // Ensure it is visible
 
       document.querySelector(".close-btn").addEventListener("click", () => {
-      singleTransactContainer.style.display = "none";
+        singleTransactContainer.style.display = "none";
       });
     }
 

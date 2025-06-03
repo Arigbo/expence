@@ -47,71 +47,6 @@
               <span id="day"></span>!
             </p>
           </div>
-          <script>
-            function greeting() {
-              const date = new Date();
-              const hours = date.getHours();
-              const minutes = date.getMinutes();
-              const seconds = date.getSeconds();
-              const time = `${hours}:${minutes}:${seconds}`;
-              console.log("Current time:", time);
-              if (hours >= 0 && hours < 12) {
-                document.querySelector("#day").textContent = "morning";
-              } else if (hours >= 12 && hours < 18) {
-                document.querySelector("#day").textContent = "afternoon";
-              } else if (hours >= 18 && hours < 24) {
-                document.querySelector("#day").textContent = "evening";
-              } else {
-                document.querySelector("#day").textContent = "night";
-              }
-              const day = date.getDay();
-              const days = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              document.querySelector("#day").textContent =
-                days[day] + " " + document.querySelector("#day").textContent;
-            }
-            greeting();
-            const loggedInId = localStorage.getItem("loggedin_id")
-              ? Number(localStorage.getItem("loggedin_id"))
-              : null;
-            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-            async function fetchUserName() {
-              if (!isLoggedIn || !loggedInId) {
-                console.error("User is not logged in or no loggedin_id found");
-                return "Guest";
-              }
-              try {
-                const response = await fetch("/db.json");
-                if (!response.ok) {
-                  throw new Error("Failed to fetch db.json");
-                }
-                const data = await response.json();
-                if (!data || !data.users) {
-                  console.error("Users data not found in db.json");
-                  return "Guest";
-                }
-                const user = data.users.find(
-                  (u) => Number(u.id) === Number(loggedInId)
-                );
-                return user ? user.name : "Guest";
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-                return "Guest";
-              }
-            }
-
-            fetchUserName().then((name) => {
-              document.getElementById("loggedInUserMiddle").textContent = name;
-            });
-          </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -326,6 +261,71 @@
       });
     </script>
     <script>
+      function greeting() {
+        const date = new Date();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+        const time = `${hours}:${minutes}:${seconds}`;
+        console.log("Current time:", time);
+        if (hours >= 0 && hours < 12) {
+          document.querySelector("#day").textContent = "morning";
+        } else if (hours >= 12 && hours < 18) {
+          document.querySelector("#day").textContent = "afternoon";
+        } else if (hours >= 18 && hours < 24) {
+          document.querySelector("#day").textContent = "evening";
+        } else {
+          document.querySelector("#day").textContent = "night";
+        }
+        const day = date.getDay();
+        const days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        document.querySelector("#day").textContent =
+          days[day] + " " + document.querySelector("#day").textContent;
+      }
+      greeting();
+      const loggedInId = localStorage.getItem("loggedin_id")
+        ? Number(localStorage.getItem("loggedin_id"))
+        : null;
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+      async function fetchUserName() {
+        if (!isLoggedIn || !loggedInId) {
+          console.error("User is not logged in or no loggedin_id found");
+          return "Guest";
+        }
+        try {
+          const response = await fetch("/db.json");
+          if (!response.ok) {
+            throw new Error("Failed to fetch db.json");
+          }
+          const data = await response.json();
+          if (!data || !data.users) {
+            console.error("Users data not found in db.json");
+            return "Guest";
+          }
+          const user = data.users.find(
+            (u) => Number(u.id) === Number(loggedInId)
+          );
+          return user ? user.name : "Guest";
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          return "Guest";
+        }
+      }
+
+      fetchUserName().then((name) => {
+        document.getElementById("loggedInUserMiddle").textContent = name;
+      });
+    </script>
+    <script>
       document.addEventListener("DOMContentLoaded", async () => {
         const loggedInId = localStorage.getItem("loggedin_id");
         if (!loggedInId) {
@@ -336,48 +336,51 @@
         try {
           const response = await fetch("/db.json");
           const data = await response.json();
-                         const notifications = data.notifications.filter(
-          (notifications) => notifications.user_id === parseInt(loggedInId)
-        );
-        const read = notifications.filter(
-          (notifications) => notifications.read === false
-        );
-        if (notifications || read) {
-          document.querySelectorAll(".no_of_noties").forEach((element) => {
-            if (read.length == 0) {
-              element.classList.add("hide");
-            }
-            element.innerHTML = `
-                        ${read.length}
-                    `;
-          });
-           } else {
-          document.querySelectorAll(".no_of_noties").innerHTML =
-            "<p>User not found.</p>";
-        }
+          const notifications = data.notifications.filter(
+            (notifications) =>
+              parseInt(notifications.user_id) === parseInt(loggedInId)
+          );
+          const read = notifications.filter(
+            (notifications) => notifications.read === false
+          );
           const user = data.users.find(
-            (u) => u.id === parseInt(loggedInId)
+            (user) => parseInt(user.id) === parseInt(loggedInId)
           );
           if (!user) {
             document.getElementById("profiles").innerHTML =
-              "<p>User not found.</p>";
+              "<p>User not found. hi</p>";
             return;
+          } else {
+            document.getElementById("profiles").innerHTML = `
+                        <div class="user-profile">
+                                <img src="${user.image}" alt="Profile Image" />
+                            <div class="user-info">
+                                <h2>${user.name}</h2>
+                                <p>${user.username}</p>
+                            </div>
+                        </div>
+                    `;
           }
-          document.getElementById("profiles").innerHTML = `
-            <div class="profile_card">
-              <img src="${user.profilePicture || '/default-profile.png'}" alt="Profile Picture" />
-              <h2>${user.name}</h2>
-              <p>Email: ${user.email}</p>
-              <p>Phone: ${user.phone || 'N/A'}</p>
-              <p>Address: ${user.address || 'N/A'}</p>
-            </div>
-          `;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        document.getElementById("profiles").innerHTML =
-          "<p>Error loading user data.</p>";
-      }
-    });
-  </script>
-</body>
+          if (notifications || read) {
+            document.querySelectorAll(".no_of_noties").forEach((element) => {
+              if (read.length == 0) {
+                element.classList.add("hide");
+              }
+              element.innerHTML = `
+                        ${read.length}
+                    `;
+            });
+          } else {
+            document.querySelectorAll(".no_of_noties").forEach((element) => {
+              element.innerHTML = "";
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          document.getElementById("profiles").innerHTML =
+            "<p>Error loading user data.</p>";
+        }
+      });
+    </script>
+  </body>
 </html>
