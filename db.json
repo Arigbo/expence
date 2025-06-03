@@ -22,153 +22,148 @@
       "email": "arigbojesse@gmail.com",
       "password": "je$$ear1",
       "createdAt": "2025-05-13T21:23:29.226Z"
-    },
-    {
-      "id": "5",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear1",
-      "createdAt": "2025-05-13T21:26:13.852Z"
-    },
-    {
-      "id": "6",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear1",
-      "createdAt": "2025-05-13T21:27:41.506Z"
-    },
-    {
-      "id": "7",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear1",
-      "createdAt": "2025-05-13T21:30:53.148Z"
-    },
-    {
-      "id": "8",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear1",
-      "createdAt": "2025-05-13T21:31:10.366Z"
-    },
-    {
-      "id": "9",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear1",
-      "createdAt": "2025-05-13T21:46:03.856Z"
-    },
-    {
-      "id": "10",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear2",
-      "createdAt": "2025-05-13T21:46:32.732Z"
-    },
-    {
-      "id": "11",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear3",
-      "createdAt": "2025-05-13T21:48:26.825Z"
-    },
-    {
-      "id": "12",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear4",
-      "createdAt": "2025-05-13T21:49:30.175Z"
-    },
-    {
-      "id": "13",
-      "name": "jessearigbo",
-      "email": "arigbojesse75@gmail.com",
-      "password": "je$$ear4",
-      "createdAt": "2025-05-13T21:49:59.320Z"
-    },
-    {
-      "id": "14",
-      "name": "jessearigbo",
-      "email": "arigbojesse75@gmail.com",
-      "password": "je$$ear5",
-      "createdAt": "2025-05-13T21:50:42.303Z"
-    },
-    {
-      "id": "15",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "je$$ear6",
-      "createdAt": "2025-05-13T21:51:50.492Z"
-    },
-    {
-      "id": "16",
-      "name": "jessearigbo",
-      "email": "arigbojesse75@gmail.com",
-      "password": "je$$ear7",
-      "createdAt": "2025-05-13T21:56:46.458Z"
-    },
-    {
-      "id": "17",
-      "name": "jessearigbo",
-      "email": "arigbojesse@gmail.com",
-      "password": "ke$$ear1",
-      "createdAt": "2025-05-13T21:59:30.377Z"
-    },
-    {
-      "id": "18",
-      "name": "jessearigbo",
-      "email": "arigbojesse75@gmail.com",
-      "password": "ke$$ear5",
-      "createdAt": "2025-05-13T22:02:57.416Z"
-    },
-    {
-      "id": "19",
-      "name": "jessearigbo",
-      "email": "arigbojesse75@gmail.com",
-      "password": "ke$$ear4",
-      "createdAt": "2025-05-13T22:03:49.081Z"
     }
   ],
   "notifications": [
     {
-      "id": "1",
-      "user_id": 3,
-      "sender": "Spentrack",
-      "sender_dp": "/Logomark.png",
-      "sender_id": 1,
-      "message": "Welcome to Expense Calculator!",
-      "read": true,
-      "created_at": "2023-10-01T12:05:00Z"
-    },
-    {
       "id": "2",
-      "user_id": 3,
-      "sender": "Spentrack",
-      "sender_dp": "/Logomark.png",
-      "sender_id": 1,
-      "message": "Welcome to Expense Calculator!",
-      "read": true,
-      "created_at": "2023-10-01T14:05:00Z"
+      "user_id": 4,
+      "sender": "Bob",
+      "sender_id": "2",
+      "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=B",
+      "message": "Bob just categorized a shared expense in Spenctrack.",
+      "created_at": "2025-06-03T09:05:15Z",
+      "read": true
     },
     {
       "id": "3",
-      "user_id": 3,
-      "sender": "Spentrack",
-      "sender_dp": "/Logomark.png",
-      "sender_id": 1,
-      "message": "Welcome to Expense Calculator!",
-      "read": true,
-      "created_at": "2023-10-01T14:05:00Z"
+      "user_id": 4,
+      "sender": "System Alert",
+      "sender_id": "3",
+      "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+      "message": "Your monthly Spenctrack report is ready to view.",
+      "created_at": "2025-06-03T09:10:30Z",
+      "read": true
     },
     {
       "id": "4",
       "user_id": 4,
-      "sender": "Spentrack",
-      "sender_dp": "/Logomark.png",
-      "sender_id": 1,
-      "message": "Welcome to Expense Calculator!",
-      "read": false,
-      "created_at": "2023-10-01T12:05:00Z"
+      "sender": "Marketing Team",
+      "sender_id": "4",
+      "sender_dp": "https://placehold.co/40x40/FF33A1/FFFFFF?text=M",
+      "message": "Discover new budgeting features in Spenctrack!",
+      "created_at": "2025-06-03T09:15:45Z",
+      "read": true
+    },
+    {
+      "id": "5",
+      "user_id": 4,
+      "sender": "Customer Support",
+      "sender_id": "5",
+      "sender_dp": "https://placehold.co/40x40/A133FF/FFFFFF?text=C",
+      "message": "Your support ticket regarding Spenctrack's export feature has been updated.",
+      "created_at": "2025-06-03T09:20:00Z",
+      "read": true
+    },
+    {
+      "id": "6",
+      "user_id": 4,
+      "sender": "Event Organizer",
+      "sender_id": "6",
+      "sender_dp": "https://placehold.co/40x40/33FFF5/FFFFFF?text=E",
+      "message": "Reminder: Your Spenctrack budget for 'Team Lunch' is almost depleted.",
+      "created_at": "2025-06-03T09:25:10Z",
+      "read": true
+    },
+    {
+      "id": "7",
+      "user_id": 4,
+      "sender": "Friend Request",
+      "sender_id": "7",
+      "sender_dp": "https://placehold.co/40x40/FF8C33/FFFFFF?text=F",
+      "message": "Charlie invited you to a new group in Spenctrack.",
+      "created_at": "2025-06-03T09:30:20Z",
+      "read": true
+    },
+    {
+      "id": "8",
+      "user_id": 4,
+      "sender": "Community Admin",
+      "sender_id": "8",
+      "sender_dp": "https://placehold.co/40x40/33FF8C/FFFFFF?text=C",
+      "message": "New tips for optimizing your Spenctrack usage posted in the forum.",
+      "created_at": "2025-06-03T09:35:30Z",
+      "read": true
+    },
+    {
+      "id": "9",
+      "user_id": 4,
+      "sender": "Payment Gateway",
+      "sender_id": "9",
+      "sender_dp": "https://placehold.co/40x40/8C33FF/FFFFFF?text=P",
+      "message": "Your Spenctrack premium subscription has been renewed successfully.",
+      "created_at": "2025-06-03T09:40:40Z",
+      "read": true
+    },
+    {
+      "id": "10",
+      "user_id": 4,
+      "sender": "News Digest",
+      "sender_id": "10",
+      "sender_dp": "https://placehold.co/40x40/FF3333/FFFFFF?text=N",
+      "message": "Your weekly Spenctrack spending summary is here.",
+      "created_at": "2025-06-03T09:45:50Z",
+      "read": true
+    },
+    {
+      "id": "11",
+      "user_id": 4,
+      "sender": "Development Team",
+      "sender_id": "11",
+      "sender_dp": "https://placehold.co/40x40/33A1FF/FFFFFF?text=D",
+      "message": "New feature: Receipt scanning is now live in Spenctrack!",
+      "created_at": "2025-06-03T09:50:00Z",
+      "read": true
+    },
+    {
+      "id": "12",
+      "user_id": 4,
+      "sender": "Security System",
+      "sender_id": "12",
+      "sender_dp": "https://placehold.co/40x40/FF338C/FFFFFF?text=S",
+      "message": "Unusual login attempt detected on your Spenctrack account.",
+      "created_at": "2025-06-03T09:55:10Z",
+      "read": false
+    },
+    {
+      "id": "13",
+      "user_id": 4,
+      "sender": "Game Master",
+      "sender_id": "13",
+      "sender_dp": "https://placehold.co/40x40/33FF33/FFFFFF?text=G",
+      "message": "You've unlocked a new budgeting badge in Spenctrack!",
+      "created_at": "2025-06-03T10:00:20Z",
+      "read": false
+    },
+    {
+      "id": "14",
+      "user_id": 4,
+      "sender": "Project Manager",
+      "sender_id": "14",
+      "sender_dp": "https://placehold.co/40x40/8CFF33/FFFFFF?text=P",
+      "message": "Reminder: Your Q2 Spenctrack expense report is due soon.",
+      "created_at": "2025-06-03T10:05:30Z",
+      "read": false
+    },
+    {
+      "id": "15",
+      "user_id": 4,
+      "sender": "Recipe App",
+      "sender_id": "15",
+      "sender_dp": "https://placehold.co/40x40/338CFF/FFFFFF?text=R",
+      "message": "Spenctrack suggests a budget-friendly meal plan for this week.",
+      "created_at": "2025-06-03T10:10:40Z",
+      "read": true
     }
   ],
   "blogs": [

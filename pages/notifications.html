@@ -36,7 +36,7 @@
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
-     <div class="dashboard_header desktop">
+      <div class="dashboard_header desktop">
         <div class="left">
           <i class="fas fa-bars bar"></i>
         </div>
@@ -153,71 +153,71 @@
       </div>
     </div>
   </body>
-           <script>
-            function greeting() {
-              const date = new Date();
-              const hours = date.getHours();
-              const minutes = date.getMinutes();
-              const seconds = date.getSeconds();
-              const time = `${hours}:${minutes}:${seconds}`;
-              console.log("Current time:", time);
-              if (hours >= 0 && hours < 12) {
-                document.querySelector("#day").textContent = "morning";
-              } else if (hours >= 12 && hours < 18) {
-                document.querySelector("#day").textContent = "afternoon";
-              } else if (hours >= 18 && hours < 24) {
-                document.querySelector("#day").textContent = "evening";
-              } else {
-                document.querySelector("#day").textContent = "night";
-              }
-              const day = date.getDay();
-              const days = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              document.querySelector("#day").textContent =
-                days[day] + " " + document.querySelector("#day").textContent;
-            }
-            greeting();
-            const loggedInId = localStorage.getItem("loggedin_id")
-              ? Number(localStorage.getItem("loggedin_id"))
-              : null;
-            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  <script>
+    function greeting() {
+      const date = new Date();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      const time = `${hours}:${minutes}:${seconds}`;
+      console.log("Current time:", time);
+      if (hours >= 0 && hours < 12) {
+        document.querySelector("#day").textContent = "morning";
+      } else if (hours >= 12 && hours < 18) {
+        document.querySelector("#day").textContent = "afternoon";
+      } else if (hours >= 18 && hours < 24) {
+        document.querySelector("#day").textContent = "evening";
+      } else {
+        document.querySelector("#day").textContent = "night";
+      }
+      const day = date.getDay();
+      const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      document.querySelector("#day").textContent =
+        days[day] + " " + document.querySelector("#day").textContent;
+    }
+    greeting();
+    const loggedInId = localStorage.getItem("loggedin_id")
+      ? Number(localStorage.getItem("loggedin_id"))
+      : null;
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-            async function fetchUserName() {
-              if (!isLoggedIn || !loggedInId) {
-                console.error("User is not logged in or no loggedin_id found");
-                return "Guest";
-              }
-              try {
-                const response = await fetch("/db.json");
-                if (!response.ok) {
-                  throw new Error("Failed to fetch db.json");
-                }
-                const data = await response.json();
-                if (!data || !data.users) {
-                  console.error("Users data not found in db.json");
-                  return "Guest";
-                }
-                const user = data.users.find(
-                  (u) => Number(u.id) === Number(loggedInId)
-                );
-                return user ? user.name : "Guest";
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-                return "Guest";
-              }
-            }
+    async function fetchUserName() {
+      if (!isLoggedIn || !loggedInId) {
+        console.error("User is not logged in or no loggedin_id found");
+        return "Guest";
+      }
+      try {
+        const response = await fetch("/db.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch db.json");
+        }
+        const data = await response.json();
+        if (!data || !data.users) {
+          console.error("Users data not found in db.json");
+          return "Guest";
+        }
+        const user = data.users.find(
+          (u) => Number(u.id) === Number(loggedInId)
+        );
+        return user ? user.name : "Guest";
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        return "Guest";
+      }
+    }
 
-            fetchUserName().then((name) => {
-              document.getElementById("loggedInUserMiddle").textContent = name;
-            });
-          </script>
+    fetchUserName().then((name) => {
+      document.getElementById("loggedInUserMiddle").textContent = name;
+    });
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const loggedInId = localStorage.getItem("loggedin_id");
@@ -229,7 +229,8 @@
         const response = await fetch("/db.json");
         const data = await response.json();
         const notifications = data.notifications.filter(
-          (notifications) => parseInt(notifications.user_id) === parseInt(loggedInId)
+          (notifications) =>
+            parseInt(notifications.user_id) === parseInt(loggedInId)
         );
         const read = notifications.filter(
           (notifications) => notifications.read === false
@@ -238,6 +239,11 @@
           document.querySelectorAll(".no_of_noties").forEach((element) => {
             if (read.length == 0) {
               element.classList.add("hide");
+            }
+            if (notifications.length == 0) {
+              document.querySelector("#notifications").innerHTML = `
+                        <p class="no-notifications">No notifications found.</p>
+                    `;
             }
             element.innerHTML = `
                         ${read.length}
