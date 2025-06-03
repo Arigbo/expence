@@ -50,9 +50,10 @@
         <div class="right">
           <a href="./notifications.html">
             <i class="far fa-bell"></i>
-            <div class="no_of_noties"></div
-          ></a>
+            <div class="no_of_noties"></div>
+          </a>
         </div>
+        
       </div>
       <div class="dashboard_header desktop">
         <div class="left">
@@ -120,7 +121,7 @@
             document.addEventListener("DOMContentLoaded", async () => {
               const loggedInId = localStorage.getItem("loggedin_id");
               if (!loggedInId) {
-                document.querySelector(".profile").classList.add("hide");
+                console.error("No loggedin_id found in localStorage");
                 return;
               }
               try {
@@ -138,18 +139,19 @@
                   document
                     .querySelectorAll(".no_of_noties")
                     .forEach((element) => {
+                      if (read.length == 0) {
+                        element.classList.add("hide");
+                      }
                       element.innerHTML = `
                         ${read.length}
                     `;
                     });
                 } else {
-                  document.querySelectorAll(".profiles").innerHTML =
-                    "<p>User not found.</p>";
+                  console.error("No notifications found for the user");
                 }
               } catch (error) {
                 console.error("Error fetching user data:", error);
-                document.getElementById("profiles").innerHTML =
-                  "<p>Error loading user data.</p>";
+
               }
             });
           </script>

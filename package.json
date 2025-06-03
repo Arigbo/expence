@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Arigbo/expence#readme",
   "description": "",
   "dependencies": {
-    "json-server": "^1.0.0-beta.3"
+    "json-server": "^1.0.0-beta.3",
+    "node-fetch": "^3.3.2"
   }
 }

@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-block: 1rem;
   gap: 2rem;
   width: 100%;
 }
@@ -12,9 +11,10 @@
 }
 .dashboard .notification_header {
   display: flex;
-  width: 90%;
   align-items: center;
   justify-content: space-between;
+  width: 95%;
+  height: 10vh;
 }
 .dashboard .notification_header_left {
   display: flex;
@@ -51,20 +51,19 @@
 }
 .dashboard .notification_inner {
   display: flex;
-  width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
 .dashboard .notification_inner .top {
   position: sticky;
-  top: 2rem;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 2rem;
+  height: 3rem;
   background-color: gainsboro;
 }
 .dashboard .notification_inner .top_inner {
@@ -91,93 +90,11 @@
   font-size: 14px;
 }
 .dashboard .notification_inner .bottom {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.7rem;
-}
-.dashboard .notification_inner .bottom .box {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 3.8rem;
-  align-items: center;
-  justify-content: center;
-}
-.dashboard .notification_inner .bottom .box.not h1,
-.dashboard .notification_inner .bottom .box.not p,
-.dashboard .notification_inner .bottom .box.not span {
-  font-weight: 500;
-}
-.dashboard .notification_inner .bottom .box:hover .box_inner {
-  width: 98%;
-}
-.dashboard .notification_inner .bottom .box_inner {
-  transition: all 0.5s ease;
-  align-items: center;
-  display: flex;
-  width: 95%;
-  height: 85%;
-  gap: 0.4rem;
-  justify-content: space-between;
-}
-.dashboard .notification_inner .bottom .box_inner_left {
-  width: 3.7rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dashboard .notification_inner .bottom .box_inner_left img {
-  width: 40%;
-  height: 60%;
-}
-.dashboard .notification_inner .bottom .box_inner_left i,
-.dashboard .notification_inner .bottom .box_inner_left div {
-  border-radius: 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  color: white;
-}
-.dashboard .notification_inner .bottom .box_inner_middle {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.dashboard .notification_inner .bottom .box_inner_middle h1 {
-  font-size: 14px;
-  font-weight: 400;
-}
-.dashboard .notification_inner .bottom .box_inner_middle p {
-  height: 100%;
-  width: auto;
-  font-size: 16px;
-  font-weight: 300;
-}
-.dashboard .notification_inner .bottom .box_inner_middle_bottom span {
-  font-size: 12px;
-  color: gray;
-  font-weight: 300;
-}
-.dashboard .notification_inner .bottom .box_inner_right {
-  height: 100%;
-  width: -moz-fit-content;
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dashboard .notification_inner .bottom .box_inner_right span {
-  height: 0.5rem;
-  width: 0.5rem;
-  border-radius: 100%;
-  background-color: red;
 }
 @media screen and (min-width: 768px) {
   .dashboard .notification_header {
@@ -194,10 +111,18 @@
     display: flex;
     flex-direction: column;
     align-items: end;
-    background-color: white;
     width: 70%;
-    padding-block: 1rem;
     border-radius: 0.3rem;
+    overflow: scroll;
+  }
+  .dashboard .notification_inner .bottom {
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem;
   }
   .dashboard .notification_desktopNav {
     background-color: white;
@@ -207,6 +132,8 @@
     width: 30%;
     border-radius: 0.4rem;
     height: 25rem;
+    position: sticky;
+    top: 5.4rem;
   }
   .dashboard .notification_desktopNav_inner {
     height: 94%;
@@ -261,6 +188,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .dashboard .notification_desktopNav_inner a .right p .no_of_noties.hide {
+    display: none;
   }
   .dashboard .notification_desktopNav_inner .left {
     height: 100%;

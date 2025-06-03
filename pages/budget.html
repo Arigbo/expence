@@ -137,7 +137,10 @@
                   document
                     .querySelectorAll(".no_of_noties")
                     .forEach((element) => {
-                      element.innerHTML = `
+                   if (read.length == 0) {
+              element.classList.add("hide");
+            }
+            element.innerHTML = `
                         ${read.length}
                     `;
                     });
