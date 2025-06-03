@@ -176,6 +176,8 @@
     width: 30%;
     border-radius: 0.4rem;
     height: 25rem;
+    position: sticky;
+    top: 5.4rem;
   }
   .dashboard .profile_desktopNav_inner {
     height: 94%;

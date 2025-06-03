@@ -10,11 +10,11 @@
       display: none;
     }
     &_header {
-        display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    height: 6vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 95%;
+      height: 6vh;
       &_left {
         display: flex;
         align-items: center;
@@ -47,7 +47,6 @@
     }
     &_desktopNav {
       display: none;
-
     }
     &_inner {
       display: flex;
@@ -57,13 +56,13 @@
       gap: 1rem;
       .top {
         position: sticky;
-        top: 2rem;
+        top: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 2rem;
+        height: 3rem;
         background-color: gainsboro;
         &_inner {
           display: flex;
@@ -96,96 +95,6 @@
         flex-direction: column;
         align-items: center;
         gap: 0.7rem;
-        .box {
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: 3.8rem;
-          align-items: center;
-          justify-content: center;
-
-          &.not {
-            h1,
-            p,
-            span {
-              font-weight: 500;
-            }
-          }
-          &:hover {
-            .box_inner {
-              width: 98%;
-            }
-          }
-          &_inner {
-            transition: all 0.5s ease;
-            align-items: center;
-            display: flex;
-            width: 95%;
-            height: 85%;
-            gap: 0.4rem;
-            justify-content: space-between;
-            &_left {
-              width: 3.5rem;
-              height: 100%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              img {
-                width: 40%;
-                height: 60%;
-              }
-              i,
-              div {
-                border-radius: 100%;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: black;
-                color: white;
-              }
-            }
-            &_middle {
-              width: 100%;
-              display: flex;
-              flex-direction: column;
-
-              h1 {
-                font-size: 14px;
-                font-weight: 400;
-                // color: rgb(71, 68, 68);
-              }
-              p {
-                height: 100%;
-                width: auto;
-                font-size: 16px;
-                font-weight: 300;
-              }
-              &_bottom {
-                span {
-                  font-size: 12px;
-                  color: gray;
-                  font-weight: 300;
-                }
-              }
-            }
-            &_right {
-              height: 100%;
-              width: fit-content;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              span {
-                height: 0.5rem;
-                width: 0.5rem;
-                border-radius: 100%;
-                background-color: red;
-              }
-            }
-          }
-        }
       }
     }
     @media screen and (min-width: 768px) {
@@ -203,10 +112,18 @@
         display: flex;
         flex-direction: column;
         align-items: end;
-        background-color: white;
         width: 70%;
-        padding-block: 1rem;
         border-radius: 0.3rem;
+        overflow: scroll;
+         .bottom {
+        width: 100%;
+        height: 75vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 1rem;
+      }
       }
       &_desktopNav {
         background-color: white;
@@ -216,6 +133,8 @@
         width: 30%;
         border-radius: 0.4rem;
         height: 25rem;
+        position: sticky;
+        top: 5.4rem;
         &_inner {
           height: 94%;
           width: 94%;

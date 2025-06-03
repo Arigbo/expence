@@ -11,10 +11,10 @@
     }
     &_header {
       display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    height: 5vh;
+      align-items: center;
+      justify-content: space-between;
+      width: 95%;
+      height: 5vh;
       h1 {
         font-size: 18px;
         font-weight: 400;
@@ -126,11 +126,10 @@
                   padding: 0.2rem 0.5rem;
                   border-radius: 1rem;
                   font-size: 12px;
-            
                 }
-                      .hide {
-                    display: none;
-                  }
+                .hide {
+                  display: none;
+                }
               }
             }
             i {
@@ -175,6 +174,8 @@
         width: 30%;
         border-radius: 0.4rem;
         height: 25rem;
+        position: sticky;
+        top: 5.4rem;
         &_inner {
           height: 94%;
           width: 94%;

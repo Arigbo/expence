@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Base styles for the body and container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Dashboard layout: flex container for navbar and main content area */
+        .dashboard {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Navbar styling: fixed-width sidebar on desktop */
+        .navbar {
+            width: 250px;
+            flex-shrink: 0; /* Prevents it from shrinking */
+            background-color: #ffffff; /* White background */
+            color: #374151; /* Adjusted for contrast on white */
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Lighter shadow for white navbar */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease-out;
+            height: 100vh; /* Set height to 100vh */
+            position: fixed; /* Make the navbar fixed */
+            top: 0;
+            left: 0;
+            z-index: 900; /* Ensure it's above content but below modals */
+            overflow-y: auto; /* Allow scrolling if nav content exceeds height */
+        }
+        .navbar_inner {
+            width: 100%;
+        }
+        .navbar .top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        .navbar .top img {
+            width: 40px;
+            height: 40px;
+            background-color: #3b82f6; /* Major blue */
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .navbar .top h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937; /* Adjusted for contrast on white */
+        }
+        .navbar .top h1 span {
+            color: #3b82f6; /* Major blue */
+        }
+        .navbar a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: #4b5563; /* Adjusted for contrast */
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .navbar a:hover, .navbar a.active {
+            background-color: #eff6ff; /* Light blue accent */
+            color: #3b82f6; /* Major blue */
+        }
+        .navbar a i {
+            font-size: 1.1rem;
+        }
+
+        /* Main content area: takes remaining width, stacks header and profile vertically */
+        .main-content-area {
+            flex-grow: 1; /* Takes up remaining horizontal space */
+            display: flex;
+            flex-direction: column; /* Stacks children (header, profile) vertically */
+            margin-left: 250px; /* Offset by navbar width when navbar is fixed */
+        }
+
+        /* Dashboard Header (Desktop) */
+        .dashboard_header.desktop {
+            padding: 20px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* Needed for absolute positioning of search modal */
+        }
+        .dashboard_header .left i {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #374151;
+        }
+        .dashboard_header .middle {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .dashboard_header .middle_left p {
+            font-size: 1.1rem;
+            color: #4b5563;
+        }
+        .dashboard_header .middle_left span {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .dashboard_header .middle_right {
+            display: flex;
+            align-items: center;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 8px 15px;
+            gap: 10px;
+            position: relative; /* For positioning the search results modal */
+        }
+        .dashboard_header .middle_right i {
+            color: #6b7280;
+        }
+        .dashboard_header .middle_right input {
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            color: #374151;
+            width: 200px; /* Adjust as needed */
+        }
+        .dashboard_header .right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .dashboard_header .right_left, .dashboard_header .right_right {
+            position: relative;
+        }
+        .dashboard_header .right_left a, .dashboard_header .right_right a {
+            color: #4b5563;
+            font-size: 1.3rem;
+            text-decoration: none;
+        }
+        .dashboard_header .no_of_noties {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ef4444; /* Red dot */
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 6px;
+            line-height: 1;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Search Results Modal */
+        .search-results-modal {
+            position: absolute;
+            top: 100%; /* Position below the search input */
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 950; /* Above regular content, below main modals */
+            max-height: 300px;
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+            padding: 10px 0;
+        }
+        .search-results-modal.show {
+            display: block;
+        }
+        .search-results-modal .result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            gap: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .search-results-modal .result-item:last-child {
+            border-bottom: none;
+        }
+        .search-results-modal .result-item:hover {
+            background-color: #f3f4f6;
+        }
+        .search-results-modal .result-item img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .search-results-modal .result-item .text-content {
+            flex-grow: 1;
+        }
+        .search-results-modal .result-item .text-content h3 {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1f2937;
+        }
+        .search-results-modal .result-item .text-content p {
+            font-size: 0.8rem;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-results-modal .no-results {
+            padding: 10px 15px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        /* Profile Section */
+        .profile {
+            flex-grow: 1; /* Takes up remaining vertical space */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .profile_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .profile_header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .profile_header .back-button {
+            background-color: #3b82f6; /* Major blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .profile_header .back-button:hover {
+            background-color: #2563eb; /* Darker major blue */
+        }
+
+        .profile_body {
+            display: flex;
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        /* Desktop Navigation within Profile Body */
+        .profile_desktopNav {
+            width: 280px; /* Fixed width for desktop nav */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky; /* Sticky positioning */
+            top: 4rem; /* Sticks at 4rem from the top */
+            z-index: 800; /* Ensure it's above content but below main navbar and modals */
+            overflow-y: auto; /* Allow scrolling for its content */
+            align-self: flex-start; /* Ensures it aligns to the top within the flex container */
+        }
+        .profile_desktopNav_inner a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .profile_desktopNav_inner a:hover, .profile_desktopNav_inner a.active {
+            background-color: #eff6ff; /* Light blue accent */
+            color: #3b82f6; /* Major blue */
+        }
+        .profile_desktopNav_inner a .left i {
+            font-size: 1.1rem;
+        }
+        .profile_desktopNav_inner a .right {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .profile_desktopNav_inner a .right h1 {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .profile_desktopNav_inner a .right p {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        /* Profile Inner Content */
+        .profile_inner {
+            flex-grow: 1;
+            max-width: 600px; /* Limit width of profile content */
+            margin-left: auto; /* Center it if space allows */
+            margin-right: auto;
+        }
+        .user-profile {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .user-profile img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3b82f6; /* Major blue border */
+            box-shadow: 0 0 0 4px #eff6ff; /* Light blue halo */
+        }
+        .user-info h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .user-info p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .profiles_actions {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .profiles_actions a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .profiles_actions a:hover {
+            background-color: #eff6ff; /* Light blue accent */
+            color: #3b82f6; /* Major blue */
+        }
+        .profiles_actions a i {
+            font-size: 1.1rem;
+        }
+        .profiles_actions a div {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .profiles_actions a div p {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        .profiles_actions a div h1 {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .profiles_actions a .no_of_noties {
+            position: static; /* Override absolute positioning */
+            background-color: #3b82f6; /* Major blue for notification count */
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 6px;
+            line-height: 1;
+            min-width: 20px;
+            text-align: center;
+            margin-left: auto; /* Push to the right */
+        }
+        .hide {
+            display: none !important;
+        }
+
+        /* Loading and Error Messages */
+        .loading-message, .error-message {
+            padding: 1rem;
+            background-color: #eff6ff; /* Light blue accent */
+            color: #3b82f6; /* Major blue */
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .error-message {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        .no-results {
+            padding: 10px 15px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 767px) {
+            /* Hide desktop-specific elements on mobile */
+            .dashboard_header.desktop,
+            .profile_desktopNav {
+                display: none !important;
+            }
+            /* Adjust dashboard layout for mobile: stack vertically */
+            .dashboard {
+                flex-direction: column;
+            }
+            /* Mobile fixed bottom navbar */
+            .navbar {
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 999;
+                background-color: #ffffff; /* White */
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                display: flex; /* Always flex on mobile */
+                visibility: hidden; /* Hidden by default */
+                justify-content: space-around;
+                padding: 10px 0;
+                height: 60px; /* Fixed height for mobile nav */
+                transform: translateX(-100%); /* Initially hide navbar off-screen */
+                transition: transform 0.3s ease-out, visibility 0.3s ease-out; /* Transition both */
+            }
+            .navbar.show {
+                visibility: visible; /* Make visible for transition */
+                transform: translateX(0); /* Show navbar on mobile */
+            }
+            .navbar a {
+                flex-grow: 1;
+                text-align: center;
+                padding: 10px 0;
+                color: #4b5563; /* Adjust color for mobile nav */
+            }
+            .navbar a.active {
+                color: #3b82f6; /* Major blue */
+            }
+            .navbar .top {
+                display: none; /* Hide logo/Spenctrack text in mobile bottom nav */
+            }
+            /* Adjust main content area to take full width and account for bottom nav */
+            .main-content-area {
+                flex-grow: 1;
+                margin-bottom: 60px; /* Space for fixed bottom navbar */
+                margin-left: 0; /* Remove desktop margin-left on mobile */
+                margin-right: 0; /* Remove desktop margin-right on mobile */
+            }
+            /* Adjust profile section padding for mobile */
+            .profile {
+                padding: 1rem; /* Adjust padding for mobile */
+                padding-top: 20px; /* Reset top padding as desktop header is hidden */
+            }
+            .profile_header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .profile_header h1 {
+                font-size: 1.5rem;
+            }
+            .profile_header .back-button {
+                width: 100%;
+                justify-content: center;
+            }
+            .user-profile img {
+                width: 100px;
+                height: 100px;
+            }
+            .user-info h2 {
+                font-size: 1.5rem;
+            }
+            .user-info p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <nav class="navbar">
+            <div class="navbar_inner">
+                <div class="top">
+                    <img src="https://placehold.co/40x40/3b82f6/FFFFFF?text=S" alt="Spenctrack Logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/3b82f6/FFFFFF?text=S';"/>
+                    <h1 class="">Spen<span>track</span></h1>
+                </div>
+                <a href="./index.html" class="dash"><i class="fas fa-cube"></i> Dashboard</a>
+                <a href="/pages/transaction.html" class="transaction"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                <a href="./budget.html" class="budget"><i class="fas fa-rocket"></i> Budgets</a>
+                <a href="/" class="report"><i class="fas fa-chart-line"></i> Reports</a>
+                <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
+                <a href="/pages/help.html" class="help"><i class="fas fa-question-circle"></i> Help & Support</a>
+                <a href="/pages/feedback.html" class="feedback"><i class="fas fa-comment-dots"></i> Send Feedback</a>
+                <a href="/pages/privacy.html" class="privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                <a href="/pages/logout.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </nav>
+        <div class="main-content-area">
+            <div class="dashboard_header desktop">
+                <div class="left">
+                    <i class="fas fa-bars bar"></i>
+                </div>
+                <div class="middle">
+                    <div class="middle_left">
+                        <p>Hello <span id="loggedInUserMiddle">Guest</span>, <span id="day"></span>!</p>
+                    </div>
+                    <div class="middle_right">
+                        <i class="fas fa-search"></i>
+                        <input type="search" placeholder="Search here...." id="notificationSearchInput" />
+                        <div class="search-results-modal" id="searchResultsModal"></div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="right_left">
+                        <a href="./notifications.html">
+                            <i class="far fa-bell"></i>
+                            <h1 class="no_of_noties"></h1>
+                        </a>
+                    </div>
+                    <div class="right_right">
+                        <a href="./profile.html"> <i class="fas fa-user"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="profile">
+                <div class="profile_header">
+                    <h1>Your Profile</h1>
+                    <a href="./index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
+                </div>
+                <div class="profile_body">
+                    <div class="profile_desktopNav">
+                        <div class="profile_desktopNav_inner">
+                            <a href="/pages/profile.html" class="edit_profile">
+                                <div class="left"><i class="far fa-edit"></i></div>
+                                <div class="right">
+                                    Edit Profile
+                                    <p>Edit personal data</p>
+                                </div>
+                            </a>
+                            <a href="./notifications.html" class="notifications">
+                                <div class="left"><i class="far fa-bell"></i></div>
+                                <div class="right">
+                                    Notifications
+                                    <p>
+                                        <span>Check your notifications</span>
+                                        <span class="no_of_noties"></span>
+                                    </p>
+                                </div>
+                            </a>
+                            <a href="/settings" class="account_settings">
+                                <div class="left"><i class="fas fa-user-gear"></i></div>
+                                <div class="right">
+                                    Account Settings
+                                    <p>Manage account preferences</p>
+                                </div>
+                            </a>
+                            <a href="/pages/change_password.html" class="change_password">
+                                <div class="left"><i class="fas fa-lock"></i></div>
+                                <div class="right">Change Password</div>
+                            </a>
+                            <a href="/pages/delete_account.html" class="delete_account">
+                                <div class="left"><i class="far fa-trash-can"></i></div>
+                                <div class="right">Delete Account</div>
+                            </a>
+                            <a href="/pages/logout.html" class="logout">
+                                <div class="left"><i class="fas fa-sign-out-alt"></i></div>
+                                <div class="right">Logout</div>
+                            </a>
+                            <a href="/pages/help.html" class="help">
+                                <div class="left"><i class="fas fa-question-circle"></i></div>
+                                <div class="right">Help & Support</div>
+                            </a>
+                            <a href="/pages/feedback.html" class="feedback">
+                                <div class="left"><i class="fas fa-comment-dots"></i></div>
+                                <div class="right">Send Feedback</div>
+                            </a>
+                            <a href="/pages/privacy.html" class="privacy">
+                                <div class="left"><i class="fas fa-shield-alt"></i></div>
+                                <div class="right">Privacy Policy</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="profile_inner">
+                        <div id="profiles" class="profiles">
+                            <div class="loading-message">Loading profile data...</div>
+                        </div>
+                        <div class="profiles_actions">
+                            <a href="/pages/edit_profile.html" class="edit_profile">
+                                <i class="far fa-edit"></i>
+                                <div>
+                                    Edit Profile
+                                    <p>Edit personal data</p>
+                                </div>
+                            </a>
+                            <a href="./notifications.html" class="notifications">
+                                <i class="far fa-bell"></i>
+                                <div>
+                                    Notifications
+                                    <p>
+                                        <span>Check your notifications</span>
+                                        <span class="no_of_noties"></span>
+                                    </p>
+                                </div>
+                            </a>
+                            <a href="/settings" class="account_settings">
+                                <i class="fas fa-user-gear"></i>
+                                <div>
+                                    Account Settings
+                                    <p>Manage account preferences</p>
+                                </div>
+                            </a>
+                            <a href="/pages/change_password.html" class="change_password">
+                                <i class="fas fa-lock"></i> Change Password
+                            </a>
+                            <a href="/pages/delete_account.html" class="delete_account">
+                                <i class="far fa-trash-can"></i> Delete Account
+                            </a>
+                            <a href="/pages/logout.html" class="logout">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Set loggedInId and isLoggedIn in localStorage at the very beginning
+        localStorage.setItem("loggedin_id", "4");
+        localStorage.setItem("isLoggedIn", "true");
+
+        // Global array to store notifications (for header count and search)
+        const allNotifications = [];
+
+        // Get references to elements
+        const navbarElement = document.querySelector(".navbar");
+        const mainContentArea = document.querySelector(".main-content-area");
+        const notificationSearchInput = document.getElementById('notificationSearchInput');
+        const searchResultsModal = document.getElementById('searchResultsModal');
+        const profilesContainer = document.getElementById('profiles');
+
+        /**
+         * Updates the unread notification count displayed in the UI.
+         */
+        function updateUnreadCount() {
+            const unreadCount = allNotifications.filter(notif => !notif.read).length;
+            document.querySelectorAll(".no_of_noties").forEach((element) => {
+                if (unreadCount === 0) {
+                    element.classList.add("hide");
+                } else {
+                    element.classList.remove("hide");
+                    element.textContent = unreadCount;
+                }
+            });
+        }
+
+        /**
+         * Fetches notifications from the API and updates the count.
+         */
+        async function fetchNotificationsForCount() {
+            try {
+                const loggedInId = localStorage.getItem("loggedin_id");
+                if (!loggedInId) {
+                    console.warn("No loggedIn_id found for notification count.");
+                    return;
+                }
+
+                let data = [];
+                try {
+                    const response = await fetch('http://localhost:3000/notifications');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    data = await response.json();
+                } catch (networkError) {
+                    console.warn("Network error fetching notifications for count, using mock data:", networkError);
+                    data = [
+                        { "id": 1, "user_id": 4, "sender": "Admin", "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A", "message": "Welcome to Spenctrack!", "created_at": "2024-05-20T10:00:00Z", "read": false },
+                        { "id": 2, "user_id": 4, "sender": "System Alert", "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S", "message": "Your monthly report is ready.", "created_at": "2024-05-21T14:30:00Z", "read": false },
+                        { "id": 3, "user_id": 4, "sender": "Support", "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S", "message": "A new feature has been rolled out.", "created_at": "2024-05-22T09:15:00Z", "read": true },
+                        { "id": 4, "user_id": 4, "sender": "Spenctrack Team", "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T", "message": "Don't forget to categorize your recent transactions.", "created_at": "2024-05-23T11:00:00Z", "read": false },
+                        { "id": 5, "user_id": 4, "sender": "Security", "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC", "message": "Unusual activity detected on your account.", "created_at": "2024-05-24T16:45:00Z", "read": false },
+                        { "id": 6, "user_id": 4, "sender": "Marketing", "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M", "message": "Exclusive offer: Get 10% cashback!", "created_at": "2024-05-25T08:00:00Z", "read": false },
+                        { "id": 7, "user_id": 4, "sender": "Admin", "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A", "message": "Your password was successfully changed.", "created_at": "2024-05-26T10:10:00Z", "read": true },
+                        { "id": 8, "user_id": 4, "sender": "System Alert", "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S", "message": "Upcoming bill reminder: Rent due in 3 days.", "created_at": "2024-05-27T12:00:00Z", "read": false },
+                        { "id": 9, "user_id": 4, "sender": "Support", "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S", "message": "Your support ticket #12345 has been updated.", "created_at": "2024-05-28T15:00:00Z", "read": false },
+                        { "id": 10, "user_id": 4, "sender": "Spenctrack Team", "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T", "message": "We've noticed you're doing great with your budget!", "created_at": "2024-05-29T09:00:00Z", "read": true },
+                        { "id": 11, "user_id": 4, "sender": "Security", "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC", "message": "New login from an unrecognized device.", "created_at": "2024-05-30T18:00:00Z", "read": false },
+                        { "id": 12, "user_id": 4, "sender": "Marketing", "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M", "message": "Refer a friend and get $5 bonus!", "created_at": "2024-05-31T11:30:00Z", "read": true },
+                        { "id": 13, "user_id": 4, "sender": "Admin", "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A", "message": "System maintenance scheduled for next Saturday.", "created_at": "2024-06-01T07:00:00Z", "read": false },
+                        { "id": 14, "user_id": 4, "sender": "System Alert", "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S", "message": "Your subscription is due for renewal.", "created_at": "2024-06-02T09:00:00Z", "read": false },
+                        { "id": 15, "user_id": 4, "sender": "Support", "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S", "message": "We've resolved the issue with your transaction history.", "created_at": "2024-06-03T14:00:00Z", "read": true },
+                        { "id": 16, "user_id": 4, "sender": "Spenctrack Team", "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T", "message": "New article: 5 tips to save money on groceries!", "created_at": "2024-06-04T10:00:00Z", "read": false },
+                        { "id": 17, "user_id": 4, "sender": "Security", "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC", "message": "Please update your security questions.", "created_at": "2024-06-05T16:00:00Z", "read": false },
+                        { "id": 18, "user_id": 4, "sender": "Marketing", "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M", "message": "Flash sale on premium features!", "created_at": "2024-06-06T09:30:00Z", "read": true },
+                        { "id": 19, "user_id": 4, "sender": "Admin", "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A", "message": "Your account details have been successfully verified.", "created_at": "2024-06-07T13:00:00Z", "read": false },
+                        { "id": 20, "user_id": 4, "sender": "System Alert", "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S", "message": "You've reached 80% of your entertainment budget.", "created_at": "2024-06-08T11:00:00Z", "read": false },
+                        { "id": 21, "user_id": 4, "sender": "Support", "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S", "message": "Thank you for your feedback!", "created_at": "2024-06-09T17:00:00Z", "read": true },
+                        { "id": 22, "user_id": 4, "sender": "Spenctrack Team", "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T", "message": "Discover new ways to save with personalized recommendations.", "created_at": "2024-06-10T08:45:00Z", "read": false },
+                        { "id": 23, "user_id": 4, "sender": "Security", "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC", "message": "Multi-factor authentication is now available.", "created_at": "2024-06-11T14:15:00Z", "read": false },
+                        { "id": 24, "user_id": 4, "sender": "Marketing", "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M", "message": "Join our webinar on financial planning!", "created_at": "2024-06-12T10:00:00Z", "read": false },
+                        { "id": 25, "user_id": 4, "sender": "Admin", "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A", "message": "Your profile information has been successfully updated.", "created_at": "2024-06-13T11:00:00Z", "read": true }
+                    ];
+                }
+
+                const userNotifications = data.filter(
+                    (notif) => parseInt(notif.user_id) === parseInt(loggedInId)
+                );
+                allNotifications.length = 0; // Clear existing
+                allNotifications.push(...userNotifications); // Populate
+                updateUnreadCount();
+            } catch (error) {
+                console.error('Error fetching notifications for count:', error);
+            }
+        }
+
+        /**
+         * Handles input in the search bar, filters notifications, and displays results.
+         */
+        function handleSearchInput() {
+            const query = notificationSearchInput.value.toLowerCase().trim();
+            searchResultsModal.innerHTML = ''; // Clear previous results
+
+            if (query.length === 0) {
+                searchResultsModal.classList.remove('show');
+                return;
+            }
+
+            const filteredResults = allNotifications.filter(notif =>
+                notif.sender.toLowerCase().includes(query) ||
+                notif.message.toLowerCase().includes(query)
+            );
+
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(notif => {
+                    const resultItem = document.createElement('div');
+                    resultItem.classList.add('result-item');
+                    // resultItem.dataset.id = notif.id; // Not used for navigation on this page, but good practice
+
+                    resultItem.innerHTML = `
+                        <img src="${notif.sender_dp}" alt="Sender DP" onerror="this.onerror=null;this.src='https://placehold.co/30x30/CCCCCC/666666?text=${notif.sender.charAt(0)}';"/>
+                        <div class="text-content">
+                            <h3>${notif.sender}</h3>
+                            <p>${notif.message.split("").slice(0, 50).join("") + (notif.message.length > 50 ? "....." : "")}</p>
+                        </div>
+                    `;
+                    // For a profile page, clicking a search result might navigate to notifications page
+                    resultItem.addEventListener('click', () => {
+                        window.location.href = `./notifications.html`; // Redirect to notifications page
+                    });
+                    searchResultsModal.appendChild(resultItem);
+                });
+                searchResultsModal.classList.add('show');
+            } else {
+                searchResultsModal.innerHTML = '<div class="no-results">No results found.</div>';
+                searchResultsModal.classList.add('show');
+            }
+        }
+
+        function greeting() {
+            const date = new Date();
+            const hours = date.getHours();
+            let dayPart = "";
+            if (hours >= 0 && hours < 12) {
+                dayPart = "morning";
+            } else if (hours >= 12 && hours < 18) {
+                dayPart = "afternoon";
+            } else if (hours >= 18 && hours < 24) {
+                dayPart = "evening";
+            } else {
+                dayPart = "night";
+            }
+            const dayOfWeek = date.getDay();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const dayElement = document.querySelector("#day");
+            if (dayElement) {
+                dayElement.textContent = days[dayOfWeek] + " " + dayPart;
+            }
+        }
+        greeting();
+
+        async function fetchUserName() {
+            const loggedInId = localStorage.getItem("loggedin_id");
+            if (!loggedInId) {
+                console.warn("No loggedIn_id found in localStorage. Displaying 'Guest'.");
+                return "Guest";
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/users'); // Use direct API endpoint
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const users = await response.json();
+                const currentUser = users.find(user => parseInt(user.id) === parseInt(loggedInId));
+
+                if (currentUser && currentUser.name) {
+                    return currentUser.name;
+                } else {
+                    console.warn(`User with ID ${loggedInId} not found or name not available. Displaying 'Guest'.`);
+                    return "Guest";
+                }
+            } catch (error) {
+                console.error('Error fetching user name:', error);
+                return "Guest"; // Fallback to "Guest" on error
+            }
+        }
+
+        fetchUserName().then((name) => {
+            const loggedInUserMiddle = document.getElementById("loggedInUserMiddle");
+            if (loggedInUserMiddle) {
+                loggedInUserMiddle.textContent = name;
+            }
+        });
+
+        // Navbar active state logic
+        function setActiveNav(activePageClass) {
+            const navLinks = document.querySelectorAll(".navbar_inner a");
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+            });
+            const targetLink = document.querySelector(`.navbar_inner a.${activePageClass}`);
+            if (targetLink) {
+                targetLink.classList.add("active");
+            }
+            localStorage.setItem("page", activePageClass);
+        }
+
+        // Set active nav based on current page URL
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            if (path.includes("transaction.html")) {
+                setActiveNav("transaction");
+            } else if (path.includes("budget.html")) {
+                setActiveNav("budget");
+            } else if (path.includes("notifications.html")) {
+                setActiveNav("notifications");
+            } else if (path.includes("profile.html")) {
+                setActiveNav("edit_profile"); // Assuming profile.html is the edit_profile link
+            } else if (path.includes("help.html")) {
+                setActiveNav("help");
+            } else if (path.includes("feedback.html")) {
+                setActiveNav("feedback");
+            } else if (path.includes("privacy.html")) {
+                setActiveNav("privacy");
+            } else if (path.includes("logout.html")) {
+                setActiveNav("logout");
+            } else if (path.includes("change_password.html")) {
+                setActiveNav("change_password");
+            } else if (path.includes("delete_account.html")) {
+                setActiveNav("delete_account");
+            }
+            else {
+                setActiveNav("dash"); // Default to dashboard
+            }
+        });
+
+        // Hamburger menu click listener
+        const barElement = document.querySelector(".bar");
+        if (barElement) {
+            barElement.addEventListener("click", function () {
+                if (navbarElement) navbarElement.classList.add("show");
+            });
+        }
+
+        // Close navbar when a link inside it is clicked (mobile)
+        if (navbarElement) {
+            navbarElement.addEventListener("click", function (event) {
+                if (event.target.closest('a')) { // If a link inside navbar was clicked
+                    navbarElement.classList.remove("show");
+                }
+            });
+        }
+
+        // --- Swipe Gesture Logic for Mobile Navbar ---
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        const swipeThreshold = 50; // Minimum horizontal distance for a swipe
+
+        // Function to check if it's a mobile screen
+        function isMobile() {
+            return window.innerWidth <= 767; // Matches the @media (max-width: 767px) breakpoint
+        }
+
+        if (mainContentArea && navbarElement) {
+            mainContentArea.addEventListener('touchstart', (e) => {
+                if (!isMobile()) return; // Only enable on mobile
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            mainContentArea.addEventListener('touchmove', (e) => {
+                if (!isMobile() || !isDragging) return;
+                currentX = e.touches[0].clientX;
+                const diffX = currentX - startX;
+
+                // Prevent vertical scrolling if horizontal swipe is dominant
+                if (Math.abs(diffX) > Math.abs(e.touches[0].clientY - e.touches[0].clientY)) {
+                    e.preventDefault();
+                }
+            });
+
+            mainContentArea.addEventListener('touchend', () => {
+                if (!isMobile() || !isDragging) return;
+                const diffX = currentX - startX;
+
+                if (diffX > swipeThreshold) { // Swiped right
+                    navbarElement.classList.add('show');
+                } else if (diffX < -swipeThreshold) { // Swiped left
+                    navbarElement.classList.remove('show');
+                }
+                isDragging = false;
+                startX = 0;
+                currentX = 0;
+            });
+
+            // Add swipe-to-close directly on the navbar itself for better UX
+            navbarElement.addEventListener('touchstart', (e) => {
+                if (!isMobile()) return;
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            navbarElement.addEventListener('touchmove', (e) => {
+                if (!isMobile() || !isDragging) return;
+                currentX = e.touches[0].clientX;
+                const diffX = currentX - startX;
+                if (Math.abs(diffX) > Math.abs(e.touches[0].clientY - e.touches[0].clientY)) {
+                    e.preventDefault();
+                }
+            });
+
+            navbarElement.addEventListener('touchend', () => {
+                if (!isMobile() || !isDragging) return;
+                const diffX = currentX - startX;
+
+                if (diffX < -swipeThreshold) { // Swiped left on navbar
+                    navbarElement.classList.remove('show');
+                }
+                isDragging = false;
+                startX = 0;
+                currentX = 0;
+            });
+        }
+        // --- End Swipe Gesture Logic ---
+
+
+        // Fetch profile data and notifications on DOMContentLoaded
+        document.addEventListener("DOMContentLoaded", async () => {
+            fetchNotificationsForCount(); // Fetch notifications for the count in header and sidebar
+
+            const loggedInId = localStorage.getItem("loggedin_id");
+            if (!loggedInId) {
+                profilesContainer.innerHTML = "<p class='error-message'>Please log in to view your profile.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/users'); // Use direct API endpoint
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const users = await response.json();
+                const user = users.find(u => parseInt(u.id) === parseInt(loggedInId));
+
+                if (!user) {
+                    profilesContainer.innerHTML = "<p class='error-message'>User not found.</p>";
+                    return;
+                } else {
+                    profilesContainer.innerHTML = `
+                        <div class="user-profile">
+                            <img src="${user.image || 'https://placehold.co/120x120/CCCCCC/666666?text=User'}" alt="Profile Image" onerror="this.onerror=null;this.src='https://placehold.co/120x120/CCCCCC/666666?text=User';"/>
+                            <div class="user-info">
+                                <h2>${user.name}</h2>
+                                <p>@${user.name.toLowerCase().replace(/\s/g, '')}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                profilesContainer.innerHTML = "<p class='error-message'>Error loading user data. Please ensure your local server is running at `http://localhost:3000/users`.</p>";
+            }
+        });
+
+        // Search functionality event listeners
+        if (notificationSearchInput && searchResultsModal) {
+            notificationSearchInput.addEventListener('keyup', handleSearchInput);
+            notificationSearchInput.addEventListener('focus', () => {
+                if (notificationSearchInput.value.length > 0) {
+                    handleSearchInput(); // Re-run search on focus if there's text
+                    searchResultsModal.classList.add('show');
+                }
+            });
+            notificationSearchInput.addEventListener('blur', (event) => {
+                // Delay hiding to allow click on results
+                setTimeout(() => {
+                    if (!searchResultsModal.contains(document.activeElement)) {
+                        searchResultsModal.classList.remove('show');
+                    }
+                }, 100);
+            });
+
+            // Hide search results modal if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!notificationSearchInput.contains(event.target) && !searchResultsModal.contains(event.target)) {
+                    searchResultsModal.classList.remove('show');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

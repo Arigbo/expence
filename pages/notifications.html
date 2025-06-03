@@ -147,6 +147,7 @@
                 </div>
               </div>
             </div>
+            <div class="single_notification"></div>
             <div class="bottom" id="notifications"></div>
           </div>
         </div>
@@ -290,10 +291,10 @@ ${item.read == false ? "<span></span>" : ""}
           "<p>Error loading user data.</p>";
       }
     });
-
     document.querySelector("#notifications").addEventListener("click", (e) => {
       console.log("Notification clicked:", e.target);
-      fetch(
+
+      return fetch(
         `http://localhost:3000/notifications/${e.target
           .closest(".box")
           .getAttribute("key")}`,
@@ -309,18 +310,49 @@ ${item.read == false ? "<span></span>" : ""}
       )
         .then((response) => response.json())
         .then((data) => {
+                e.target.preventDefault();
           console.log("Notification marked as read:", data);
           e.target.closest(".box").classList.remove("not");
           document.querySelectorAll(".no_of_noties").forEach((element) => {
             element.classList.add("hide");
           });
-          //stop refresh
-          e.preventDefault();
-          e.stopPropagation();
-        })
-        .catch((error) => {
-          console.error("Error marking notification as read:", error);
-        });
+          const notificationId = e.target.closest(".box").getAttribute("key");
+          const single_notification = notifications.filter((n) => n.id == notificationId);
+          document.querySelector(".single_notification").classList.add("show");
+          if (single_notification) {
+            document.querySelector(".single_notification").insertAdjacentHTML(
+            "beforeend",
+            `
+              <div class="blog_details">
+                <div class="blog_details_inner">
+                  <div class="blog_details_inner_body">
+                    <h2>${single_notification.name}</h2>
+                    <p class="blog_details_inner_body_text">
+                      ${single_notification.message}
+                    </p>
+                  </div>
+                  <div class="blog_details_inner_footer">
+                    <div class="blog_details_inner_footer_left">
+                      <div class="blog_details_inner_footer_left_img">
+                        <img src="${single_notification.sender_dp}" alt="" />
+                      </div>
+                      <div class="blog_details_inner_footer_left_text">
+                        <h3>${single_notification.sender}</h3>
+                        <p>${single_notification.created_at} at 09:00 PM</p>
+                      </div>
+                    </div>
+                    <div class="blog_details_inner_footer_right">
+                      <button class="exitblog">Exit</button>
+                  </div>
+                </div>
+              </div>
+                  `
+          );
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error marking notification as read:", error);
     });
   </script>
   <script>

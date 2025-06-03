@@ -25,146 +25,231 @@
     }
   ],
   "notifications": [
-    {
-      "id": "2",
-      "user_id": 4,
-      "sender": "Bob",
-      "sender_id": "2",
-      "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=B",
-      "message": "Bob just categorized a shared expense in Spenctrack.",
-      "created_at": "2025-06-03T09:05:15Z",
-      "read": true
-    },
-    {
-      "id": "3",
-      "user_id": 4,
-      "sender": "System Alert",
-      "sender_id": "3",
-      "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
-      "message": "Your monthly Spenctrack report is ready to view.",
-      "created_at": "2025-06-03T09:10:30Z",
-      "read": true
-    },
-    {
-      "id": "4",
-      "user_id": 4,
-      "sender": "Marketing Team",
-      "sender_id": "4",
-      "sender_dp": "https://placehold.co/40x40/FF33A1/FFFFFF?text=M",
-      "message": "Discover new budgeting features in Spenctrack!",
-      "created_at": "2025-06-03T09:15:45Z",
-      "read": true
-    },
-    {
-      "id": "5",
-      "user_id": 4,
-      "sender": "Customer Support",
-      "sender_id": "5",
-      "sender_dp": "https://placehold.co/40x40/A133FF/FFFFFF?text=C",
-      "message": "Your support ticket regarding Spenctrack's export feature has been updated.",
-      "created_at": "2025-06-03T09:20:00Z",
-      "read": true
-    },
-    {
-      "id": "6",
-      "user_id": 4,
-      "sender": "Event Organizer",
-      "sender_id": "6",
-      "sender_dp": "https://placehold.co/40x40/33FFF5/FFFFFF?text=E",
-      "message": "Reminder: Your Spenctrack budget for 'Team Lunch' is almost depleted.",
-      "created_at": "2025-06-03T09:25:10Z",
-      "read": true
-    },
-    {
-      "id": "7",
-      "user_id": 4,
-      "sender": "Friend Request",
-      "sender_id": "7",
-      "sender_dp": "https://placehold.co/40x40/FF8C33/FFFFFF?text=F",
-      "message": "Charlie invited you to a new group in Spenctrack.",
-      "created_at": "2025-06-03T09:30:20Z",
-      "read": true
-    },
-    {
-      "id": "8",
-      "user_id": 4,
-      "sender": "Community Admin",
-      "sender_id": "8",
-      "sender_dp": "https://placehold.co/40x40/33FF8C/FFFFFF?text=C",
-      "message": "New tips for optimizing your Spenctrack usage posted in the forum.",
-      "created_at": "2025-06-03T09:35:30Z",
-      "read": true
-    },
-    {
-      "id": "9",
-      "user_id": 4,
-      "sender": "Payment Gateway",
-      "sender_id": "9",
-      "sender_dp": "https://placehold.co/40x40/8C33FF/FFFFFF?text=P",
-      "message": "Your Spenctrack premium subscription has been renewed successfully.",
-      "created_at": "2025-06-03T09:40:40Z",
-      "read": true
-    },
-    {
-      "id": "10",
-      "user_id": 4,
-      "sender": "News Digest",
-      "sender_id": "10",
-      "sender_dp": "https://placehold.co/40x40/FF3333/FFFFFF?text=N",
-      "message": "Your weekly Spenctrack spending summary is here.",
-      "created_at": "2025-06-03T09:45:50Z",
-      "read": true
-    },
-    {
-      "id": "11",
-      "user_id": 4,
-      "sender": "Development Team",
-      "sender_id": "11",
-      "sender_dp": "https://placehold.co/40x40/33A1FF/FFFFFF?text=D",
-      "message": "New feature: Receipt scanning is now live in Spenctrack!",
-      "created_at": "2025-06-03T09:50:00Z",
-      "read": true
-    },
-    {
-      "id": "12",
-      "user_id": 4,
-      "sender": "Security System",
-      "sender_id": "12",
-      "sender_dp": "https://placehold.co/40x40/FF338C/FFFFFF?text=S",
-      "message": "Unusual login attempt detected on your Spenctrack account.",
-      "created_at": "2025-06-03T09:55:10Z",
-      "read": false
-    },
-    {
-      "id": "13",
-      "user_id": 4,
-      "sender": "Game Master",
-      "sender_id": "13",
-      "sender_dp": "https://placehold.co/40x40/33FF33/FFFFFF?text=G",
-      "message": "You've unlocked a new budgeting badge in Spenctrack!",
-      "created_at": "2025-06-03T10:00:20Z",
-      "read": false
-    },
-    {
-      "id": "14",
-      "user_id": 4,
-      "sender": "Project Manager",
-      "sender_id": "14",
-      "sender_dp": "https://placehold.co/40x40/8CFF33/FFFFFF?text=P",
-      "message": "Reminder: Your Q2 Spenctrack expense report is due soon.",
-      "created_at": "2025-06-03T10:05:30Z",
-      "read": false
-    },
-    {
-      "id": "15",
-      "user_id": 4,
-      "sender": "Recipe App",
-      "sender_id": "15",
-      "sender_dp": "https://placehold.co/40x40/338CFF/FFFFFF?text=R",
-      "message": "Spenctrack suggests a budget-friendly meal plan for this week.",
-      "created_at": "2025-06-03T10:10:40Z",
-      "read": true
-    }
+{
+                            "id": 1,
+                            "user_id": 4,
+                            "sender": "Admin",
+                            "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+                            "message": "Welcome to Spenctrack! We're glad to have you.",
+                            "created_at": "2024-05-20T10:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 2,
+                            "user_id": 4,
+                            "sender": "System Alert",
+                            "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
+                            "message": "Your monthly report is ready. Check your spending habits!",
+                            "created_at": "2024-05-21T14:30:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 3,
+                            "user_id": 4,
+                            "sender": "Support",
+                            "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+                            "message": "A new feature has been rolled out: Budgeting tools!",
+                            "created_at": "2024-05-22T09:15:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 4,
+                            "user_id": 4,
+                            "sender": "Spenctrack Team",
+                            "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
+                            "message": "Don't forget to categorize your recent transactions for better insights.",
+                            "created_at": "2024-05-23T11:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 5,
+                            "user_id": 4,
+                            "sender": "Security",
+                            "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC",
+                            "message": "Unusual activity detected on your account. Please review immediately.",
+                            "created_at": "2024-05-24T16:45:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 6,
+                            "user_id": 4,
+                            "sender": "Marketing",
+                            "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M",
+                            "message": "Exclusive offer: Get 10% cashback on all grocery spending this week!",
+                            "created_at": "2024-05-25T08:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 7,
+                            "user_id": 4,
+                            "sender": "Admin",
+                            "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+                            "message": "Your password was successfully changed.",
+                            "created_at": "2024-05-26T10:10:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 8,
+                            "user_id": 4,
+                            "sender": "System Alert",
+                            "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
+                            "message": "Upcoming bill reminder: Rent due in 3 days.",
+                            "created_at": "2024-05-27T12:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 9,
+                            "user_id": 4,
+                            "sender": "Support",
+                            "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+                            "message": "Your support ticket #12345 has been updated.",
+                            "created_at": "2024-05-28T15:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 10,
+                            "user_id": 4,
+                            "sender": "Spenctrack Team",
+                            "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
+                            "message": "We've noticed you're doing great with your budget this month!",
+                            "created_at": "2024-05-29T09:00:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 11,
+                            "user_id": 4,
+                            "sender": "Security",
+                            "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC",
+                            "message": "New login from an unrecognized device. Was this you?",
+                            "created_at": "2024-05-30T18:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 12,
+                            "user_id": 4,
+                            "sender": "Marketing",
+                            "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M",
+                            "message": "Refer a friend and get $5 bonus when they sign up!",
+                            "created_at": "2024-05-31T11:30:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 13,
+                            "user_id": 4,
+                            "sender": "Admin",
+                            "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+                            "message": "System maintenance scheduled for next Saturday.",
+                            "created_at": "2024-06-01T07:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 14,
+                            "user_id": 4,
+                            "sender": "System Alert",
+                            "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
+                            "message": "Your subscription is due for renewal on June 15th.",
+                            "created_at": "2024-06-02T09:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 15,
+                            "user_id": 4,
+                            "sender": "Support",
+                            "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+                            "message": "We've resolved the issue with your transaction history.",
+                            "created_at": "2024-06-03T14:00:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 16,
+                            "user_id": 4,
+                            "sender": "Spenctrack Team",
+                            "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
+                            "message": "New article: 5 tips to save money on groceries!",
+                            "created_at": "2024-06-04T10:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 17,
+                            "user_id": 4,
+                            "sender": "Security",
+                            "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC",
+                            "message": "Please update your security questions for enhanced protection.",
+                            "created_at": "2024-06-05T16:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 18,
+                            "user_id": 4,
+                            "sender": "Marketing",
+                            "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M",
+                            "message": "Flash sale on premium features, limited time only!",
+                            "created_at": "2024-06-06T09:30:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 19,
+                            "user_id": 4,
+                            "sender": "Admin",
+                            "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+                            "message": "Your account details have been successfully verified.",
+                            "created_at": "2024-06-07T13:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 20,
+                            "user_id": 4,
+                            "sender": "System Alert",
+                            "sender_dp": "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
+                            "message": "You've reached 80% of your entertainment budget.",
+                            "created_at": "2024-06-08T11:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 21,
+                            "user_id": 4,
+                            "sender": "Support",
+                            "sender_dp": "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+                            "message": "Thank you for your feedback! We're constantly improving.",
+                            "created_at": "2024-06-09T17:00:00Z",
+                            "read": true
+                        },
+                        {
+                            "id": 22,
+                            "user_id": 4,
+                            "sender": "Spenctrack Team",
+                            "sender_dp": "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
+                            "message": "Discover new ways to save with our personalized recommendations.",
+                            "created_at": "2024-06-10T08:45:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 23,
+                            "user_id": 4,
+                            "sender": "Security",
+                            "sender_dp": "https://placehold.co/40x40/FFFF33/000000?text=SEC",
+                            "message": "Multi-factor authentication is now available for your account.",
+                            "created_at": "2024-06-11T14:15:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 24,
+                            "user_id": 4,
+                            "sender": "Marketing",
+                            "sender_dp": "https://placehold.co/40x40/FF6600/FFFFFF?text=M",
+                            "message": "Join our webinar on financial planning next week!",
+                            "created_at": "2024-06-12T10:00:00Z",
+                            "read": false
+                        },
+                        {
+                            "id": 25,
+                            "user_id": 4,
+                            "sender": "Admin",
+                            "sender_dp": "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+                            "message": "Your profile information has been successfully updated.",
+                            "created_at": "2024-06-13T11:00:00Z",
+                            "read": true
+                        }
   ],
   "blogs": [
     {
