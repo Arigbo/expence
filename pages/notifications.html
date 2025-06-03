@@ -43,75 +43,10 @@
         <div class="middle">
           <div class="middle_left">
             <p>
-              Hello <span id="loggedInUserMiddle">Guest</span>,
-              <span id="day"></span>!
+              Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
             </p>
           </div>
-          <script>
-            function greeting() {
-              const date = new Date();
-              const hours = date.getHours();
-              const minutes = date.getMinutes();
-              const seconds = date.getSeconds();
-              const time = `${hours}:${minutes}:${seconds}`;
-              console.log("Current time:", time);
-              if (hours >= 0 && hours < 12) {
-                document.querySelector("#day").textContent = "morning";
-              } else if (hours >= 12 && hours < 18) {
-                document.querySelector("#day").textContent = "afternoon";
-              } else if (hours >= 18 && hours < 24) {
-                document.querySelector("#day").textContent = "evening";
-              } else {
-                document.querySelector("#day").textContent = "night";
-              }
-              const day = date.getDay();
-              const days = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              document.querySelector("#day").textContent =
-                days[day] + " " + document.querySelector("#day").textContent;
-            }
-            greeting();
-            const loggedInId = localStorage.getItem("loggedin_id")
-              ? Number(localStorage.getItem("loggedin_id"))
-              : null;
-            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-            async function fetchUserName() {
-              if (!isLoggedIn || !loggedInId) {
-                console.error("User is not logged in or no loggedin_id found");
-                return "Guest";
-              }
-              try {
-                const response = await fetch("/db.json");
-                if (!response.ok) {
-                  throw new Error("Failed to fetch db.json");
-                }
-                const data = await response.json();
-                if (!data || !data.users) {
-                  console.error("Users data not found in db.json");
-                  return "Guest";
-                }
-                const user = data.users.find(
-                  (u) => Number(u.id) === Number(loggedInId)
-                );
-                return user ? user.name : "Guest";
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-                return "Guest";
-              }
-            }
-
-            fetchUserName().then((name) => {
-              document.getElementById("loggedInUserMiddle").textContent = name;
-            });
-          </script>
           <div class="middle_right">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search here...." />
@@ -119,8 +54,12 @@
         </div>
         <div class="right">
           <div class="right_left">
-            <h1><i class="far fa-bell"></i></h1>
+            <a href="./notifications.html"
+              ><i class="far fa-bell"></i>
+              <div class="no_of_noties"></div
+            ></a>
           </div>
+
           <div class="right_right">
             <a href="./profile.html"> <i class="fas fa-user"></i></a>
           </div>
@@ -205,7 +144,7 @@
                 </div>
                 <div class="top_inner_right">
                   <i class="fas fa-check"></i>
-                  <h1>Mark all as read</h1>
+                  <h1 class="mark-all-read">Mark all as read</h1>
                 </div>
               </div>
             </div>
@@ -236,6 +175,9 @@
         );
         if (notifications || read) {
           document.querySelectorAll(".no_of_noties").forEach((element) => {
+            if (read.length == 0) {
+              element.classList.add("hide");
+            }
             element.innerHTML = `
                         ${read.length}
                     `;
@@ -280,6 +222,38 @@ ${item.read == false ? "<span></span>" : ""}
         document.querySelectorAll(".no_of_noties").innerHTML =
           "<p>Error loading user data.</p>";
       }
+    });
+
+    document.querySelector("#notifications").addEventListener("click", (e) => {
+      console.log("Notification clicked:", e.target);
+      fetch(
+        `http://localhost:3000/notifications/${e.target
+          .closest(".box")
+          .getAttribute("key")}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            read: true,
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Notification marked as read:", data);
+          e.target.closest(".box").classList.remove("not");
+          document.querySelectorAll(".no_of_noties").forEach((element) => {
+            element.classList.add("hide");
+          });
+          //stop refresh
+          e.preventDefault();
+          e.stopPropagation();
+        })
+        .catch((error) => {
+          console.error("Error marking notification as read:", error);
+        });
     });
   </script>
   <script>

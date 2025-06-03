@@ -119,7 +119,10 @@
         </div>
         <div class="right">
           <div class="right_left">
-            <a href="./notifications.html"><i class="far fa-bell"></i> <div class="no_of_noties"></div></a>
+            <a href="./notifications.html"
+              ><i class="far fa-bell"></i>
+              <h1 class="no_of_noties"></h1
+            ></a>
           </div>
           <div class="right_right">
             <a href="./profile.html"> <i class="fas fa-user"></i></a>
@@ -326,59 +329,55 @@
       document.addEventListener("DOMContentLoaded", async () => {
         const loggedInId = localStorage.getItem("loggedin_id");
         if (!loggedInId) {
-          document.querySelector(".profile").classList.add("hide");
+          document.getElementById("profiles").innerHTML =
+            "<p>Please log in to view your profile.</p>";
           return;
         }
         try {
           const response = await fetch("/db.json");
           const data = await response.json();
-          const user = data.users.find(
-            (user) => user.id === parseInt(loggedInId)
-          );
-          const notifications = data.notifications.filter(
-            (notifications) => notifications.user_id === parseInt(loggedInId)
-          );
-          const read = notifications.filter(
-            (notifications) => notifications.read === false
-          );
-          if (user) {
-            document.querySelectorAll(".profiles").forEach((profile) => {
-              profile.innerHTML = `
-                        <div class="user-profile">
-                           ${
-                             user.image
-                               ? `<img src="${user.image}" alt="${user.name}" />`
-                               : `<i class="far fa-user"></i>`
-                           }
-                            <div class="user-info">
-                                <h2>${user.name}</h2>
-                                <p>${user.username}</p>
-                            </div>
-                        </div>
-
-                    `;
-            });
-          } else {
-            document.querySelectorAll(".profiles").innerHTML =
-              "<p>User not found.</p>";
-          }
-
-          if (notifications) {
-            document.querySelectorAll(".no_of_noties").forEach((element) => {
-              element.innerHTML = `
+                         const notifications = data.notifications.filter(
+          (notifications) => notifications.user_id === parseInt(loggedInId)
+        );
+        const read = notifications.filter(
+          (notifications) => notifications.read === false
+        );
+        if (notifications || read) {
+          document.querySelectorAll(".no_of_noties").forEach((element) => {
+            if (read.length == 0) {
+              element.classList.add("hide");
+            }
+            element.innerHTML = `
                         ${read.length}
                     `;
-            });
-          } else {
-            document.querySelectorAll(".profiles").innerHTML =
-              "<p>User not found.</p>";
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          document.getElementById("profiles").innerHTML =
-            "<p>Error loading user data.</p>";
+          });
+           } else {
+          document.querySelectorAll(".no_of_noties").innerHTML =
+            "<p>User not found.</p>";
         }
-      });
-    </script>
-  </body>
+          const user = data.users.find(
+            (u) => u.id === parseInt(loggedInId)
+          );
+          if (!user) {
+            document.getElementById("profiles").innerHTML =
+              "<p>User not found.</p>";
+            return;
+          }
+          document.getElementById("profiles").innerHTML = `
+            <div class="profile_card">
+              <img src="${user.profilePicture || '/default-profile.png'}" alt="Profile Picture" />
+              <h2>${user.name}</h2>
+              <p>Email: ${user.email}</p>
+              <p>Phone: ${user.phone || 'N/A'}</p>
+              <p>Address: ${user.address || 'N/A'}</p>
+            </div>
+          `;
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        document.getElementById("profiles").innerHTML =
+          "<p>Error loading user data.</p>";
+      }
+    });
+  </script>
+</body>
 </html>

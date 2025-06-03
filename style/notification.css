@@ -124,7 +124,7 @@
   justify-content: space-between;
 }
 .dashboard .notification_inner .bottom .box_inner_left {
-  width: 3.7rem;
+  width: 3.5rem;
   height: 100%;
   display: flex;
   align-items: center;
@@ -261,6 +261,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .dashboard .notification_desktopNav_inner a .right p .no_of_noties.hide {
+    display: none;
   }
   .dashboard .notification_desktopNav_inner .left {
     height: 100%;

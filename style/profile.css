@@ -225,6 +225,9 @@
     align-items: center;
     justify-content: center;
   }
+  .dashboard .profile_desktopNav_inner a .right p .no_of_noties.hide {
+    display: none;
+  }
   .dashboard .profile_desktopNav_inner .left {
     height: 100%;
     width: 3.5rem;
