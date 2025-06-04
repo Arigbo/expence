@@ -95,13 +95,13 @@
         justify-content: start;
         flex-direction: row;
         gap: 0.3rem;
+        color: white;
         i {
           font-size: 16px;
         }
         height: 4rem;
         width: 100%;
         padding-inline: 1.5rem;
-        color: white;
         &:hover {
           color: rgba(0, 67, 112, 0.5);
           background-color: white;
