@@ -23,21 +23,16 @@
     <style>
       /* Search Results Modal */
       .search-results-modal {
+        background-color: white;
+        z-index: 7;
         position: absolute;
-        top: 100%; /* Position below the search input */
-        left: 0;
-        width: 100%;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        z-index: 950; /* Above regular content, below main modals */
-        max-height: 300px;
-        overflow-y: auto;
-        display: none; /* Hidden by default */
-        padding: 10px 0;
+        top: -100vh;
+        height: 40vh;
+        width: 40%;
+        overflow-y: scroll;
       }
       .search-results-modal.show {
-        display: block;
+        top: 4.1rem;
       }
       .search-results-modal .result-item {
         display: flex;
@@ -47,6 +42,7 @@
         cursor: pointer;
         transition: background-color 0.2s ease;
         border-bottom: 1px solid #f0f2f5;
+        width: 100%;
       }
       .search-results-modal .result-item:last-child {
         border-bottom: none;
@@ -79,87 +75,6 @@
         padding: 10px 15px;
         color: #6b7280;
         text-align: center;
-      }
-
-      .box {
-        display: flex;
-        align-items: flex-start;
-        background-color: #ffffff;
-        padding: 1rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e5e7eb;
-        transition: transform 0.2s ease, background-color 0.2s ease,
-          border-color 0.2s ease;
-        cursor: pointer;
-        width: 100%;
-      }
-      .box:hover {
-        transform: translateY(-2px);
-      }
-      .box.not {
-        /* Unread state */
-        background-color: #eff6ff; /* Light blue accent */
-        border-color: #93c5fd; /* Medium blue accent */
-      }
-      .box_inner {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        width: 100%;
-      }
-      .box_inner_left img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        flex-shrink: 0;
-      }
-      .box_inner_middle {
-        flex-grow: 1;
-        text-align: left;
-      }
-      .middle_top {
-        display: flex;
-        flex-direction: column; /* Stack sender and message */
-        align-items: flex-start;
-        margin-bottom: 0.25rem;
-      }
-      .middle_top h1 {
-        font-weight: 600;
-        color: #1f2937;
-        font-size: 1rem;
-      }
-      .middle_top p {
-        font-size: 0.9rem;
-        color: #374151;
-        line-height: 1.4;
-        word-break: break-word;
-      }
-      .box_inner_middle_bottom {
-        font-size: 0.75rem;
-        color: #6b7280;
-        margin-top: 0.5rem;
-      }
-      .box_inner_right {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 10px;
-      }
-      .box_inner_right span {
-        /* The dot */
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #3b82f6; /* Major blue */
-        border: 1px solid #3b82f6;
-        display: block; /* Ensure it's a block for consistent size */
-      }
-      .box:not(.not) .box_inner_right span {
-        background-color: #e5e7eb; /* Light grey for read */
-        border: 1px solid #d1d5db;
       }
 
       /* Single Notification Modal Styles */
@@ -212,7 +127,7 @@
         transition: background-color 0.3s ease;
       }
       .exitblog:hover {
-        background-color: #2563eb; /* Darker major blue on hover */
+        background-color: white; /* Darker major blue on hover */
       }
       .blog_details_inner_body h2 {
         font-weight: 700;
@@ -270,45 +185,9 @@
         background-color: #fee2e2;
         color: #ef4444;
       }
-      .no-notifications {
-        text-align: center;
-        color: #6b7280;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-      }
+   
       .hide {
         display: none !important;
-      }
-
-      /* Demarcation Header Styles */
-      .demarcation-header {
-        text-align: center;
-        position: relative;
-        font-weight: 600;
-        color: #4b5563;
-        font-size: 0.9rem;
-      }
-      .demarcation-header::before,
-      .demarcation-header::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 40%; /* Adjust width as needed */
-        height: 1px;
-        background-color: #d1d5db; /* Light grey border */
-      }
-      .demarcation-header::before {
-        left: 0;
-      }
-      .demarcation-header::after {
-        right: 0;
-      }
-      .demarcation-header span {
-        background-color: #f0f2f5; /* Match body background to "cut out" the line */
-        padding: 0 10px;
-        position: relative;
-        z-index: 1; /* Ensure text is above the line */
       }
     </style>
   </head>
@@ -333,6 +212,18 @@
             ><i class="fas fa-chart-line"></i> Reports</a
           >
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
+          <a href="/pages/help.html" class="help"
+            ><i class="fas fa-question-circle"></i> Help & Support</a
+          >
+          <a href="/pages/feedback.html" class="feedback"
+            ><i class="fas fa-comment-dots"></i> Send Feedback</a
+          >
+          <a href="/pages/privacy.html" class="privacy"
+            ><i class="fas fa-shield-alt"></i> Privacy Policy</a
+          >
+          <a href="/pages/logout.html" class="logout"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
         </div>
       </nav>
       <div class="dashboard_header desktop">
@@ -386,14 +277,14 @@
               <a href="/pages/profile.html" class="edit_profile">
                 <div class="left"><i class="far fa-edit"></i></div>
                 <div class="right">
-                  Edit Profile
+                  <h1>Edit Profile</h1>
                   <p>Edit personal data</p>
                 </div>
               </a>
               <a href="./notifications.html">
                 <div class="left"><i class="far fa-bell"></i></div>
                 <div class="right">
-                  Notifications
+                  <h1>Notifications</h1>
                   <p>
                     <span class="message">Check your notifications</span>
                     <span class="no_of_noties"></span>
@@ -403,21 +294,21 @@
               <a href="/settings">
                 <div class="left"><i class="fas fa-user-gear"></i></div>
                 <div class="right">
-                  Account Settings
+                  <h1>Account Settings</h1>
                   <p>Check your notifications</p>
                 </div>
               </a>
               <a href="/pages/change_password.html" class="change_password">
                 <div class="left"><i class="fas fa-lock"></i></div>
-                <div class="right">Change Password</div>
+                <div class="right"><h1>Change Password</h1></div>
               </a>
               <a href="/pages/delete_account.html" class="delete_account">
                 <div class="left"><i class="far fa-trash-can"></i></div>
-                <div class="right">Delete Account</div>
+                <div class="right"><h1>Delete Account</h1></div>
               </a>
               <a href="/pages/logout.html" class="logout">
                 <div class="left"><i class="fas fa-sign-out-alt"></i></div>
-                <div class="right">Logout</div>
+                <div class="right"><h1>Logout</h1></div>
               </a>
             </div>
           </div>
@@ -571,7 +462,7 @@
         )}';"/>
                         </div>
                         <div class="box_inner_middle">
-                            <div class="middle_top">
+                            <div class="box_inner_middle_top">
                                 <h1>${item.sender}</h1>
                                 <p>${
                                   item.message.split("").slice(0, 50).join("") +

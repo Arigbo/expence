@@ -98,10 +98,10 @@
     justify-content: start;
     flex-direction: row;
     gap: 0.3rem;
+    color: white;
     height: 4rem;
     width: 100%;
     padding-inline: 1.5rem;
-    color: white;
   }
   .navbar_inner a i {
     font-size: 16px;
