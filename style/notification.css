@@ -95,6 +95,37 @@
   align-items: center;
   gap: 0.7rem;
 }
+.dashboard .notification_inner .bottom .demarcation-header {
+  margin: 20px 0 15px 0;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+.dashboard .notification_inner .bottom .demarcation-header :first-child {
+  margin-top: 0;
+}
+.dashboard .notification_inner .bottom .demarcation-header::before, .dashboard .notification_inner .bottom .demarcation-header::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 39%; /* Adjust width as needed */
+  height: 1px;
+  background-color: grey; /* Light grey border */
+}
+.dashboard .notification_inner .bottom .demarcation-header::after {
+  right: 0;
+}
+.dashboard .notification_inner .bottom .demarcation-header::before {
+  left: 0;
+}
+.dashboard .notification_inner .bottom .demarcation-header span {
+  padding: 0 10px;
+  position: relative;
+  z-index: 1; /* Ensure text is above the line */
+  font-size: 14px;
+  font-weight: 400;
+  color: grey;
+}
 @media screen and (min-width: 768px) {
   .dashboard .notification_header {
     display: none;
