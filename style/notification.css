@@ -56,7 +56,6 @@
   gap: 1rem;
 }
 .dashboard .notification_inner .top {
-  position: sticky;
   top: 0;
   display: flex;
   flex-direction: column;
@@ -113,9 +112,10 @@
     align-items: end;
     width: 70%;
     border-radius: 0.3rem;
-    overflow: scroll;
+    gap: 0;
   }
   .dashboard .notification_inner .bottom {
+    overflow-y: scroll;
     width: 100%;
     height: 75vh;
     display: flex;

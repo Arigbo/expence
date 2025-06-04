@@ -23,21 +23,16 @@
     <style>
       /* Search Results Modal */
       .search-results-modal {
+        background-color: white;
+        z-index: 7;
         position: absolute;
-        top: 100%; /* Position below the search input */
-        left: 0;
-        width: 100%;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        z-index: 950; /* Above regular content, below main modals */
-        max-height: 300px;
-        overflow-y: auto;
-        display: none; /* Hidden by default */
-        padding: 10px 0;
+        top: -100vh;
+        height: 40vh;
+        width: 40%;
+        overflow-y: scroll;
       }
       .search-results-modal.show {
-        display: block;
+        top: 4.1rem;
       }
       .search-results-modal .result-item {
         display: flex;
@@ -47,6 +42,7 @@
         cursor: pointer;
         transition: background-color 0.2s ease;
         border-bottom: 1px solid #f0f2f5;
+        width: 100%;
       }
       .search-results-modal .result-item:last-child {
         border-bottom: none;
@@ -80,7 +76,7 @@
         color: #6b7280;
         text-align: center;
       }
-
+      /* Individual Notification Box */
       .box {
         display: flex;
         align-items: flex-start;
@@ -92,7 +88,8 @@
         transition: transform 0.2s ease, background-color 0.2s ease,
           border-color 0.2s ease;
         cursor: pointer;
-        width: 100%;
+        margin-bottom: 10px;
+        width: 100%; /* Spacing between notifications */
       }
       .box:hover {
         transform: translateY(-2px);
@@ -128,16 +125,16 @@
       .middle_top h1 {
         font-weight: 600;
         color: #1f2937;
-        font-size: 1rem;
+        font-size: 18px;
       }
       .middle_top p {
-        font-size: 0.9rem;
+        font-size: 14.5px;
         color: #374151;
         line-height: 1.4;
         word-break: break-word;
       }
       .box_inner_middle_bottom {
-        font-size: 0.75rem;
+        font-size: 12px;
         color: #6b7280;
         margin-top: 0.5rem;
       }
@@ -212,7 +209,7 @@
         transition: background-color 0.3s ease;
       }
       .exitblog:hover {
-        background-color: #2563eb; /* Darker major blue on hover */
+        background-color: white; /* Darker major blue on hover */
       }
       .blog_details_inner_body h2 {
         font-weight: 700;
@@ -283,20 +280,22 @@
 
       /* Demarcation Header Styles */
       .demarcation-header {
+        margin: 20px 0 15px 0;
         text-align: center;
         position: relative;
-        font-weight: 600;
-        color: #4b5563;
-        font-size: 0.9rem;
+        width: 40%;
+      }
+      .demarcation-header:first-child {
+        margin-top: 0;
       }
       .demarcation-header::before,
       .demarcation-header::after {
         content: "";
         position: absolute;
         top: 50%;
-        width: 40%; /* Adjust width as needed */
+        width: 37%; /* Adjust width as needed */
         height: 1px;
-        background-color: #d1d5db; /* Light grey border */
+        background-color: grey; /* Light grey border */
       }
       .demarcation-header::before {
         left: 0;
@@ -305,10 +304,12 @@
         right: 0;
       }
       .demarcation-header span {
-        background-color: #f0f2f5; /* Match body background to "cut out" the line */
         padding: 0 10px;
         position: relative;
         z-index: 1; /* Ensure text is above the line */
+        font-size: 14px;
+        font-weight: 400;
+     color: grey;
       }
     </style>
   </head>
@@ -333,6 +334,18 @@
             ><i class="fas fa-chart-line"></i> Reports</a
           >
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
+          <a href="/pages/help.html" class="help"
+            ><i class="fas fa-question-circle"></i> Help & Support</a
+          >
+          <a href="/pages/feedback.html" class="feedback"
+            ><i class="fas fa-comment-dots"></i> Send Feedback</a
+          >
+          <a href="/pages/privacy.html" class="privacy"
+            ><i class="fas fa-shield-alt"></i> Privacy Policy</a
+          >
+          <a href="/pages/logout.html" class="logout"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
         </div>
       </nav>
       <div class="dashboard_header desktop">

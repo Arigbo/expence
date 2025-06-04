@@ -54,7 +54,7 @@
       align-items: center;
       gap: 1rem;
       .top {
-        position: sticky;
+
         top: 0;
         display: flex;
         flex-direction: column;
@@ -63,6 +63,7 @@
         width: 100%;
         height: 3rem;
         background-color: gainsboro;
+    
         &_inner {
           display: flex;
           width: 90%;
@@ -113,8 +114,9 @@
         align-items: end;
         width: 70%;
         border-radius: 0.3rem;
-        overflow: scroll;
+      gap: 0;
          .bottom {
+            overflow-y: scroll;
         width: 100%;
         height: 75vh;
         display: flex;
