@@ -53,10 +53,9 @@ html {
   font-weight: 400;
 }
 * select {
-  width: -moz-fit-content;
-  width: fit-content;
   padding-block: 0.3rem;
   padding-inline: 0.2rem;
+  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.3rem;
   display: flex;
@@ -145,6 +144,10 @@ body {
 body .profile_desktopNav,
 body .notification_desktopNav {
   display: none;
+}
+body .profile .fa-sign-out-alt,
+body .notification .fa-sign-out-alt {
+  color: red;
 }
 @media screen and (min-width: 768px) {
   body .profile_desktopNav,

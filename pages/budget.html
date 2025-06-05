@@ -36,7 +36,7 @@
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
-       <div class="dashboard_header">
+      <div class="dashboard_header">
         <div class="left">
           <div class="left_left">
             <a href="./profile.html"> <i class="far fa-user"></i></a>
@@ -137,10 +137,10 @@
                   document
                     .querySelectorAll(".no_of_noties")
                     .forEach((element) => {
-                   if (read.length == 0) {
-              element.classList.add("hide");
-            }
-            element.innerHTML = `
+                      if (read.length == 0) {
+                        element.classList.add("hide");
+                      }
+                      element.innerHTML = `
                         ${read.length}
                     `;
                     });
@@ -160,170 +160,64 @@
           </div>
         </div>
       </div>
-      <div class="goal_budget">
-        <div class="goal">
-          <div id="editGoalFormContainer" class="edit_goal_form">
-            <div class="form-container">
-              <header>
-                <h2>Edit Goal</h2>
-                <i class="fas fa-x" id="closeEditGoalForm"></i>
-              </header>
-              <form id="editGoalForm">
-                <div class="form-group">
-                  <label for="editGoalName">Goal Name:</label>
-                  <input type="text" id="editGoalName" required />
-                </div>
-                <div class="form-group">
-                  <label for="editGoalDate">Date to Complete:</label>
-                  <input type="date" id="editGoalDate" required />
-                </div>
-                <button type="submit" class="btn-submit">Update Goal</button>
-              </form>
+      <div class="goal">
+        <div class="goal_form">
+          <form action="">
+            <!-- name of goal -->
+            <!-- about goal -->
+            <!-- amount needed to achieve goal -->
+            <!-- alone on goal or with ppl, use an @to add ppl-->
+            <!-- date to end goal -->
+          </form>
+        </div>
+        <div class="goal_inner">
+          <div class="goal_inner_top">
+            <div class="left">
+              <h1>Goals</h1>
             </div>
+            <!-- Add goal -->
+            <!-- Delete all -->
           </div>
-          <header>
-            <h2>Goals</h2>
-            <button id="addGoalButton">
-              Add New Goal <i class="fas fa-plus"></i>
-            </button>
-          </header>
-          <div id="goalFormContainer" class="goal_form">
-            <div class="form-container">
-              <header>
-                <h2>Add New Goal</h2>
-                <i class="fas fa-x" id="closeGoalForm"></i>
-              </header>
-              <form id="goalForm">
-                <div class="form-group">
-                  <label for="goalName">Goal Name:</label>
-                  <input
-                    type="text"
-                    id="goalName"
-                    placeholder="Enter your goal"
-                    required
-                  />
+          <div class="goal_inner_bottom">
+            <div class="box">
+              <div class="box_inner">
+                <div class="left">
+                  <input type="checkbox" name="" id="" />
+                  <h1>goal name</h1>
                 </div>
-                <div class="form-group">
-                  <label for="goalDate">Date to Complete:</label>
-                  <input type="date" id="goalDate" required />
-                </div>
-                <button type="submit" class="btn-submit">Add Goal</button>
-              </form>
+              </div>
             </div>
-          </div>
-          <div id="goalListContainer" class="goal-list">
-            <!-- Goals will be dynamically added here -->
           </div>
         </div>
-        <!-- Main Content -->
-        <div class="budget-calculator">
-          <div class="budget-calculator_top">
-            <header>
-              <h2>Active Budget</h2>
-            </header>
-            <div class="right">
-              <button id="openBudgetForm">
-                Add Budget <i class="fas fa-plus"></i>
-              </button>
-              <button id="updateIncomeButton">
-                <i class="far fa-edit"></i> Edit Income
-              </button>
+      </div>
+      <div class="budget">
+        <div class="budget_form">
+          <form action="">
+            <!-- name of budget -->
+            <!-- about budget -->
+            <!-- type of expense youre budgetting (from the type of budget we will estimate through transact history amount youve spent in achieve that budget or used in that expense yearly)-->
+            <!--how much and how often do you plan on using the money budgetted daily, weekly,  monthly, yearly (optional for how often and also if user total balance isnt enough to achieve budget ask if user wishes to go ahead)-->
+            <!-- alone on budget or with ppl, use an @to add ppl-->
+            <!-- date to end (you can choose not certain) -->
+            <!-- send a notification a with a lert of the new notification -->
+          </form>
+        </div>
+        <div class="budget_inner">
+          <div class="budget_inner_top">
+            <div class="left">
+              <h1>Goals</h1>
             </div>
+            <!-- Add budget -->
+            <!-- Delete all budget -->
+             <!-- Total balance and budget -->
           </div>
-          <div class="budget-calculator_inner">
-            <div id="budgetFormContainer" class="budget_form">
-              <div class="form-container">
-                <header>
-                  <h2>Add New Budget</h2>
-                  <i class="fas fa-x" id="closeBudgetForm"></i>
-                </header>
-                <form id="budgetForm">
-                  <div class="form-group">
-                    <label for="budgetName">Budget Name:</label>
-                    <input
-                      type="text"
-                      id="budgetName"
-                      placeholder="Enter budget name"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="expenses">Expenses:</label>
-                    <input
-                      type="number"
-                      id="expenses"
-                      placeholder="Enter your total expenses"
-                      required
-                    />
-                  </div>
-                  <button type="submit" class="btn-submit">Add Budget</button>
-                </form>
-              </div>
-            </div>
-            <div id="editBudgetFormContainer" class="edit_budget_form">
-              <div class="form-container">
-                <header>
-                  <h2>Edit Budget</h2>
-                  <i class="fas fa-x" id="closeEditBudgetForm"></i>
-                </header>
-                <form id="editBudgetForm">
-                  <div class="form-group">
-                    <label for="editBudgetName">Budget Name:</label>
-                    <input type="text" id="editBudgetName" readonly />
-                  </div>
-                  <div class="form-group">
-                    <label for="editExpenses">Expenses:</label>
-                    <input
-                      type="number"
-                      id="editExpenses"
-                      placeholder="Enter your total expenses"
-                      required
-                    />
-                  </div>
-                  <button type="submit" class="btn-submit">
-                    Update Budget
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div id="incomeFormContainer" class="income_form">
-              <div class="form-container">
-                <header>
-                  <h2>Update Monthly Income</h2>
-                  <i class="fas fa-x" id="closeIncomeForm"></i>
-                </header>
-                <form id="incomeForm">
-                  <div class="form-group">
-                    <label for="monthlyIncome">Monthly Income:</label>
-                    <input
-                      type="number"
-                      id="monthlyIncome"
-                      placeholder="Enter your monthly income"
-                      required
-                    />
-                  </div>
-                  <button type="submit" class="btn-submit">
-                    Update Income
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div class="budget-list">
-              <ul id="budgetCardsContainer">
-                <!-- Budget cards will be dynamically added here -->
-              </ul>
-            </div>
-            <div class="bottom">
-              <div id="totalIncomeContainer">
-                <h3>
-                  Total Monthly Income: <span id="totalIncome">$0.00</span>
-                </h3>
-              </div>
-              <div id="remainingIncomeContainer">
-                <h3>
-                  Total Remaining Income:
-                  <span id="remainingIncome" style="color: green">$0.00</span>
-                </h3>
+          <div class="budget_inner_bottom">
+            <div class="box">
+              <div class="box_inner">
+                <div class="left">
+                  <input type="checkbox" name="" id="" />
+                  <h1>budget name</h1>
+                </div>
               </div>
             </div>
           </div>
@@ -332,364 +226,7 @@
     </div>
   </body>
   <script>
-    document
-      .getElementById("closeEditGoalForm")
-      .addEventListener("click", function () {
-        document
-          .getElementById("editGoalFormContainer")
-          .classList.remove("show");
-      });
-
-    document
-      .getElementById("editGoalForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const newGoalName = document
-          .getElementById("editGoalName")
-          .value.trim();
-        const newGoalDate = document.getElementById("editGoalDate").value;
-
-        if (!newGoalName || !newGoalDate) {
-          alert("Please fill out all fields.");
-          return;
-        }
-
-        const goals = JSON.parse(localStorage.getItem("goals")) || [];
-        const goalIndex = goals.findIndex(
-          (goal) =>
-            goal.goalName ===
-            document.getElementById("editGoalForm").dataset.goalName
-        );
-
-        if (goalIndex !== -1) {
-          goals[goalIndex].goalName = newGoalName;
-          goals[goalIndex].goalDate = newGoalDate;
-          localStorage.setItem("goals", JSON.stringify(goals));
-          refreshGoalList(goals);
-          document
-            .getElementById("editGoalFormContainer")
-            .classList.remove("show");
-        } else {
-          alert("Goal not found!");
-        }
-      });
-
-    function editGoal(goalName) {
-      const goals = JSON.parse(localStorage.getItem("goals")) || [];
-      const goal = goals.find((goal) => goal.goalName === goalName);
-
-      if (goal) {
-        document.getElementById("editGoalName").value = goal.goalName;
-        document.getElementById("editGoalDate").value = goal.goalDate;
-        document.getElementById("editGoalForm").dataset.goalName =
-          goal.goalName;
-        document.getElementById("editGoalFormContainer").classList.add("show");
-      } else {
-        alert("Goal not found!");
-      }
-    }
-    document
-      .getElementById("addGoalButton")
-      .addEventListener("click", function () {
-        document.getElementById("goalFormContainer").classList.add("show");
-      });
-
-    document
-      .getElementById("closeGoalForm")
-      .addEventListener("click", function () {
-        document.getElementById("goalFormContainer").classList.remove("show");
-      });
-
-    document
-      .getElementById("goalForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const goalName = document.getElementById("goalName").value.trim();
-        const goalDate = document.getElementById("goalDate").value;
-
-        if (!goalName || !goalDate) {
-          alert("Please enter a name and date for the goal.");
-          return;
-        }
-
-        const goals = JSON.parse(localStorage.getItem("goals")) || [];
-        goals.push({ goalName, goalDate });
-        localStorage.setItem("goals", JSON.stringify(goals));
-        refreshGoalList(goals);
-
-        document.getElementById("goalFormContainer").classList.remove("show");
-      });
-
-    function refreshGoalList(goals) {
-      const container = document.getElementById("goalListContainer");
-      container.innerHTML = "";
-      if (goals.length === 0) {
-        container.innerHTML = "<p>No goals set.</p>";
-      } else {
-        goals.forEach(addGoalItem);
-      }
-    }
-
-    function addGoalItem(goal) {
-      const container = document.getElementById("goalListContainer");
-      const item = document.createElement("div");
-      item.className = "goal-item";
-
-      item.innerHTML = `
-        <div class="left">
-          <input type="checkbox" class="goal-checkbox" data-name="${goal.goalName}" />
-<h2>${goal.goalName}</h2><span class="time"> (Complete by: ${goal.goalDate})</span>
-        </div>
-        <div class="right">
-          <i class="far fa-edit edit-goal" data-name="${goal.goalName}"></i>
-          <i class="far fa-trash-can delete-goal" data-name="${goal.goalName}"></i>
-        </div>
-          `;
-
-      container.appendChild(item);
-
-      item
-        .querySelector(".goal-checkbox")
-        .addEventListener("change", function () {
-          completeGoal(goal.goalName);
-        });
-
-      item.querySelector(".delete-goal").addEventListener("click", function () {
-        deleteGoal(goal.goalName);
-      });
-
-      item.querySelector(".edit-goal").addEventListener("click", function () {
-        editGoal(goal.goalName);
-      });
-    }
-
-    function completeGoal(goalName) {
-      const goals = JSON.parse(localStorage.getItem("goals")) || [];
-      const updatedGoals = goals.filter((goal) => goal.goalName !== goalName);
-      localStorage.setItem("goals", JSON.stringify(updatedGoals));
-      refreshGoalList(updatedGoals);
-      alert(`Goal "${goalName}" completed!`);
-    }
-
-    function deleteGoal(goalName) {
-      const goals = JSON.parse(localStorage.getItem("goals")) || [];
-      const updatedGoals = goals.filter((goal) => goal.goalName !== goalName);
-      localStorage.setItem("goals", JSON.stringify(updatedGoals));
-      refreshGoalList(updatedGoals);
-      alert(`Goal "${goalName}" deleted successfully!`);
-    }
-    window.addEventListener("load", function () {
-      const savedGoals = JSON.parse(localStorage.getItem("goals")) || [];
-      refreshGoalList(savedGoals);
-    });
-
-    document
-      .getElementById("openBudgetForm")
-      .addEventListener("click", function () {
-        document.getElementById("budgetFormContainer").classList.add("show");
-      });
-
-    document
-      .getElementById("closeBudgetForm")
-      .addEventListener("click", function () {
-        document.getElementById("budgetFormContainer").classList.remove("show");
-      });
-
-    document
-      .getElementById("updateIncomeButton")
-      .addEventListener("click", function () {
-        document.getElementById("incomeFormContainer").classList.add("show");
-      });
-
-    document
-      .getElementById("closeIncomeForm")
-      .addEventListener("click", function () {
-        document.getElementById("incomeFormContainer").classList.remove("show");
-      });
-
-    document
-      .getElementById("incomeForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const monthlyIncome = parseFloat(
-          document.getElementById("monthlyIncome").value
-        );
-
-        if (isNaN(monthlyIncome) || monthlyIncome < 0) {
-          alert("Please enter a valid number for income.");
-          return;
-        }
-
-        localStorage.setItem("monthlyIncome", monthlyIncome);
-        document.getElementById(
-          "totalIncome"
-        ).textContent = `$${monthlyIncome.toFixed(2)}`;
-        document.getElementById("incomeFormContainer").classList.remove("show");
-
-        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-        refreshBudgetCards(budgets);
-      });
-
-    document
-      .getElementById("closeEditBudgetForm")
-      .addEventListener("click", function () {
-        document
-          .getElementById("editBudgetFormContainer")
-          .classList.remove("show");
-      });
-
-    document
-      .getElementById("budgetForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const budgetName = document.getElementById("budgetName").value.trim();
-        const monthlyIncome =
-          parseFloat(localStorage.getItem("monthlyIncome")) || 0;
-        const expenses = parseFloat(document.getElementById("expenses").value);
-
-        if (!budgetName) {
-          alert("Please enter a name for the budget.");
-          return;
-        }
-
-        if (isNaN(monthlyIncome) || isNaN(expenses)) {
-          alert("Please enter valid numbers for income and expenses.");
-          return;
-        }
-
-        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-        const newBudget = { budgetName, expenses };
-        budgets.push(newBudget);
-
-        localStorage.setItem("budgets", JSON.stringify(budgets));
-        refreshBudgetCards(budgets);
-
-        document.getElementById("budgetFormContainer").classList.remove("show");
-      });
-
-    document
-      .getElementById("editBudgetForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const budgetName = document.getElementById("editBudgetName").value;
-        const expenses = parseFloat(
-          document.getElementById("editExpenses").value
-        );
-
-        if (isNaN(expenses)) {
-          alert("Please enter a valid number for expenses.");
-          return;
-        }
-
-        const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-        const budgetIndex = budgets.findIndex(
-          (budget) => budget.budgetName === budgetName
-        );
-
-        if (budgetIndex !== -1) {
-          budgets[budgetIndex].expenses = expenses;
-
-          localStorage.setItem("budgets", JSON.stringify(budgets));
-          refreshBudgetCards(budgets);
-
-          document
-            .getElementById("editBudgetFormContainer")
-            .classList.remove("show");
-        } else {
-          alert("Budget not found!");
-        }
-      });
-
-    function addBudgetCard(budget) {
-      const container = document.getElementById("budgetCardsContainer");
-      const card = document.createElement("li");
-      card.className = "budget-card";
-
-      card.innerHTML = `
-         <div class="left">
-    <h3>${budget.budgetName}</h3>
-      <span>Expenses: <span class="amount">$${budget.expenses.toFixed(
-        2
-      )}</span></span>
-  </div>
-    <div class="actions">
-    <i class="far fa-edit edit-budget" data-name="${budget.budgetName}"></i>
-    <i class="far fa-trash-can delete-budget" data-name="${
-      budget.budgetName
-    }"></i>
-  </div> 
-
-`;
-      container.appendChild(card);
-      card
-        .querySelector(".delete-budget")
-        .addEventListener("click", function () {
-          deleteBudget(budget.budgetName);
-        });
-
-      card.querySelector(".edit-budget").addEventListener("click", function () {
-        openEditBudgetForm(budget);
-      });
-    }
-
-    function refreshBudgetCards(budgets) {
-      const container = document.getElementById("budgetCardsContainer");
-      container.innerHTML = "";
-      if (budgets.length === 0) {
-        container.innerHTML = "<p>No budgets set.</p>";
-      } else {
-        budgets.forEach(addBudgetCard);
-      }
-
-      const totalIncome =
-        parseFloat(localStorage.getItem("monthlyIncome")) || 0;
-      const totalExpenses = budgets.reduce(
-        (sum, budget) => sum + budget.expenses,
-        0
-      );
-      const remainingIncome = totalIncome - totalExpenses;
-
-      document.getElementById(
-        "totalIncome"
-      ).textContent = `$${totalIncome.toFixed(2)}`;
-      const remainingIncomeElement = document.getElementById("remainingIncome");
-      remainingIncomeElement.textContent = `$${remainingIncome.toFixed(2)}`;
-
-      if (remainingIncome <= 0) {
-        remainingIncomeElement.style.color = "red";
-      } else if (remainingIncome > 0 && remainingIncome <= 999) {
-        remainingIncomeElement.style.color = "orange";
-      } else {
-        remainingIncomeElement.style.color = "green";
-      }
-    }
-
-    function deleteBudget(budgetName) {
-      const budgets = JSON.parse(localStorage.getItem("budgets")) || [];
-      const updatedBudgets = budgets.filter(
-        (budget) => budget.budgetName !== budgetName
-      );
-      localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
-      refreshBudgetCards(updatedBudgets);
-      alert(`Budget "${budgetName}" deleted successfully!`);
-    }
-
-    function openEditBudgetForm(budget) {
-      document.getElementById("editBudgetName").value = budget.budgetName;
-      document.getElementById("editExpenses").value = budget.expenses;
-      document.getElementById("editBudgetFormContainer").classList.add("show");
-    }
-
-    window.addEventListener("load", function () {
-      const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
-      refreshBudgetCards(savedBudgets);
-    });
-    localStorage.setItem("page", "budget");
+    localStorage.setItem("page", "dashb");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.add("active");
@@ -756,7 +293,6 @@
       document.querySelector(".report").classList.add("active");
       document.querySelector(".setting").classList.remove("active");
     }
-
     document.querySelector(".setting").addEventListener("click", function (e) {
       document.querySelector(".dash").classList.remove("active");
       document.querySelector(".transaction").classList.remove("active");
