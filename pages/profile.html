@@ -65,11 +65,13 @@
         </div>
       </div>
       <div class="profile">
-        <div class="profile_header">
-          <h1>Your Profile</h1>
-          <a href="./index.html" class="back-button"
-            ><i class="fas fa-arrow-left"></i> Back</a
-          >
+       <div class="notification_header">
+          <div class="notification_header_left">
+            <a href="./index.html"><i class="fas fa-chevron-left"></i></a>
+          </div>
+          <div class="notification_header_right">
+<i class="fas fa-ellipsis"></i>
+          </div>
         </div>
         <div class="profile_body">
           <div class="profile_desktopNav">
@@ -127,16 +129,20 @@
           <div class="profile_inner">
             <div id="profiles" class="profiles"></div>
             <div class="profiles_actions">
-              <a href="/pages/edit_profile.html" class="edit_profile"
-                ><i class="far fa-edit"></i>
-                <div>
+                    <a href="/pages/profile.html" class="edit_profile"
+                ><div class="left">
+                  <i class="far fa-edit"></i>
+                </div>
+                <div class="right">
                   Edit Profile
                   <p>Edit personal data</p>
                 </div></a
               >
               <a href="./notifications.html"
-                ><i class="far fa-bell"></i>
-                <div>
+                ><div class="left">
+                  <i class="far fa-bell"></i>
+                </div>
+                <div class="right">
                   Notifications
                   <p>
                     <span>Check your notifications</span>
@@ -145,20 +151,31 @@
                 </div>
               </a>
               <a href="/settings"
-                ><i class="fas fa-user-gear"></i>
-                <div>
+                ><div class="left">
+                  <i class="fas fa-user-gear"></i>
+                </div>
+                <div class="right">
                   Account Settings
                   <p>Check your notifications</p>
                 </div></a
               >
               <a href="/pages/change_password.html" class="change_password"
-                ><i class="fas fa-lock"></i> Change Password</a
+                ><div class="left">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <div class="right">Change Password</div></a
               >
               <a href="/pages/delete_account.html" class="delete_account"
-                ><i class="far fa-trash-can"></i> Delete Account</a
+                ><div class="left">
+                  <i class="far fa-trash-can"></i>
+                </div>
+                <div class="right">Delete Account</div></a
               >
               <a href="/pages/logout.html" class="logout"
-                ><i class="fas fa-logout"></i> Logout</a
+                ><div class="left">
+                  <i class="fas fa-logout"></i>
+                </div>
+                <div class="right">Logout</div></a
               >
             </div>
           </div>

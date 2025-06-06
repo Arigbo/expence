@@ -21,62 +21,6 @@
     />
     <link rel="stylesheet" href="/style/custom.css" />
     <style>
-      /* Search Results Modal */
-      .search-results-modal {
-        background-color: white;
-        z-index: 7;
-        position: absolute;
-        top: -100vh;
-        height: 40vh;
-        width: 40%;
-        overflow-y: scroll;
-      }
-      .search-results-modal.show {
-        top: 4.1rem;
-      }
-      .search-results-modal .result-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        gap: 10px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        border-bottom: 1px solid #f0f2f5;
-        width: 100%;
-      }
-      .search-results-modal .result-item:last-child {
-        border-bottom: none;
-      }
-      .search-results-modal .result-item:hover {
-        background-color: #f3f4f6;
-      }
-      .search-results-modal .result-item img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-      .search-results-modal .result-item .text-content {
-        flex-grow: 1;
-      }
-      .search-results-modal .result-item .text-content h3 {
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: #1f2937;
-      }
-      .search-results-modal .result-item .text-content p {
-        font-size: 0.8rem;
-        color: #6b7280;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .search-results-modal .no-results {
-        padding: 10px 15px;
-        color: #6b7280;
-        text-align: center;
-      }
-
       /* Single Notification Modal Styles */
       .single_notification {
         position: fixed;
@@ -185,7 +129,7 @@
         background-color: #fee2e2;
         color: #ef4444;
       }
-   
+
       .hide {
         display: none !important;
       }
@@ -196,13 +140,12 @@
       <nav class="navbar">
         <div class="navbar_inner">
           <div class="top">
-            <div></div>
+            <div><img src="/Logomark.png" alt="" /></div>
             <h1 class="">Spen<span>track</span></h1>
           </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
-          >
-          <a href="/pages/transaction.html" class="transaction"
+          ><a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
           <a href="./budget.html" class="budget"
@@ -212,18 +155,6 @@
             ><i class="fas fa-chart-line"></i> Reports</a
           >
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
-          <a href="/pages/help.html" class="help"
-            ><i class="fas fa-question-circle"></i> Help & Support</a
-          >
-          <a href="/pages/feedback.html" class="feedback"
-            ><i class="fas fa-comment-dots"></i> Send Feedback</a
-          >
-          <a href="/pages/privacy.html" class="privacy"
-            ><i class="fas fa-shield-alt"></i> Privacy Policy</a
-          >
-          <a href="/pages/logout.html" class="logout"
-            ><i class="fas fa-sign-out-alt"></i> Logout</a
-          >
         </div>
       </nav>
       <div class="dashboard_header desktop">
@@ -363,7 +294,101 @@
         </div>
       </div>
     </div>
+    <script>
+      localStorage.setItem("page", "dashb");
+      let page = localStorage.getItem("page");
+      document.querySelector(".dash").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "dashb");
+      });
+      if (page && page === "dashb") {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
 
+      document
+        .querySelector(".transaction")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.add("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.remove("active");
+          return localStorage.setItem("page", "transaction");
+        });
+      if (page && page === "transaction") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document.querySelector(".budget").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "budget");
+      });
+      if (page && page === "budget") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document.querySelector(".report").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "report");
+      });
+      if (page && page === "report") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document
+        .querySelector(".setting")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.remove("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.add("active");
+          return localStorage.setItem("page", "setting");
+        });
+      if (page && page === "setting") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.add("active");
+      }
+
+      document.querySelector(".navbar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.remove("show");
+      });
+
+      document.querySelector(".bar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.add("show");
+      });
+    </script>
     <script>
       // Global array to store notifications
       const allNotifications = [];
@@ -532,7 +557,9 @@
       function renderSectionHeader(text) {
         const headerHtml = `
                 <div class="demarcation-header">
+                  <div class="border"></div>
                     <span>${text}</span>
+                    <div class="border"></div>
                 </div>
             `;
         notificationsContainer.insertAdjacentHTML("beforeend", headerHtml);
@@ -1033,177 +1060,177 @@
         }
       });
 
-      // Navbar active state logic
-      let page = localStorage.getItem("page");
+      // // Navbar active state logic
+      // let page = localStorage.getItem("page");
 
-      function setActiveNav(activePage) {
-        const navLinks = document.querySelectorAll(".navbar_inner a");
-        navLinks.forEach((link) => {
-          link.classList.remove("active");
-        });
-        const targetLink = document.querySelector(
-          `.navbar_inner a.${activePage}`
-        );
-        if (targetLink) {
-          targetLink.classList.add("active");
-        }
-        localStorage.setItem("page", activePage);
-      }
+      // function setActiveNav(activePage) {
+      //   const navLinks = document.querySelectorAll(".navbar_inner a");
+      //   navLinks.forEach((link) => {
+      //     link.classList.remove("active");
+      //   });
+      //   const targetLink = document.querySelector(
+      //     `.navbar_inner a.${activePage}`
+      //   );
+      //   if (targetLink) {
+      //     targetLink.classList.add("active");
+      //   }
+      //   localStorage.setItem("page", activePage);
+      // }
 
-      const dashLink = document.querySelector(".dash");
-      if (dashLink)
-        dashLink.addEventListener("click", function (e) {
-          setActiveNav("dash");
-        });
-      const transactionLink = document.querySelector(".transaction");
-      if (transactionLink)
-        transactionLink.addEventListener("click", function (e) {
-          setActiveNav("transaction");
-        });
-      const budgetLink = document.querySelector(".budget");
-      if (budgetLink)
-        budgetLink.addEventListener("click", function (e) {
-          setActiveNav("budget");
-        });
-      const reportLink = document.querySelector(".report");
-      if (reportLink)
-        reportLink.addEventListener("click", function (e) {
-          setActiveNav("report");
-        });
-      const settingLink = document.querySelector(".setting");
-      if (settingLink)
-        settingLink.addEventListener("click", function (e) {
-          setActiveNav("setting");
-        });
-      const helpLink = document.querySelector(".help");
-      if (helpLink)
-        helpLink.addEventListener("click", function (e) {
-          setActiveNav("help");
-        });
-      const feedbackLink = document.querySelector(".feedback");
-      if (feedbackLink)
-        feedbackLink.addEventListener("click", function (e) {
-          setActiveNav("feedback");
-        });
-      const privacyLink = document.querySelector(".privacy");
-      if (privacyLink)
-        privacyLink.addEventListener("click", function (e) {
-          setActiveNav("privacy");
-        });
-      const logoutLink = document.querySelector(".logout");
-      if (logoutLink)
-        logoutLink.addEventListener("click", function (e) {
-          setActiveNav("logout");
-        });
+      // const dashLink = document.querySelector(".dash");
+      // if (dashLink)
+      //   dashLink.addEventListener("click", function (e) {
+      //     setActiveNav("dash");
+      //   });
+      // const transactionLink = document.querySelector(".transaction");
+      // if (transactionLink)
+      //   transactionLink.addEventListener("click", function (e) {
+      //     setActiveNav("transaction");
+      //   });
+      // const budgetLink = document.querySelector(".budget");
+      // if (budgetLink)
+      //   budgetLink.addEventListener("click", function (e) {
+      //     setActiveNav("budget");
+      //   });
+      // const reportLink = document.querySelector(".report");
+      // if (reportLink)
+      //   reportLink.addEventListener("click", function (e) {
+      //     setActiveNav("report");
+      //   });
+      // const settingLink = document.querySelector(".setting");
+      // if (settingLink)
+      //   settingLink.addEventListener("click", function (e) {
+      //     setActiveNav("setting");
+      //   });
+      // const helpLink = document.querySelector(".help");
+      // if (helpLink)
+      //   helpLink.addEventListener("click", function (e) {
+      //     setActiveNav("help");
+      //   });
+      // const feedbackLink = document.querySelector(".feedback");
+      // if (feedbackLink)
+      //   feedbackLink.addEventListener("click", function (e) {
+      //     setActiveNav("feedback");
+      //   });
+      // const privacyLink = document.querySelector(".privacy");
+      // if (privacyLink)
+      //   privacyLink.addEventListener("click", function (e) {
+      //     setActiveNav("privacy");
+      //   });
+      // const logoutLink = document.querySelector(".logout");
+      // if (logoutLink)
+      //   logoutLink.addEventListener("click", function (e) {
+      //     setActiveNav("logout");
+      //   });
 
-      if (page) {
-        setActiveNav(page);
-      } else {
-        setActiveNav("dash");
-      }
+      // if (page) {
+      //   setActiveNav(page);
+      // } else {
+      //   setActiveNav("dash");
+      // }
 
-      // Hamburger menu click listener
-      const barElement = document.querySelector(".bar");
-      if (barElement) {
-        barElement.addEventListener("click", function () {
-          if (navbarElement) navbarElement.classList.add("show");
-        });
-      }
+      // // Hamburger menu click listener
+      // const barElement = document.querySelector(".bar");
+      // if (barElement) {
+      //   barElement.addEventListener("click", function () {
+      //     if (navbarElement) navbarElement.classList.add("show");
+      //   });
+      // }
 
-      // Close navbar when a link inside it is clicked (mobile)
-      if (navbarElement) {
-        navbarElement.addEventListener("click", function (event) {
-          if (event.target.closest("a")) {
-            // If a link inside navbar was clicked
-            navbarElement.classList.remove("show");
-          }
-        });
-      }
+      // // Close navbar when a link inside it is clicked (mobile)
+      // if (navbarElement) {
+      //   navbarElement.addEventListener("click", function (event) {
+      //     if (event.target.closest("a")) {
+      //       // If a link inside navbar was clicked
+      //       navbarElement.classList.remove("show");
+      //     }
+      //   });
+      // }
 
-      // --- Swipe Gesture Logic for Mobile Navbar ---
-      let startX = 0;
-      let currentX = 0;
-      let isDragging = false;
-      const swipeThreshold = 50; // Minimum horizontal distance for a swipe
+      // // --- Swipe Gesture Logic for Mobile Navbar ---
+      // let startX = 0;
+      // let currentX = 0;
+      // let isDragging = false;
+      // const swipeThreshold = 50; // Minimum horizontal distance for a swipe
 
-      // Function to check if it's a mobile screen
-      function isMobile() {
-        return window.innerWidth <= 767; // Matches the @media (max-width: 767px) breakpoint
-      }
+      // // Function to check if it's a mobile screen
+      // function isMobile() {
+      //   return window.innerWidth <= 767; // Matches the @media (max-width: 767px) breakpoint
+      // }
 
-      if (mainContentArea && navbarElement) {
-        mainContentArea.addEventListener("touchstart", (e) => {
-          if (!isMobile()) return; // Only enable on mobile
-          startX = e.touches[0].clientX;
-          isDragging = true;
-        });
+      // if (mainContentArea && navbarElement) {
+      //   mainContentArea.addEventListener("touchstart", (e) => {
+      //     if (!isMobile()) return; // Only enable on mobile
+      //     startX = e.touches[0].clientX;
+      //     isDragging = true;
+      //   });
 
-        mainContentArea.addEventListener("touchmove", (e) => {
-          if (!isMobile() || !isDragging) return;
-          currentX = e.touches[0].clientX;
-          const diffX = currentX - startX;
+      //   mainContentArea.addEventListener("touchmove", (e) => {
+      //     if (!isMobile() || !isDragging) return;
+      //     currentX = e.touches[0].clientX;
+      //     const diffX = currentX - startX;
 
-          // Prevent vertical scrolling if horizontal swipe is dominant
-          if (
-            Math.abs(diffX) >
-            Math.abs(e.touches[0].clientY - e.touches[0].clientY)
-          ) {
-            e.preventDefault();
-          }
+      //     // Prevent vertical scrolling if horizontal swipe is dominant
+      //     if (
+      //       Math.abs(diffX) >
+      //       Math.abs(e.touches[0].clientY - e.touches[0].clientY)
+      //     ) {
+      //       e.preventDefault();
+      //     }
 
-          // Optional: visually move the navbar as user swipes (more advanced)
-          // For now, we'll just toggle on touchend
-        });
+      //     // Optional: visually move the navbar as user swipes (more advanced)
+      //     // For now, we'll just toggle on touchend
+      //   });
 
-        mainContentArea.addEventListener("touchend", () => {
-          if (!isMobile() || !isDragging) return;
-          const diffX = currentX - startX;
+      //   mainContentArea.addEventListener("touchend", () => {
+      //     if (!isMobile() || !isDragging) return;
+      //     const diffX = currentX - startX;
 
-          if (diffX > swipeThreshold) {
-            // Swiped right
-            navbarElement.classList.add("show");
-          } else if (diffX < -swipeThreshold) {
-            // Swiped left
-            navbarElement.classList.remove("show");
-          }
-          isDragging = false;
-          startX = 0;
-          currentX = 0;
-        });
+      //     if (diffX > swipeThreshold) {
+      //       // Swiped right
+      //       navbarElement.classList.add("show");
+      //     } else if (diffX < -swipeThreshold) {
+      //       // Swiped left
+      //       navbarElement.classList.remove("show");
+      //     }
+      //     isDragging = false;
+      //     startX = 0;
+      //     currentX = 0;
+      //   });
 
-        // Add swipe-to-close directly on the navbar itself for better UX
-        navbarElement.addEventListener("touchstart", (e) => {
-          if (!isMobile()) return;
-          startX = e.touches[0].clientX;
-          isDragging = true;
-        });
+      //   // Add swipe-to-close directly on the navbar itself for better UX
+      //   navbarElement.addEventListener("touchstart", (e) => {
+      //     if (!isMobile()) return;
+      //     startX = e.touches[0].clientX;
+      //     isDragging = true;
+      //   });
 
-        navbarElement.addEventListener("touchmove", (e) => {
-          if (!isMobile() || !isDragging) return;
-          currentX = e.touches[0].clientX;
-          const diffX = currentX - startX;
-          if (
-            Math.abs(diffX) >
-            Math.abs(e.touches[0].clientY - e.touches[0].clientY)
-          ) {
-            e.preventDefault();
-          }
-        });
+      //   navbarElement.addEventListener("touchmove", (e) => {
+      //     if (!isMobile() || !isDragging) return;
+      //     currentX = e.touches[0].clientX;
+      //     const diffX = currentX - startX;
+      //     if (
+      //       Math.abs(diffX) >
+      //       Math.abs(e.touches[0].clientY - e.touches[0].clientY)
+      //     ) {
+      //       e.preventDefault();
+      //     }
+      //   });
 
-        navbarElement.addEventListener("touchend", () => {
-          if (!isMobile() || !isDragging) return;
-          const diffX = currentX - startX;
+      //   navbarElement.addEventListener("touchend", () => {
+      //     if (!isMobile() || !isDragging) return;
+      //     const diffX = currentX - startX;
 
-          if (diffX < -swipeThreshold) {
-            // Swiped left on navbar
-            navbarElement.classList.remove("show");
-          }
-          isDragging = false;
-          startX = 0;
-          currentX = 0;
-        });
-      }
-      // --- End Swipe Gesture Logic ---
+      //     if (diffX < -swipeThreshold) {
+      //       // Swiped left on navbar
+      //       navbarElement.classList.remove("show");
+      //     }
+      //     isDragging = false;
+      //     startX = 0;
+      //     currentX = 0;
+      //   });
+      // }
+      // // --- End Swipe Gesture Logic ---
 
       // Initial fetch of notifications when the DOM is fully loaded
       document.addEventListener("DOMContentLoaded", fetchNotifications);

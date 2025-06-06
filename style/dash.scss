@@ -138,6 +138,62 @@
               font-size: 18px;
               left: 2rem;
             }
+            .search-results-modal {
+              background-color: white;
+z-index: -1;
+              position: fixed;
+              top: -100vh;
+              height: 30vh;
+              width: 40%;
+              overflow-y: scroll;
+              transition: all 0.5s ease;
+              .result-item {
+                display: flex;
+                align-items: center;
+                padding: 10px 15px;
+                gap: 10px;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+                border-bottom: 1px solid #f0f2f5;
+                width: 100%;
+                &:last-child {
+                  border-bottom: none;
+                }
+                &:hover {
+                  background-color: #f3f4f6;
+                }
+                img {
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                }
+                .text-content {
+                  flex-grow: 1;
+                  p {
+                    font-size: 0.8rem;
+                    color: #6b7280;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  }
+                  h3 {
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    color: #1f2937;
+                  }
+                }
+                .no-results {
+                  padding: 10px 15px;
+                  color: #6b7280;
+                  text-align: center;
+                }
+              }
+              &.show {
+                top: 4.1rem;
+                z-index: 100;
+              }
+            }
             input {
               width: 100%;
               border-radius: 2rem;
