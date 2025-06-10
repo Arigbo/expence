@@ -974,24 +974,13 @@
         <h2>Edit Goal</h2>
         <form id="editGoalForm">
           <label for="editGoalName">Goal Name:</label>
-          <input
-            type="text"
-            id="editGoalName"
-            required
-          />
+          <input type="text" id="editGoalName" required />
 
           <label for="editGoalAbout">About Goal:</label>
-          <textarea
-            id="editGoalAbout"
-          ></textarea>
+          <textarea id="editGoalAbout"></textarea>
 
           <label for="editGoalAmount">Amount Needed ($):</label>
-          <input
-            type="number"
-            id="editGoalAmount"
-            required
-            min="0"
-          />
+          <input type="number" id="editGoalAmount" required min="0" />
 
           <label for="editGoalTargetDate">Target End Date:</label>
           <input type="date" id="editGoalTargetDate" required />
@@ -999,10 +988,7 @@
           <label for="editGoalCollaborators"
             >Collaborators (optional, @username @username):</label
           >
-          <input
-            type="text"
-            id="editGoalCollaborators"
-          />
+          <input type="text" id="editGoalCollaborators" />
 
           <div class="form-actions">
             <button type="button" class="cancel-btn">Cancel</button>
@@ -1018,24 +1004,13 @@
         <h2>Edit Budget</h2>
         <form id="editBudgetForm">
           <label for="editBudgetCategory">Budget Name/Category:</label>
-          <input
-            type="text"
-            id="editBudgetCategory"
-            required
-          />
+          <input type="text" id="editBudgetCategory" required />
 
           <label for="editBudgetAbout">About Budget:</label>
-          <textarea
-            id="editBudgetAbout"
-          ></textarea>
+          <textarea id="editBudgetAbout"></textarea>
 
           <label for="editBudgetAmount">Budget Amount ($):</label>
-          <input
-            type="number"
-            id="editBudgetAmount"
-            required
-            min="0"
-          />
+          <input type="number" id="editBudgetAmount" required min="0" />
 
           <label for="editBudgetFrequency">Frequency:</label>
           <select id="editBudgetFrequency">
@@ -1051,10 +1026,7 @@
           <label for="editBudgetCollaborators"
             >Collaborators (optional, @username @username):</label
           >
-          <input
-            type="text"
-            id="editBudgetCollaborators"
-          />
+          <input type="text" id="editBudgetCollaborators" />
 
           <div class="form-actions">
             <button type="button" class="cancel-btn">Cancel</button>
@@ -1183,81 +1155,81 @@
 
     <!-- Dynamic Collaborator Suggestions Box (will be created and appended by JS) -->
 
-      <script>
-        // --- Global variables and initial setup ---
-        // Hardcode loggedInId to 4 as requested.
-        const loggedInId = localStorage.getItem("loggedin_id"); // Changed to number
-        // We will assume isLoggedIn is true if loggedInId is set. In a real app, this would come from auth state.
-        let isLoggedIn = localStorage.getItem("isLoggedIn"); // Set to true since loggedInId is provided
+    <script>
+      // --- Global variables and initial setup ---
+      // Hardcode loggedInId to 4 as requested.
+      const loggedInId = localStorage.getItem("loggedin_id"); // Changed to number
+      // We will assume isLoggedIn is true if loggedInId is set. In a real app, this would come from auth state.
+      let isLoggedIn = localStorage.getItem("isLoggedIn"); // Set to true since loggedInId is provided
 
-        let allNotifications = [];
-        let allGoals = [];
-        let allBudgets = [];
-        let allSavings = []; // Placeholder, if you plan to use this data
+      let allNotifications = [];
+      let allGoals = [];
+      let allBudgets = [];
+      let allSavings = []; // Placeholder, if you plan to use this data
 
-        // Filter text for goals and budgets
-        let goalFilterText = "";
-        let budgetFilterText = "";
+      // Filter text for goals and budgets
+      let goalFilterText = "";
+      let budgetFilterText = "";
 
-        // Helper function to normalize IDs for internal storage (prefer number, fallback to string)
-        const normalizeId = (id) => {
+      // Helper function to normalize IDs for internal storage (prefer number, fallback to string)
+      const normalizeId = (id) => {
         const numId = Number(id);
         return isNaN(numId) ? String(id) : numId; // Store as number if valid, else as string
-        };
+      };
 
-        // Helper function to format IDs for API requests (always string)
-        const apiId = (id) => {
+      // Helper function to format IDs for API requests (always string)
+      const apiId = (id) => {
         return String(id);
-        };
+      };
 
-        // Helper function to format IDs for notifications (always number as per user request)
-        const notificationId = (id) => {
+      // Helper function to format IDs for notifications (always number as per user request)
+      const notificationId = (id) => {
         return Number(id); // Will be NaN if original is a non-numeric string
-        };
+      };
 
-        // Helper function to find a user's name by their ID
-        const getUserNameById = (id) => {
+      // Helper function to find a user's name by their ID
+      const getUserNameById = (id) => {
         // Convert both sides to string for robust comparison
         const user = allUsers.find((u) => String(u.id) === String(id));
         return user ? user.name : "Unknown User";
-        };
+      };
 
-        // Helper function to find a user's username by their ID
-        const getUsernameById = (id) => {
+      // Helper function to find a user's username by their ID
+      const getUsernameById = (id) => {
         // Convert both sides to string for robust comparison
         const user = allUsers.find((u) => String(u.id) === String(id));
         return user ? user.username : null;
-        };
+      };
 
-        // Helper function to get collaborator IDs from a raw input string
-        const getCollaboratorIds = (collaboratorsString) => {
+      // Helper function to get collaborator IDs from a raw input string
+      const getCollaboratorIds = (collaboratorsString) => {
         if (!collaboratorsString) return [];
         const usernames = collaboratorsString.match(/@(\w+)/g);
         if (!usernames) return [];
         return usernames
           .map((u) => {
-          const username = u.substring(1);
-          const user = allUsers.find((user) => user.username === username);
-          // Normalize ID for internal storage
-          return user ? normalizeId(user.id) : null;
+            const username = u.substring(1);
+            const user = allUsers.find((user) => user.username === username);
+            // Normalize ID for internal storage
+            return user ? normalizeId(user.id) : null;
           })
           .filter((id) => id !== null); // Filter out nulls
-        };
+      };
 
-        // Function to get the next notification ID (unique, incrementing)
-        function getNextNotificationId() {
-          // Find all existing notification IDs in allNotifications (from db.json)
-          const existingIds = new Set(allNotifications.map((n) => Number(n.id)));
-          // Start from 1 and find the first unused positive integer
-          let nextId = 1;
-          while (existingIds.has(nextId)) {
-            nextId++;
-          }
-          return String(nextId);
+      // Function to get the next notification ID (unique, incrementing)
+      function getNextNotificationId() {
+        // Find all existing notification IDs in allNotifications (from db.json)
+        const existingIds = new Set(allNotifications.map((n) => Number(n.id)));
+        // Start from 1 and find the first unused positive integer
+        let nextId = 1;
+        while (existingIds.has(nextId)) {
+          nextId++;
         }
+        return String(nextId);
+      }
 
-        // Function to create and "send" a notification
-        const createNotification = async (userId, message, relatedId, type) => {
+      // Function to create and "send" a notification
+      const createNotification = async (userId, message, relatedId, type) => {
         const senderUser = allUsers.find(
           (u) => String(u.id) === String(loggedInId)
         );
@@ -1268,8 +1240,8 @@
           sender: senderUser ? senderUser.name : "Unknown Sender",
           sender_id: notificationId(loggedInId), // Force to number for notifications
           sender_dp: senderUser
-          ? senderUser.dp
-          : "https://placehold.co/40x40/CCCCCC/FFFFFF?text=?", // Fallback DP
+            ? senderUser.dp
+            : "https://placehold.co/40x40/CCCCCC/FFFFFF?text=?", // Fallback DP
           message: message,
           read: false,
           created_at: new Date().toISOString(),
@@ -1282,29 +1254,29 @@
 
         try {
           const response = await fetch("http://localhost:3000/notifications", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(notification),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(notification),
           });
           if (!response.ok) {
-          throw new Error(
-            `Failed to send notification to server: ${response.statusText}`
-          );
+            throw new Error(
+              `Failed to send notification to server: ${response.statusText}`
+            );
           }
           const result = await response.json();
           console.log(
-          "Notification sent successfully to server (json-server POST):",
-          result
+            "Notification sent successfully to server (json-server POST):",
+            result
           );
         } catch (error) {
           console.error("Error sending notification to server:", error);
         }
-        };
+      };
 
-        // Function to update user name
-        async function fetchAndSetUserName() {
+      // Function to update user name
+      async function fetchAndSetUserName() {
         if (!isLoggedIn) {
           console.warn("User is not explicitly logged in. Displaying 'Guest'.");
           document.getElementById("loggedInUser").textContent = "Guest";
@@ -1314,7 +1286,7 @@
 
         try {
           const user = allUsers.find(
-          (u) => String(u.id) === String(loggedInId)
+            (u) => String(u.id) === String(loggedInId)
           );
           const userName = user ? user.name : "Guest";
           document.getElementById("loggedInUser").textContent = userName;
@@ -1324,31 +1296,31 @@
           document.getElementById("loggedInUser").textContent = "Guest";
           document.getElementById("loggedInUserMiddle").textContent = "Guest";
         }
-        }
+      }
 
-        // Function to update notification count in UI
-        const updateNotificationCount = () => {
+      // Function to update notification count in UI
+      const updateNotificationCount = () => {
         const notificationCountElements =
           document.querySelectorAll(".no_of_noties");
         const unreadNotifications = allNotifications.filter(
           // Ensure comparison is string-based for robustness
           (notification) =>
-          String(notification.user_id) === String(loggedInId) &&
-          notification.read === false
+            String(notification.user_id) === String(loggedInId) &&
+            notification.read === false
         );
 
         notificationCountElements.forEach((element) => {
           if (unreadNotifications.length === 0) {
-          element.classList.add("hide");
+            element.classList.add("hide");
           } else {
-          element.textContent = unreadNotifications.length;
-          element.classList.remove("hide");
+            element.textContent = unreadNotifications.length;
+            element.classList.remove("hide");
           }
         });
-        };
+      };
 
-        // Function to show/hide user-specific header elements
-        const toggleUserHeaderElements = () => {
+      // Function to show/hide user-specific header elements
+      const toggleUserHeaderElements = () => {
         const notificationLinks = document.querySelectorAll(
           '.dashboard_header .right a[href="./notifications.html"]'
         );
@@ -1363,19 +1335,19 @@
           notificationLinks.forEach((link) => (link.style.display = "none"));
           profileLinks.forEach((link) => (link.style.display = "none"));
           userGreetingElements.forEach(
-          (element) => (element.style.display = "none")
+            (element) => (element.style.display = "none")
           );
         } else {
           notificationLinks.forEach((link) => (link.style.display = ""));
           profileLinks.forEach((link) => (link.style.display = ""));
           userGreetingElements.forEach(
-          (element) => (element.style.display = "")
+            (element) => (element.style.display = "")
           );
         }
-        };
+      };
 
-        // --- Navigation Active State Logic ---
-        const activateNavLink = (pageName) => {
+      // --- Navigation Active State Logic ---
+      const activateNavLink = (pageName) => {
         const navLinks = document.querySelectorAll(".navbar a");
         navLinks.forEach((link) => link.classList.remove("active"));
 
@@ -1386,78 +1358,78 @@
           currentPageLink.classList.add("active");
           localStorage.setItem("page", pageName);
         }
-        };
+      };
 
-        // --- Mobile Navbar Toggle ---
-        document.querySelector(".bar").addEventListener("click", function () {
+      // --- Mobile Navbar Toggle ---
+      document.querySelector(".bar").addEventListener("click", function () {
         document.querySelector(".navbar").classList.add("show");
-        });
+      });
 
-        document.querySelector(".navbar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").addEventListener("click", function (e) {
         if (!e.target.closest(".navbar_inner") || e.target.tagName === "A") {
           document.querySelector(".navbar").classList.remove("show");
         }
-        });
+      });
 
-        // --- Modal Logic ---
-        const addGoalModal = document.getElementById("addGoalModal");
-        const addBudgetModal = document.getElementById("addBudgetModal");
-        const confirmationModal = document.getElementById("confirmationModal");
+      // --- Modal Logic ---
+      const addGoalModal = document.getElementById("addGoalModal");
+      const addBudgetModal = document.getElementById("addBudgetModal");
+      const confirmationModal = document.getElementById("confirmationModal");
 
-        const showModal = (modalElement) => {
+      const showModal = (modalElement) => {
         modalElement.classList.add("show");
-        };
+      };
 
-        const hideModal = (modalElement) => {
+      const hideModal = (modalElement) => {
         modalElement.classList.remove("show");
-        };
+      };
 
-        // Add Goal button click
-        document.getElementById("addGoalBtn").addEventListener("click", () => {
+      // Add Goal button click
+      document.getElementById("addGoalBtn").addEventListener("click", () => {
         hideCollaboratorSuggestions();
         showModal(addGoalModal);
-        });
+      });
 
-        // Add Budget button click
-        document.getElementById("addBudgetBtn").addEventListener("click", () => {
+      // Add Budget button click
+      document.getElementById("addBudgetBtn").addEventListener("click", () => {
         hideCollaboratorSuggestions();
         showModal(addBudgetModal);
-        });
+      });
 
-        // Close modal buttons
-        addGoalModal
+      // Close modal buttons
+      addGoalModal
         .querySelectorAll(".close-btn, .cancel-btn")
         .forEach((btn) => {
           btn.addEventListener("click", () => hideModal(addGoalModal));
         });
-        addBudgetModal
+      addBudgetModal
         .querySelectorAll(".close-btn, .cancel-btn")
         .forEach((btn) => {
           btn.addEventListener("click", () => hideModal(addBudgetModal));
         });
 
-        // Close confirmation modal
-        confirmationModal
+      // Close confirmation modal
+      confirmationModal
         .querySelector(".confirm-no")
         .addEventListener("click", () => hideModal(confirmationModal));
 
-        // --- Collaborator Suggestions Inline Logic ---
-        let currentCollaboratorInput = null;
-        let collaboratorSuggestionsBox = null;
+      // --- Collaborator Suggestions Inline Logic ---
+      let currentCollaboratorInput = null;
+      let collaboratorSuggestionsBox = null;
 
-        const createOrGetSuggestionsBox = () => {
+      const createOrGetSuggestionsBox = () => {
         if (!collaboratorSuggestionsBox) {
           collaboratorSuggestionsBox = document.createElement("div");
           collaboratorSuggestionsBox.id = "inlineCollaboratorSuggestions";
           collaboratorSuggestionsBox.classList.add(
-          "collaborator-suggestions-box"
+            "collaborator-suggestions-box"
           );
           document.body.appendChild(collaboratorSuggestionsBox);
         }
         return collaboratorSuggestionsBox;
-        };
+      };
 
-        const showCollaboratorSuggestions = () => {
+      const showCollaboratorSuggestions = () => {
         const box = createOrGetSuggestionsBox();
         const inputRect = currentCollaboratorInput.getBoundingClientRect();
 
@@ -1466,16 +1438,16 @@
         box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
         box.style.left = `${inputRect.left}px`;
         box.classList.add("show");
-        };
+      };
 
-        const hideCollaboratorSuggestions = () => {
+      const hideCollaboratorSuggestions = () => {
         if (collaboratorSuggestionsBox) {
           collaboratorSuggestionsBox.classList.remove("show");
           collaboratorSuggestionsBox.innerHTML = "";
         }
-        };
+      };
 
-        const handleCollaboratorInput = (event) => {
+      const handleCollaboratorInput = (event) => {
         currentCollaboratorInput = event.target;
         const text = currentCollaboratorInput.value;
         const lastAtIndex = text.lastIndexOf("@");
@@ -1487,48 +1459,48 @@
         } else {
           hideCollaboratorSuggestions();
         }
-        };
+      };
 
-        document
+      document
         .getElementById("goalCollaborators")
         .addEventListener("input", handleCollaboratorInput);
-        document
+      document
         .getElementById("budgetCollaborators")
         .addEventListener("input", handleCollaboratorInput);
 
-        document.addEventListener("click", (e) => {
+      document.addEventListener("click", (e) => {
         // Hide suggestions if click is outside the input and the suggestions box
         if (
           currentCollaboratorInput &&
           !currentCollaboratorInput.contains(e.target) &&
           (!collaboratorSuggestionsBox ||
-          !collaboratorSuggestionsBox.contains(e.target))
+            !collaboratorSuggestionsBox.contains(e.target))
         ) {
           hideCollaboratorSuggestions();
         }
-        });
+      });
 
-        document.addEventListener("keydown", (e) => {
+      document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           hideCollaboratorSuggestions();
         }
-        });
+      });
 
-        function displayCollaboratorSuggestions(searchTerm) {
+      function displayCollaboratorSuggestions(searchTerm) {
         const box = createOrGetSuggestionsBox();
         box.innerHTML = "";
 
         const filteredUsers = allUsers.filter(
           (user) =>
-          // Compare IDs as strings for consistency
-          String(user.id) !== String(loggedInId) &&
-          (user.name.toLowerCase().includes(searchTerm) ||
-            user.username.toLowerCase().includes(searchTerm))
+            // Compare IDs as strings for consistency
+            String(user.id) !== String(loggedInId) &&
+            (user.name.toLowerCase().includes(searchTerm) ||
+              user.username.toLowerCase().includes(searchTerm))
         );
 
         if (filteredUsers.length === 0) {
           box.innerHTML =
-          '<p style="text-align: center; color: #777; padding: 10px;">No users found.</p>';
+            '<p style="text-align: center; color: #777; padding: 10px;">No users found.</p>';
           return;
         }
 
@@ -1539,19 +1511,19 @@
           item.dataset.username = user.username;
 
           item.addEventListener("click", () => {
-          if (currentCollaboratorInput) {
-            const currentValue = currentCollaboratorInput.value;
-            const lastAtIndex = currentValue.lastIndexOf("@");
-            // Replace the part after the last '@' with the selected username
-            const newValue =
-            lastAtIndex > -1
-              ? currentValue.substring(0, lastAtIndex) +
-              `@${user.username} `
-              : currentValue + `@${user.username} `;
-            currentCollaboratorInput.value = newValue;
-            currentCollaboratorInput.focus();
-            hideCollaboratorSuggestions();
-          }
+            if (currentCollaboratorInput) {
+              const currentValue = currentCollaboratorInput.value;
+              const lastAtIndex = currentValue.lastIndexOf("@");
+              // Replace the part after the last '@' with the selected username
+              const newValue =
+                lastAtIndex > -1
+                  ? currentValue.substring(0, lastAtIndex) +
+                    `@${user.username} `
+                  : currentValue + `@${user.username} `;
+              currentCollaboratorInput.value = newValue;
+              currentCollaboratorInput.focus();
+              hideCollaboratorSuggestions();
+            }
           });
           box.appendChild(item);
         });
@@ -1561,195 +1533,195 @@
           const inputRect = currentCollaboratorInput.getBoundingClientRect();
           box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
         }
-        }
+      }
 
-        // --- Form Submission Handlers ---
-        document
+      // --- Form Submission Handlers ---
+      document
         .getElementById("goalForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
           const goalName = document.getElementById("goalName").value;
           const goalAbout = document.getElementById("goalAbout").value;
           const goalAmount = parseFloat(
-          document.getElementById("goalAmount").value
+            document.getElementById("goalAmount").value
           );
           const goalTargetDate =
-          document.getElementById("goalTargetDate").value;
+            document.getElementById("goalTargetDate").value;
           const rawCollaborators =
-          document.getElementById("goalCollaborators").value;
+            document.getElementById("goalCollaborators").value;
           const collaboratorsIds = getCollaboratorIds(rawCollaborators);
 
           // Generate a unique numeric ID for the new goal on the client side
           const newId =
-          Math.max(...allGoals.map((g) => Number(g.id) || 0), 0) + 1;
+            Math.max(...allGoals.map((g) => Number(g.id) || 0), 0) + 1;
 
           const newGoal = {
-          id: String(newId), // Assign the new numeric ID
-          name: goalName,
-          about: goalAbout,
-          targetAmount: goalAmount,
-          achievedAmount: 0,
-          targetDate: goalTargetDate,
-          creatorId: loggedInId,
-          collaborators: collaboratorsIds,
+            id: String(newId), // Assign the new numeric ID
+            name: goalName,
+            about: goalAbout,
+            targetAmount: goalAmount,
+            achievedAmount: 0,
+            targetDate: goalTargetDate,
+            creatorId: loggedInId,
+            collaborators: collaboratorsIds,
           };
 
           try {
-          const response = await fetch("http://localhost:3000/goals", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newGoal),
-          });
-          if (!response.ok) {
-            throw new Error(
-            `Failed to save goal to server: ${response.statusText}`
-            );
-          }
-          const savedGoal = await response.json(); // json-server might still assign its own ID
-          console.log("Goal saved successfully to server:", savedGoal);
-          // Use the ID returned by json-server, but handle it consistently for internal use
-          allGoals.push({ ...savedGoal, id: normalizeId(savedGoal.id) });
-          renderGoals();
-          // related_id is passed as consistent ID type (number or string)
-          createNotification(
-            loggedInId,
-            `You created a new goal: "${savedGoal.name}".`,
-            notificationId(savedGoal.id),
-            "goal_created"
-          );
-
-          collaboratorsIds.forEach((id) => {
-            const username = getUsernameById(id);
-            if (username) {
-            // Pass savedGoal.id as consistent ID type
-            createNotification(
-              id,
-              `${getUserNameById(loggedInId)} added you to the goal: "${
-              savedGoal.name
-              }".`,
-              notificationId(savedGoal.id),
-              "goal_companion"
-            );
-            } else {
-            console.warn(
-              `Collaborator ID ${id} not found in users data. Notification not sent.`
-            );
+            const response = await fetch("http://localhost:3000/goals", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newGoal),
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Failed to save goal to server: ${response.statusText}`
+              );
             }
-          });
+            const savedGoal = await response.json(); // json-server might still assign its own ID
+            console.log("Goal saved successfully to server:", savedGoal);
+            // Use the ID returned by json-server, but handle it consistently for internal use
+            allGoals.push({ ...savedGoal, id: normalizeId(savedGoal.id) });
+            renderGoals();
+            // related_id is passed as consistent ID type (number or string)
+            createNotification(
+              loggedInId,
+              `You created a new goal: "${savedGoal.name}".`,
+              notificationId(savedGoal.id),
+              "goal_created"
+            );
+
+            collaboratorsIds.forEach((id) => {
+              const username = getUsernameById(id);
+              if (username) {
+                // Pass savedGoal.id as consistent ID type
+                createNotification(
+                  id,
+                  `${getUserNameById(loggedInId)} added you to the goal: "${
+                    savedGoal.name
+                  }".`,
+                  notificationId(savedGoal.id),
+                  "goal_companion"
+                );
+              } else {
+                console.warn(
+                  `Collaborator ID ${id} not found in users data. Notification not sent.`
+                );
+              }
+            });
           } catch (error) {
-          console.error("Error creating goal:", error);
-          // If server fails, add locally with the client-generated ID
-          allGoals.push(newGoal);
-          renderGoals();
-          console.warn(
-            "Goal added locally due to server error, but not saved to backend."
-          );
+            console.error("Error creating goal:", error);
+            // If server fails, add locally with the client-generated ID
+            allGoals.push(newGoal);
+            renderGoals();
+            console.warn(
+              "Goal added locally due to server error, but not saved to backend."
+            );
           }
 
           this.reset();
           hideModal(addGoalModal);
         });
 
-        document
+      document
         .getElementById("budgetForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
           const budgetCategory =
-          document.getElementById("budgetCategory").value;
+            document.getElementById("budgetCategory").value;
           const budgetAbout = document.getElementById("budgetAbout").value;
           const budgetAmount = parseFloat(
-          document.getElementById("budgetAmount").value
+            document.getElementById("budgetAmount").value
           );
           const budgetFrequency =
-          document.getElementById("budgetFrequency").value;
+            document.getElementById("budgetFrequency").value;
           const budgetEndDate = document.getElementById("budgetEndDate").value;
           const rawCollaborators = document.getElementById(
-          "budgetCollaborators"
+            "budgetCollaborators"
           ).value;
           const collaboratorsIds = getCollaboratorIds(rawCollaborators);
 
           // Generate a unique numeric ID for the new budget on the client side
           const newId =
-          Math.max(...allBudgets.map((b) => Number(b.id) || 0), 0) + 1;
+            Math.max(...allBudgets.map((b) => Number(b.id) || 0), 0) + 1;
 
           const newBudget = {
-          id: String(newId), // Assign the new numeric ID
-          category: budgetCategory,
-          about: budgetAbout,
-          budgetAmount: budgetAmount,
-          spentAmount: 0,
-          frequency: budgetFrequency,
-          endDate: budgetEndDate,
-          creatorId: loggedInId,
-          collaborators: collaboratorsIds,
+            id: String(newId), // Assign the new numeric ID
+            category: budgetCategory,
+            about: budgetAbout,
+            budgetAmount: budgetAmount,
+            spentAmount: 0,
+            frequency: budgetFrequency,
+            endDate: budgetEndDate,
+            creatorId: loggedInId,
+            collaborators: collaboratorsIds,
           };
 
           try {
-          const response = await fetch("http://localhost:3000/budgets", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newBudget),
-          });
-          if (!response.ok) {
-            throw new Error(
-            `Failed to save budget to server: ${response.statusText}`
-            );
-          }
-          const savedBudget = await response.json(); // json-server might still assign its own ID
-          console.log("Budget saved successfully to server:", savedBudget);
-          // Use the ID returned by json-server, but handle it consistently for internal use
-          allBudgets.push({
-            ...savedBudget,
-            id: normalizeId(savedBudget.id),
-          });
-          renderBudgets();
-
-          // related_id is passed as consistent ID type (number or string)
-          createNotification(
-            loggedInId,
-            `You created a new budget: "${savedBudget.category}".`,
-            notificationId(savedBudget.id),
-            "budget_created"
-          );
-
-          collaboratorsIds.forEach((id) => {
-            const username = getUsernameById(id);
-            if (username) {
-            // Pass savedBudget.id as consistent ID type
-            createNotification(
-              id,
-              `${getUserNameById(loggedInId)} added you to the budget: "${
-              savedBudget.category
-              }".`,
-              notificationId(savedBudget.id),
-              "budget_companion"
-            );
-            } else {
-            console.warn(
-              `Collaborator ID ${id} not found in users data. Notification not sent.`
-            );
+            const response = await fetch("http://localhost:3000/budgets", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newBudget),
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Failed to save budget to server: ${response.statusText}`
+              );
             }
-          });
+            const savedBudget = await response.json(); // json-server might still assign its own ID
+            console.log("Budget saved successfully to server:", savedBudget);
+            // Use the ID returned by json-server, but handle it consistently for internal use
+            allBudgets.push({
+              ...savedBudget,
+              id: normalizeId(savedBudget.id),
+            });
+            renderBudgets();
+
+            // related_id is passed as consistent ID type (number or string)
+            createNotification(
+              loggedInId,
+              `You created a new budget: "${savedBudget.category}".`,
+              notificationId(savedBudget.id),
+              "budget_created"
+            );
+
+            collaboratorsIds.forEach((id) => {
+              const username = getUsernameById(id);
+              if (username) {
+                // Pass savedBudget.id as consistent ID type
+                createNotification(
+                  id,
+                  `${getUserNameById(loggedInId)} added you to the budget: "${
+                    savedBudget.category
+                  }".`,
+                  notificationId(savedBudget.id),
+                  "budget_companion"
+                );
+              } else {
+                console.warn(
+                  `Collaborator ID ${id} not found in users data. Notification not sent.`
+                );
+              }
+            });
           } catch (error) {
-          console.error("Error creating budget:", error);
-          // If server fails, add locally with the client-generated ID
-          allBudgets.push(newBudget);
-          renderBudgets();
-          console.warn(
-            "Budget added locally due to server error, but not saved to backend."
-          );
+            console.error("Error creating budget:", error);
+            // If server fails, add locally with the client-generated ID
+            allBudgets.push(newBudget);
+            renderBudgets();
+            console.warn(
+              "Budget added locally due to server error, but not saved to backend."
+            );
           }
 
           this.reset();
           hideModal(addBudgetModal);
         });
 
-        // --- UI Rendering Functions ---
-        function renderGoals() {
+      // --- UI Rendering Functions ---
+      function renderGoals() {
         const goalsList = document.getElementById("goalsList");
         goalsList.innerHTML = "";
 
@@ -1757,28 +1729,28 @@
           // Ensure consistent string comparisons for filtering
           const isCreator = String(goal.creatorId) === String(loggedInId);
           const isCollaborator =
-          goal.collaborators &&
-          goal.collaborators.some(
-            (colId) => String(colId) === String(loggedInId)
-          );
+            goal.collaborators &&
+            goal.collaborators.some(
+              (colId) => String(colId) === String(loggedInId)
+            );
           if (!isCreator && !isCollaborator) return false;
 
           const searchText = goalFilterText.toLowerCase();
           return (
-          goal.name.toLowerCase().includes(searchText) ||
-          (goal.about && goal.about.toLowerCase().includes(searchText))
+            goal.name.toLowerCase().includes(searchText) ||
+            (goal.about && goal.about.toLowerCase().includes(searchText))
           );
         });
 
         if (filteredGoals.length === 0) {
           goalsList.innerHTML =
-          '<p style="text-align: center; color: #777; margin-top: 20px;">No goals found matching your filter. Click "Add Goal" to get started!</p>';
+            '<p style="text-align: center; color: #777; margin-top: 20px;">No goals found matching your filter. Click "Add Goal" to get started!</p>';
           return;
         }
 
         filteredGoals.forEach((goal) => {
           const percentComplete =
-          (goal.achievedAmount / goal.targetAmount) * 100;
+            (goal.achievedAmount / goal.targetAmount) * 100;
           const statusColor = percentComplete >= 100 ? "#28a745" : "#007bff";
 
           const goalItem = document.createElement("div");
@@ -1801,7 +1773,7 @@
                   )}%; background-color: ${statusColor};"></div>
                 </div>
                 <div class="progress-text" style="color: ${statusColor};">${Math.round(
-          percentComplete
+            percentComplete
           )}% Complete by ${goal.targetDate || "N/A"}</div>
               </div>
               </div>
@@ -1812,26 +1784,24 @@
             </div>
             ${
               goal.collaborators && goal.collaborators.length > 0
-              ? `
+                ? `
             <div class="companions-list">
               <span>Companions:</span>
               ${goal.collaborators
                 .map(
-                (id) =>
-                  `<span class="companion">${getUserNameById(
-                  id
-                  )}</span>`
+                  (id) =>
+                    `<span class="companion">${getUserNameById(id)}</span>`
                 )
                 .join("")}
             </div>`
-              : ""
+                : ""
             }
             `;
           goalsList.appendChild(goalItem);
         });
-        }
+      }
 
-        function renderBudgets() {
+      function renderBudgets() {
         const budgetsList = document.getElementById("budgetsList");
         budgetsList.innerHTML = "";
 
@@ -1839,16 +1809,16 @@
           // Ensure consistent string comparisons for filtering
           const isCreator = String(budget.creatorId) === String(loggedInId);
           const isCollaborator =
-          budget.collaborators &&
-          budget.collaborators.some(
-            (colId) => String(colId) === String(loggedInId)
-          );
+            budget.collaborators &&
+            budget.collaborators.some(
+              (colId) => String(colId) === String(loggedInId)
+            );
           if (!isCreator && !isCollaborator) return false;
 
           const searchText = budgetFilterText.toLowerCase();
           return (
-          budget.category.toLowerCase().includes(searchText) ||
-          (budget.about && budget.about.toLowerCase().includes(searchText))
+            budget.category.toLowerCase().includes(searchText) ||
+            (budget.about && budget.about.toLowerCase().includes(searchText))
           );
         });
 
@@ -1857,7 +1827,7 @@
 
         if (filteredBudgets.length === 0) {
           budgetsList.innerHTML =
-          '<p style="text-align: center; color: #777; margin-top: 20px;">No budgets found matching your filter. Click "Add Budget" to get started!</p>';
+            '<p style="text-align: center; color: #777; margin-top: 20px;">No budgets found matching your filter. Click "Add Budget" to get started!</p>';
         }
 
         filteredBudgets.forEach((budget) => {
@@ -1869,12 +1839,12 @@
           let statusText = `${Math.round(percentUsed)}% of budget used`;
 
           if (percentUsed > 100) {
-          statusColor = "#dc3545";
-          statusText = `${Math.round(
-            percentUsed
-          )}% of budget used (Over budget!)`;
+            statusColor = "#dc3545";
+            statusText = `${Math.round(
+              percentUsed
+            )}% of budget used (Over budget!)`;
           } else if (percentUsed >= 80) {
-          statusColor = "#ffc107";
+            statusColor = "#ffc107";
           }
 
           const budgetItem = document.createElement("div");
@@ -1906,19 +1876,17 @@
             </div>
             ${
               budget.collaborators && budget.collaborators.length > 0
-              ? `
+                ? `
             <div class="companions-list">
               <span>Companions:</span>
               ${budget.collaborators
                 .map(
-                (id) =>
-                  `<span class="companion">${getUserNameById(
-                  id
-                  )}</span>`
+                  (id) =>
+                    `<span class="companion">${getUserNameById(id)}</span>`
                 )
                 .join("")}
             </div>`
-              : ""
+                : ""
             }
             `;
           budgetsList.appendChild(budgetItem);
@@ -1930,12 +1898,12 @@
         document.getElementById(
           "totalSpent"
         ).textContent = `$${totalSpentAmount.toLocaleString()}`;
-        }
+      }
 
-        // --- Delete All Logic with Confirmation Modal ---
-        let currentDeleteTarget = "";
+      // --- Delete All Logic with Confirmation Modal ---
+      let currentDeleteTarget = "";
 
-        document
+      document
         .getElementById("deleteAllGoalsBtn")
         .addEventListener("click", () => {
           currentDeleteTarget = "goals";
@@ -1943,7 +1911,7 @@
           showModal(confirmationModal);
         });
 
-        document
+      document
         .getElementById("deleteAllBudgetsBtn")
         .addEventListener("click", () => {
           currentDeleteTarget = "budgets";
@@ -1951,161 +1919,167 @@
           showModal(confirmationModal);
         });
 
-        confirmationModal
+      confirmationModal
         .querySelector(".confirm-yes")
         .addEventListener("click", async () => {
           const deletePromises = [];
           let itemsToDelete = [];
 
           if (currentDeleteTarget === "goals") {
-          // Filter to include only goals created/collaborated by the logged-in user
-          itemsToDelete = allGoals.filter(
-            (g) =>
-            String(g.creatorId) === String(loggedInId) ||
-            (g.collaborators &&
-              g.collaborators.some(
-              (colId) => String(colId) === String(loggedInId)
-              ))
-          );
-          for (const goal of itemsToDelete) {
-            deletePromises.push(
-            (async () => {
-              try {
-              console.log(
-                `Attempting to delete goal with ID: ${
-                goal.id
-                }. Sending DELETE request to: http://localhost:3000/goals/${apiId(
-                goal.id
-                )}`
-              ); // Log the URL
-              const response = await fetch(
-                `http://localhost:3000/goals/${apiId(goal.id)}`,
-                {
-                method: "DELETE",
-                }
-              );
-              if (!response.ok) {
-                throw new Error(
-                `Failed to delete goal ${goal.id}: ${response.statusText}`
-                );
-              }
-              console.log(`Goal ${goal.id} deleted from server.`);
-              return true; // Indicate success
-              } catch (error) {
-              console.error(`Error deleting goal ${goal.id}:`, error);
-              return false; // Indicate failure
-              }
-            })()
+            // Filter to include only goals created/collaborated by the logged-in user
+            itemsToDelete = allGoals.filter(
+              (g) =>
+                String(g.creatorId) === String(loggedInId) ||
+                (g.collaborators &&
+                  g.collaborators.some(
+                    (colId) => String(colId) === String(loggedInId)
+                  ))
             );
-          }
-          const results = await Promise.allSettled(deletePromises);
-          const successfullyDeletedIds = itemsToDelete
-            .filter(
-            (_, index) =>
-              results[index].status === "fulfilled" && results[index].value
-            )
-            .map((item) => String(item.id));
-          allGoals = allGoals.filter(
-            (g) => !successfullyDeletedIds.includes(String(g.id))
-          );
-          renderGoals();
-          console.log("All relevant goals deletion attempts completed.");
+            for (const goal of itemsToDelete) {
+              deletePromises.push(
+                (async () => {
+                  try {
+                    console.log(
+                      `Attempting to delete goal with ID: ${
+                        goal.id
+                      }. Sending DELETE request to: http://localhost:3000/goals/${apiId(
+                        goal.id
+                      )}`
+                    ); // Log the URL
+                    const response = await fetch(
+                      `http://localhost:3000/goals/${apiId(goal.id)}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!response.ok) {
+                      throw new Error(
+                        `Failed to delete goal ${goal.id}: ${response.statusText}`
+                      );
+                    }
+                    console.log(`Goal ${goal.id} deleted from server.`);
+                    return true; // Indicate success
+                  } catch (error) {
+                    console.error(`Error deleting goal ${goal.id}:`, error);
+                    return false; // Indicate failure
+                  }
+                })()
+              );
+            }
+            const results = await Promise.allSettled(deletePromises);
+            const successfullyDeletedIds = itemsToDelete
+              .filter(
+                (_, index) =>
+                  results[index].status === "fulfilled" && results[index].value
+              )
+              .map((item) => String(item.id));
+            allGoals = allGoals.filter(
+              (g) => !successfullyDeletedIds.includes(String(g.id))
+            );
+            renderGoals();
+            console.log("All relevant goals deletion attempts completed.");
           } else if (currentDeleteTarget === "budgets") {
-          // Filter to include only budgets created/collaborated by the logged-in user
-          itemsToDelete = allBudgets.filter(
-            (b) =>
-            String(b.creatorId) === String(loggedInId) ||
-            (b.collaborators &&
-              b.collaborators.some(
-              (colId) => String(colId) === String(loggedInId)
-              ))
-          );
-          for (const budget of itemsToDelete) {
-            deletePromises.push(
-            (async () => {
-              try {
-              console.log(
-                `Attempting to delete budget with ID: ${
-                budget.id
-                }. Sending DELETE request to: http://localhost:3000/budgets/${apiId(
-                budget.id
-                )}`
-              ); // Log the URL
-              const response = await fetch(
-                `http://localhost:3000/budgets/${apiId(budget.id)}`,
-                {
-                method: "DELETE",
-                }
-              );
-              if (!response.ok) {
-                throw new Error(
-                `Failed to delete budget ${budget.id}: ${response.statusText}`
-                );
-              }
-              console.log(`Budget ${budget.id} deleted from server.`);
-              return true; // Indicate success
-              } catch (error) {
-              console.error(`Error deleting budget ${budget.id}:`, error);
-              return false; // Indicate failure
-              }
-            })()
+            // Filter to include only budgets created/collaborated by the logged-in user
+            itemsToDelete = allBudgets.filter(
+              (b) =>
+                String(b.creatorId) === String(loggedInId) ||
+                (b.collaborators &&
+                  b.collaborators.some(
+                    (colId) => String(colId) === String(loggedInId)
+                  ))
             );
-          }
-          const results = await Promise.allSettled(deletePromises);
-          const successfullyDeletedIds = itemsToDelete
-            .filter(
-            (_, index) =>
-              results[index].status === "fulfilled" && results[index].value
-            )
-            .map((item) => String(item.id));
-          allBudgets = allBudgets.filter(
-            (b) => !successfullyDeletedIds.includes(String(b.id))
-          );
-          renderBudgets();
-          console.log("All relevant budgets deletion attempts completed.");
+            for (const budget of itemsToDelete) {
+              deletePromises.push(
+                (async () => {
+                  try {
+                    console.log(
+                      `Attempting to delete budget with ID: ${
+                        budget.id
+                      }. Sending DELETE request to: http://localhost:3000/budgets/${apiId(
+                        budget.id
+                      )}`
+                    ); // Log the URL
+                    const response = await fetch(
+                      `http://localhost:3000/budgets/${apiId(budget.id)}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!response.ok) {
+                      throw new Error(
+                        `Failed to delete budget ${budget.id}: ${response.statusText}`
+                      );
+                    }
+                    console.log(`Budget ${budget.id} deleted from server.`);
+                    return true; // Indicate success
+                  } catch (error) {
+                    console.error(`Error deleting budget ${budget.id}:`, error);
+                    return false; // Indicate failure
+                  }
+                })()
+              );
+            }
+            const results = await Promise.allSettled(deletePromises);
+            const successfullyDeletedIds = itemsToDelete
+              .filter(
+                (_, index) =>
+                  results[index].status === "fulfilled" && results[index].value
+              )
+              .map((item) => String(item.id));
+            allBudgets = allBudgets.filter(
+              (b) => !successfullyDeletedIds.includes(String(b.id))
+            );
+            renderBudgets();
+            console.log("All relevant budgets deletion attempts completed.");
           }
           hideModal(confirmationModal);
         });
 
-        // --- Single Item Delete/Edit Logic (Event Delegation) ---
-        document
+      // --- Single Item Delete/Edit Logic (Event Delegation) ---
+      document
         .getElementById("goalsList")
         .addEventListener("click", async (e) => {
           if (e.target.closest(".delete-item")) {
-          const item = e.target.closest(".box");
-          // Get data-id as string for deletion URL
-          const itemId = item.dataset.id; // This is already a string from apiId in renderGoals
+            const item = e.target.closest(".box");
+            // Get data-id as string for deletion URL
+            const itemId = item.dataset.id; // This is already a string from apiId in renderGoals
 
-          try {
-            console.log(
-            `Attempting to delete goal with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/goals/${itemId}`
-            ); // Log the URL
-            const response = await fetch(
-            `http://localhost:3000/goals/${itemId}`,
-            {
-              method: "DELETE",
+            try {
+              console.log(
+                `Attempting to delete goal with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/goals/${itemId}`
+              ); // Log the URL
+              const response = await fetch(
+                `http://localhost:3000/goals/${itemId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              createNotification(
+                loggedInId,
+                `You deleted the goal: "${item.querySelector("h1").textContent}".`,
+                notificationId(itemId),
+                "goal_deleted"
+              );
+              if (!response.ok) {
+                throw new Error(
+                  `Failed to delete goal ${itemId}: ${response.statusText}`
+                );
+              }
+              allGoals = allGoals.filter((goal) => String(goal.id) !== itemId); // Filter by string ID from data-id
+              renderGoals();
+              console.log(
+                `Deleted goal with ID: ${itemId} from server and locally.`
+              );
+            } catch (error) {
+              console.error(`Error deleting goal ${itemId}:`, error);
+              console.warn(
+                "Deletion failed on server. Goal not removed locally to reflect actual state."
+              );
             }
-            );
-            if (!response.ok) {
-            throw new Error(
-              `Failed to delete goal ${itemId}: ${response.statusText}`
-            );
-            }
-            allGoals = allGoals.filter((goal) => String(goal.id) !== itemId); // Filter by string ID from data-id
-            renderGoals();
-            console.log(
-            `Deleted goal with ID: ${itemId} from server and locally.`
-            );
-          } catch (error) {
-            console.error(`Error deleting goal ${itemId}:`, error);
-            console.warn(
-            "Deletion failed on server. Goal not removed locally to reflect actual state."
-            );
-          }
           } else if (e.target.closest(".edit-item")) {
-          const item = e.target.closest(".box");
-          const itemId = item.dataset.id;
-          console.log(`Editing goal with ID: ${itemId} (simulated).`);
+            const item = e.target.closest(".box");
+            const itemId = item.dataset.id;
+            console.log(`Editing goal with ID: ${itemId} (simulated).`);
             // --- Edit Goal Modal Logic ---
             // Find the goal object by ID
             const goalToEdit = allGoals.find((g) => String(g.id) === itemId);
@@ -2114,18 +2088,23 @@
               return;
             }
             // Pre-fill the edit form fields
-            document.getElementById("editGoalName").value = goalToEdit.name || "";
-            document.getElementById("editGoalAbout").value = goalToEdit.about || "";
-            document.getElementById("editGoalAmount").value = goalToEdit.targetAmount || "";
-            document.getElementById("editGoalTargetDate").value = goalToEdit.targetDate || "";
-            document.getElementById("editGoalCollaborators").value =
-              (goalToEdit.collaborators || [])
-                .map((id) => {
-                  const username = getUsernameById(id);
-                  return username ? `@${username}` : "";
-                })
-                .filter(Boolean)
-                .join(" ");
+            document.getElementById("editGoalName").value =
+              goalToEdit.name || "";
+            document.getElementById("editGoalAbout").value =
+              goalToEdit.about || "";
+            document.getElementById("editGoalAmount").value =
+              goalToEdit.targetAmount || "";
+            document.getElementById("editGoalTargetDate").value =
+              goalToEdit.targetDate || "";
+            document.getElementById("editGoalCollaborators").value = (
+              goalToEdit.collaborators || []
+            )
+              .map((id) => {
+                const username = getUsernameById(id);
+                return username ? `@${username}` : "";
+              })
+              .filter(Boolean)
+              .join(" ");
 
             showModal(document.getElementById("editGoalModal"));
 
@@ -2135,11 +2114,18 @@
               editForm.removeEventListener("submit", editForm._editHandler);
               editForm._editHandler = null;
             }
-
             // --- Enable collaborator suggestions for edit modal ---
-            const editGoalCollaboratorsInput = document.getElementById("editGoalCollaborators");
-            editGoalCollaboratorsInput.removeEventListener("input", handleCollaboratorInput);
-            editGoalCollaboratorsInput.addEventListener("input", handleCollaboratorInput);
+            const editGoalCollaboratorsInput = document.getElementById(
+              "editGoalCollaborators"
+            );
+            editGoalCollaboratorsInput.removeEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+            editGoalCollaboratorsInput.addEventListener(
+              "input",
+              handleCollaboratorInput
+            );
 
             // Add a new submit handler for editing
             const editHandler = async function (e) {
@@ -2148,9 +2134,13 @@
                 ...goalToEdit,
                 name: document.getElementById("editGoalName").value,
                 about: document.getElementById("editGoalAbout").value,
-                targetAmount: parseFloat(document.getElementById("editGoalAmount").value),
+                targetAmount: parseFloat(
+                  document.getElementById("editGoalAmount").value
+                ),
                 targetDate: document.getElementById("editGoalTargetDate").value,
-                collaborators: getCollaboratorIds(document.getElementById("editGoalCollaborators").value),
+                collaborators: getCollaboratorIds(
+                  document.getElementById("editGoalCollaborators").value
+                ),
               };
               try {
                 const response = await fetch(
@@ -2161,12 +2151,60 @@
                     body: JSON.stringify(updatedGoal),
                   }
                 );
-                
                 if (!response.ok) throw new Error("Failed to update goal.");
                 const savedGoal = await response.json();
+                // Compare old and new values to build a change summary
+                let changes = [];
+                if (goalToEdit.name !== updatedGoal.name)
+                  changes.push(`Name: "${goalToEdit.name}" → "${updatedGoal.name}"`);
+                if (goalToEdit.about !== updatedGoal.about)
+                  changes.push(`About: "${goalToEdit.about}" → "${updatedGoal.about}"`);
+                if (goalToEdit.targetAmount !== updatedGoal.targetAmount)
+                  changes.push(
+                  `Target Amount: $${goalToEdit.targetAmount} → $${updatedGoal.targetAmount}`
+                  );
+                if (goalToEdit.targetDate !== updatedGoal.targetDate)
+                  changes.push(
+                  `Target Date: ${goalToEdit.targetDate || "N/A"} → ${updatedGoal.targetDate || "N/A"}`
+                  );
+                // Compare collaborators (as sets of usernames)
+                const oldCollabs = (goalToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
+                const newCollabs = (updatedGoal.collaborators || []).map(getUsernameById).filter(Boolean);
+                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                  changes.push(
+                  `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                  );
+                }
+                let changeMsg =
+                  changes.length > 0
+                  ? "Goal updated:\n" + changes.join("\n")
+                  : "Goal updated (no visible changes).";
+                // Send notification to self (editor)
+                createNotification(
+                  loggedInId,
+                  changeMsg,
+                  notificationId(savedGoal.id),
+                  "goal_edited"
+                );
+                // Send notification to collaborators (except self)
+                (updatedGoal.collaborators || []).forEach((id) => {
+                  if (String(id) !== String(loggedInId)) {
+                  createNotification(
+                    id,
+                    `${getUserNameById(loggedInId)} edited the goal: "${savedGoal.name}".\n${changeMsg}`,
+                    notificationId(savedGoal.id),
+                    "goal_edited"
+                  );
+                  }
+                });
+                console.log("Goal updated successfully:", savedGoal);
                 // Update local array
                 const idx = allGoals.findIndex((g) => String(g.id) === itemId);
-                if (idx !== -1) allGoals[idx] = { ...savedGoal, id: normalizeId(savedGoal.id) };
+                if (idx !== -1)
+                  allGoals[idx] = {
+                    ...savedGoal,
+                    id: normalizeId(savedGoal.id),
+                  };
                 renderGoals();
               } catch (err) {
                 alert("Failed to update goal.");
@@ -2180,7 +2218,8 @@
             editForm._editHandler = editHandler;
 
             // Close button/cancel for edit modal
-            document.getElementById("editGoalModal")
+            document
+              .getElementById("editGoalModal")
               .querySelectorAll(".close-btn, .cancel-btn")
               .forEach((btn) => {
                 btn.onclick = () => {
@@ -2189,77 +2228,87 @@
                   editForm._editHandler = null;
                 };
               });
-          hideModal(addGoalModal); // Just closing the modal for now as edit functionality is not implemented
+            hideModal(addGoalModal); // Just closing the modal for now as edit functionality is not implemented
           }
         });
 
-        document
+      document
         .getElementById("budgetsList")
         .addEventListener("click", async (e) => {
           if (e.target.closest(".delete-item")) {
-          const item = e.target.closest(".box");
-          // Get data-id as string for deletion URL
-          const itemId = item.dataset.id; // This is already a string from apiId in renderBudgets
+            const item = e.target.closest(".box");
+            // Get data-id as string for deletion URL
+            const itemId = item.dataset.id; // This is already a string from apiId in renderBudgets
 
-          try {
-            console.log(
-            `Attempting to delete budget with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/budgets/${itemId}`
-            ); // Log the URL
-            const response = await fetch(
-            `http://localhost:3000/budgets/${itemId}`,
-            {
-              method: "DELETE",
+            try {
+              console.log(
+                `Attempting to delete budget with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/budgets/${itemId}`
+              ); // Log the URL
+              const response = await fetch(
+                `http://localhost:3000/budgets/${itemId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              createNotification(
+                loggedInId,
+                `You deleted the budget: "${
+                  item.querySelector("h1").textContent
+                }".`,
+                notificationId(itemId),
+                "budget_deleted"
+              );
+              if (!response.ok) {
+                throw new Error(
+                  `Failed to delete budget ${itemId}: ${response.statusText}`
+                );
+              }
+              allBudgets = allBudgets.filter(
+                (budget) => String(budget.id) !== itemId
+              ); // Filter by string ID from data-id
+              renderBudgets();
+              console.log(
+                `Deleted budget with ID: ${itemId} from server and locally.`
+              );
+            } catch (error) {
+              console.error(`Error deleting budget ${itemId}:`, error);
+              console.warn(
+                "Deletion failed on server. Budget not removed locally to reflect actual state."
+              );
             }
-            );
-            createNotification(
-              loggedInId,
-              `You deleted the budget: "${item.querySelector("h1").textContent}".`,
-              notificationId(itemId),
-              "budget_deleted"
-            );
-            if (!response.ok) {
-            throw new Error(
-              `Failed to delete budget ${itemId}: ${response.statusText}`
-            );
-            }
-            allBudgets = allBudgets.filter(
-            (budget) => String(budget.id) !== itemId
-            ); // Filter by string ID from data-id
-            renderBudgets();
-            console.log(
-            `Deleted budget with ID: ${itemId} from server and locally.`
-            );
-          } catch (error) {
-            console.error(`Error deleting budget ${itemId}:`, error);
-            console.warn(
-            "Deletion failed on server. Budget not removed locally to reflect actual state."
-            );
-          }
           } else if (e.target.closest(".edit-item")) {
-          const item = e.target.closest(".box");
-          const itemId = item.dataset.id;
-          console.log(`Editing budget with ID: ${itemId} (simulated).`);
+            const item = e.target.closest(".box");
+            const itemId = item.dataset.id;
+            console.log(`Editing budget with ID: ${itemId} (simulated).`);
             // --- Edit Budget Modal Logic ---
             // Find the budget object by ID
-            const budgetToEdit = allBudgets.find((b) => String(b.id) === itemId);
+            const budgetToEdit = allBudgets.find(
+              (b) => String(b.id) === itemId
+            );
             if (!budgetToEdit) {
               alert("Budget not found.");
               return;
             }
             // Pre-fill the edit form fields
-            document.getElementById("editBudgetCategory").value = budgetToEdit.category || "";
-            document.getElementById("editBudgetAbout").value = budgetToEdit.about || "";
-            document.getElementById("editBudgetAmount").value = budgetToEdit.budgetAmount || "";
-            document.getElementById("editBudgetFrequency").value = budgetToEdit.frequency || "monthly";
-            document.getElementById("editBudgetEndDate").value = budgetToEdit.endDate || "";
-            document.getElementById("editBudgetCollaborators").value =
-              (budgetToEdit.collaborators || [])
-                .map((id) => {
-                  const username = getUsernameById(id);
-                  return username ? `@${username}` : "";
-                })
-                .filter(Boolean)
-                .join(" ");
+            document.getElementById("editBudgetCategory").value =
+              budgetToEdit.category || "";
+            document.getElementById("editBudgetAbout").value =
+              budgetToEdit.about || "";
+            document.getElementById("editBudgetAmount").value =
+              budgetToEdit.budgetAmount || "";
+            document.getElementById("editBudgetFrequency").value =
+              budgetToEdit.frequency || "monthly";
+            document.getElementById("editBudgetEndDate").value =
+              budgetToEdit.endDate || "";
+            document.getElementById("editBudgetCollaborators").value = (
+              budgetToEdit.collaborators || []
+            )
+              .map((id) => {
+                const username = getUsernameById(id);
+                return username ? `@${username}` : "";
+              })
+              .filter(Boolean)
+              .join(" ");
 
             showModal(document.getElementById("editBudgetModal"));
 
@@ -2271,9 +2320,17 @@
             }
 
             // Enable collaborator suggestions for edit modal
-            const editBudgetCollaboratorsInput = document.getElementById("editBudgetCollaborators");
-            editBudgetCollaboratorsInput.removeEventListener("input", handleCollaboratorInput);
-            editBudgetCollaboratorsInput.addEventListener("input", handleCollaboratorInput);
+            const editBudgetCollaboratorsInput = document.getElementById(
+              "editBudgetCollaborators"
+            );
+            editBudgetCollaboratorsInput.removeEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+            editBudgetCollaboratorsInput.addEventListener(
+              "input",
+              handleCollaboratorInput
+            );
 
             // Add a new submit handler for editing
             const editHandler = async function (e) {
@@ -2282,10 +2339,14 @@
                 ...budgetToEdit,
                 category: document.getElementById("editBudgetCategory").value,
                 about: document.getElementById("editBudgetAbout").value,
-                budgetAmount: parseFloat(document.getElementById("editBudgetAmount").value),
+                budgetAmount: parseFloat(
+                  document.getElementById("editBudgetAmount").value
+                ),
                 frequency: document.getElementById("editBudgetFrequency").value,
                 endDate: document.getElementById("editBudgetEndDate").value,
-                collaborators: getCollaboratorIds(document.getElementById("editBudgetCollaborators").value),
+                collaborators: getCollaboratorIds(
+                  document.getElementById("editBudgetCollaborators").value
+                ),
               };
               try {
                 const response = await fetch(
@@ -2298,24 +2359,62 @@
                 );
                 if (!response.ok) throw new Error("Failed to update budget.");
                 const savedBudget = await response.json();
-                // Update local array
-                const idx = allBudgets.findIndex((b) => String(b.id) === itemId);
-                if (idx !== -1) allBudgets[idx] = { ...savedBudget, id: normalizeId(savedBudget.id) };
-                renderBudgets();
-
+                // Compare old and new values to build a change summary
+                let changes = [];
+                if (budgetToEdit.category !== updatedBudget.category)
+                  changes.push(`Category: "${budgetToEdit.category}" → "${updatedBudget.category}"`);
+                if (budgetToEdit.about !== updatedBudget.about)
+                  changes.push(`About: "${budgetToEdit.about}" → "${updatedBudget.about}"`);
+                if (budgetToEdit.budgetAmount !== updatedBudget.budgetAmount)
+                  changes.push(
+                    `Budget Amount: $${budgetToEdit.budgetAmount} → $${updatedBudget.budgetAmount}`
+                  );
+                if (budgetToEdit.frequency !== updatedBudget.frequency)
+                  changes.push(
+                    `Frequency: ${budgetToEdit.frequency || "N/A"} → ${updatedBudget.frequency || "N/A"}`
+                  );
+                if (budgetToEdit.endDate !== updatedBudget.endDate)
+                  changes.push(
+                    `End Date: ${budgetToEdit.endDate || "N/A"} → ${updatedBudget.endDate || "N/A"}`
+                  );
+                // Compare collaborators (as sets of usernames)
+                const oldCollabs = (budgetToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
+                const newCollabs = (updatedBudget.collaborators || []).map(getUsernameById).filter(Boolean);
+                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                  changes.push(
+                    `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                  );
+                }
+                let changeMsg =
+                  changes.length > 0
+                    ? "Budget updated:\n" + changes.join("\n")
+                    : "Budget updated (no visible changes).";
                 // Send notification to self (editor)
                 createNotification(
                   loggedInId,
-                  `You edited the budget: "${savedBudget.category}".`,
+                  changeMsg,
                   notificationId(savedBudget.id),
                   "budget_edited"
                 );
+                console.log("Budget updated successfully:", savedBudget);
+                // Update local array
+                const idx = allBudgets.findIndex(
+                  (b) => String(b.id) === itemId
+                );
+                if (idx !== -1)
+                  allBudgets[idx] = {
+                    ...savedBudget,
+                    id: normalizeId(savedBudget.id),
+                  };
+                renderBudgets();
                 // Send notification to collaborators (except self)
                 (updatedBudget.collaborators || []).forEach((id) => {
                   if (String(id) !== String(loggedInId)) {
                     createNotification(
                       id,
-                      `${getUserNameById(loggedInId)} edited the budget: "${savedBudget.category}".`,
+                      `${getUserNameById(loggedInId)} edited the budget: "${
+                        savedBudget.category
+                      }".`,
                       notificationId(savedBudget.id),
                       "budget_edited"
                     );
@@ -2333,7 +2432,8 @@
             editForm._editHandler = editHandler;
 
             // Close button/cancel for edit modal
-            document.getElementById("editBudgetModal")
+            document
+              .getElementById("editBudgetModal")
               .querySelectorAll(".close-btn, .cancel-btn")
               .forEach((btn) => {
                 btn.onclick = () => {
@@ -2342,27 +2442,27 @@
                   editForm._editHandler = null;
                 };
               });
-          hideModal(addBudgetModal); // Just closing the modal for now as edit functionality is not implemented
+            hideModal(addBudgetModal); // Just closing the modal for now as edit functionality is not implemented
           }
         });
 
-        // --- Filter Input Event Listeners ---
-        document
+      // --- Filter Input Event Listeners ---
+      document
         .getElementById("goalFilterInput")
         .addEventListener("input", (e) => {
           goalFilterText = e.target.value;
           renderGoals();
         });
 
-        document
+      document
         .getElementById("budgetFilterInput")
         .addEventListener("input", (e) => {
           budgetFilterText = e.target.value;
           renderBudgets();
         });
 
-        // --- Initial Data Fetch (from json-server or fallback) ---
-        document.addEventListener("DOMContentLoaded", async () => {
+      // --- Initial Data Fetch (from json-server or fallback) ---
+      document.addEventListener("DOMContentLoaded", async () => {
         const endpoints = {
           users: "http://localhost:3000/users",
           notifications: "http://localhost:3000/notifications",
@@ -2374,14 +2474,14 @@
         const fetchedData = {};
         const fetchPromises = Object.keys(endpoints).map(async (key) => {
           try {
-          const response = await fetch(endpoints[key]);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch ${key}: ${response.statusText}`);
-          }
-          fetchedData[key] = await response.json();
+            const response = await fetch(endpoints[key]);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch ${key}: ${response.statusText}`);
+            }
+            fetchedData[key] = await response.json();
           } catch (error) {
-          console.error(`Error fetching data for ${key}:`, error);
-          fetchedData[key] = []; // Fallback to empty array on error
+            console.error(`Error fetching data for ${key}:`, error);
+            fetchedData[key] = []; // Fallback to empty array on error
           }
         });
 
@@ -2390,76 +2490,76 @@
         // Apply normalizeId consistently for all incoming data IDs
         allUsers =
           fetchedData.users.length > 0
-          ? fetchedData.users.map((u) => ({ ...u, id: normalizeId(u.id) }))
-          : [
-            {
-              id: 1,
-              name: "Alice Smith",
-              username: "alice",
-              dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=AS",
-            },
-            {
-              id: 2,
-              name: "Bob Johnson",
-              username: "bob",
-              dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=BJ",
-            },
-            {
-              id: 3,
-              name: "Charlie Brown",
-              username: "charlie",
-              dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=CB",
-            },
-            {
-              id: loggedInId,
-              name: "Current User",
-              username: "currentuser",
-              dp: "https://placehold.co/40x40/007BFF/FFFFFF?text=CU",
-            },
-            ];
+            ? fetchedData.users.map((u) => ({ ...u, id: normalizeId(u.id) }))
+            : [
+                {
+                  id: 1,
+                  name: "Alice Smith",
+                  username: "alice",
+                  dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=AS",
+                },
+                {
+                  id: 2,
+                  name: "Bob Johnson",
+                  username: "bob",
+                  dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=BJ",
+                },
+                {
+                  id: 3,
+                  name: "Charlie Brown",
+                  username: "charlie",
+                  dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=CB",
+                },
+                {
+                  id: loggedInId,
+                  name: "Current User",
+                  username: "currentuser",
+                  dp: "https://placehold.co/40x40/007BFF/FFFFFF?text=CU",
+                },
+              ];
         allNotifications =
           fetchedData.notifications.map((n) => ({
-          ...n,
-          user_id: notificationId(n.user_id),
-          sender_id: notificationId(n.sender_id),
-          related_id: notificationId(n.related_id),
+            ...n,
+            user_id: notificationId(n.user_id),
+            sender_id: notificationId(n.sender_id),
+            related_id: notificationId(n.related_id),
           })) || [];
         allGoals =
           fetchedData.goals.map((g) => ({
-          ...g,
-          id: normalizeId(g.id),
-          creatorId: normalizeId(g.creatorId),
-          collaborators: g.collaborators
-            ? g.collaborators.map(normalizeId)
-            : [],
+            ...g,
+            id: normalizeId(g.id),
+            creatorId: normalizeId(g.creatorId),
+            collaborators: g.collaborators
+              ? g.collaborators.map(normalizeId)
+              : [],
           })) || [];
         allBudgets =
           fetchedData.budgets.map((b) => ({
-          ...b,
-          id: normalizeId(b.id),
-          creatorId: normalizeId(b.creatorId),
-          collaborators: b.collaborators
-            ? b.collaborators.map(normalizeId)
-            : [],
+            ...b,
+            id: normalizeId(b.id),
+            creatorId: normalizeId(b.creatorId),
+            collaborators: b.collaborators
+              ? b.collaborators.map(normalizeId)
+              : [],
           })) || [];
         allSavings = fetchedData.savings || [];
 
         // Filter initial data based on loggedInId (ensure consistent string comparison)
         allGoals = allGoals.filter(
           (g) =>
-          String(g.creatorId) === String(loggedInId) ||
-          (g.collaborators &&
-            g.collaborators.some(
-            (colId) => String(colId) === String(loggedInId)
-            ))
+            String(g.creatorId) === String(loggedInId) ||
+            (g.collaborators &&
+              g.collaborators.some(
+                (colId) => String(colId) === String(loggedInId)
+              ))
         );
         allBudgets = allBudgets.filter(
           (b) =>
-          String(b.creatorId) === String(loggedInId) ||
-          (b.collaborators &&
-            b.collaborators.some(
-            (colId) => String(colId) === String(loggedInId)
-            ))
+            String(b.creatorId) === String(loggedInId) ||
+            (b.collaborators &&
+              b.collaborators.some(
+                (colId) => String(colId) === String(loggedInId)
+              ))
         );
 
         // No hardcoded fallback data will be added if fetch fails or returns empty.
@@ -2481,10 +2581,10 @@
         } else {
           const storedPage = localStorage.getItem("page");
           if (storedPage) {
-          activateNavLink(storedPage);
+            activateNavLink(storedPage);
           }
         }
-        });
-      </script>
+      });
+    </script>
   </body>
 </html>
