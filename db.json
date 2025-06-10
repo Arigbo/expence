@@ -76,10 +76,87 @@
       "sender": "Jonathan Jesse",
       "sender_id": 4,
       "message": "You created a new goal: \"hhh\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T07:38:05.136Z",
       "related_id": 1,
       "type": "goal_created"
+    },
+    {
+      "id": "5",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new goal: \"hhh\".",
+      "read": true,
+      "created_at": "2025-06-10T07:40:57.418Z",
+      "related_id": 1,
+      "type": "goal_created"
+    },
+    {
+      "id": "6",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new goal: \"hhh\".",
+      "read": false,
+      "created_at": "2025-06-10T07:52:13.478Z",
+      "related_id": 4,
+      "type": "goal_created"
+    },
+    {
+      "id": "7",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new goal: \"hhh\".",
+      "read": true,
+      "created_at": "2025-06-10T07:52:36.637Z",
+      "related_id": 5,
+      "type": "goal_created"
+    },
+    {
+      "id": "8",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new budget: \"groc\".",
+      "read": true,
+      "created_at": "2025-06-10T07:52:46.525Z",
+      "related_id": 1,
+      "type": "budget_created"
+    },
+    {
+      "id": "9",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new budget: \"gr\".",
+      "read": true,
+      "created_at": "2025-06-10T08:16:39.029Z",
+      "related_id": 1,
+      "type": "budget_created"
+    },
+    {
+      "id": "10",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You edited the budget: \"g\".",
+      "read": true,
+      "created_at": "2025-06-10T08:16:48.475Z",
+      "related_id": 1,
+      "type": "budget_edited"
+    },
+    {
+      "id": "11",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You deleted the budget: \"g\".",
+      "read": true,
+      "created_at": "2025-06-10T08:17:57.166Z",
+      "related_id": 1,
+      "type": "budget_deleted"
     }
   ],
   "blogs": [
@@ -591,28 +668,16 @@
   ],
   "goals": [
     {
-      "id": "1",
-      "name": "hhh",
+      "id": "5",
+      "name": "hh",
       "about": "",
       "targetAmount": 33333,
       "achievedAmount": 0,
       "targetDate": "2025-06-20",
-      "creatorId": "4",
+      "creatorId": 3,
       "collaborators": []
     }
   ],
-  "budgets": [
-    {
-      "id": "1",
-      "category": "groc",
-      "about": "",
-      "budgetAmount": 400,
-      "spentAmount": 0,
-      "frequency": "monthly",
-      "endDate": "2025-06-28",
-      "creatorId": "4",
-      "collaborators": []
-    }
-  ],
+  "budgets": [],
   "savings": []
 }
