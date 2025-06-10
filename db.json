@@ -38,14 +38,47 @@
       "type": "goal_created"
     },
     {
-      "id": "1",
+      "id": "2",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"hhh\".",
+      "read": true,
+      "created_at": "2025-06-08T22:29:25.031Z",
+      "related_id": 6,
+      "type": "goal_created"
+    },
+    {
+      "id": "20",
       "user_id": 4,
       "sender": "Jonathan Jesse",
       "sender_id": 4,
       "message": "You created a new goal: \"hhh\".",
       "read": false,
-      "created_at": "2025-06-08T22:29:25.031Z",
-      "related_id": 6,
+      "created_at": "2025-06-10T07:37:33.088Z",
+      "related_id": 7,
+      "type": "goal_created"
+    },
+    {
+      "id": "3",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new budget: \"groc\".",
+      "read": false,
+      "created_at": "2025-06-10T07:37:52.395Z",
+      "related_id": 1,
+      "type": "budget_created"
+    },
+    {
+      "id": "4",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"hhh\".",
+      "read": false,
+      "created_at": "2025-06-10T07:38:05.136Z",
+      "related_id": 1,
       "type": "goal_created"
     }
   ],
@@ -559,56 +592,6 @@
   "goals": [
     {
       "id": "1",
-      "name": "son",
-      "about": "",
-      "targetAmount": 3333,
-      "achievedAmount": 0,
-      "targetDate": "2025-06-16",
-      "creatorId": 4,
-      "collaborators": []
-    },
-    {
-      "id": "2",
-      "name": "son",
-      "about": "",
-      "targetAmount": 3333,
-      "achievedAmount": 0,
-      "targetDate": "2025-06-16",
-      "creatorId": "4",
-      "collaborators": []
-    },
-    {
-      "id": "3",
-      "name": "son",
-      "about": "",
-      "targetAmount": 3333,
-      "achievedAmount": 0,
-      "targetDate": "2025-06-16",
-      "creatorId": "4",
-      "collaborators": []
-    },
-    {
-      "id": "4",
-      "name": "son",
-      "about": "",
-      "targetAmount": 3333,
-      "achievedAmount": 0,
-      "targetDate": "2025-06-16",
-      "creatorId": "4",
-      "collaborators": []
-    },
-    {
-      "id": "5",
-      "name": "son",
-      "about": "",
-      "targetAmount": 3333,
-      "achievedAmount": 0,
-      "targetDate": "2025-06-16",
-      "creatorId": "4",
-      "collaborators": []
-    },
-    {
-      "id": "6",
       "name": "hhh",
       "about": "",
       "targetAmount": 33333,
@@ -621,13 +604,13 @@
   "budgets": [
     {
       "id": "1",
-      "category": "entertainment",
+      "category": "groc",
       "about": "",
       "budgetAmount": 400,
       "spentAmount": 0,
       "frequency": "monthly",
       "endDate": "2025-06-28",
-      "creatorId": 4,
+      "creatorId": "4",
       "collaborators": []
     }
   ],
