@@ -98,7 +98,7 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "You created a new goal: \"hhh\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T07:52:13.478Z",
       "related_id": 4,
       "type": "goal_created"
@@ -164,7 +164,7 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "Goal updated:\nName: \"hh\" → \"h\"",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T08:23:22.610Z",
       "related_id": 5,
       "type": "goal_edited"
@@ -175,7 +175,7 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "Goal updated:\nAbout: \"\" → \"jesse\"",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T08:23:37.613Z",
       "related_id": 5,
       "type": "goal_edited"
@@ -197,7 +197,7 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "You created a new budget: \"gr\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T08:25:57.045Z",
       "related_id": 1,
       "type": "budget_created"
@@ -208,7 +208,7 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "You edited the budget: \"h\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T08:26:04.165Z",
       "related_id": 1,
       "type": "budget_edited"
@@ -230,10 +230,32 @@
       "sender": "Jesse Arigbo",
       "sender_id": 3,
       "message": "You deleted the budget: \"w\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-10T08:28:37.886Z",
       "related_id": 1,
       "type": "budget_deleted"
+    },
+    {
+      "id": "19",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new goal: \"h\".",
+      "read": true,
+      "created_at": "2025-06-10T08:32:41.121Z",
+      "related_id": 1,
+      "type": "goal_created"
+    },
+    {
+      "id": "21",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "message": "You created a new budget: \"gr\".",
+      "read": false,
+      "created_at": "2025-06-10T08:33:45.743Z",
+      "related_id": 1,
+      "type": "budget_created"
     }
   ],
   "blogs": [
@@ -743,7 +765,30 @@
       "description": "Weekly groceries"
     }
   ],
-  "goals": [],
-  "budgets": [],
+  "goals": [
+    {
+      "id": "1",
+      "name": "h",
+      "about": "",
+      "targetAmount": 33333,
+      "achievedAmount": 0,
+      "targetDate": "2025-06-20",
+      "creatorId": "3",
+      "collaborators": []
+    }
+  ],
+  "budgets": [
+    {
+      "id": "1",
+      "category": "gr",
+      "about": "",
+      "budgetAmount": 400,
+      "spentAmount": 0,
+      "frequency": "monthly",
+      "endDate": "2025-06-28",
+      "creatorId": "3",
+      "collaborators": []
+    }
+  ],
   "savings": []
 }

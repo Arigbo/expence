@@ -2562,8 +2562,52 @@
               ))
         );
 
-        // No hardcoded fallback data will be added if fetch fails or returns empty.
-        // The lists will simply appear empty.
+        // If fetch fails or returns empty, try to fetch from local db.json as a fallback
+        if (
+          (!fetchedData.users || fetchedData.users.length === 0) ||
+          (!fetchedData.goals || fetchedData.goals.length === 0) ||
+          (!fetchedData.budgets || fetchedData.budgets.length === 0) ||
+          (!fetchedData.notifications || fetchedData.notifications.length === 0)
+        ) {
+          try {
+            const dbResponse = await fetch("/db.json");
+            if (dbResponse.ok) {
+              const dbJson = await dbResponse.json();
+              if (dbJson.users && dbJson.users.length > 0) {
+          allUsers = dbJson.users.map((u) => ({ ...u, id: normalizeId(u.id) }));
+              }
+              if (dbJson.goals && dbJson.goals.length > 0) {
+          allGoals = dbJson.goals.map((g) => ({
+            ...g,
+            id: normalizeId(g.id),
+            creatorId: normalizeId(g.creatorId),
+            collaborators: g.collaborators ? g.collaborators.map(normalizeId) : [],
+          }));
+              }
+              if (dbJson.budgets && dbJson.budgets.length > 0) {
+          allBudgets = dbJson.budgets.map((b) => ({
+            ...b,
+            id: normalizeId(b.id),
+            creatorId: normalizeId(b.creatorId),
+            collaborators: b.collaborators ? b.collaborators.map(normalizeId) : [],
+          }));
+              }
+              if (dbJson.notifications && dbJson.notifications.length > 0) {
+          allNotifications = dbJson.notifications.map((n) => ({
+            ...n,
+            user_id: notificationId(n.user_id),
+            sender_id: notificationId(n.sender_id),
+            related_id: notificationId(n.related_id),
+          }));
+              }
+              if (dbJson.savings) {
+          allSavings = dbJson.savings;
+              }
+            }
+          } catch (err) {
+            console.warn("Failed to fetch fallback db.json:", err);
+          }
+        }
 
         fetchAndSetUserName();
         toggleUserHeaderElements();
