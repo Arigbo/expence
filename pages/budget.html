@@ -4,30 +4,839 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Budget and Goals</title>
-    <link rel="stylesheet" href="/style/custom.css" />
+    <!-- Font Awesome for icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="shortcut icon" href="/Logomark.png" type="image/x-icon" />
+    <!-- Using a modern font, e.g., Inter (replace custom.css import if this is the only CSS) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* General Styling for a 2025 Design Style */
+      /* Primary Color: White (#FFFFFF) */
+      /* Secondary Color: Modern Blue (#007BFF) */
+      /* Accent Colors: Green (#28a745), Red (#dc3545), Yellow (#ffc107) */
+      body {
+        font-family: "Inter", sans-serif; /* Modern, clean font */
+        margin: 0;
+        padding: 0;
+        background-color: #f0f2f5; /* Very light, soft gray for overall background */
+        color: #333; /* Dark gray for general text for excellent readability */
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .dashboard {
+        display: flex;
+        width: 100%;
+      }
+
+      /* --- Navbar (Sidebar) Styling --- */
+      .navbar {
+        width: 250px; /* Fixed width for the sidebar */
+        background-color: #ffffff; /* Primary color: White background for the navbar */
+        padding: 20px 0;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+        display: flex;
+        flex-direction: column;
+        position: sticky; /* Keeps navbar in place when scrolling */
+        top: 0;
+        left: 0;
+        height: 100vh; /* Full viewport height */
+        overflow-y: auto; /* Enable scrolling if content exceeds height */
+        border-right: 1px solid #e0e0e0; /* Subtle separator */
+      }
+
+      .navbar_inner {
+        padding: 0 20px;
+      }
+
+      .navbar .top {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-left: 10px; /* Align with nav links */
+      }
+
+      .navbar .top img {
+        height: 35px; /* Adjust as needed for your logo */
+        margin-right: 10px;
+        border-radius: 8px; /* Slightly rounded logo */
+      }
+
+      .navbar .top h1 {
+        font-size: 1.6em;
+        color: #333; /* Dark text for the primary part of the logo name */
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .navbar .top h1 span {
+        color: #007bff; /* Secondary color: Blue for accent in the logo name */
+      }
+
+      .navbar a {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        color: #555; /* Default link color: A slightly lighter gray for inactive links */
+        text-decoration: none;
+        border-radius: 10px; /* More rounded corners for links */
+        transition: background-color 0.3s ease, color 0.3s ease,
+          transform 0.2s ease;
+      }
+
+      .navbar a i {
+        margin-right: 12px;
+        font-size: 1.1em;
+      }
+
+      .navbar a:hover {
+        background-color: #e0f2ff; /* Light blue background on hover */
+        color: #007bff; /* Secondary color: Blue text on hover */
+        transform: translateX(5px); /* Subtle slide effect on hover */
+      }
+
+      .navbar a.active {
+        background-color: #007bff; /* Secondary color: Solid blue background for active link */
+        color: #ffffff; /* Primary color: White text for active link */
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Subtle shadow for active item */
+      }
+
+      .navbar a.active i {
+        color: #ffffff; /* White icon for active link */
+      }
+
+      /* Mobile Navigation Overlay */
+      .navbar.show {
+        transform: translateX(0);
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100%;
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+          z-index: 2000; /* Ensure it's above other content */
+        }
+      }
+
+      /* --- Dashboard Header Styling --- */
+      .main-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .dashboard_header,
+      .dashboard_header.desktop {
+        background-color: #ffffff; /* Primary color: White background for header */
+        padding: 15px 30px;
+        border-bottom: 1px solid #eee; /* Light border at the bottom */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* Adjusted width for desktop view to account for sidebar */
+        width: calc(100% - 250px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow for header */
+      }
+
+      .dashboard_header .left,
+      .dashboard_header .middle,
+      .dashboard_header .right {
+        display: flex;
+        align-items: center;
+      }
+
+      .dashboard_header .left_left a i {
+        font-size: 1.4em;
+        color: #007bff; /* Secondary color: Blue icon for profile */
+        margin-right: 15px;
+        transition: color 0.3s ease;
+      }
+
+      .dashboard_header .left_left a i:hover {
+        color: #0056b3; /* Darker blue on hover */
+      }
+
+      .dashboard_header .left_right h1 {
+        font-size: 1.1em;
+        margin: 0;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .dashboard_header .left_right a {
+        color: #007bff; /* Secondary color: Blue for the logged-in user name */
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 5px;
+      }
+
+      .dashboard_header .middle_left p {
+        margin: 0;
+        font-size: 1.05em;
+        color: #555;
+      }
+
+      .dashboard_header .middle_left span {
+        color: #007bff; /* Secondary color: Blue for the user's name in the greeting */
+        font-weight: 600;
+      }
+
+      .dashboard_header .middle_right {
+        display: flex;
+        align-items: center;
+        background-color: #f8f9fa; /* Light gray for search input background */
+        border-radius: 25px; /* Fully rounded search bar */
+        padding: 8px 18px;
+        margin-left: 30px;
+        border: 1px solid #e9ecef; /* Subtle border */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dashboard_header .middle_right:focus-within {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+      }
+
+      .dashboard_header .middle_right i {
+        color: #777;
+        margin-right: 10px;
+      }
+
+      .dashboard_header .middle_right input[type="search"] {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 0;
+        font-size: 0.95em;
+        color: #333;
+        width: 200px; /* Fixed width for search input */
+      }
+
+      .dashboard_header .middle_right input[type="search"]::placeholder {
+        color: #999;
+      }
+
+      .dashboard_header .right_left a {
+        color: #777; /* Default bell icon color */
+        position: relative;
+        font-size: 1.4em;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .dashboard_header .right_left a:hover {
+        color: #007bff; /* Secondary color: Blue on hover for bell icon */
+      }
+
+      .dashboard_header .right .no_of_noties {
+        background-color: #dc3545; /* Red for notification count (standard) */
+        color: #ffffff;
+        font-size: 0.7em;
+        padding: 3px 6px;
+        border-radius: 50%;
+        position: absolute;
+        top: -5px;
+        right: -8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 20px;
+        height: 20px;
+        font-weight: 600;
+        border: 2px solid #ffffff; /* White border to make it pop against background */
+      }
+      .dashboard_header .right .no_of_noties.hide {
+        display: none;
+      }
+
+      .dashboard_header .right_right a i {
+        font-size: 1.4em;
+        color: #007bff; /* Secondary color: Blue for profile icon */
+        margin-left: 15px;
+        transition: color 0.3s ease;
+      }
+      .dashboard_header .right_right a i:hover {
+        color: #0056b3;
+      }
+
+      /* Hide mobile header on desktop, show desktop header */
+      .dashboard_header:not(.desktop) {
+        display: none;
+      }
+      .dashboard_header.desktop {
+        display: flex;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard_header {
+          width: 100%; /* Full width on mobile */
+          justify-content: space-between;
+        }
+        .dashboard_header:not(.desktop) {
+          display: flex; /* Show mobile header */
+          padding: 15px 20px;
+        }
+        .dashboard_header.desktop {
+          display: none; /* Hide desktop header */
+        }
+        .dashboard_header .middle {
+          display: none; /* Hide middle section on mobile */
+        }
+        .dashboard_header .left_left {
+          margin-right: auto; /* Push content to right */
+        }
+        .dashboard_header .right {
+          margin-left: 0; /* Align right section */
+        }
+        .dashboard_header .bar {
+          display: block; /* Show menu icon */
+          font-size: 1.5em;
+          color: #007bff;
+          cursor: pointer;
+          margin-right: 20px;
+        }
+      }
+
+      /* --- Main Content Area for Goals and Budgets --- */
+      .content-area {
+        flex-grow: 1;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns for goals and budgets */
+        gap: 30px; /* Space between sections */
+      }
+
+      @media (max-width: 992px) {
+        .content-area {
+          grid-template-columns: 1fr; /* Single column on smaller screens */
+          padding: 20px;
+          gap: 25px;
+        }
+      }
+
+      /* Section Styling (Goals & Budgets) */
+      .goal,
+      .budget {
+        background-color: #ffffff; /* Primary color: White background for sections */
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07),
+          0 3px 10px rgba(0, 0, 0, 0.04); /* Soft, modern shadow */
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px; /* Space between header/form and list */
+      }
+
+      .goal_inner_top,
+      .budget_inner_top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee; /* Subtle separator */
+        padding-bottom: 15px;
+        margin-bottom: 15px; /* Space below separator */
+      }
+
+      .goal_inner_top h1,
+      .budget_inner_top h1 {
+        font-size: 1.8em;
+        color: #007bff; /* Secondary color: Blue for section titles */
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .action-buttons button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95em;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      .action-buttons .add-btn {
+        background-color: #007bff; /* Secondary color: Blue for add button */
+        color: #ffffff;
+      }
+
+      .action-buttons .add-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .action-buttons .delete-btn {
+        background-color: #e9ecef;
+        color: #777;
+      }
+
+      .action-buttons .delete-btn:hover {
+        background-color: #dee2e6;
+        transform: translateY(-2px);
+      }
+
+      /* Form Styling (Modal Forms) */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.show .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-content h2 {
+        color: #007bff;
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.8em;
+      }
+
+      .modal-content .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .modal-content .close-btn:hover {
+        color: #333;
+      }
+
+      .modal-content form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .modal-content label {
+        font-size: 0.9em;
+        color: #555;
+        margin-bottom: 5px;
+        display: block;
+        font-weight: 500;
+      }
+
+      .modal-content input[type="text"],
+      .modal-content input[type="number"],
+      .modal-content input[type="date"],
+      .modal-content select,
+      .modal-content textarea {
+        width: calc(100% - 20px);
+        padding: 12px 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+        color: #333;
+        background-color: #f8f9fa;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .modal-content textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .modal-content input:focus,
+      .modal-content select:focus,
+      .modal-content textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+        outline: none;
+      }
+
+      .modal-content .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .modal-content .form-actions button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      .modal-content .form-actions .submit-btn {
+        background-color: #007bff;
+        color: #ffffff;
+      }
+
+      .modal-content .form-actions .submit-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .modal-content .form-actions .cancel-btn {
+        background-color: #e9ecef;
+        color: #777;
+      }
+
+      .modal-content .form-actions .cancel-btn:hover {
+        background-color: #dee2e6;
+      }
+
+      /* List Items (Goals & Budgets) */
+      .goal_inner_bottom,
+      .budget_inner_bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .box {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 15px 20px;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+      }
+
+      .box_inner {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+      }
+
+      .box_inner .left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        flex-grow: 1;
+      }
+
+      .box_inner .left > input[type="checkbox"] {
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      .box_inner input[type="checkbox"] {
+        transform: scale(1.2);
+        accent-color: #007bff;
+        cursor: pointer;
+      }
+
+      .box_inner h1 {
+        font-size: 1.1em;
+        margin: 0;
+        color: #333;
+        font-weight: 500;
+      }
+      .box_inner .details {
+        font-size: 0.9em;
+        color: #777;
+      }
+      .box_inner .progress-bar-container {
+        width: 100%;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        height: 8px;
+        margin-top: 5px;
+      }
+      .box_inner .progress-bar {
+        height: 100%;
+        border-radius: 55px;
+        background-color: #28a745;
+        width: 0%;
+        transition: width 0.5s ease-in-out;
+      }
+      .box_inner .progress-text {
+        font-size: 0.85em;
+        color: #555;
+        margin-top: 5px;
+        text-align: right;
+        width: 100%;
+      }
+
+      .companions-list {
+        font-size: 0.8em;
+        color: #555;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        width: 100%;
+        border-top: 1px dashed #eee;
+        padding-top: 8px;
+      }
+      .companions-list .companion {
+        background-color: #e0f2ff;
+        color: #007bff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .box .item-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .box .item-actions button {
+        background: none;
+        border: none;
+        font-size: 1.1em;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+      }
+
+      .box .item-actions button:hover {
+        color: #007bff;
+      }
+      .box .item-actions button.delete-item:hover {
+        color: #dc3545;
+      }
+
+      /* Budget Specific Styling */
+      .budget_totals {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #333;
+      }
+      .budget_totals span.balance-amount {
+        color: #007bff;
+      }
+
+      /* Confirmation Modal */
+      .confirmation-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 4000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .confirmation-modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .confirmation-modal-content {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .confirmation-modal-content h3 {
+        margin-top: 0;
+        color: #333;
+        font-size: 1.4em;
+        margin-bottom: 20px;
+      }
+      .confirmation-modal-content .confirm-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+      .confirmation-modal-content .confirm-actions button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+      .confirmation-modal-content .confirm-actions .confirm-yes {
+        background-color: #dc3545;
+        color: #ffffff;
+      }
+      .confirmation-modal-content .confirm-actions .confirm-yes:hover {
+        background-color: #c82333;
+      }
+      .confirmation-modal-content .confirm-actions .confirm-no {
+        background-color: #e9ecef;
+        color: #555;
+      }
+      .confirmation-modal-content .confirm-actions .confirm-no:hover {
+        background-color: #dee2e6;
+      }
+
+      /* New: Collaborator Suggestions Box Styles */
+      .collaborator-suggestions-box {
+        position: absolute;
+        background-color: #ffffff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 3000;
+        max-height: 200px;
+        overflow-y: auto;
+        width: calc(100% - 20px);
+        left: 10px;
+        top: auto;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+      }
+      .collaborator-suggestions-box.show {
+        visibility: visible;
+        opacity: 1;
+      }
+      .collaborator-suggestion-item {
+        padding: 8px 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s ease;
+      }
+      .collaborator-suggestion-item:last-child {
+        border-bottom: none;
+      }
+      .collaborator-suggestion-item:hover {
+        background-color: #e0f2ff;
+        color: #007bff;
+      }
+      .collaborator-suggestion-item strong {
+        color: #333;
+        font-weight: 600;
+      }
+      .collaborator-suggestion-item span {
+        font-size: 0.9em;
+        color: #777;
+        margin-left: 8px;
+      }
+
+      /* Styles for filter input */
+      .filter-input-container {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        padding: 8px 10px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .filter-input-container:focus-within {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+      }
+      .filter-input-container i {
+        color: #777;
+        margin-right: 8px;
+      }
+      .filter-input-container input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-size: 0.95em;
+        color: #333;
+      }
+      .filter-input-container input::placeholder {
+        color: #999;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard">
+      <!-- Navbar Section -->
       <nav class="navbar">
         <div class="navbar_inner">
           <div class="top">
-            <div><img src="/Logomark.png" alt="" /></div>
+            <!-- Placeholder for Logomark - replace with actual image path -->
+            <div>
+              <img
+                src="https://placehold.co/40x40/007BFF/FFFFFF?text=Logo"
+                alt="Logo"
+              />
+            </div>
             <h1 class="">Spen<span>track</span></h1>
           </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
-          ><a href="/pages/transaction.html" class="transaction"
+          >
+          <a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
-          <a href="./budget.html" class="budget"
+          <a href="./budget.html" class="budget active"
             ><i class="fas fa-rocket"></i> Budgets</a
           >
           <a href="/" class="report"
@@ -36,285 +845,1790 @@
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
-      <div class="dashboard_header">
-        <div class="left">
-          <div class="left_left">
-            <a href="./profile.html"> <i class="far fa-user"></i></a>
-          </div>
-          <div class="left_right">
-            <h1>Welcome</h1>
-            <a href="profile.html" id="loggedInUser">Guest</a>
-          </div>
-        </div>
-        <div class="right">
-          <a href="./notifications.html">
-            <i class="far fa-bell"></i>
-            <div class="no_of_noties"></div
-          ></a>
-        </div>
-      </div>
-      <div class="dashboard_header desktop">
-        <div class="left">
-          <i class="fas fa-bars bar"></i>
-        </div>
-        <div class="middle">
-          <div class="middle_left">
-            <p>
-              Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
-            </p>
-          </div>
-          <script>
-            //  const loggedInId = Number(
-            //     JSON.parse(localStorage.getItem("loggedin_id"))
-            //   );
-            //   const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-            const loggedInId = localStorage.getItem("loggedin_id")
-              ? Number(localStorage.getItem("loggedin_id"))
-              : null;
-            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-            async function fetchUserName() {
-              if (!isLoggedIn || !loggedInId) {
-                console.error("User is not logged in or no loggedin_id found");
-                return "Guest";
-              }
-              try {
-                const response = await fetch("/db.json");
-                if (!response.ok) {
-                  throw new Error("Failed to fetch db.json");
-                }
-                const data = await response.json();
-                if (!data || !data.users) {
-                  console.error("Users data not found in db.json");
-                  return "Guest";
-                }
-                const user = data.users.find(
-                  (u) => Number(u.id) === Number(loggedInId)
-                );
-                return user ? user.name : "Guest";
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-                return "Guest";
-              }
-            }
-
-            fetchUserName().then((name) => {
-              document.getElementById("loggedInUser").textContent = name;
-              document.getElementById("loggedInUserMiddle").textContent = name;
-            });
-          </script>
-          <div class="middle_right">
-            <i class="fas fa-search"></i>
-            <input type="search" placeholder="Search here...." />
-          </div>
-        </div>
-        <div class="right">
-          <div class="right_left">
-            <a href="./notifications.html"
-              ><i class="far fa-bell"></i>
-              <div class="no_of_noties"></div
-            ></a>
-          </div>
-          <script>
-            document.addEventListener("DOMContentLoaded", async () => {
-              const loggedInId = localStorage.getItem("loggedin_id");
-              if (!loggedInId) {
-                document.querySelector(".profile").classList.add("hide");
-                return;
-              }
-              try {
-                const response = await fetch("/db.json");
-                const data = await response.json();
-
-                const notifications = data.notifications.filter(
-                  (notifications) =>
-                    notifications.user_id === parseInt(loggedInId)
-                );
-                const read = notifications.filter(
-                  (notifications) => notifications.read === false
-                );
-                if (notifications) {
-                  document
-                    .querySelectorAll(".no_of_noties")
-                    .forEach((element) => {
-                      if (read.length == 0) {
-                        element.classList.add("hide");
-                      }
-                      element.innerHTML = `
-                        ${read.length}
-                    `;
-                    });
-                } else {
-                  document.querySelectorAll(".profiles").innerHTML =
-                    "<p>User not found.</p>";
-                }
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-                document.getElementById("profiles").innerHTML =
-                  "<p>Error loading user data.</p>";
-              }
-            });
-          </script>
-          <div class="right_right">
-            <a href="./profile.html"> <i class="fas fa-user"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="goal">
-        <div class="goal_form">
-          <form action="">
-            <!-- name of goal -->
-            <!-- about goal -->
-            <!-- amount needed to achieve goal -->
-            <!-- alone on goal or with ppl, use an @to add ppl-->
-            <!-- date to end goal -->
-          </form>
-        </div>
-        <div class="goal_inner">
-          <div class="goal_inner_top">
-            <div class="left">
-              <h1>Goals</h1>
+      <div class="main-content">
+        <!-- Dashboard Header Section -->
+        <div class="dashboard_header">
+          <div class="left">
+            <i class="fas fa-bars bar"></i>
+            <div class="left_left">
+              <a href="./profile.html"> <i class="far fa-user"></i></a>
             </div>
-            <!-- Add goal -->
-            <!-- Delete all -->
+            <div class="left_right">
+              <h1>Welcome</h1>
+              <a href="profile.html" id="loggedInUser">Guest</a>
+            </div>
           </div>
-          <div class="goal_inner_bottom">
-            <div class="box">
-              <div class="box_inner">
-                <div class="left">
-                  <input type="checkbox" name="" id="" />
-                  <h1>goal name</h1>
-                </div>
+          <div class="right">
+            <a href="./notifications.html">
+              <i class="far fa-bell"></i>
+              <div class="no_of_noties"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="dashboard_header desktop">
+          <div class="left">
+            <i class="fas fa-bars bar"></i>
+          </div>
+          <div class="middle">
+            <div class="middle_left">
+              <p>
+                Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
+              </p>
+            </div>
+            <div class="middle_right">
+              <i class="fas fa-search"></i>
+              <input type="search" placeholder="Search here...." />
+            </div>
+          </div>
+          <div class="right">
+            <div class="right_left">
+              <a href="./notifications.html"
+                ><i class="far fa-bell"></i>
+                <div class="no_of_noties"></div
+              ></a>
+            </div>
+            <div class="right_right">
+              <a href="./profile.html"> <i class="fas fa-user"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area for Goals and Budgets -->
+        <div class="content-area">
+          <!-- Goals Section -->
+          <div class="goal">
+            <div class="goal_inner_top">
+              <div class="left">
+                <h1>Goals</h1>
+              </div>
+              <div class="action-buttons">
+                <button class="add-btn" id="addGoalBtn">
+                  <i class="fas fa-plus"></i> Add Goal
+                </button>
+                <button class="delete-btn" id="deleteAllGoalsBtn">
+                  <i class="fas fa-trash-alt"></i> Delete All
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="budget">
-        <div class="budget_form">
-          <form action="">
-            <!-- name of budget -->
-            <!-- about budget -->
-            <!-- type of expense youre budgetting (from the type of budget we will estimate through transact history amount youve spent in achieve that budget or used in that expense yearly)-->
-            <!--how much and how often do you plan on using the money budgetted daily, weekly,  monthly, yearly (optional for how often and also if user total balance isnt enough to achieve budget ask if user wishes to go ahead)-->
-            <!-- alone on budget or with ppl, use an @to add ppl-->
-            <!-- date to end (you can choose not certain) -->
-            <!-- send a notification a with a lert of the new notification -->
-          </form>
-        </div>
-        <div class="budget_inner">
-          <div class="budget_inner_top">
-            <div class="left">
-              <h1>Goals</h1>
+            <!-- Filter Input for Goals -->
+            <div class="filter-input-container">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="goalFilterInput"
+                placeholder="Filter goals..."
+              />
             </div>
-            <!-- Add budget -->
-            <!-- Delete all budget -->
-             <!-- Total balance and budget -->
+            <div class="goal_inner_bottom" id="goalsList">
+              <!-- Goal items will be dynamically added here by JavaScript -->
+            </div>
           </div>
-          <div class="budget_inner_bottom">
-            <div class="box">
-              <div class="box_inner">
-                <div class="left">
-                  <input type="checkbox" name="" id="" />
-                  <h1>budget name</h1>
-                </div>
+
+          <!-- Budgets Section -->
+          <div class="budget">
+            <div class="budget_inner_top">
+              <div class="left">
+                <h1>Budgets</h1>
               </div>
+              <div class="action-buttons">
+                <button class="add-btn" id="addBudgetBtn">
+                  <i class="fas fa-plus"></i> Add Budget
+                </button>
+                <button class="delete-btn" id="deleteAllBudgetsBtn">
+                  <i class="fas fa-trash-alt"></i> Delete All
+                </button>
+              </div>
+            </div>
+            <!-- Filter Input for Budgets -->
+            <div class="filter-input-container">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="budgetFilterInput"
+                placeholder="Filter budgets..."
+              />
+            </div>
+            <div class="budget_inner_bottom" id="budgetsList">
+              <!-- Budget items will be dynamically added here by JavaScript -->
+            </div>
+            <div class="budget_totals">
+              <span
+                >Total Budgeted:
+                <span class="balance-amount" id="totalBudgeted">$0</span></span
+              >
+              <span
+                >Total Spent:
+                <span class="balance-amount" id="totalSpent">$0</span></span
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
-  <script>
-    localStorage.setItem("page", "dashb");
-    let page = localStorage.getItem("page");
-    document.querySelector(".dash").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "dashb");
-    });
-    if (page && page === "dashb") {
-      document.querySelector(".dash").classList.add("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
+    <!-- Edit Goal Modal -->
+    <div id="editGoalModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="close-btn">&times;</button>
+        <h2>Edit Goal</h2>
+        <form id="editGoalForm">
+          <label for="editGoalName">Goal Name:</label>
+          <input type="text" id="editGoalName" required />
 
-    document
-      .querySelector(".transaction")
-      .addEventListener("click", function (e) {
-        document.querySelector(".dash").classList.remove("active");
-        document.querySelector(".transaction").classList.add("active");
-        document.querySelector(".budget").classList.remove("active");
-        document.querySelector(".report").classList.remove("active");
-        document.querySelector(".setting").classList.remove("active");
-        return localStorage.setItem("page", "transaction");
+          <label for="editGoalAbout">About Goal:</label>
+          <textarea id="editGoalAbout"></textarea>
+
+          <label for="editGoalAmount">Amount Needed ($):</label>
+          <input type="number" id="editGoalAmount" required min="0" />
+
+          <label for="editGoalTargetDate">Target End Date:</label>
+          <input type="date" id="editGoalTargetDate" required />
+
+          <label for="editGoalCollaborators"
+            >Collaborators (optional, @username @username):</label
+          >
+          <input type="text" id="editGoalCollaborators" />
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="submit-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Edit Budget Modal -->
+    <div id="editBudgetModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="close-btn">&times;</button>
+        <h2>Edit Budget</h2>
+        <form id="editBudgetForm">
+          <label for="editBudgetCategory">Budget Name/Category:</label>
+          <input type="text" id="editBudgetCategory" required />
+
+          <label for="editBudgetAbout">About Budget:</label>
+          <textarea id="editBudgetAbout"></textarea>
+
+          <label for="editBudgetAmount">Budget Amount ($):</label>
+          <input type="number" id="editBudgetAmount" required min="0" />
+
+          <label for="editBudgetFrequency">Frequency:</label>
+          <select id="editBudgetFrequency">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+
+          <label for="editBudgetEndDate">End Date (optional):</label>
+          <input type="date" id="editBudgetEndDate" />
+
+          <label for="editBudgetCollaborators"
+            >Collaborators (optional, @username @username):</label
+          >
+          <input type="text" id="editBudgetCollaborators" />
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="submit-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modals for Add Goal/Budget -->
+    <div id="addGoalModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="close-btn">&times;</button>
+        <h2>Add New Goal</h2>
+        <form id="goalForm">
+          <label for="goalName">Goal Name:</label>
+          <input
+            type="text"
+            id="goalName"
+            placeholder="e.g., Save for New Car"
+            required
+          />
+
+          <label for="goalAbout">About Goal:</label>
+          <textarea
+            id="goalAbout"
+            placeholder="Brief description of your goal"
+          ></textarea>
+
+          <label for="goalAmount">Amount Needed ($):</label>
+          <input
+            type="number"
+            id="goalAmount"
+            placeholder="e.g., 25000"
+            required
+            min="0"
+          />
+
+          <label for="goalTargetDate">Target End Date:</label>
+          <input type="date" id="goalTargetDate" required />
+
+          <label for="goalCollaborators"
+            >Collaborators (optional, @username @username):</label
+          >
+          <input
+            type="text"
+            id="goalCollaborators"
+            placeholder="e.g., @john @jane"
+          />
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="submit-btn">Add Goal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="addBudgetModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="close-btn">&times;</button>
+        <h2>Add New Budget</h2>
+        <form id="budgetForm">
+          <label for="budgetCategory">Budget Name/Category:</label>
+          <input
+            type="text"
+            id="budgetCategory"
+            placeholder="e.g., Groceries, Entertainment"
+            required
+          />
+
+          <label for="budgetAbout">About Budget:</label>
+          <textarea
+            id="budgetAbout"
+            placeholder="Brief description of this budget"
+          ></textarea>
+
+          <label for="budgetAmount">Budget Amount ($):</label>
+          <input
+            type="number"
+            id="budgetAmount"
+            placeholder="e.g., 500"
+            required
+            min="0"
+          />
+
+          <label for="budgetFrequency">Frequency:</label>
+          <select id="budgetFrequency">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly" selected>Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+
+          <label for="budgetEndDate">End Date (optional):</label>
+          <input type="date" id="budgetEndDate" />
+
+          <label for="budgetCollaborators"
+            >Collaborators (optional, @username @username):</label
+          >
+          <input
+            type="text"
+            id="budgetCollaborators"
+            placeholder="e.g., @sarah"
+          />
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="submit-btn">Add Budget</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal (for Delete All) -->
+    <div id="confirmationModal" class="confirmation-modal-overlay">
+      <div class="confirmation-modal-content">
+        <h3>
+          Are you sure you want to delete all <span id="confirmTarget"></span>?
+        </h3>
+        <div class="confirm-actions">
+          <button class="confirm-no">Cancel</button>
+          <button class="confirm-yes">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Collaborator Suggestions Box (will be created and appended by JS) -->
+
+    <script>
+      // --- Global variables and initial setup ---
+      // Hardcode loggedInId to 4 as requested.
+      const loggedInId = localStorage.getItem("loggedin_id"); // Changed to number
+      // We will assume isLoggedIn is true if loggedInId is set. In a real app, this would come from auth state.
+      let isLoggedIn = localStorage.getItem("isLoggedIn"); // Set to true since loggedInId is provided
+
+      let allNotifications = [];
+      let allGoals = [];
+      let allBudgets = [];
+      let allSavings = []; // Placeholder, if you plan to use this data
+
+      // Filter text for goals and budgets
+      let goalFilterText = "";
+      let budgetFilterText = "";
+
+      // Helper function to normalize IDs for internal storage (prefer number, fallback to string)
+      const normalizeId = (id) => {
+        const numId = Number(id);
+        return isNaN(numId) ? String(id) : numId; // Store as number if valid, else as string
+      };
+
+      // Helper function to format IDs for API requests (always string)
+      const apiId = (id) => {
+        return String(id);
+      };
+
+      // Helper function to format IDs for notifications (always number as per user request)
+      const notificationId = (id) => {
+        return Number(id); // Will be NaN if original is a non-numeric string
+      };
+
+      // Helper function to find a user's name by their ID
+      const getUserNameById = (id) => {
+        // Convert both sides to string for robust comparison
+        const user = allUsers.find((u) => String(u.id) === String(id));
+        return user ? user.name : "Unknown User";
+      };
+
+      // Helper function to find a user's username by their ID
+      const getUsernameById = (id) => {
+        // Convert both sides to string for robust comparison
+        const user = allUsers.find((u) => String(u.id) === String(id));
+        return user ? user.username : null;
+      };
+
+      // Helper function to get collaborator IDs from a raw input string
+      const getCollaboratorIds = (collaboratorsString) => {
+        if (!collaboratorsString) return [];
+        const usernames = collaboratorsString.match(/@(\w+)/g);
+        if (!usernames) return [];
+        return usernames
+          .map((u) => {
+            const username = u.substring(1);
+            const user = allUsers.find((user) => user.username === username);
+            // Normalize ID for internal storage
+            return user ? normalizeId(user.id) : null;
+          })
+          .filter((id) => id !== null); // Filter out nulls
+      };
+
+      // Function to get the next notification ID (unique, incrementing)
+      function getNextNotificationId() {
+        // Find all existing notification IDs in allNotifications (from db.json)
+        const existingIds = new Set(allNotifications.map((n) => Number(n.id)));
+        // Start from 1 and find the first unused positive integer
+        let nextId = 1;
+        while (existingIds.has(nextId)) {
+          nextId++;
+        }
+        return String(nextId);
+      }
+
+      // Function to create and "send" a notification
+      const createNotification = async (userId, message, relatedId, type) => {
+        const senderUser = allUsers.find(
+          (u) => String(u.id) === String(loggedInId)
+        );
+        // Generate a unique notification id for each notification
+        const notification = {
+          id: getNextNotificationId(),
+          user_id: notificationId(userId), // Force to number for notifications
+          sender: senderUser ? senderUser.name : "Unknown Sender",
+          sender_id: notificationId(loggedInId), // Force to number for notifications
+          sender_dp: senderUser
+            ? senderUser.dp
+            : "https://placehold.co/40x40/CCCCCC/FFFFFF?text=?", // Fallback DP
+          message: message,
+          read: false,
+          created_at: new Date().toISOString(),
+          related_id: notificationId(relatedId), // Force to number for notifications
+          type: type,
+        };
+        // Push to local array immediately for instant UI update
+        allNotifications.push(notification);
+        updateNotificationCount();
+
+        try {
+          const response = await fetch("http://localhost:3000/notifications", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(notification),
+          });
+          if (!response.ok) {
+            throw new Error(
+              `Failed to send notification to server: ${response.statusText}`
+            );
+          }
+          const result = await response.json();
+          console.log(
+            "Notification sent successfully to server (json-server POST):",
+            result
+          );
+        } catch (error) {
+          console.error("Error sending notification to server:", error);
+        }
+      };
+
+      // Function to update user name
+      async function fetchAndSetUserName() {
+        if (!isLoggedIn) {
+          console.warn("User is not explicitly logged in. Displaying 'Guest'.");
+          document.getElementById("loggedInUser").textContent = "Guest";
+          document.getElementById("loggedInUserMiddle").textContent = "Guest";
+          return;
+        }
+
+        try {
+          const user = allUsers.find(
+            (u) => String(u.id) === String(loggedInId)
+          );
+          const userName = user ? user.name : "Guest";
+          document.getElementById("loggedInUser").textContent = userName;
+          document.getElementById("loggedInUserMiddle").textContent = userName;
+        } catch (error) {
+          console.error("Error setting user name:", error);
+          document.getElementById("loggedInUser").textContent = "Guest";
+          document.getElementById("loggedInUserMiddle").textContent = "Guest";
+        }
+      }
+
+      // Function to update notification count in UI
+      const updateNotificationCount = () => {
+        const notificationCountElements =
+          document.querySelectorAll(".no_of_noties");
+        const unreadNotifications = allNotifications.filter(
+          // Ensure comparison is string-based for robustness
+          (notification) =>
+            String(notification.user_id) === String(loggedInId) &&
+            notification.read === false
+        );
+
+        notificationCountElements.forEach((element) => {
+          if (unreadNotifications.length === 0) {
+            element.classList.add("hide");
+          } else {
+            element.textContent = unreadNotifications.length;
+            element.classList.remove("hide");
+          }
+        });
+      };
+
+      // Function to show/hide user-specific header elements
+      const toggleUserHeaderElements = () => {
+        const notificationLinks = document.querySelectorAll(
+          '.dashboard_header .right a[href="./notifications.html"]'
+        );
+        const profileLinks = document.querySelectorAll(
+          '.dashboard_header .right a[href="./profile.html"]'
+        );
+        const userGreetingElements = document.querySelectorAll(
+          ".dashboard_header .middle_left"
+        );
+
+        if (!isLoggedIn) {
+          notificationLinks.forEach((link) => (link.style.display = "none"));
+          profileLinks.forEach((link) => (link.style.display = "none"));
+          userGreetingElements.forEach(
+            (element) => (element.style.display = "none")
+          );
+        } else {
+          notificationLinks.forEach((link) => (link.style.display = ""));
+          profileLinks.forEach((link) => (link.style.display = ""));
+          userGreetingElements.forEach(
+            (element) => (element.style.display = "")
+          );
+        }
+      };
+
+      // --- Navigation Active State Logic ---
+      const activateNavLink = (pageName) => {
+        const navLinks = document.querySelectorAll(".navbar a");
+        navLinks.forEach((link) => link.classList.remove("active"));
+
+        const currentPageLink = document.querySelector(
+          `.navbar a[href*="${pageName}"]`
+        );
+        if (currentPageLink) {
+          currentPageLink.classList.add("active");
+          localStorage.setItem("page", pageName);
+        }
+      };
+
+      // --- Mobile Navbar Toggle ---
+      document.querySelector(".bar").addEventListener("click", function () {
+        document.querySelector(".navbar").classList.add("show");
       });
-    if (page && page === "transaction") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.add("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
 
-    document.querySelector(".budget").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "budget");
-    });
-    if (page && page === "budget") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.add("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
+      document.querySelector(".navbar").addEventListener("click", function (e) {
+        if (!e.target.closest(".navbar_inner") || e.target.tagName === "A") {
+          document.querySelector(".navbar").classList.remove("show");
+        }
+      });
 
-    document.querySelector(".report").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-      return localStorage.setItem("page", "report");
-    });
-    if (page && page === "report") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.add("active");
-      document.querySelector(".setting").classList.remove("active");
-    }
-    document.querySelector(".setting").addEventListener("click", function (e) {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-      return localStorage.setItem("page", "setting");
-    });
-    if (page && page === "setting") {
-      document.querySelector(".dash").classList.remove("active");
-      document.querySelector(".transaction").classList.remove("active");
-      document.querySelector(".budget").classList.remove("active");
-      document.querySelector(".report").classList.remove("active");
-      document.querySelector(".setting").classList.add("active");
-    }
+      // --- Modal Logic ---
+      const addGoalModal = document.getElementById("addGoalModal");
+      const addBudgetModal = document.getElementById("addBudgetModal");
+      const confirmationModal = document.getElementById("confirmationModal");
 
-    document.querySelector(".navbar").addEventListener("click", function () {
-      document.querySelector(".navbar").classList.remove("show");
-    });
+      const showModal = (modalElement) => {
+        modalElement.classList.add("show");
+      };
 
-    document.querySelector(".bar").addEventListener("click", function () {
-      document.querySelector(".navbar").classList.add("show");
-    });
-  </script>
+      const hideModal = (modalElement) => {
+        modalElement.classList.remove("show");
+      };
+
+      // Add Goal button click
+      document.getElementById("addGoalBtn").addEventListener("click", () => {
+        hideCollaboratorSuggestions();
+        showModal(addGoalModal);
+      });
+
+      // Add Budget button click
+      document.getElementById("addBudgetBtn").addEventListener("click", () => {
+        hideCollaboratorSuggestions();
+        showModal(addBudgetModal);
+      });
+
+      // Close modal buttons
+      addGoalModal
+        .querySelectorAll(".close-btn, .cancel-btn")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => hideModal(addGoalModal));
+        });
+      addBudgetModal
+        .querySelectorAll(".close-btn, .cancel-btn")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => hideModal(addBudgetModal));
+        });
+
+      // Close confirmation modal
+      confirmationModal
+        .querySelector(".confirm-no")
+        .addEventListener("click", () => hideModal(confirmationModal));
+
+      // --- Collaborator Suggestions Inline Logic ---
+      let currentCollaboratorInput = null;
+      let collaboratorSuggestionsBox = null;
+
+      const createOrGetSuggestionsBox = () => {
+        if (!collaboratorSuggestionsBox) {
+          collaboratorSuggestionsBox = document.createElement("div");
+          collaboratorSuggestionsBox.id = "inlineCollaboratorSuggestions";
+          collaboratorSuggestionsBox.classList.add(
+            "collaborator-suggestions-box"
+          );
+          document.body.appendChild(collaboratorSuggestionsBox);
+        }
+        return collaboratorSuggestionsBox;
+      };
+
+      const showCollaboratorSuggestions = () => {
+        const box = createOrGetSuggestionsBox();
+        const inputRect = currentCollaboratorInput.getBoundingClientRect();
+
+        box.style.width = `${inputRect.width}px`;
+        // Position the box above the input
+        box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
+        box.style.left = `${inputRect.left}px`;
+        box.classList.add("show");
+      };
+
+      const hideCollaboratorSuggestions = () => {
+        if (collaboratorSuggestionsBox) {
+          collaboratorSuggestionsBox.classList.remove("show");
+          collaboratorSuggestionsBox.innerHTML = "";
+        }
+      };
+
+      const handleCollaboratorInput = (event) => {
+        currentCollaboratorInput = event.target;
+        const text = currentCollaboratorInput.value;
+        const lastAtIndex = text.lastIndexOf("@");
+
+        if (lastAtIndex > -1) {
+          const searchTerm = text.substring(lastAtIndex + 1).toLowerCase();
+          displayCollaboratorSuggestions(searchTerm);
+          showCollaboratorSuggestions();
+        } else {
+          hideCollaboratorSuggestions();
+        }
+      };
+
+      document
+        .getElementById("goalCollaborators")
+        .addEventListener("input", handleCollaboratorInput);
+      document
+        .getElementById("budgetCollaborators")
+        .addEventListener("input", handleCollaboratorInput);
+
+      document.addEventListener("click", (e) => {
+        // Hide suggestions if click is outside the input and the suggestions box
+        if (
+          currentCollaboratorInput &&
+          !currentCollaboratorInput.contains(e.target) &&
+          (!collaboratorSuggestionsBox ||
+            !collaboratorSuggestionsBox.contains(e.target))
+        ) {
+          hideCollaboratorSuggestions();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          hideCollaboratorSuggestions();
+        }
+      });
+
+      function displayCollaboratorSuggestions(searchTerm) {
+        const box = createOrGetSuggestionsBox();
+        box.innerHTML = "";
+
+        const filteredUsers = allUsers.filter(
+          (user) =>
+            // Compare IDs as strings for consistency
+            String(user.id) !== String(loggedInId) &&
+            (user.name.toLowerCase().includes(searchTerm) ||
+              user.username.toLowerCase().includes(searchTerm))
+        );
+
+        if (filteredUsers.length === 0) {
+          box.innerHTML =
+            '<p style="text-align: center; color: #777; padding: 10px;">No users found.</p>';
+          return;
+        }
+
+        filteredUsers.forEach((user) => {
+          const item = document.createElement("div");
+          item.classList.add("collaborator-suggestion-item");
+          item.innerHTML = `<strong>${user.name}</strong> <span>(@${user.username})</span>`;
+          item.dataset.username = user.username;
+
+          item.addEventListener("click", () => {
+            if (currentCollaboratorInput) {
+              const currentValue = currentCollaboratorInput.value;
+              const lastAtIndex = currentValue.lastIndexOf("@");
+              // Replace the part after the last '@' with the selected username
+              const newValue =
+                lastAtIndex > -1
+                  ? currentValue.substring(0, lastAtIndex) +
+                    `@${user.username} `
+                  : currentValue + `@${user.username} `;
+              currentCollaboratorInput.value = newValue;
+              currentCollaboratorInput.focus();
+              hideCollaboratorSuggestions();
+            }
+          });
+          box.appendChild(item);
+        });
+
+        // Recalculate position as content might change box height
+        if (currentCollaboratorInput) {
+          const inputRect = currentCollaboratorInput.getBoundingClientRect();
+          box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
+        }
+      }
+
+      // --- Form Submission Handlers ---
+      document
+        .getElementById("goalForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const goalName = document.getElementById("goalName").value;
+          const goalAbout = document.getElementById("goalAbout").value;
+          const goalAmount = parseFloat(
+            document.getElementById("goalAmount").value
+          );
+          const goalTargetDate =
+            document.getElementById("goalTargetDate").value;
+          const rawCollaborators =
+            document.getElementById("goalCollaborators").value;
+          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
+
+          // Generate a unique numeric ID for the new goal on the client side
+          const newId =
+            Math.max(...allGoals.map((g) => Number(g.id) || 0), 0) + 1;
+
+          const newGoal = {
+            id: String(newId), // Assign the new numeric ID
+            name: goalName,
+            about: goalAbout,
+            targetAmount: goalAmount,
+            achievedAmount: 0,
+            targetDate: goalTargetDate,
+            creatorId: loggedInId,
+            collaborators: collaboratorsIds,
+          };
+
+          try {
+            const response = await fetch("http://localhost:3000/goals", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newGoal),
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Failed to save goal to server: ${response.statusText}`
+              );
+            }
+            const savedGoal = await response.json(); // json-server might still assign its own ID
+            console.log("Goal saved successfully to server:", savedGoal);
+            // Use the ID returned by json-server, but handle it consistently for internal use
+            allGoals.push({ ...savedGoal, id: normalizeId(savedGoal.id) });
+            renderGoals();
+            // related_id is passed as consistent ID type (number or string)
+            createNotification(
+              loggedInId,
+              `You created a new goal: "${savedGoal.name}".`,
+              notificationId(savedGoal.id),
+              "goal_created"
+            );
+
+            collaboratorsIds.forEach((id) => {
+              const username = getUsernameById(id);
+              if (username) {
+                // Pass savedGoal.id as consistent ID type
+                createNotification(
+                  id,
+                  `${getUserNameById(loggedInId)} added you to the goal: "${
+                    savedGoal.name
+                  }".`,
+                  notificationId(savedGoal.id),
+                  "goal_companion"
+                );
+              } else {
+                console.warn(
+                  `Collaborator ID ${id} not found in users data. Notification not sent.`
+                );
+              }
+            });
+          } catch (error) {
+            console.error("Error creating goal:", error);
+            // If server fails, add locally with the client-generated ID
+            allGoals.push(newGoal);
+            renderGoals();
+            console.warn(
+              "Goal added locally due to server error, but not saved to backend."
+            );
+          }
+
+          this.reset();
+          hideModal(addGoalModal);
+        });
+
+      document
+        .getElementById("budgetForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const budgetCategory =
+            document.getElementById("budgetCategory").value;
+          const budgetAbout = document.getElementById("budgetAbout").value;
+          const budgetAmount = parseFloat(
+            document.getElementById("budgetAmount").value
+          );
+          const budgetFrequency =
+            document.getElementById("budgetFrequency").value;
+          const budgetEndDate = document.getElementById("budgetEndDate").value;
+          const rawCollaborators = document.getElementById(
+            "budgetCollaborators"
+          ).value;
+          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
+
+          // Generate a unique numeric ID for the new budget on the client side
+          const newId =
+            Math.max(...allBudgets.map((b) => Number(b.id) || 0), 0) + 1;
+
+          const newBudget = {
+            id: String(newId), // Assign the new numeric ID
+            category: budgetCategory,
+            about: budgetAbout,
+            budgetAmount: budgetAmount,
+            spentAmount: 0,
+            frequency: budgetFrequency,
+            endDate: budgetEndDate,
+            creatorId: loggedInId,
+            collaborators: collaboratorsIds,
+          };
+
+          try {
+            const response = await fetch("http://localhost:3000/budgets", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newBudget),
+            });
+            if (!response.ok) {
+              throw new Error(
+                `Failed to save budget to server: ${response.statusText}`
+              );
+            }
+            const savedBudget = await response.json(); // json-server might still assign its own ID
+            console.log("Budget saved successfully to server:", savedBudget);
+            // Use the ID returned by json-server, but handle it consistently for internal use
+            allBudgets.push({
+              ...savedBudget,
+              id: normalizeId(savedBudget.id),
+            });
+            renderBudgets();
+
+            // related_id is passed as consistent ID type (number or string)
+            createNotification(
+              loggedInId,
+              `You created a new budget: "${savedBudget.category}".`,
+              notificationId(savedBudget.id),
+              "budget_created"
+            );
+
+            collaboratorsIds.forEach((id) => {
+              const username = getUsernameById(id);
+              if (username) {
+                // Pass savedBudget.id as consistent ID type
+                createNotification(
+                  id,
+                  `${getUserNameById(loggedInId)} added you to the budget: "${
+                    savedBudget.category
+                  }".`,
+                  notificationId(savedBudget.id),
+                  "budget_companion"
+                );
+              } else {
+                console.warn(
+                  `Collaborator ID ${id} not found in users data. Notification not sent.`
+                );
+              }
+            });
+          } catch (error) {
+            console.error("Error creating budget:", error);
+            // If server fails, add locally with the client-generated ID
+            allBudgets.push(newBudget);
+            renderBudgets();
+            console.warn(
+              "Budget added locally due to server error, but not saved to backend."
+            );
+          }
+
+          this.reset();
+          hideModal(addBudgetModal);
+        });
+
+      // --- UI Rendering Functions ---
+      function renderGoals() {
+        const goalsList = document.getElementById("goalsList");
+        goalsList.innerHTML = "";
+
+        const filteredGoals = allGoals.filter((goal) => {
+          // Ensure consistent string comparisons for filtering
+          const isCreator = String(goal.creatorId) === String(loggedInId);
+          const isCollaborator =
+            goal.collaborators &&
+            goal.collaborators.some(
+              (colId) => String(colId) === String(loggedInId)
+            );
+          if (!isCreator && !isCollaborator) return false;
+
+          const searchText = goalFilterText.toLowerCase();
+          return (
+            goal.name.toLowerCase().includes(searchText) ||
+            (goal.about && goal.about.toLowerCase().includes(searchText))
+          );
+        });
+
+        if (filteredGoals.length === 0) {
+          goalsList.innerHTML =
+            '<p style="text-align: center; color: #777; margin-top: 20px;">No goals found matching your filter. Click "Add Goal" to get started!</p>';
+          return;
+        }
+
+        filteredGoals.forEach((goal) => {
+          const percentComplete =
+            (goal.achievedAmount / goal.targetAmount) * 100;
+          const statusColor = percentComplete >= 100 ? "#28a745" : "#007bff";
+
+          const goalItem = document.createElement("div");
+          goalItem.classList.add("box");
+          // data-id always stores the string representation of the ID for consistency with HTML and API
+          goalItem.setAttribute("data-id", apiId(goal.id));
+          goalItem.innerHTML = `
+            <div class="box_inner">
+              <div class="left">
+              <input type="checkbox" class="goal-checkbox" ${
+                percentComplete >= 100 ? "checked disabled" : ""
+              }/>
+              <div>
+                <h1>${goal.name}</h1>
+                <div class="details">Target: $${goal.targetAmount.toLocaleString()} | Achieved: $${goal.achievedAmount.toLocaleString()}</div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar" style="width: ${Math.min(
+                    percentComplete,
+                    100
+                  )}%; background-color: ${statusColor};"></div>
+                </div>
+                <div class="progress-text" style="color: ${statusColor};">${Math.round(
+            percentComplete
+          )}% Complete by ${goal.targetDate || "N/A"}</div>
+              </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
+              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
+            </div>
+            ${
+              goal.collaborators && goal.collaborators.length > 0
+                ? `
+            <div class="companions-list">
+              <span>Companions:</span>
+              ${goal.collaborators
+                .map(
+                  (id) =>
+                    `<span class="companion">${getUserNameById(id)}</span>`
+                )
+                .join("")}
+            </div>`
+                : ""
+            }
+            `;
+          goalsList.appendChild(goalItem);
+        });
+      }
+
+      function renderBudgets() {
+        const budgetsList = document.getElementById("budgetsList");
+        budgetsList.innerHTML = "";
+
+        const filteredBudgets = allBudgets.filter((budget) => {
+          // Ensure consistent string comparisons for filtering
+          const isCreator = String(budget.creatorId) === String(loggedInId);
+          const isCollaborator =
+            budget.collaborators &&
+            budget.collaborators.some(
+              (colId) => String(colId) === String(loggedInId)
+            );
+          if (!isCreator && !isCollaborator) return false;
+
+          const searchText = budgetFilterText.toLowerCase();
+          return (
+            budget.category.toLowerCase().includes(searchText) ||
+            (budget.about && budget.about.toLowerCase().includes(searchText))
+          );
+        });
+
+        let totalBudgetedAmount = 0;
+        let totalSpentAmount = 0;
+
+        if (filteredBudgets.length === 0) {
+          budgetsList.innerHTML =
+            '<p style="text-align: center; color: #777; margin-top: 20px;">No budgets found matching your filter. Click "Add Budget" to get started!</p>';
+        }
+
+        filteredBudgets.forEach((budget) => {
+          totalBudgetedAmount += budget.budgetAmount;
+          totalSpentAmount += budget.spentAmount;
+
+          const percentUsed = (budget.spentAmount / budget.budgetAmount) * 100;
+          let statusColor = "#28a745";
+          let statusText = `${Math.round(percentUsed)}% of budget used`;
+
+          if (percentUsed > 100) {
+            statusColor = "#dc3545";
+            statusText = `${Math.round(
+              percentUsed
+            )}% of budget used (Over budget!)`;
+          } else if (percentUsed >= 80) {
+            statusColor = "#ffc107";
+          }
+
+          const budgetItem = document.createElement("div");
+          budgetItem.classList.add("box");
+          // data-id always stores the string representation of the ID for consistency with HTML and API
+          budgetItem.setAttribute("data-id", apiId(budget.id));
+          budgetItem.innerHTML = `
+            <div class="box_inner">
+              <div class="left">
+              <input type="checkbox" class="budget-checkbox" />
+              <div>
+                <h1>${budget.category}</h1>
+                <div class="details">${
+                  budget.frequency
+                }: $${budget.budgetAmount.toLocaleString()} | Spent: $${budget.spentAmount.toLocaleString()}</div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar" style="width: ${Math.min(
+                    percentUsed,
+                    100
+                  )}%; background-color: ${statusColor};"></div>
+                </div>
+                <div class="progress-text" style="color: ${statusColor};">${statusText}</div>
+              </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
+              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
+            </div>
+            ${
+              budget.collaborators && budget.collaborators.length > 0
+                ? `
+            <div class="companions-list">
+              <span>Companions:</span>
+              ${budget.collaborators
+                .map(
+                  (id) =>
+                    `<span class="companion">${getUserNameById(id)}</span>`
+                )
+                .join("")}
+            </div>`
+                : ""
+            }
+            `;
+          budgetsList.appendChild(budgetItem);
+        });
+
+        document.getElementById(
+          "totalBudgeted"
+        ).textContent = `$${totalBudgetedAmount.toLocaleString()}`;
+        document.getElementById(
+          "totalSpent"
+        ).textContent = `$${totalSpentAmount.toLocaleString()}`;
+      }
+
+      // --- Delete All Logic with Confirmation Modal ---
+      let currentDeleteTarget = "";
+
+      document
+        .getElementById("deleteAllGoalsBtn")
+        .addEventListener("click", () => {
+          currentDeleteTarget = "goals";
+          document.getElementById("confirmTarget").textContent = "goals";
+          showModal(confirmationModal);
+        });
+
+      document
+        .getElementById("deleteAllBudgetsBtn")
+        .addEventListener("click", () => {
+          currentDeleteTarget = "budgets";
+          document.getElementById("confirmTarget").textContent = "budgets";
+          showModal(confirmationModal);
+        });
+
+      confirmationModal
+        .querySelector(".confirm-yes")
+        .addEventListener("click", async () => {
+          const deletePromises = [];
+          let itemsToDelete = [];
+
+          if (currentDeleteTarget === "goals") {
+            // Filter to include only goals created/collaborated by the logged-in user
+            itemsToDelete = allGoals.filter(
+              (g) =>
+                String(g.creatorId) === String(loggedInId) ||
+                (g.collaborators &&
+                  g.collaborators.some(
+                    (colId) => String(colId) === String(loggedInId)
+                  ))
+            );
+            for (const goal of itemsToDelete) {
+              deletePromises.push(
+                (async () => {
+                  try {
+                    console.log(
+                      `Attempting to delete goal with ID: ${
+                        goal.id
+                      }. Sending DELETE request to: http://localhost:3000/goals/${apiId(
+                        goal.id
+                      )}`
+                    ); // Log the URL
+                    const response = await fetch(
+                      `http://localhost:3000/goals/${apiId(goal.id)}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!response.ok) {
+                      throw new Error(
+                        `Failed to delete goal ${goal.id}: ${response.statusText}`
+                      );
+                    }
+                    console.log(`Goal ${goal.id} deleted from server.`);
+                    return true; // Indicate success
+                  } catch (error) {
+                    console.error(`Error deleting goal ${goal.id}:`, error);
+                    return false; // Indicate failure
+                  }
+                })()
+              );
+            }
+            const results = await Promise.allSettled(deletePromises);
+            const successfullyDeletedIds = itemsToDelete
+              .filter(
+                (_, index) =>
+                  results[index].status === "fulfilled" && results[index].value
+              )
+              .map((item) => String(item.id));
+            allGoals = allGoals.filter(
+              (g) => !successfullyDeletedIds.includes(String(g.id))
+            );
+            renderGoals();
+            console.log("All relevant goals deletion attempts completed.");
+          } else if (currentDeleteTarget === "budgets") {
+            // Filter to include only budgets created/collaborated by the logged-in user
+            itemsToDelete = allBudgets.filter(
+              (b) =>
+                String(b.creatorId) === String(loggedInId) ||
+                (b.collaborators &&
+                  b.collaborators.some(
+                    (colId) => String(colId) === String(loggedInId)
+                  ))
+            );
+            for (const budget of itemsToDelete) {
+              deletePromises.push(
+                (async () => {
+                  try {
+                    console.log(
+                      `Attempting to delete budget with ID: ${
+                        budget.id
+                      }. Sending DELETE request to: http://localhost:3000/budgets/${apiId(
+                        budget.id
+                      )}`
+                    ); // Log the URL
+                    const response = await fetch(
+                      `http://localhost:3000/budgets/${apiId(budget.id)}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!response.ok) {
+                      throw new Error(
+                        `Failed to delete budget ${budget.id}: ${response.statusText}`
+                      );
+                    }
+                    console.log(`Budget ${budget.id} deleted from server.`);
+                    return true; // Indicate success
+                  } catch (error) {
+                    console.error(`Error deleting budget ${budget.id}:`, error);
+                    return false; // Indicate failure
+                  }
+                })()
+              );
+            }
+            const results = await Promise.allSettled(deletePromises);
+            const successfullyDeletedIds = itemsToDelete
+              .filter(
+                (_, index) =>
+                  results[index].status === "fulfilled" && results[index].value
+              )
+              .map((item) => String(item.id));
+            allBudgets = allBudgets.filter(
+              (b) => !successfullyDeletedIds.includes(String(b.id))
+            );
+            renderBudgets();
+            console.log("All relevant budgets deletion attempts completed.");
+          }
+          hideModal(confirmationModal);
+        });
+
+      // --- Single Item Delete/Edit Logic (Event Delegation) ---
+      document
+        .getElementById("goalsList")
+        .addEventListener("click", async (e) => {
+          if (e.target.closest(".delete-item")) {
+            const item = e.target.closest(".box");
+            // Get data-id as string for deletion URL
+            const itemId = item.dataset.id; // This is already a string from apiId in renderGoals
+
+            try {
+              console.log(
+                `Attempting to delete goal with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/goals/${itemId}`
+              ); // Log the URL
+              const response = await fetch(
+                `http://localhost:3000/goals/${itemId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              createNotification(
+                loggedInId,
+                `You deleted the goal: "${item.querySelector("h1").textContent}".`,
+                notificationId(itemId),
+                "goal_deleted"
+              );
+              if (!response.ok) {
+                throw new Error(
+                  `Failed to delete goal ${itemId}: ${response.statusText}`
+                );
+              }
+              allGoals = allGoals.filter((goal) => String(goal.id) !== itemId); // Filter by string ID from data-id
+              renderGoals();
+              console.log(
+                `Deleted goal with ID: ${itemId} from server and locally.`
+              );
+            } catch (error) {
+              console.error(`Error deleting goal ${itemId}:`, error);
+              console.warn(
+                "Deletion failed on server. Goal not removed locally to reflect actual state."
+              );
+            }
+          } else if (e.target.closest(".edit-item")) {
+            const item = e.target.closest(".box");
+            const itemId = item.dataset.id;
+            console.log(`Editing goal with ID: ${itemId} (simulated).`);
+            // --- Edit Goal Modal Logic ---
+            // Find the goal object by ID
+            const goalToEdit = allGoals.find((g) => String(g.id) === itemId);
+            if (!goalToEdit) {
+              alert("Goal not found.");
+              return;
+            }
+            // Pre-fill the edit form fields
+            document.getElementById("editGoalName").value =
+              goalToEdit.name || "";
+            document.getElementById("editGoalAbout").value =
+              goalToEdit.about || "";
+            document.getElementById("editGoalAmount").value =
+              goalToEdit.targetAmount || "";
+            document.getElementById("editGoalTargetDate").value =
+              goalToEdit.targetDate || "";
+            document.getElementById("editGoalCollaborators").value = (
+              goalToEdit.collaborators || []
+            )
+              .map((id) => {
+                const username = getUsernameById(id);
+                return username ? `@${username}` : "";
+              })
+              .filter(Boolean)
+              .join(" ");
+
+            showModal(document.getElementById("editGoalModal"));
+
+            // Remove any previous edit handler
+            const editForm = document.getElementById("editGoalForm");
+            if (editForm._editHandler) {
+              editForm.removeEventListener("submit", editForm._editHandler);
+              editForm._editHandler = null;
+            }
+            // --- Enable collaborator suggestions for edit modal ---
+            const editGoalCollaboratorsInput = document.getElementById(
+              "editGoalCollaborators"
+            );
+            editGoalCollaboratorsInput.removeEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+            editGoalCollaboratorsInput.addEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+
+            // Add a new submit handler for editing
+            const editHandler = async function (e) {
+              e.preventDefault();
+              const updatedGoal = {
+                ...goalToEdit,
+                name: document.getElementById("editGoalName").value,
+                about: document.getElementById("editGoalAbout").value,
+                targetAmount: parseFloat(
+                  document.getElementById("editGoalAmount").value
+                ),
+                targetDate: document.getElementById("editGoalTargetDate").value,
+                collaborators: getCollaboratorIds(
+                  document.getElementById("editGoalCollaborators").value
+                ),
+              };
+              try {
+                const response = await fetch(
+                  `http://localhost:3000/goals/${apiId(goalToEdit.id)}`,
+                  {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedGoal),
+                  }
+                );
+                if (!response.ok) throw new Error("Failed to update goal.");
+                const savedGoal = await response.json();
+                // Compare old and new values to build a change summary
+                let changes = [];
+                if (goalToEdit.name !== updatedGoal.name)
+                  changes.push(`Name: "${goalToEdit.name}" → "${updatedGoal.name}"`);
+                if (goalToEdit.about !== updatedGoal.about)
+                  changes.push(`About: "${goalToEdit.about}" → "${updatedGoal.about}"`);
+                if (goalToEdit.targetAmount !== updatedGoal.targetAmount)
+                  changes.push(
+                  `Target Amount: $${goalToEdit.targetAmount} → $${updatedGoal.targetAmount}`
+                  );
+                if (goalToEdit.targetDate !== updatedGoal.targetDate)
+                  changes.push(
+                  `Target Date: ${goalToEdit.targetDate || "N/A"} → ${updatedGoal.targetDate || "N/A"}`
+                  );
+                // Compare collaborators (as sets of usernames)
+                const oldCollabs = (goalToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
+                const newCollabs = (updatedGoal.collaborators || []).map(getUsernameById).filter(Boolean);
+                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                  changes.push(
+                  `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                  );
+                }
+                let changeMsg =
+                  changes.length > 0
+                  ? "Goal updated:\n" + changes.join("\n")
+                  : "Goal updated (no visible changes).";
+                // Send notification to self (editor)
+                createNotification(
+                  loggedInId,
+                  changeMsg,
+                  notificationId(savedGoal.id),
+                  "goal_edited"
+                );
+                // Send notification to collaborators (except self)
+                (updatedGoal.collaborators || []).forEach((id) => {
+                  if (String(id) !== String(loggedInId)) {
+                  createNotification(
+                    id,
+                    `${getUserNameById(loggedInId)} edited the goal: "${savedGoal.name}".\n${changeMsg}`,
+                    notificationId(savedGoal.id),
+                    "goal_edited"
+                  );
+                  }
+                });
+                console.log("Goal updated successfully:", savedGoal);
+                // Update local array
+                const idx = allGoals.findIndex((g) => String(g.id) === itemId);
+                if (idx !== -1)
+                  allGoals[idx] = {
+                    ...savedGoal,
+                    id: normalizeId(savedGoal.id),
+                  };
+                renderGoals();
+              } catch (err) {
+                alert("Failed to update goal.");
+              }
+              editForm.reset();
+              hideModal(document.getElementById("editGoalModal"));
+              editForm.removeEventListener("submit", editHandler);
+              editForm._editHandler = null;
+            };
+            editForm.addEventListener("submit", editHandler);
+            editForm._editHandler = editHandler;
+
+            // Close button/cancel for edit modal
+            document
+              .getElementById("editGoalModal")
+              .querySelectorAll(".close-btn, .cancel-btn")
+              .forEach((btn) => {
+                btn.onclick = () => {
+                  hideModal(document.getElementById("editGoalModal"));
+                  editForm.removeEventListener("submit", editHandler);
+                  editForm._editHandler = null;
+                };
+              });
+            hideModal(addGoalModal); // Just closing the modal for now as edit functionality is not implemented
+          }
+        });
+
+      document
+        .getElementById("budgetsList")
+        .addEventListener("click", async (e) => {
+          if (e.target.closest(".delete-item")) {
+            const item = e.target.closest(".box");
+            // Get data-id as string for deletion URL
+            const itemId = item.dataset.id; // This is already a string from apiId in renderBudgets
+
+            try {
+              console.log(
+                `Attempting to delete budget with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/budgets/${itemId}`
+              ); // Log the URL
+              const response = await fetch(
+                `http://localhost:3000/budgets/${itemId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              createNotification(
+                loggedInId,
+                `You deleted the budget: "${
+                  item.querySelector("h1").textContent
+                }".`,
+                notificationId(itemId),
+                "budget_deleted"
+              );
+              if (!response.ok) {
+                throw new Error(
+                  `Failed to delete budget ${itemId}: ${response.statusText}`
+                );
+              }
+              allBudgets = allBudgets.filter(
+                (budget) => String(budget.id) !== itemId
+              ); // Filter by string ID from data-id
+              renderBudgets();
+              console.log(
+                `Deleted budget with ID: ${itemId} from server and locally.`
+              );
+            } catch (error) {
+              console.error(`Error deleting budget ${itemId}:`, error);
+              console.warn(
+                "Deletion failed on server. Budget not removed locally to reflect actual state."
+              );
+            }
+          } else if (e.target.closest(".edit-item")) {
+            const item = e.target.closest(".box");
+            const itemId = item.dataset.id;
+            console.log(`Editing budget with ID: ${itemId} (simulated).`);
+            // --- Edit Budget Modal Logic ---
+            // Find the budget object by ID
+            const budgetToEdit = allBudgets.find(
+              (b) => String(b.id) === itemId
+            );
+            if (!budgetToEdit) {
+              alert("Budget not found.");
+              return;
+            }
+            // Pre-fill the edit form fields
+            document.getElementById("editBudgetCategory").value =
+              budgetToEdit.category || "";
+            document.getElementById("editBudgetAbout").value =
+              budgetToEdit.about || "";
+            document.getElementById("editBudgetAmount").value =
+              budgetToEdit.budgetAmount || "";
+            document.getElementById("editBudgetFrequency").value =
+              budgetToEdit.frequency || "monthly";
+            document.getElementById("editBudgetEndDate").value =
+              budgetToEdit.endDate || "";
+            document.getElementById("editBudgetCollaborators").value = (
+              budgetToEdit.collaborators || []
+            )
+              .map((id) => {
+                const username = getUsernameById(id);
+                return username ? `@${username}` : "";
+              })
+              .filter(Boolean)
+              .join(" ");
+
+            showModal(document.getElementById("editBudgetModal"));
+
+            // Remove any previous edit handler
+            const editForm = document.getElementById("editBudgetForm");
+            if (editForm._editHandler) {
+              editForm.removeEventListener("submit", editForm._editHandler);
+              editForm._editHandler = null;
+            }
+
+            // Enable collaborator suggestions for edit modal
+            const editBudgetCollaboratorsInput = document.getElementById(
+              "editBudgetCollaborators"
+            );
+            editBudgetCollaboratorsInput.removeEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+            editBudgetCollaboratorsInput.addEventListener(
+              "input",
+              handleCollaboratorInput
+            );
+
+            // Add a new submit handler for editing
+            const editHandler = async function (e) {
+              e.preventDefault();
+              const updatedBudget = {
+                ...budgetToEdit,
+                category: document.getElementById("editBudgetCategory").value,
+                about: document.getElementById("editBudgetAbout").value,
+                budgetAmount: parseFloat(
+                  document.getElementById("editBudgetAmount").value
+                ),
+                frequency: document.getElementById("editBudgetFrequency").value,
+                endDate: document.getElementById("editBudgetEndDate").value,
+                collaborators: getCollaboratorIds(
+                  document.getElementById("editBudgetCollaborators").value
+                ),
+              };
+              try {
+                const response = await fetch(
+                  `http://localhost:3000/budgets/${apiId(budgetToEdit.id)}`,
+                  {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedBudget),
+                  }
+                );
+                if (!response.ok) throw new Error("Failed to update budget.");
+                const savedBudget = await response.json();
+                // Compare old and new values to build a change summary
+                let changes = [];
+                if (budgetToEdit.category !== updatedBudget.category)
+                  changes.push(`Category: "${budgetToEdit.category}" → "${updatedBudget.category}"`);
+                if (budgetToEdit.about !== updatedBudget.about)
+                  changes.push(`About: "${budgetToEdit.about}" → "${updatedBudget.about}"`);
+                if (budgetToEdit.budgetAmount !== updatedBudget.budgetAmount)
+                  changes.push(
+                    `Budget Amount: $${budgetToEdit.budgetAmount} → $${updatedBudget.budgetAmount}`
+                  );
+                if (budgetToEdit.frequency !== updatedBudget.frequency)
+                  changes.push(
+                    `Frequency: ${budgetToEdit.frequency || "N/A"} → ${updatedBudget.frequency || "N/A"}`
+                  );
+                if (budgetToEdit.endDate !== updatedBudget.endDate)
+                  changes.push(
+                    `End Date: ${budgetToEdit.endDate || "N/A"} → ${updatedBudget.endDate || "N/A"}`
+                  );
+                // Compare collaborators (as sets of usernames)
+                const oldCollabs = (budgetToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
+                const newCollabs = (updatedBudget.collaborators || []).map(getUsernameById).filter(Boolean);
+                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                  changes.push(
+                    `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                  );
+                }
+                let changeMsg =
+                  changes.length > 0
+                    ? "Budget updated:\n" + changes.join("\n")
+                    : "Budget updated (no visible changes).";
+                // Send notification to self (editor)
+                createNotification(
+                  loggedInId,
+                  changeMsg,
+                  notificationId(savedBudget.id),
+                  "budget_edited"
+                );
+                console.log("Budget updated successfully:", savedBudget);
+                // Update local array
+                const idx = allBudgets.findIndex(
+                  (b) => String(b.id) === itemId
+                );
+                if (idx !== -1)
+                  allBudgets[idx] = {
+                    ...savedBudget,
+                    id: normalizeId(savedBudget.id),
+                  };
+                renderBudgets();
+                // Send notification to collaborators (except self)
+                (updatedBudget.collaborators || []).forEach((id) => {
+                  if (String(id) !== String(loggedInId)) {
+                    createNotification(
+                      id,
+                      `${getUserNameById(loggedInId)} edited the budget: "${
+                        savedBudget.category
+                      }".`,
+                      notificationId(savedBudget.id),
+                      "budget_edited"
+                    );
+                  }
+                });
+              } catch (err) {
+                alert("Failed to update budget.");
+              }
+              editForm.reset();
+              hideModal(document.getElementById("editBudgetModal"));
+              editForm.removeEventListener("submit", editHandler);
+              editForm._editHandler = null;
+            };
+            editForm.addEventListener("submit", editHandler);
+            editForm._editHandler = editHandler;
+
+            // Close button/cancel for edit modal
+            document
+              .getElementById("editBudgetModal")
+              .querySelectorAll(".close-btn, .cancel-btn")
+              .forEach((btn) => {
+                btn.onclick = () => {
+                  hideModal(document.getElementById("editBudgetModal"));
+                  editForm.removeEventListener("submit", editHandler);
+                  editForm._editHandler = null;
+                };
+              });
+            hideModal(addBudgetModal); // Just closing the modal for now as edit functionality is not implemented
+          }
+        });
+
+      // --- Filter Input Event Listeners ---
+      document
+        .getElementById("goalFilterInput")
+        .addEventListener("input", (e) => {
+          goalFilterText = e.target.value;
+          renderGoals();
+        });
+
+      document
+        .getElementById("budgetFilterInput")
+        .addEventListener("input", (e) => {
+          budgetFilterText = e.target.value;
+          renderBudgets();
+        });
+
+      // --- Initial Data Fetch (from json-server or fallback) ---
+      document.addEventListener("DOMContentLoaded", async () => {
+        const endpoints = {
+          users: "http://localhost:3000/users",
+          notifications: "http://localhost:3000/notifications",
+          goals: "http://localhost:3000/goals",
+          budgets: "http://localhost:3000/budgets",
+          savings: "http://localhost:3000/savings",
+        };
+
+        const fetchedData = {};
+        const fetchPromises = Object.keys(endpoints).map(async (key) => {
+          try {
+            const response = await fetch(endpoints[key]);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch ${key}: ${response.statusText}`);
+            }
+            fetchedData[key] = await response.json();
+          } catch (error) {
+            console.error(`Error fetching data for ${key}:`, error);
+            fetchedData[key] = []; // Fallback to empty array on error
+          }
+        });
+
+        await Promise.allSettled(fetchPromises);
+
+        // Apply normalizeId consistently for all incoming data IDs
+        allUsers =
+          fetchedData.users.length > 0
+            ? fetchedData.users.map((u) => ({ ...u, id: normalizeId(u.id) }))
+            : [
+                {
+                  id: 1,
+                  name: "Alice Smith",
+                  username: "alice",
+                  dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=AS",
+                },
+                {
+                  id: 2,
+                  name: "Bob Johnson",
+                  username: "bob",
+                  dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=BJ",
+                },
+                {
+                  id: 3,
+                  name: "Charlie Brown",
+                  username: "charlie",
+                  dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=CB",
+                },
+                {
+                  id: loggedInId,
+                  name: "Current User",
+                  username: "currentuser",
+                  dp: "https://placehold.co/40x40/007BFF/FFFFFF?text=CU",
+                },
+              ];
+        allNotifications =
+          fetchedData.notifications.map((n) => ({
+            ...n,
+            user_id: notificationId(n.user_id),
+            sender_id: notificationId(n.sender_id),
+            related_id: notificationId(n.related_id),
+          })) || [];
+        allGoals =
+          fetchedData.goals.map((g) => ({
+            ...g,
+            id: normalizeId(g.id),
+            creatorId: normalizeId(g.creatorId),
+            collaborators: g.collaborators
+              ? g.collaborators.map(normalizeId)
+              : [],
+          })) || [];
+        allBudgets =
+          fetchedData.budgets.map((b) => ({
+            ...b,
+            id: normalizeId(b.id),
+            creatorId: normalizeId(b.creatorId),
+            collaborators: b.collaborators
+              ? b.collaborators.map(normalizeId)
+              : [],
+          })) || [];
+        allSavings = fetchedData.savings || [];
+
+        // Filter initial data based on loggedInId (ensure consistent string comparison)
+        allGoals = allGoals.filter(
+          (g) =>
+            String(g.creatorId) === String(loggedInId) ||
+            (g.collaborators &&
+              g.collaborators.some(
+                (colId) => String(colId) === String(loggedInId)
+              ))
+        );
+        allBudgets = allBudgets.filter(
+          (b) =>
+            String(b.creatorId) === String(loggedInId) ||
+            (b.collaborators &&
+              b.collaborators.some(
+                (colId) => String(colId) === String(loggedInId)
+              ))
+        );
+
+        // If fetch fails or returns empty, try to fetch from local db.json as a fallback
+        if (
+          (!fetchedData.users || fetchedData.users.length === 0) ||
+          (!fetchedData.goals || fetchedData.goals.length === 0) ||
+          (!fetchedData.budgets || fetchedData.budgets.length === 0) ||
+          (!fetchedData.notifications || fetchedData.notifications.length === 0)
+        ) {
+          try {
+            const dbResponse = await fetch("/db.json");
+            if (dbResponse.ok) {
+              const dbJson = await dbResponse.json();
+              if (dbJson.users && dbJson.users.length > 0) {
+          allUsers = dbJson.users.map((u) => ({ ...u, id: normalizeId(u.id) }));
+              }
+              if (dbJson.goals && dbJson.goals.length > 0) {
+          allGoals = dbJson.goals.map((g) => ({
+            ...g,
+            id: normalizeId(g.id),
+            creatorId: normalizeId(g.creatorId),
+            collaborators: g.collaborators ? g.collaborators.map(normalizeId) : [],
+          }));
+              }
+              if (dbJson.budgets && dbJson.budgets.length > 0) {
+          allBudgets = dbJson.budgets.map((b) => ({
+            ...b,
+            id: normalizeId(b.id),
+            creatorId: normalizeId(b.creatorId),
+            collaborators: b.collaborators ? b.collaborators.map(normalizeId) : [],
+          }));
+              }
+              if (dbJson.notifications && dbJson.notifications.length > 0) {
+          allNotifications = dbJson.notifications.map((n) => ({
+            ...n,
+            user_id: notificationId(n.user_id),
+            sender_id: notificationId(n.sender_id),
+            related_id: notificationId(n.related_id),
+          }));
+              }
+              if (dbJson.savings) {
+          allSavings = dbJson.savings;
+              }
+            }
+          } catch (err) {
+            console.warn("Failed to fetch fallback db.json:", err);
+          }
+        }
+
+        fetchAndSetUserName();
+        toggleUserHeaderElements();
+        updateNotificationCount();
+        renderGoals();
+        renderBudgets();
+
+        const path = window.location.pathname;
+        if (path.includes("budget.html")) {
+          activateNavLink("budget");
+        } else if (path.includes("transaction.html")) {
+          activateNavLink("transaction");
+        } else if (path.includes("index.html") || path === "/") {
+          activateNavLink("index");
+        } else {
+          const storedPage = localStorage.getItem("page");
+          if (storedPage) {
+            activateNavLink(storedPage);
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
