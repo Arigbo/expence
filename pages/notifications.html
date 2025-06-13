@@ -423,6 +423,7 @@
       const modalNotificationSenderDp = document.getElementById(
         "modalNotificationSenderDp"
       );
+      // const modalNotificationRelatedId=document.getElementById("m")
       const modalNotificationSenderNameFooter = document.getElementById(
         "modalNotificationSenderNameFooter"
       );
@@ -721,7 +722,9 @@
 
           // Filter notifications for the logged-in user
           let userNotifications = data.filter(
-            (notif) => parseInt(notif.user_id) === parseInt(loggedInId)
+            (notif) =>
+              parseInt(notif.user_id) === parseInt(loggedInId) ||
+              parseInt(notif.related_id)
           );
 
           // Fallback: If no user notifications or fetch failed, use mock data

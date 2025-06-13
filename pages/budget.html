@@ -16,317 +16,31 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
+    <link rel="stylesheet" href="/style/custom.css" />
     <style>
-      /* General Styling for a 2025 Design Style */
-      /* Primary Color: White (#FFFFFF) */
-      /* Secondary Color: Modern Blue (#007BFF) */
-      /* Accent Colors: Green (#28a745), Red (#dc3545), Yellow (#ffc107) */
-      body {
-        font-family: "Inter", sans-serif; /* Modern, clean font */
-        margin: 0;
-        padding: 0;
-        background-color: #f0f2f5; /* Very light, soft gray for overall background */
-        color: #333; /* Dark gray for general text for excellent readability */
-        display: flex;
-        min-height: 100vh;
-      }
-
-      .dashboard {
-        display: flex;
-        width: 100%;
-      }
-
-      /* --- Navbar (Sidebar) Styling --- */
-      .navbar {
-        width: 250px; /* Fixed width for the sidebar */
-        background-color: #ffffff; /* Primary color: White background for the navbar */
-        padding: 20px 0;
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
-        display: flex;
-        flex-direction: column;
-        position: sticky; /* Keeps navbar in place when scrolling */
-        top: 0;
-        left: 0;
-        height: 100vh; /* Full viewport height */
-        overflow-y: auto; /* Enable scrolling if content exceeds height */
-        border-right: 1px solid #e0e0e0; /* Subtle separator */
-      }
-
-      .navbar_inner {
-        padding: 0 20px;
-      }
-
-      .navbar .top {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-left: 10px; /* Align with nav links */
-      }
-
-      .navbar .top img {
-        height: 35px; /* Adjust as needed for your logo */
-        margin-right: 10px;
-        border-radius: 8px; /* Slightly rounded logo */
-      }
-
-      .navbar .top h1 {
-        font-size: 1.6em;
-        color: #333; /* Dark text for the primary part of the logo name */
-        margin: 0;
-        font-weight: 700;
-      }
-
-      .navbar .top h1 span {
-        color: #007bff; /* Secondary color: Blue for accent in the logo name */
-      }
-
-      .navbar a {
-        display: flex;
-        align-items: center;
-        padding: 12px 15px;
-        margin-bottom: 8px;
-        color: #555; /* Default link color: A slightly lighter gray for inactive links */
-        text-decoration: none;
-        border-radius: 10px; /* More rounded corners for links */
-        transition: background-color 0.3s ease, color 0.3s ease,
-          transform 0.2s ease;
-      }
-
-      .navbar a i {
-        margin-right: 12px;
-        font-size: 1.1em;
-      }
-
-      .navbar a:hover {
-        background-color: #e0f2ff; /* Light blue background on hover */
-        color: #007bff; /* Secondary color: Blue text on hover */
-        transform: translateX(5px); /* Subtle slide effect on hover */
-      }
-
-      .navbar a.active {
-        background-color: #007bff; /* Secondary color: Solid blue background for active link */
-        color: #ffffff; /* Primary color: White text for active link */
-        font-weight: 600;
-        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Subtle shadow for active item */
-      }
-
-      .navbar a.active i {
-        color: #ffffff; /* White icon for active link */
-      }
-
-      /* Mobile Navigation Overlay */
-      .navbar.show {
-        transform: translateX(0);
-      }
-
-      @media (max-width: 768px) {
-        .navbar {
-          position: fixed;
-          left: 0;
-          top: 0;
-          height: 100%;
-          transform: translateX(-100%);
-          transition: transform 0.3s ease-in-out;
-          z-index: 2000; /* Ensure it's above other content */
-        }
-      }
-
-      /* --- Dashboard Header Styling --- */
-      .main-content {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .dashboard_header,
-      .dashboard_header.desktop {
-        background-color: #ffffff; /* Primary color: White background for header */
-        padding: 15px 30px;
-        border-bottom: 1px solid #eee; /* Light border at the bottom */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        /* Adjusted width for desktop view to account for sidebar */
-        width: calc(100% - 250px);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow for header */
-      }
-
-      .dashboard_header .left,
-      .dashboard_header .middle,
-      .dashboard_header .right {
-        display: flex;
-        align-items: center;
-      }
-
-      .dashboard_header .left_left a i {
-        font-size: 1.4em;
-        color: #007bff; /* Secondary color: Blue icon for profile */
-        margin-right: 15px;
-        transition: color 0.3s ease;
-      }
-
-      .dashboard_header .left_left a i:hover {
-        color: #0056b3; /* Darker blue on hover */
-      }
-
-      .dashboard_header .left_right h1 {
-        font-size: 1.1em;
-        margin: 0;
-        color: #333;
-        font-weight: 500;
-      }
-
-      .dashboard_header .left_right a {
-        color: #007bff; /* Secondary color: Blue for the logged-in user name */
-        text-decoration: none;
-        font-weight: 600;
-        margin-left: 5px;
-      }
-
-      .dashboard_header .middle_left p {
-        margin: 0;
-        font-size: 1.05em;
-        color: #555;
-      }
-
-      .dashboard_header .middle_left span {
-        color: #007bff; /* Secondary color: Blue for the user's name in the greeting */
-        font-weight: 600;
-      }
-
-      .dashboard_header .middle_right {
-        display: flex;
-        align-items: center;
-        background-color: #f8f9fa; /* Light gray for search input background */
-        border-radius: 25px; /* Fully rounded search bar */
-        padding: 8px 18px;
-        margin-left: 30px;
-        border: 1px solid #e9ecef; /* Subtle border */
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .dashboard_header .middle_right:focus-within {
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
-      }
-
-      .dashboard_header .middle_right i {
-        color: #777;
-        margin-right: 10px;
-      }
-
-      .dashboard_header .middle_right input[type="search"] {
-        border: none;
-        background: transparent;
-        outline: none;
-        padding: 0;
-        font-size: 0.95em;
-        color: #333;
-        width: 200px; /* Fixed width for search input */
-      }
-
-      .dashboard_header .middle_right input[type="search"]::placeholder {
-        color: #999;
-      }
-
-      .dashboard_header .right_left a {
-        color: #777; /* Default bell icon color */
-        position: relative;
-        font-size: 1.4em;
-        margin-left: 20px;
-        transition: color 0.3s ease;
-      }
-
-      .dashboard_header .right_left a:hover {
-        color: #007bff; /* Secondary color: Blue on hover for bell icon */
-      }
-
-      .dashboard_header .right .no_of_noties {
-        background-color: #dc3545; /* Red for notification count (standard) */
-        color: #ffffff;
-        font-size: 0.7em;
-        padding: 3px 6px;
-        border-radius: 50%;
-        position: absolute;
-        top: -5px;
-        right: -8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: 20px;
-        height: 20px;
-        font-weight: 600;
-        border: 2px solid #ffffff; /* White border to make it pop against background */
-      }
-      .dashboard_header .right .no_of_noties.hide {
-        display: none;
-      }
-
-      .dashboard_header .right_right a i {
-        font-size: 1.4em;
-        color: #007bff; /* Secondary color: Blue for profile icon */
-        margin-left: 15px;
-        transition: color 0.3s ease;
-      }
-      .dashboard_header .right_right a i:hover {
-        color: #0056b3;
-      }
-
-      /* Hide mobile header on desktop, show desktop header */
-      .dashboard_header:not(.desktop) {
-        display: none;
-      }
-      .dashboard_header.desktop {
-        display: flex;
-      }
-
-      @media (max-width: 768px) {
-        .dashboard_header {
-          width: 100%; /* Full width on mobile */
-          justify-content: space-between;
-        }
-        .dashboard_header:not(.desktop) {
-          display: flex; /* Show mobile header */
-          padding: 15px 20px;
-        }
-        .dashboard_header.desktop {
-          display: none; /* Hide desktop header */
-        }
-        .dashboard_header .middle {
-          display: none; /* Hide middle section on mobile */
-        }
-        .dashboard_header .left_left {
-          margin-right: auto; /* Push content to right */
-        }
-        .dashboard_header .right {
-          margin-left: 0; /* Align right section */
-        }
-        .dashboard_header .bar {
-          display: block; /* Show menu icon */
-          font-size: 1.5em;
-          color: #007bff;
-          cursor: pointer;
-          margin-right: 20px;
-        }
-      }
-
       /* --- Main Content Area for Goals and Budgets --- */
+      .main-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
       .content-area {
-        flex-grow: 1;
-        padding: 30px;
         display: grid;
         grid-template-columns: 1fr 1fr; /* Two columns for goals and budgets */
-        gap: 30px; /* Space between sections */
+        align-items: start;
+        justify-content: center;
+        height: 100%;
+        gap: 30px;
+        width: 90%; /* Space between sections */
+        height: 90%;
       }
 
       @media (max-width: 992px) {
         .content-area {
           grid-template-columns: 1fr; /* Single column on smaller screens */
-          padding: 20px;
           gap: 25px;
         }
       }
@@ -338,12 +52,18 @@
         border-radius: 16px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07),
           0 3px 10px rgba(0, 0, 0, 0.04); /* Soft, modern shadow */
-        padding: 30px;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
         gap: 25px; /* Space between header/form and list */
+        width: 100%;
+        padding-block: 1rem;
       }
-
+      .goal_inner,
+      .budget_inner {
+        width: 90%;
+      }
       .goal_inner_top,
       .budget_inner_top {
         display: flex;
@@ -356,7 +76,7 @@
 
       .goal_inner_top h1,
       .budget_inner_top h1 {
-        font-size: 1.8em;
+        font-size: 1.4em;
         color: #007bff; /* Secondary color: Blue for section titles */
         margin: 0;
         font-weight: 600;
@@ -368,13 +88,15 @@
       }
 
       .action-buttons button {
-        padding: 10px 18px;
-        border: none;
-        border-radius: 8px;
-        font-size: 0.95em;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-size: 14px;
+        font-weight: 400;
+        padding-inline: 1rem;
+        height: 2.2rem;
+        padding-block: 0;
+        border: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
       }
 
       .action-buttons .add-btn {
@@ -420,6 +142,8 @@
       }
 
       .modal-content {
+        height: 90%;
+        overflow-y: scroll;
         background-color: #ffffff;
         padding: 30px;
         border-radius: 16px;
@@ -541,17 +265,21 @@
       .budget_inner_bottom {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        width: 100%;
         gap: 15px;
       }
 
       .box {
         background-color: #f8f9fa;
         border-radius: 12px;
-        padding: 15px 20px;
+        padding-block: 0.7rem;
+        width: 100%;
         border: 1px solid #eee;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
@@ -564,6 +292,8 @@
       .box_inner {
         display: flex;
         align-items: center;
+        justify-content: center;
+        width: 95%;
         flex-grow: 1;
       }
 
@@ -576,8 +306,8 @@
       }
 
       .box_inner .left > input[type="checkbox"] {
-        margin-right: 12px;
-        flex-shrink: 0;
+        width: fit-content;
+        height: fit-content;
       }
 
       .box_inner input[type="checkbox"] {
@@ -591,9 +321,15 @@
         margin: 0;
         color: #333;
         font-weight: 500;
+        text-transform: capitalize;
       }
       .box_inner .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
         font-size: 0.9em;
+        text-transform: capitalize;
         color: #777;
       }
       .box_inner .progress-bar-container {
@@ -629,6 +365,7 @@
         width: 100%;
         border-top: 1px dashed #eee;
         padding-top: 8px;
+        padding-inline: 1rem;
       }
       .companions-list .companion {
         background-color: #e0f2ff;
@@ -662,14 +399,16 @@
 
       /* Budget Specific Styling */
       .budget_totals {
-        margin-top: 20px;
-        padding-top: 20px;
+        width: 90%;
+        padding-inline: 1%;
         border-top: 1px solid #eee;
         display: flex;
+        align-items: center;
         justify-content: space-between;
         font-size: 1.1em;
         font-weight: 600;
         color: #333;
+        padding-block-start: 0.7rem;
       }
       .budget_totals span.balance-amount {
         color: #007bff;
@@ -807,6 +546,7 @@
         background: transparent;
         outline: none;
         width: 100%;
+        height: 1.8rem;
         font-size: 0.95em;
         color: #333;
       }
@@ -845,60 +585,59 @@
           <a href="/" class="setting"><i class="fas fa-gear"></i> Setting</a>
         </div>
       </nav>
-
-      <div class="main-content">
-        <!-- Dashboard Header Section -->
-        <div class="dashboard_header">
-          <div class="left">
-            <i class="fas fa-bars bar"></i>
-            <div class="left_left">
-              <a href="./profile.html"> <i class="far fa-user"></i></a>
-            </div>
-            <div class="left_right">
-              <h1>Welcome</h1>
-              <a href="profile.html" id="loggedInUser">Guest</a>
-            </div>
+      <!-- Dashboard Header Section -->
+      <div class="dashboard_header">
+        <div class="left">
+          <i class="fas fa-bars bar"></i>
+          <div class="left_left">
+            <a href="./profile.html"> <i class="far fa-user"></i></a>
           </div>
-          <div class="right">
-            <a href="./notifications.html">
-              <i class="far fa-bell"></i>
-              <div class="no_of_noties"></div>
-            </a>
+          <div class="left_right">
+            <h1>Welcome</h1>
+            <a href="profile.html" id="loggedInUser">Guest</a>
           </div>
         </div>
+        <div class="right">
+          <a href="./notifications.html">
+            <i class="far fa-bell"></i>
+            <div class="no_of_noties"></div>
+          </a>
+        </div>
+      </div>
 
-        <div class="dashboard_header desktop">
-          <div class="left">
-            <i class="fas fa-bars bar"></i>
+      <div class="dashboard_header desktop">
+        <div class="left">
+          <i class="fas fa-bars bar"></i>
+        </div>
+        <div class="middle">
+          <div class="middle_left">
+            <p>
+              Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
+            </p>
           </div>
-          <div class="middle">
-            <div class="middle_left">
-              <p>
-                Hello <span id="loggedInUserMiddle">Guest</span>, good morning!
-              </p>
-            </div>
-            <div class="middle_right">
+          <!-- <div class="middle_right">
               <i class="fas fa-search"></i>
               <input type="search" placeholder="Search here...." />
-            </div>
+            </div> -->
+        </div>
+        <div class="right">
+          <div class="right_left">
+            <a href="./notifications.html"
+              ><i class="far fa-bell"></i>
+              <div class="no_of_noties"></div
+            ></a>
           </div>
-          <div class="right">
-            <div class="right_left">
-              <a href="./notifications.html"
-                ><i class="far fa-bell"></i>
-                <div class="no_of_noties"></div
-              ></a>
-            </div>
-            <div class="right_right">
-              <a href="./profile.html"> <i class="fas fa-user"></i></a>
-            </div>
+          <div class="right_right">
+            <a href="./profile.html"> <i class="fas fa-user"></i></a>
           </div>
         </div>
+      </div>
 
-        <!-- Main Content Area for Goals and Budgets -->
-        <div class="content-area">
-          <!-- Goals Section -->
-          <div class="goal">
+      <!-- Main Content Area for Goals and Budgets -->
+      <div class="content-area">
+        <!-- Goals Section -->
+        <div class="goal">
+          <div class="goal_inner">
             <div class="goal_inner_top">
               <div class="left">
                 <h1>Goals</h1>
@@ -925,9 +664,11 @@
               <!-- Goal items will be dynamically added here by JavaScript -->
             </div>
           </div>
+        </div>
 
-          <!-- Budgets Section -->
-          <div class="budget">
+        <!-- Budgets Section -->
+        <div class="budget">
+          <div class="budget_inner">
             <div class="budget_inner_top">
               <div class="left">
                 <h1>Budgets</h1>
@@ -953,16 +694,16 @@
             <div class="budget_inner_bottom" id="budgetsList">
               <!-- Budget items will be dynamically added here by JavaScript -->
             </div>
-            <div class="budget_totals">
-              <span
-                >Total Budgeted:
-                <span class="balance-amount" id="totalBudgeted">$0</span></span
-              >
-              <span
-                >Total Spent:
-                <span class="balance-amount" id="totalSpent">$0</span></span
-              >
-            </div>
+          </div>
+          <div class="budget_totals">
+            <span
+              >Total Budgeted:
+              <span class="balance-amount" id="totalBudgeted">$0</span></span
+            >
+            <span
+              >Total Spent:
+              <span class="balance-amount" id="totalSpent">$0</span></span
+            >
           </div>
         </div>
       </div>
@@ -1152,8 +893,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Dynamic Collaborator Suggestions Box (will be created and appended by JS) -->
 
     <script>
       // --- Global variables and initial setup ---
@@ -1777,11 +1516,14 @@
           )}% Complete by ${goal.targetDate || "N/A"}</div>
               </div>
               </div>
-            </div>
-            <div class="item-actions">
+              <div class="right">
+                            <div class="item-actions">
               <button class="edit-item"><i class="fas fa-edit"></i>E</button>
               <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
             </div>
+              </div>
+            </div>
+
             ${
               goal.collaborators && goal.collaborators.length > 0
                 ? `
@@ -1869,11 +1611,14 @@
                 <div class="progress-text" style="color: ${statusColor};">${statusText}</div>
               </div>
               </div>
-            </div>
-            <div class="item-actions">
+              <div class="right">
+                    <div class="item-actions">
               <button class="edit-item"><i class="fas fa-edit"></i>E</button>
               <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
             </div>
+              </div>
+            </div>
+        
             ${
               budget.collaborators && budget.collaborators.length > 0
                 ? `
@@ -2056,7 +1801,9 @@
               );
               createNotification(
                 loggedInId,
-                `You deleted the goal: "${item.querySelector("h1").textContent}".`,
+                `${
+                  loggedInId == goal.user_id ? "You" : collaboratorsIds
+                } deleted the goal: "${item.querySelector("h1").textContent}".`,
                 notificationId(itemId),
                 "goal_deleted"
               );
@@ -2156,29 +1903,43 @@
                 // Compare old and new values to build a change summary
                 let changes = [];
                 if (goalToEdit.name !== updatedGoal.name)
-                  changes.push(`Name: "${goalToEdit.name}" → "${updatedGoal.name}"`);
+                  changes.push(
+                    `Name: "${goalToEdit.name}" → "${updatedGoal.name}"`
+                  );
                 if (goalToEdit.about !== updatedGoal.about)
-                  changes.push(`About: "${goalToEdit.about}" → "${updatedGoal.about}"`);
+                  changes.push(
+                    `About: "${goalToEdit.about}" → "${updatedGoal.about}"`
+                  );
                 if (goalToEdit.targetAmount !== updatedGoal.targetAmount)
                   changes.push(
-                  `Target Amount: $${goalToEdit.targetAmount} → $${updatedGoal.targetAmount}`
+                    `Target Amount: $${goalToEdit.targetAmount} → $${updatedGoal.targetAmount}`
                   );
                 if (goalToEdit.targetDate !== updatedGoal.targetDate)
                   changes.push(
-                  `Target Date: ${goalToEdit.targetDate || "N/A"} → ${updatedGoal.targetDate || "N/A"}`
+                    `Target Date: ${goalToEdit.targetDate || "N/A"} → ${
+                      updatedGoal.targetDate || "N/A"
+                    }`
                   );
                 // Compare collaborators (as sets of usernames)
-                const oldCollabs = (goalToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
-                const newCollabs = (updatedGoal.collaborators || []).map(getUsernameById).filter(Boolean);
-                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                const oldCollabs = (goalToEdit.collaborators || [])
+                  .map(getUsernameById)
+                  .filter(Boolean);
+                const newCollabs = (updatedGoal.collaborators || [])
+                  .map(getUsernameById)
+                  .filter(Boolean);
+                if (
+                  oldCollabs.sort().join(",") !== newCollabs.sort().join(",")
+                ) {
                   changes.push(
-                  `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                    `Collaborators: [${oldCollabs.join(
+                      ", "
+                    )}] → [${newCollabs.join(", ")}]`
                   );
                 }
                 let changeMsg =
                   changes.length > 0
-                  ? "Goal updated:\n" + changes.join("\n")
-                  : "Goal updated (no visible changes).";
+                    ? "Goal updated:\n" + changes.join("\n")
+                    : "Goal updated (no visible changes).";
                 // Send notification to self (editor)
                 createNotification(
                   loggedInId,
@@ -2189,12 +1950,14 @@
                 // Send notification to collaborators (except self)
                 (updatedGoal.collaborators || []).forEach((id) => {
                   if (String(id) !== String(loggedInId)) {
-                  createNotification(
-                    id,
-                    `${getUserNameById(loggedInId)} edited the goal: "${savedGoal.name}".\n${changeMsg}`,
-                    notificationId(savedGoal.id),
-                    "goal_edited"
-                  );
+                    createNotification(
+                      id,
+                      `${getUserNameById(loggedInId)} edited the goal: "${
+                        savedGoal.name
+                      }".\n${changeMsg}`,
+                      notificationId(savedGoal.id),
+                      "goal_edited"
+                    );
                   }
                 });
                 console.log("Goal updated successfully:", savedGoal);
@@ -2362,27 +2125,43 @@
                 // Compare old and new values to build a change summary
                 let changes = [];
                 if (budgetToEdit.category !== updatedBudget.category)
-                  changes.push(`Category: "${budgetToEdit.category}" → "${updatedBudget.category}"`);
+                  changes.push(
+                    `Category: "${budgetToEdit.category}" → "${updatedBudget.category}"`
+                  );
                 if (budgetToEdit.about !== updatedBudget.about)
-                  changes.push(`About: "${budgetToEdit.about}" → "${updatedBudget.about}"`);
+                  changes.push(
+                    `About: "${budgetToEdit.about}" → "${updatedBudget.about}"`
+                  );
                 if (budgetToEdit.budgetAmount !== updatedBudget.budgetAmount)
                   changes.push(
                     `Budget Amount: $${budgetToEdit.budgetAmount} → $${updatedBudget.budgetAmount}`
                   );
                 if (budgetToEdit.frequency !== updatedBudget.frequency)
                   changes.push(
-                    `Frequency: ${budgetToEdit.frequency || "N/A"} → ${updatedBudget.frequency || "N/A"}`
+                    `Frequency: ${budgetToEdit.frequency || "N/A"} → ${
+                      updatedBudget.frequency || "N/A"
+                    }`
                   );
                 if (budgetToEdit.endDate !== updatedBudget.endDate)
                   changes.push(
-                    `End Date: ${budgetToEdit.endDate || "N/A"} → ${updatedBudget.endDate || "N/A"}`
+                    `End Date: ${budgetToEdit.endDate || "N/A"} → ${
+                      updatedBudget.endDate || "N/A"
+                    }`
                   );
                 // Compare collaborators (as sets of usernames)
-                const oldCollabs = (budgetToEdit.collaborators || []).map(getUsernameById).filter(Boolean);
-                const newCollabs = (updatedBudget.collaborators || []).map(getUsernameById).filter(Boolean);
-                if (oldCollabs.sort().join(",") !== newCollabs.sort().join(",")) {
+                const oldCollabs = (budgetToEdit.collaborators || [])
+                  .map(getUsernameById)
+                  .filter(Boolean);
+                const newCollabs = (updatedBudget.collaborators || [])
+                  .map(getUsernameById)
+                  .filter(Boolean);
+                if (
+                  oldCollabs.sort().join(",") !== newCollabs.sort().join(",")
+                ) {
                   changes.push(
-                    `Collaborators: [${oldCollabs.join(", ")}] → [${newCollabs.join(", ")}]`
+                    `Collaborators: [${oldCollabs.join(
+                      ", "
+                    )}] → [${newCollabs.join(", ")}]`
                   );
                 }
                 let changeMsg =
@@ -2564,44 +2343,55 @@
 
         // If fetch fails or returns empty, try to fetch from local db.json as a fallback
         if (
-          (!fetchedData.users || fetchedData.users.length === 0) ||
-          (!fetchedData.goals || fetchedData.goals.length === 0) ||
-          (!fetchedData.budgets || fetchedData.budgets.length === 0) ||
-          (!fetchedData.notifications || fetchedData.notifications.length === 0)
+          !fetchedData.users ||
+          fetchedData.users.length === 0 ||
+          !fetchedData.goals ||
+          fetchedData.goals.length === 0 ||
+          !fetchedData.budgets ||
+          fetchedData.budgets.length === 0 ||
+          !fetchedData.notifications ||
+          fetchedData.notifications.length === 0
         ) {
           try {
             const dbResponse = await fetch("/db.json");
             if (dbResponse.ok) {
               const dbJson = await dbResponse.json();
               if (dbJson.users && dbJson.users.length > 0) {
-          allUsers = dbJson.users.map((u) => ({ ...u, id: normalizeId(u.id) }));
+                allUsers = dbJson.users.map((u) => ({
+                  ...u,
+                  id: normalizeId(u.id),
+                }));
               }
               if (dbJson.goals && dbJson.goals.length > 0) {
-          allGoals = dbJson.goals.map((g) => ({
-            ...g,
-            id: normalizeId(g.id),
-            creatorId: normalizeId(g.creatorId),
-            collaborators: g.collaborators ? g.collaborators.map(normalizeId) : [],
-          }));
+                allGoals = dbJson.goals.map((g) => ({
+                  ...g,
+                  id: normalizeId(g.id),
+                  creatorId: normalizeId(g.creatorId),
+                  collaborators: g.collaborators
+                    ? g.collaborators.map(normalizeId)
+                    : [],
+                }));
               }
               if (dbJson.budgets && dbJson.budgets.length > 0) {
-          allBudgets = dbJson.budgets.map((b) => ({
-            ...b,
-            id: normalizeId(b.id),
-            creatorId: normalizeId(b.creatorId),
-            collaborators: b.collaborators ? b.collaborators.map(normalizeId) : [],
-          }));
+                allBudgets = dbJson.budgets.map((b) => ({
+                  ...b,
+                  id: normalizeId(b.id),
+                  creatorId: normalizeId(b.creatorId),
+                  collaborators: b.collaborators
+                    ? b.collaborators.map(normalizeId)
+                    : [],
+                }));
               }
               if (dbJson.notifications && dbJson.notifications.length > 0) {
-          allNotifications = dbJson.notifications.map((n) => ({
-            ...n,
-            user_id: notificationId(n.user_id),
-            sender_id: notificationId(n.sender_id),
-            related_id: notificationId(n.related_id),
-          }));
+                allNotifications = dbJson.notifications.map((n) => ({
+                  ...n,
+                  user_id: notificationId(n.user_id),
+                  sender_id: notificationId(n.sender_id),
+                  related_id: notificationId(n.related_id),
+                }));
               }
               if (dbJson.savings) {
-          allSavings = dbJson.savings;
+                allSavings = dbJson.savings;
               }
             }
           } catch (err) {

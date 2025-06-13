@@ -65,12 +65,12 @@
         </div>
       </div>
       <div class="profile">
-       <div class="notification_header">
+        <div class="notification_header">
           <div class="notification_header_left">
             <a href="./index.html"><i class="fas fa-chevron-left"></i></a>
           </div>
           <div class="notification_header_right">
-<i class="fas fa-ellipsis"></i>
+            <i class="fas fa-ellipsis"></i>
           </div>
         </div>
         <div class="profile_body">
@@ -129,7 +129,7 @@
           <div class="profile_inner">
             <div id="profiles" class="profiles"></div>
             <div class="profiles_actions">
-                    <a href="/pages/profile.html" class="edit_profile"
+              <a href="/pages/profile.html" class="edit_profile"
                 ><div class="left">
                   <i class="far fa-edit"></i>
                 </div>
@@ -370,7 +370,11 @@
           } else {
             document.getElementById("profiles").innerHTML = `
                         <div class="user-profile">
-                                <img src="${user.image}" alt="Profile Image" />
+                               ${
+                                 user.imgae
+                                   ? ` <img src="${user.image}" alt="Profile Image" />`
+                                   : `<i class="far fa-user"></i>`
+                               }
                             <div class="user-info">
                                 <h2>${user.name}</h2>
                                 <p>@${user.name}</p>
