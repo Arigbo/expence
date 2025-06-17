@@ -1345,7 +1345,10 @@
             document.getElementById("goalTargetDate").value;
           const rawCollaborators =
             document.getElementById("goalCollaborators").value;
-          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
+          // Ensure collaborators are always an array of user IDs
+          const collaboratorsIds = Array.isArray(getCollaboratorIds(rawCollaborators))
+            ? getCollaboratorIds(rawCollaborators)
+            : [];
 
           // Generate a unique numeric ID for the new goal on the client side
           const newId =
@@ -1553,7 +1556,7 @@
           goalItem.classList.add("box");
           // data-id always stores the string representation of the ID for consistency with HTML and API
           goalItem.setAttribute("data-id", apiId(goal.id));
-          goalItem.innerHTML = `
+            goalItem.innerHTML = `
             <div class="box_inner">
               <div class="left">
               <input type="checkbox" class="goal-checkbox" ${
@@ -1561,44 +1564,44 @@
               }/>
               <div>
                 <h1>${goal.name}</h1>
-                <div class="details">Target: $${goal.targetAmount.toLocaleString()} | Achieved: $${goal.achievedAmount.toLocaleString()}</div>
+                <div class="details">Target: $${goal.targetAmount && !isNaN(goal.targetAmount) ? Number(goal.targetAmount).toLocaleString() : "0"} | Achieved: $${goal.achievedAmount && !isNaN(goal.achievedAmount) ? Number(goal.achievedAmount).toLocaleString() : "0"}</div>
                 <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: ${Math.min(
-                    percentComplete,
-                    100
-                  )}%; background-color: ${statusColor};"></div>
+                <div class="progress-bar" style="width: ${isNaN(percentComplete) ? 0 : Math.min(
+                  percentComplete,
+                  100
+                )}%; background-color: ${statusColor};"></div>
                 </div>
-                <div class="progress-text" style="color: ${statusColor};">${Math.round(
-            percentComplete
-          )}% Complete by ${goal.targetDate || "N/A"}</div>
+                <div class="progress-text" style="color: ${statusColor};">${isNaN(percentComplete) ? 0 : Math.round(
+                percentComplete
+                )}% Complete by ${goal.targetDate || "N/A"}</div>
               </div>
               </div>
               <div class="right">
-                            <div class="item-actions">
-              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
-              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
-            </div>
+              <div class="item-actions">
+                <button class="edit-item"><i class="fas fa-edit"></i>E</button>
+                <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
+              </div>
               </div>
             </div>
-
             ${
-              goal.collaborators && goal.collaborators.length > 0
-                ? `
-            <div class="companions-list">
-              <span>Companions:</span>
-              ${goal.collaborators
-                .map(
-                  (id) =>
-                    `<span class="companion">${getUserNameById(id)}</span>`
-                )
-                .join("")}
-            </div>`
-                : ""
+              Array.isArray(goal.collaborators) && goal.collaborators.length > 0
+              ? `<div class="companions-list">
+                <span>Companions:</span>
+                ${goal.collaborators
+                  .map((id) => {
+                  const name = getUserNameById(id);
+                  const username = getUsernameById(id);
+                  return username
+                    ? `<span class="companion">${name} (@${username})</span>`
+                    : "";
+                  })
+                  .filter(Boolean)
+                  .join("")}
+                </div>`
+              : `<div class="companions-list"><span>Companions:</span> <span style="color:#aaa;">None</span></div>`
             }
             `;
-          goalsList.appendChild(goalItem);
-        });
-      }
+            goalsList.appendChild(goalItem);
 
       function renderBudgets() {
         const budgetsList = document.getElementById("budgetsList");
