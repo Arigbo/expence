@@ -835,10 +835,98 @@
       "sender": "Jonathan Jesse",
       "sender_id": 4,
       "message": "You created a new goal: \"h\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-11T19:50:41.147Z",
       "related_id": 1,
       "type": "goal_created"
+    },
+    {
+      "id": "75",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"NEW CAR\".",
+      "read": false,
+      "created_at": "2025-06-16T23:27:55.399Z",
+      "related_id": 2,
+      "type": "goal_created"
+    },
+    {
+      "id": "76",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"NEW CAR\".",
+      "read": true,
+      "created_at": "2025-06-16T23:31:50.285Z",
+      "related_id": 3,
+      "type": "goal_created"
+    },
+    {
+      "id": "77",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"NEW CAR\".",
+      "read": true,
+      "created_at": "2025-06-16T23:36:17.758Z",
+      "related_id": 4,
+      "type": "goal_created"
+    },
+    {
+      "id": "78",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new budget: \"gr\".",
+      "read": true,
+      "created_at": "2025-06-16T23:36:23.024Z",
+      "related_id": 1,
+      "type": "budget_created"
+    },
+    {
+      "id": "79",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"NEW CAR\".",
+      "read": false,
+      "created_at": "2025-06-16T23:45:05.064Z",
+      "related_id": 1,
+      "type": "goal_created"
+    },
+    {
+      "id": "80",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new goal: \"NEW CAR\".",
+      "read": false,
+      "created_at": "2025-06-16T23:52:17.497Z",
+      "related_id": 2,
+      "type": "goal_created"
+    },
+    {
+      "id": "81",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "Goal updated:\nTarget Amount: $6666666 → $666666",
+      "read": false,
+      "created_at": "2025-06-17T00:00:55.879Z",
+      "related_id": 1,
+      "type": "goal_edited"
+    },
+    {
+      "id": "82",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "message": "You created a new budget: \"gr\".",
+      "read": false,
+      "created_at": "2025-06-17T00:01:23.034Z",
+      "related_id": 1,
+      "type": "budget_created"
     }
   ],
   "blogs": [
@@ -1351,15 +1439,27 @@
   "goals": [
     {
       "id": "1",
-      "name": "h",
+      "name": "NEW CAR",
       "about": "",
-      "targetAmount": 44444,
+      "targetAmount": 666666,
       "achievedAmount": 0,
-      "targetDate": "2025-06-20",
-      "creatorId": "4",
-      "collaborators": [1]
+      "targetDate": "2025-06-19",
+      "creatorId": 4,
+      "collaborators": []
     }
   ],
-  "budgets": [],
+  "budgets": [
+    {
+      "id": "1",
+      "category": "gr",
+      "about": "",
+      "budgetAmount": 400,
+      "spentAmount": 0,
+      "frequency": "monthly",
+      "endDate": "2025-06-28",
+      "creatorId": "4",
+      "collaborators": []
+    }
+  ],
   "savings": []
 }

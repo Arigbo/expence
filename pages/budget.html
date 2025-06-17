@@ -558,25 +558,18 @@
   <body>
     <div class="dashboard">
       <!-- Navbar Section -->
-      <nav class="navbar">
+     <nav class="navbar">
         <div class="navbar_inner">
           <div class="top">
-            <!-- Placeholder for Logomark - replace with actual image path -->
-            <div>
-              <img
-                src="https://placehold.co/40x40/007BFF/FFFFFF?text=Logo"
-                alt="Logo"
-              />
-            </div>
+            <div><img src="/Logomark.png" alt="" /></div>
             <h1 class="">Spen<span>track</span></h1>
           </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
-          >
-          <a href="/pages/transaction.html" class="transaction"
+          ><a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
-          <a href="./budget.html" class="budget active"
+          <a href="./budget.html" class="budget-"
             ><i class="fas fa-rocket"></i> Budgets</a
           >
           <a href="/" class="report"
@@ -588,7 +581,6 @@
       <!-- Dashboard Header Section -->
       <div class="dashboard_header">
         <div class="left">
-          <i class="fas fa-bars bar"></i>
           <div class="left_left">
             <a href="./profile.html"> <i class="far fa-user"></i></a>
           </div>
@@ -893,7 +885,98 @@
         </div>
       </div>
     </div>
+    <script>
+       document.querySelector(".navbar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+    document.querySelector(".bar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.add("show");
+    });
+    localStorage.setItem("page", "budget");
+    let page = localStorage.getItem("page");
+    document.querySelector(".dash").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "dashb");
+    });
+    if (page && page === "dashb") {
+      document.querySelector(".dash").classList.add("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
 
+    document
+      .querySelector(".transaction")
+      .addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "transaction");
+      });
+    if (page && page === "transaction") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.add("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".budget-").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "budget");
+    });
+    if (page && page === "budget") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.add("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".report").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+      return localStorage.setItem("page", "report");
+    });
+    if (page && page === "report") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.add("active");
+      document.querySelector(".setting").classList.remove("active");
+    }
+
+    document.querySelector(".setting").addEventListener("click", function (e) {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget").classList.remove("active");
+      document.querySelector(".report-").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+      return localStorage.setItem("page", "setting");
+    });
+    if (page && page === "setting") {
+      document.querySelector(".dash").classList.remove("active");
+      document.querySelector(".transaction").classList.remove("active");
+      document.querySelector(".budget-").classList.remove("active");
+      document.querySelector(".report").classList.remove("active");
+      document.querySelector(".setting").classList.add("active");
+    }
+
+     </script>
     <script>
       // --- Global variables and initial setup ---
       // Hardcode loggedInId to 4 as requested.
@@ -1084,32 +1167,6 @@
           );
         }
       };
-
-      // --- Navigation Active State Logic ---
-      const activateNavLink = (pageName) => {
-        const navLinks = document.querySelectorAll(".navbar a");
-        navLinks.forEach((link) => link.classList.remove("active"));
-
-        const currentPageLink = document.querySelector(
-          `.navbar a[href*="${pageName}"]`
-        );
-        if (currentPageLink) {
-          currentPageLink.classList.add("active");
-          localStorage.setItem("page", pageName);
-        }
-      };
-
-      // --- Mobile Navbar Toggle ---
-      document.querySelector(".bar").addEventListener("click", function () {
-        document.querySelector(".navbar").classList.add("show");
-      });
-
-      document.querySelector(".navbar").addEventListener("click", function (e) {
-        if (!e.target.closest(".navbar_inner") || e.target.tagName === "A") {
-          document.querySelector(".navbar").classList.remove("show");
-        }
-      });
-
       // --- Modal Logic ---
       const addGoalModal = document.getElementById("addGoalModal");
       const addBudgetModal = document.getElementById("addBudgetModal");
