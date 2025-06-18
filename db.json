@@ -1053,18 +1053,6 @@
     },
     {
       "id": "89",
-      "user_id": 4,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-18T14:19:33.326Z",
-      "related_id": 9100,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "89",
       "user_id": null,
       "sender": "Jesse Arigbo",
       "sender_id": 3,
@@ -1161,51 +1149,15 @@
     },
     {
       "id": "92",
-      "user_id": 4,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "You created a new goal: \"NEW CAR\".",
-      "read": true,
-      "created_at": "2025-06-18T14:20:49.040Z",
-      "related_id": 3700000000,
-      "type": "goal_created"
-    },
-    {
-      "id": "92",
-      "user_id": 1,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "You were added as a collaborator to goal \"NEW CAR\".",
-      "read": false,
-      "created_at": "2025-06-18T14:20:49.067Z",
-      "related_id": 3700000000,
-      "type": "goal_collaborator"
-    },
-    {
-      "id": "92",
       "user_id": 3,
       "sender": "Jonathan Jesse",
       "sender_id": 4,
       "sender_dp": "",
       "message": "You were added as a collaborator to goal \"NEW CAR\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-18T14:20:49.084Z",
       "related_id": 3700000000,
       "type": "goal_collaborator"
-    },
-    {
-      "id": "93",
-      "user_id": 4,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": true,
-      "created_at": "2025-06-18T14:21:19.297Z",
-      "related_id": 3700000000,
-      "type": "goal_deleted"
     },
     {
       "id": "93",
@@ -1229,6 +1181,42 @@
       "read": false,
       "created_at": "2025-06-18T14:21:19.402Z",
       "related_id": 3700000000,
+      "type": "goal_deleted"
+    },
+    {
+      "id": "94",
+      "user_id": 3,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "sender_dp": "",
+      "message": "You were added as a collaborator to goal \"NEW CAR\".",
+      "read": true,
+      "created_at": "2025-06-18T14:42:21.587Z",
+      "related_id": 1434,
+      "type": "goal_collaborator"
+    },
+    {
+      "id": "95",
+      "user_id": 4,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "Goal \"NEW CAR\" was deleted.",
+      "read": true,
+      "created_at": "2025-06-18T14:44:26.386Z",
+      "related_id": 1434,
+      "type": "goal_deleted"
+    },
+    {
+      "id": "95",
+      "user_id": null,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "Goal \"NEW CAR\" was deleted.",
+      "read": false,
+      "created_at": "2025-06-18T14:44:26.439Z",
+      "related_id": 1434,
       "type": "goal_deleted"
     }
   ],
