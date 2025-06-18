@@ -189,12 +189,7 @@
     </div>
   </body>
   <script>
-    document.querySelector(".navbar").addEventListener("click", function (e) {
-      document.querySelector(".navbar").classList.remove("show");
-    });
-    document.querySelector(".bar").addEventListener("click", function (e) {
-      document.querySelector(".navbar").classList.add("show");
-    });
+
     async function fetchTransactions() {
       const response = await fetch("/db.json"); // Adjusted path to match relative location
       const data = await response.json();
@@ -361,7 +356,14 @@
 
     // Initial load
     filterTransactions();
-
+     </script>
+     <script>
+       document.querySelector(".navbar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.remove("show");
+    });
+    document.querySelector(".bar").addEventListener("click", function (e) {
+      document.querySelector(".navbar").classList.add("show");
+    });
     localStorage.setItem("page", "transaction");
     let page = localStorage.getItem("page");
     document.querySelector(".dash").addEventListener("click", function (e) {
@@ -445,5 +447,6 @@
       document.querySelector(".report").classList.remove("active");
       document.querySelector(".setting").classList.add("active");
     }
-  </script>
+
+     </script>
 </html>

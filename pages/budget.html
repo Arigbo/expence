@@ -561,22 +561,15 @@
       <nav class="navbar">
         <div class="navbar_inner">
           <div class="top">
-            <!-- Placeholder for Logomark - replace with actual image path -->
-            <div>
-              <img
-                src="https://placehold.co/40x40/007BFF/FFFFFF?text=Logo"
-                alt="Logo"
-              />
-            </div>
+            <div><img src="/Logomark.png" alt="" /></div>
             <h1 class="">Spen<span>track</span></h1>
           </div>
           <a href="./index.html" class="dash"
             ><i class="fas fa-cube"></i> Dashboard</a
-          >
-          <a href="/pages/transaction.html" class="transaction"
+          ><a href="/pages/transaction.html" class="transaction"
             ><i class="fas fa-exchange-alt"></i> Transactions</a
           >
-          <a href="./budget.html" class="budget active"
+          <a href="./budget.html" class="budget-"
             ><i class="fas fa-rocket"></i> Budgets</a
           >
           <a href="/" class="report"
@@ -588,7 +581,6 @@
       <!-- Dashboard Header Section -->
       <div class="dashboard_header">
         <div class="left">
-          <i class="fas fa-bars bar"></i>
           <div class="left_left">
             <a href="./profile.html"> <i class="far fa-user"></i></a>
           </div>
@@ -893,69 +885,229 @@
         </div>
       </div>
     </div>
-
     <script>
-      // --- Global variables and initial setup ---
-      // Hardcode loggedInId to 4 as requested.
-      const loggedInId = localStorage.getItem("loggedin_id"); // Changed to number
-      // We will assume isLoggedIn is true if loggedInId is set. In a real app, this would come from auth state.
-      let isLoggedIn = localStorage.getItem("isLoggedIn"); // Set to true since loggedInId is provided
+      document.querySelector(".navbar").addEventListener("click", function (e) {
+        document.querySelector(".navbar").classList.remove("show");
+      });
+      document.querySelector(".bar").addEventListener("click", function (e) {
+        document.querySelector(".navbar").classList.add("show");
+      });
+      localStorage.setItem("page", "budget");
+      let page = localStorage.getItem("page");
+      document.querySelector(".dash").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "dashb");
+      });
+      if (page && page === "dashb") {
+        document.querySelector(".dash").classList.add("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
 
+      document
+        .querySelector(".transaction")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.add("active");
+          document.querySelector(".budget-").classList.remove("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.remove("active");
+          return localStorage.setItem("page", "transaction");
+        });
+      if (page && page === "transaction") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.add("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document
+        .querySelector(".budget-")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.remove("active");
+          document.querySelector(".budget-").classList.add("active");
+          document.querySelector(".report").classList.remove("active");
+          document.querySelector(".setting").classList.remove("active");
+          return localStorage.setItem("page", "budget");
+        });
+      if (page && page === "budget") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.add("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document.querySelector(".report").addEventListener("click", function (e) {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+        return localStorage.setItem("page", "report");
+      });
+      if (page && page === "report") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.add("active");
+        document.querySelector(".setting").classList.remove("active");
+      }
+
+      document
+        .querySelector(".setting")
+        .addEventListener("click", function (e) {
+          document.querySelector(".dash").classList.remove("active");
+          document.querySelector(".transaction").classList.remove("active");
+          document.querySelector(".budget").classList.remove("active");
+          document.querySelector(".report-").classList.remove("active");
+          document.querySelector(".setting").classList.add("active");
+          return localStorage.setItem("page", "setting");
+        });
+      if (page && page === "setting") {
+        document.querySelector(".dash").classList.remove("active");
+        document.querySelector(".transaction").classList.remove("active");
+        document.querySelector(".budget-").classList.remove("active");
+        document.querySelector(".report").classList.remove("active");
+        document.querySelector(".setting").classList.add("active");
+      }
+    </script>
+    <script>
+      // --- Collaborator Modal Logic ---
+      let collaboratorModal = null;
+      let collaboratorInputTarget = null;
+      let collaboratorUsers = [];
+
+      // --- All notifications array ---
       let allNotifications = [];
-      let allGoals = [];
-      let allBudgets = [];
-      let allSavings = []; // Placeholder, if you plan to use this data
 
-      // Filter text for goals and budgets
-      let goalFilterText = "";
-      let budgetFilterText = "";
+      // Fetch users from db.json (fallback if not already loaded)
+      async function fetchCollaboratorUsers() {
+        if (window.allUsers && window.allUsers.length) {
+          collaboratorUsers = window.allUsers;
+          return;
+        }
+        try {
+          // Try API first
+          let res = await fetch("http://localhost:3000/users");
+          if (res.ok) {
+            collaboratorUsers = await res.json();
+            return;
+          }
+        } catch {}
+        try {
+          // Fallback to db.json
+          let res = await fetch("/db.json");
+          if (res.ok) {
+            let db = await res.json();
+            collaboratorUsers = db.users || [];
+          }
+        } catch {}
+      }
 
-      // Helper function to normalize IDs for internal storage (prefer number, fallback to string)
-      const normalizeId = (id) => {
-        const numId = Number(id);
-        return isNaN(numId) ? String(id) : numId; // Store as number if valid, else as string
-      };
+      // Create the collaborator modal if it doesn't exist
+      function createCollaboratorModal() {
+        if (collaboratorModal) return collaboratorModal;
+        collaboratorModal = document.createElement("div");
+        collaboratorModal.className = "modal-overlay";
+        collaboratorModal.id = "collaboratorModal";
+        collaboratorModal.innerHTML = `
+          <div class="modal-content">
+            <button class="close-btn">&times;</button>
+            <h2>Select Collaborators</h2>
+            <div id="collaboratorList"></div>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn">Cancel</button>
+              <button type="button" class="submit-btn">Add Selected</button>
+            </div>
+          </div>
+        `;
 
-      // Helper function to format IDs for API requests (always string)
-      const apiId = (id) => {
-        return String(id);
-      };
+        document.body.appendChild(collaboratorModal);
 
-      // Helper function to format IDs for notifications (always number as per user request)
-      const notificationId = (id) => {
-        return Number(id); // Will be NaN if original is a non-numeric string
-      };
+        // Close modal
+        collaboratorModal.querySelector(".close-btn").onclick =
+          collaboratorModal.querySelector(".cancel-btn").onclick = function () {
+            collaboratorModal.classList.remove("show");
+          };
 
-      // Helper function to find a user's name by their ID
-      const getUserNameById = (id) => {
-        // Convert both sides to string for robust comparison
-        const user = allUsers.find((u) => String(u.id) === String(id));
-        return user ? user.name : "Unknown User";
-      };
+        // Add selected collaborators to the input
+        collaboratorModal.querySelector(".submit-btn").onclick = function () {
+          const checked = Array.from(
+            collaboratorModal.querySelectorAll("input[type=checkbox]:checked")
+          );
+          const usernames = checked.map((cb) => "@" + cb.value);
+          if (collaboratorInputTarget) {
+            collaboratorInputTarget.value = usernames.join(" ") + " ";
+            collaboratorInputTarget.focus();
+          }
+          collaboratorModal.classList.remove("show");
+        };
 
-      // Helper function to find a user's username by their ID
-      const getUsernameById = (id) => {
-        // Convert both sides to string for robust comparison
-        const user = allUsers.find((u) => String(u.id) === String(id));
-        return user ? user.username : null;
-      };
+        return collaboratorModal;
+      }
 
-      // Helper function to get collaborator IDs from a raw input string
-      const getCollaboratorIds = (collaboratorsString) => {
-        if (!collaboratorsString) return [];
-        const usernames = collaboratorsString.match(/@(\w+)/g);
-        if (!usernames) return [];
-        return usernames
-          .map((u) => {
-            const username = u.substring(1);
-            const user = allUsers.find((user) => user.username === username);
-            // Normalize ID for internal storage
-            return user ? normalizeId(user.id) : null;
-          })
-          .filter((id) => id !== null); // Filter out nulls
-      };
+      // Show the collaborator modal for a given input
+      async function showCollaboratorModal(input) {
+        collaboratorInputTarget = input;
+        await fetchCollaboratorUsers();
+        const modal = createCollaboratorModal();
+        const list = modal.querySelector("#collaboratorList");
+        // Exclude self
+        const selfId = localStorage.getItem("loggedin_id") || 1;
+        list.innerHTML = collaboratorUsers
+          .filter((u) => String(u.id) !== String(selfId))
+          .map(
+            (u) =>
+              `<label style="display:block;margin-bottom:6px;">
+              <input type="checkbox" value="${u.username}" class="check"> ${u.name} <span style="color:#888;">(@${u.username})</span>
+              </label>`
+          )
+          .join("");
+        // Pre-check already mentioned users
+        const current = input.value
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1));
+        list.querySelectorAll("input[type=checkbox]").forEach((cb) => {
+          if (current.includes(cb.value)) cb.checked = true;
+        });
+        modal.classList.add("show");
+      }
 
-      // Function to get the next notification ID (unique, incrementing)
+      // Attach icon trigger to collaborator inputs
+      ["goalCollaborators", "budgetCollaborators"].forEach((id) => {
+        const input = document.getElementById(id);
+        if (input) {
+          // Insert icon after input
+          const icon = document.createElement("i");
+          icon.className = "fas fa-user-plus";
+          icon.style.cursor = "pointer";
+          icon.style.marginLeft = "8px";
+          icon.title = "Pick collaborators";
+          icon.onclick = function () {
+            showCollaboratorModal(input);
+          };
+          input.parentNode.insertBefore(icon, input.nextSibling);
+
+          // Optionally, show a hint on focus
+          input.addEventListener("focus", function () {
+            input.setAttribute(
+              "placeholder",
+              (input.getAttribute("placeholder") || "") +
+                " (click icon to pick users)"
+            );
+          });
+        }
+      });
       function getNextNotificationId() {
         // Find all existing notification IDs in allNotifications (from db.json)
         const existingIds = new Set(allNotifications.map((n) => Number(n.id)));
@@ -966,1459 +1118,527 @@
         }
         return String(nextId);
       }
-
-      // Function to create and "send" a notification
-      const createNotification = async (userId, message, relatedId, type) => {
-        const senderUser = allUsers.find(
-          (u) => String(u.id) === String(loggedInId)
-        );
-        // Generate a unique notification id for each notification
+      // --- Notification API ---
+      async function postNotification({ user_id, message, related_id, type }) {
+        // user_id: recipient, related_id: goal/budget id, type: string
+        const sender_id = localStorage.getItem("loggedin_id") || 1;
+        let senderUser = null;
+        try {
+          let res = await fetch("http://localhost:3000/users/" + sender_id);
+          if (res.ok) senderUser = await res.json();
+        } catch {}
+        if (!senderUser) senderUser = { name: "Unknown", dp: "" };
         const notification = {
           id: getNextNotificationId(),
-          user_id: notificationId(userId), // Force to number for notifications
-          sender: senderUser ? senderUser.name : "Unknown Sender",
-          sender_id: notificationId(loggedInId), // Force to number for notifications
-          sender_dp: senderUser
-            ? senderUser.dp
-            : "https://placehold.co/40x40/CCCCCC/FFFFFF?text=?", // Fallback DP
-          message: message,
+          user_id: Number(user_id),
+          sender: senderUser.name,
+          sender_id: Number(sender_id),
+          sender_dp: senderUser.dp || "",
+          message,
           read: false,
           created_at: new Date().toISOString(),
-          related_id: notificationId(relatedId), // Force to number for notifications
-          type: type,
+          related_id: Number(related_id),
+          type,
         };
-        // Push to local array immediately for instant UI update
-        allNotifications.push(notification);
-        updateNotificationCount();
-
         try {
-          const response = await fetch("http://localhost:3000/notifications", {
+          await fetch("http://localhost:3000/notifications", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(notification),
           });
-          if (!response.ok) {
-            throw new Error(
-              `Failed to send notification to server: ${response.statusText}`
-            );
-          }
-          const result = await response.json();
-          console.log(
-            "Notification sent successfully to server (json-server POST):",
-            result
-          );
-        } catch (error) {
-          console.error("Error sending notification to server:", error);
+        } catch (err) {
+          // fail silently
         }
-      };
+      }
 
-      // Function to update user name
-      async function fetchAndSetUserName() {
-        if (!isLoggedIn) {
-          console.warn("User is not explicitly logged in. Displaying 'Guest'.");
-          document.getElementById("loggedInUser").textContent = "Guest";
-          document.getElementById("loggedInUserMiddle").textContent = "Guest";
-          return;
-        }
-
+      // --- Edit and Delete Handlers ---
+      async function editGoal(goalId) {
+        // Implement your edit logic here (e.g., show modal, prefill form)
+        // After successful edit, post notification to all collaborators (including self)
         try {
-          const user = allUsers.find(
-            (u) => String(u.id) === String(loggedInId)
-          );
-          const userName = user ? user.name : "Guest";
-          document.getElementById("loggedInUser").textContent = userName;
-          document.getElementById("loggedInUserMiddle").textContent = userName;
-        } catch (error) {
-          console.error("Error setting user name:", error);
-          document.getElementById("loggedInUser").textContent = "Guest";
-          document.getElementById("loggedInUserMiddle").textContent = "Guest";
-        }
-      }
-
-      // Function to update notification count in UI
-      const updateNotificationCount = () => {
-        const notificationCountElements =
-          document.querySelectorAll(".no_of_noties");
-        const unreadNotifications = allNotifications.filter(
-          // Ensure comparison is string-based for robustness
-          (notification) =>
-            String(notification.user_id) === String(loggedInId) &&
-            notification.read === false
-        );
-
-        notificationCountElements.forEach((element) => {
-          if (unreadNotifications.length === 0) {
-            element.classList.add("hide");
-          } else {
-            element.textContent = unreadNotifications.length;
-            element.classList.remove("hide");
+          // Fetch goal to get collaborators
+          const res = await fetch(`http://localhost:3000/goals/${goalId}`);
+          if (!res.ok) return;
+          const goal = await res.json();
+          const collaborators = goal.collaborators || [];
+          // Notify all collaborators and creator
+          const allRecipients = new Set([goal.creatorId, ...collaborators]);
+          for (const uid of allRecipients) {
+            await postNotification({
+              user_id: uid,
+              message: `Goal "${goal.name}" was edited.`,
+              related_id: goalId,
+              type: "goal_edited",
+            });
           }
-        });
-      };
-
-      // Function to show/hide user-specific header elements
-      const toggleUserHeaderElements = () => {
-        const notificationLinks = document.querySelectorAll(
-          '.dashboard_header .right a[href="./notifications.html"]'
-        );
-        const profileLinks = document.querySelectorAll(
-          '.dashboard_header .right a[href="./profile.html"]'
-        );
-        const userGreetingElements = document.querySelectorAll(
-          ".dashboard_header .middle_left"
-        );
-
-        if (!isLoggedIn) {
-          notificationLinks.forEach((link) => (link.style.display = "none"));
-          profileLinks.forEach((link) => (link.style.display = "none"));
-          userGreetingElements.forEach(
-            (element) => (element.style.display = "none")
-          );
-        } else {
-          notificationLinks.forEach((link) => (link.style.display = ""));
-          profileLinks.forEach((link) => (link.style.display = ""));
-          userGreetingElements.forEach(
-            (element) => (element.style.display = "")
-          );
-        }
-      };
-
-      // --- Navigation Active State Logic ---
-      const activateNavLink = (pageName) => {
-        const navLinks = document.querySelectorAll(".navbar a");
-        navLinks.forEach((link) => link.classList.remove("active"));
-
-        const currentPageLink = document.querySelector(
-          `.navbar a[href*="${pageName}"]`
-        );
-        if (currentPageLink) {
-          currentPageLink.classList.add("active");
-          localStorage.setItem("page", pageName);
-        }
-      };
-
-      // --- Mobile Navbar Toggle ---
-      document.querySelector(".bar").addEventListener("click", function () {
-        document.querySelector(".navbar").classList.add("show");
-      });
-
-      document.querySelector(".navbar").addEventListener("click", function (e) {
-        if (!e.target.closest(".navbar_inner") || e.target.tagName === "A") {
-          document.querySelector(".navbar").classList.remove("show");
-        }
-      });
-
-      // --- Modal Logic ---
-      const addGoalModal = document.getElementById("addGoalModal");
-      const addBudgetModal = document.getElementById("addBudgetModal");
-      const confirmationModal = document.getElementById("confirmationModal");
-
-      const showModal = (modalElement) => {
-        modalElement.classList.add("show");
-      };
-
-      const hideModal = (modalElement) => {
-        modalElement.classList.remove("show");
-      };
-
-      // Add Goal button click
-      document.getElementById("addGoalBtn").addEventListener("click", () => {
-        hideCollaboratorSuggestions();
-        showModal(addGoalModal);
-      });
-
-      // Add Budget button click
-      document.getElementById("addBudgetBtn").addEventListener("click", () => {
-        hideCollaboratorSuggestions();
-        showModal(addBudgetModal);
-      });
-
-      // Close modal buttons
-      addGoalModal
-        .querySelectorAll(".close-btn, .cancel-btn")
-        .forEach((btn) => {
-          btn.addEventListener("click", () => hideModal(addGoalModal));
-        });
-      addBudgetModal
-        .querySelectorAll(".close-btn, .cancel-btn")
-        .forEach((btn) => {
-          btn.addEventListener("click", () => hideModal(addBudgetModal));
-        });
-
-      // Close confirmation modal
-      confirmationModal
-        .querySelector(".confirm-no")
-        .addEventListener("click", () => hideModal(confirmationModal));
-
-      // --- Collaborator Suggestions Inline Logic ---
-      let currentCollaboratorInput = null;
-      let collaboratorSuggestionsBox = null;
-
-      const createOrGetSuggestionsBox = () => {
-        if (!collaboratorSuggestionsBox) {
-          collaboratorSuggestionsBox = document.createElement("div");
-          collaboratorSuggestionsBox.id = "inlineCollaboratorSuggestions";
-          collaboratorSuggestionsBox.classList.add(
-            "collaborator-suggestions-box"
-          );
-          document.body.appendChild(collaboratorSuggestionsBox);
-        }
-        return collaboratorSuggestionsBox;
-      };
-
-      const showCollaboratorSuggestions = () => {
-        const box = createOrGetSuggestionsBox();
-        const inputRect = currentCollaboratorInput.getBoundingClientRect();
-
-        box.style.width = `${inputRect.width}px`;
-        // Position the box above the input
-        box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
-        box.style.left = `${inputRect.left}px`;
-        box.classList.add("show");
-      };
-
-      const hideCollaboratorSuggestions = () => {
-        if (collaboratorSuggestionsBox) {
-          collaboratorSuggestionsBox.classList.remove("show");
-          collaboratorSuggestionsBox.innerHTML = "";
-        }
-      };
-
-      const handleCollaboratorInput = (event) => {
-        currentCollaboratorInput = event.target;
-        const text = currentCollaboratorInput.value;
-        const lastAtIndex = text.lastIndexOf("@");
-
-        if (lastAtIndex > -1) {
-          const searchTerm = text.substring(lastAtIndex + 1).toLowerCase();
-          displayCollaboratorSuggestions(searchTerm);
-          showCollaboratorSuggestions();
-        } else {
-          hideCollaboratorSuggestions();
-        }
-      };
-
-      document
-        .getElementById("goalCollaborators")
-        .addEventListener("input", handleCollaboratorInput);
-      document
-        .getElementById("budgetCollaborators")
-        .addEventListener("input", handleCollaboratorInput);
-
-      document.addEventListener("click", (e) => {
-        // Hide suggestions if click is outside the input and the suggestions box
-        if (
-          currentCollaboratorInput &&
-          !currentCollaboratorInput.contains(e.target) &&
-          (!collaboratorSuggestionsBox ||
-            !collaboratorSuggestionsBox.contains(e.target))
-        ) {
-          hideCollaboratorSuggestions();
-        }
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          hideCollaboratorSuggestions();
-        }
-      });
-
-      function displayCollaboratorSuggestions(searchTerm) {
-        const box = createOrGetSuggestionsBox();
-        box.innerHTML = "";
-
-        const filteredUsers = allUsers.filter(
-          (user) =>
-            // Compare IDs as strings for consistency
-            String(user.id) !== String(loggedInId) &&
-            (user.name.toLowerCase().includes(searchTerm) ||
-              user.username.toLowerCase().includes(searchTerm))
-        );
-
-        if (filteredUsers.length === 0) {
-          box.innerHTML =
-            '<p style="text-align: center; color: #777; padding: 10px;">No users found.</p>';
-          return;
-        }
-
-        filteredUsers.forEach((user) => {
-          const item = document.createElement("div");
-          item.classList.add("collaborator-suggestion-item");
-          item.innerHTML = `<strong>${user.name}</strong> <span>(@${user.username})</span>`;
-          item.dataset.username = user.username;
-
-          item.addEventListener("click", () => {
-            if (currentCollaboratorInput) {
-              const currentValue = currentCollaboratorInput.value;
-              const lastAtIndex = currentValue.lastIndexOf("@");
-              // Replace the part after the last '@' with the selected username
-              const newValue =
-                lastAtIndex > -1
-                  ? currentValue.substring(0, lastAtIndex) +
-                    `@${user.username} `
-                  : currentValue + `@${user.username} `;
-              currentCollaboratorInput.value = newValue;
-              currentCollaboratorInput.focus();
-              hideCollaboratorSuggestions();
-            }
+        } catch {}
+        alert("Edit Goal: " + goalId);
+      }
+      async function deleteGoal(goalId) {
+        if (!confirm("Delete this goal?")) return;
+        try {
+          // Fetch goal to get collaborators before deleting
+          let goal = null;
+          try {
+            const res = await fetch(`http://localhost:3000/goals/${goalId}`);
+            if (res.ok) goal = await res.json();
+          } catch {}
+          await fetch(`http://localhost:3000/goals/${goalId}`, {
+            method: "DELETE",
           });
-          box.appendChild(item);
-        });
-
-        // Recalculate position as content might change box height
-        if (currentCollaboratorInput) {
-          const inputRect = currentCollaboratorInput.getBoundingClientRect();
-          box.style.top = `${inputRect.top - box.offsetHeight - 5}px`;
+          await displayGoalsAndBudgets();
+          // Notify all collaborators and creator
+          if (goal) {
+            const collaborators = goal.collaborators || [];
+            const allRecipients = new Set([goal.creatorId, ...collaborators]);
+            for (const uid of allRecipients) {
+              await postNotification({
+                user_id: uid,
+                message: `Goal "${goal.name}" was deleted.`,
+                related_id: goalId,
+                type: "goal_deleted",
+              });
+            }
+          }
+        } catch (err) {
+          alert("Failed to delete goal.");
+        }
+      }
+      async function editBudget(budgetId) {
+        // Implement your edit logic here (e.g., show modal, prefill form)
+        // After successful edit, post notification to all collaborators (including self)
+        try {
+          // Fetch budget to get collaborators
+          const res = await fetch(`http://localhost:3000/budgets/${budgetId}`);
+          if (!res.ok) return;
+          const budget = await res.json();
+          const collaborators = budget.collaborators || [];
+          const allRecipients = new Set([budget.creatorId, ...collaborators]);
+          for (const uid of allRecipients) {
+            await postNotification({
+              user_id: uid,
+              message: `Budget "${budget.category}" was edited.`,
+              related_id: budgetId,
+              type: "budget_edited",
+            });
+          }
+        } catch {}
+        alert("Edit Budget: " + budgetId);
+      }
+      async function deleteBudget(budgetId) {
+        if (!confirm("Delete this budget?")) return;
+        try {
+          // Fetch budget to get collaborators before deleting
+          let budget = null;
+          try {
+            const res = await fetch(
+              `http://localhost:3000/budgets/${budgetId}`
+            );
+            if (res.ok) budget = await res.json();
+          } catch {}
+          await fetch(`http://localhost:3000/budgets/${budgetId}`, {
+            method: "DELETE",
+          });
+          await displayGoalsAndBudgets();
+          // Notify all collaborators and creator
+          if (budget) {
+            const collaborators = budget.collaborators || [];
+            const allRecipients = new Set([budget.creatorId, ...collaborators]);
+            for (const uid of allRecipients) {
+              await postNotification({
+                user_id: uid,
+                message: `Budget "${budget.category}" was deleted.`,
+                related_id: budgetId,
+                type: "budget_deleted",
+              });
+            }
+          }
+        } catch (err) {
+          alert("Failed to delete budget.");
         }
       }
 
-      // --- Form Submission Handlers ---
+      // Display goals and budgets in the specified lists
+      async function displayGoalsAndBudgets() {
+        // Helper to get user display name by username
+        function getUserDisplayName(username, users) {
+          const user = users.find((u) => u.username === username);
+          return user ? user.name : `@${username}`;
+        }
+
+        // Fetch users for collaborator display
+        let users = [];
+        try {
+          let res = await fetch("http://localhost:3000/users");
+          if (res.ok) users = await res.json();
+        } catch {}
+        if (!users.length) {
+          try {
+            let res = await fetch("/db.json");
+            if (res.ok) {
+              let db = await res.json();
+              users = db.users || [];
+            }
+          } catch {}
+        }
+
+        // Display goals in id="goalsList"
+        const goalsList = document.getElementById("goalsList");
+        if (goalsList) {
+          const goals = await getGoals();
+          goalsList.innerHTML = "";
+          if (goals.length === 0) {
+            goalsList.innerHTML =
+              '<p style="color:#888;text-align:center;">No goals found.</p>';
+          } else {
+            goals.forEach((goal) => {
+              const div = document.createElement("div");
+              div.className = "box";
+              let collaboratorsHtml = "";
+              if (goal.collaborators && goal.collaborators.length) {
+                collaboratorsHtml =
+                  `<div class="companions-list"><span>Collaborators:</span> ` +
+                  goal.collaborators
+                    .map(
+                      (username) =>
+                        `<span class="companion">${getUserDisplayName(
+                          username,
+                          users
+                        )}</span>`
+                    )
+                    .join(" ") +
+                  `</div>`;
+              }
+              div.innerHTML = `
+              <div class="box_inner">
+                <div class="left">
+                <h1>${goal.name}</h1>
+                <div class="details">
+                  Target: $${goal.targetAmount} | Achieved: $${goal.achievedAmount}
+                </div>
+                ${collaboratorsHtml}
+                </div>
+                <div class="right">
+                <i class="fas fa-edit edit-item" title="Edit" style="cursor:pointer;margin-right:10px;" onclick="editGoal('${goal.id}')"></i>
+                <i class="fas fa-trash-alt delete-item" title="Delete" style="cursor:pointer;" onclick="deleteGoal('${goal.id}')"></i>
+                </div>
+              </div>
+              `;
+              goalsList.appendChild(div);
+            });
+          }
+        }
+        // Display budgets in id="budgetsList"
+        const budgetsList = document.getElementById("budgetsList");
+        if (budgetsList) {
+          const budgets = await getBudgets();
+          budgetsList.innerHTML = "";
+          if (budgets.length === 0) {
+            budgetsList.innerHTML =
+              '<p style="color:#888;text-align:center;">No budgets found.</p>';
+          } else {
+            budgets.forEach((budget) => {
+              const div = document.createElement("div");
+              div.className = "box";
+              let collaboratorsHtml = "";
+              if (budget.collaborators && budget.collaborators.length) {
+                collaboratorsHtml =
+                  `<div class="companions-list"><span>Collaborators:</span> ` +
+                  budget.collaborators
+                    .map(
+                      (username) =>
+                        `<span class="companion">${getUserDisplayName(
+                          username,
+                          users
+                        )}</span>`
+                    )
+                    .join(" ") +
+                  `</div>`;
+              }
+              div.innerHTML = `
+              <div class="box_inner">
+                <div class="left">
+                <h1>${budget.category}</h1>
+                <div class="details">
+                  Amount: $${budget.budgetAmount} | Spent: $${budget.spentAmount}
+                </div>
+                ${collaboratorsHtml}
+                </div>
+                <div class="right">
+                <i class="fas fa-edit edit-item" title="Edit" style="cursor:pointer;margin-right:10px;" onclick="editBudget('${budget.id}')"></i>
+                <i class="fas fa-trash-alt delete-item" title="Delete" style="cursor:pointer;" onclick="deleteBudget('${budget.id}')"></i>
+                </div>
+              </div>
+              `;
+              budgetsList.appendChild(div);
+            });
+          }
+        }
+        // --- Notification Count Alert ---
+        updateNotificationAlert();
+      }
+
+      // Call display on page load and after add
+      document.addEventListener("DOMContentLoaded", displayGoalsAndBudgets);
       document
         .getElementById("goalForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const goalName = document.getElementById("goalName").value;
-          const goalAbout = document.getElementById("goalAbout").value;
-          const goalAmount = parseFloat(
-            document.getElementById("goalAmount").value
-          );
-          const goalTargetDate =
-            document.getElementById("goalTargetDate").value;
-          const rawCollaborators =
-            document.getElementById("goalCollaborators").value;
-          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
-
-          // Generate a unique numeric ID for the new goal on the client side
-          const newId =
-            Math.max(...allGoals.map((g) => Number(g.id) || 0), 0) + 1;
-
-          const newGoal = {
-            id: String(newId), // Assign the new numeric ID
-            name: goalName,
-            about: goalAbout,
-            targetAmount: goalAmount,
-            achievedAmount: 0,
-            targetDate: goalTargetDate,
-            creatorId: loggedInId,
-            collaborators: collaboratorsIds,
-          };
-
-          try {
-            const response = await fetch("http://localhost:3000/goals", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(newGoal),
-            });
-            if (!response.ok) {
-              throw new Error(
-                `Failed to save goal to server: ${response.statusText}`
-              );
-            }
-            const savedGoal = await response.json(); // json-server might still assign its own ID
-            console.log("Goal saved successfully to server:", savedGoal);
-            // Use the ID returned by json-server, but handle it consistently for internal use
-            allGoals.push({ ...savedGoal, id: normalizeId(savedGoal.id) });
-            renderGoals();
-            // related_id is passed as consistent ID type (number or string)
-            createNotification(
-              loggedInId,
-              `You created a new goal: "${savedGoal.name}".`,
-              notificationId(savedGoal.id),
-              "goal_created"
-            );
-
-            collaboratorsIds.forEach((id) => {
-              const username = getUsernameById(id);
-              if (username) {
-                // Pass savedGoal.id as consistent ID type
-                createNotification(
-                  id,
-                  `${getUserNameById(loggedInId)} added you to the goal: "${
-                    savedGoal.name
-                  }".`,
-                  notificationId(savedGoal.id),
-                  "goal_companion"
-                );
-              } else {
-                console.warn(
-                  `Collaborator ID ${id} not found in users data. Notification not sent.`
-                );
-              }
-            });
-          } catch (error) {
-            console.error("Error creating goal:", error);
-            // If server fails, add locally with the client-generated ID
-            allGoals.push(newGoal);
-            renderGoals();
-            console.warn(
-              "Goal added locally due to server error, but not saved to backend."
-            );
-          }
-
-          this.reset();
-          hideModal(addGoalModal);
+        .addEventListener("submit", function () {
+          setTimeout(displayGoalsAndBudgets, 500);
         });
-
       document
         .getElementById("budgetForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const budgetCategory =
-            document.getElementById("budgetCategory").value;
-          const budgetAbout = document.getElementById("budgetAbout").value;
-          const budgetAmount = parseFloat(
-            document.getElementById("budgetAmount").value
-          );
-          const budgetFrequency =
-            document.getElementById("budgetFrequency").value;
-          const budgetEndDate = document.getElementById("budgetEndDate").value;
-          const rawCollaborators = document.getElementById(
-            "budgetCollaborators"
-          ).value;
-          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
-
-          // Generate a unique numeric ID for the new budget on the client side
-          const newId =
-            Math.max(...allBudgets.map((b) => Number(b.id) || 0), 0) + 1;
-
-          const newBudget = {
-            id: String(newId), // Assign the new numeric ID
-            category: budgetCategory,
-            about: budgetAbout,
-            budgetAmount: budgetAmount,
-            spentAmount: 0,
-            frequency: budgetFrequency,
-            endDate: budgetEndDate,
-            creatorId: loggedInId,
-            collaborators: collaboratorsIds,
-          };
-
-          try {
-            const response = await fetch("http://localhost:3000/budgets", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(newBudget),
-            });
-            if (!response.ok) {
-              throw new Error(
-                `Failed to save budget to server: ${response.statusText}`
-              );
-            }
-            const savedBudget = await response.json(); // json-server might still assign its own ID
-            console.log("Budget saved successfully to server:", savedBudget);
-            // Use the ID returned by json-server, but handle it consistently for internal use
-            allBudgets.push({
-              ...savedBudget,
-              id: normalizeId(savedBudget.id),
-            });
-            renderBudgets();
-
-            // related_id is passed as consistent ID type (number or string)
-            createNotification(
-              loggedInId,
-              `You created a new budget: "${savedBudget.category}".`,
-              notificationId(savedBudget.id),
-              "budget_created"
-            );
-
-            collaboratorsIds.forEach((id) => {
-              const username = getUsernameById(id);
-              if (username) {
-                // Pass savedBudget.id as consistent ID type
-                createNotification(
-                  id,
-                  `${getUserNameById(loggedInId)} added you to the budget: "${
-                    savedBudget.category
-                  }".`,
-                  notificationId(savedBudget.id),
-                  "budget_companion"
-                );
-              } else {
-                console.warn(
-                  `Collaborator ID ${id} not found in users data. Notification not sent.`
-                );
-              }
-            });
-          } catch (error) {
-            console.error("Error creating budget:", error);
-            // If server fails, add locally with the client-generated ID
-            allBudgets.push(newBudget);
-            renderBudgets();
-            console.warn(
-              "Budget added locally due to server error, but not saved to backend."
-            );
-          }
-
-          this.reset();
-          hideModal(addBudgetModal);
+        .addEventListener("submit", function () {
+          setTimeout(displayGoalsAndBudgets, 500);
         });
 
-      // --- UI Rendering Functions ---
-      function renderGoals() {
-        const goalsList = document.getElementById("goalsList");
-        goalsList.innerHTML = "";
+      // Modified: Collaborator is optional (create without if none selected)
+      async function submitNewGoalForm(e) {
+        e.preventDefault();
+        const goalName = document.getElementById("goalName").value;
+        const goalAbout = document.getElementById("goalAbout").value;
+        const goalAmount = parseFloat(
+          document.getElementById("goalAmount").value
+        );
+        const goalTargetDate = document.getElementById("goalTargetDate").value;
+        const collaboratorsRaw =
+          document.getElementById("goalCollaborators").value;
+        // Extract collaborator usernames from @username mentions
+        const collaborators = collaboratorsRaw
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1))
+          .filter(Boolean);
 
-        const filteredGoals = allGoals.filter((goal) => {
-          // Ensure consistent string comparisons for filtering
-          const isCreator = String(goal.creatorId) === String(loggedInId);
-          const isCollaborator =
-            goal.collaborators &&
-            goal.collaborators.some(
-              (colId) => String(colId) === String(loggedInId)
-            );
-          if (!isCreator && !isCollaborator) return false;
-
-          const searchText = goalFilterText.toLowerCase();
-          return (
-            goal.name.toLowerCase().includes(searchText) ||
-            (goal.about && goal.about.toLowerCase().includes(searchText))
-          );
-        });
-
-        if (filteredGoals.length === 0) {
-          goalsList.innerHTML =
-            '<p style="text-align: center; color: #777; margin-top: 20px;">No goals found matching your filter. Click "Add Goal" to get started!</p>';
-          return;
-        }
-
-        filteredGoals.forEach((goal) => {
-          const percentComplete =
-            (goal.achievedAmount / goal.targetAmount) * 100;
-          const statusColor = percentComplete >= 100 ? "#28a745" : "#007bff";
-
-          const goalItem = document.createElement("div");
-          goalItem.classList.add("box");
-          // data-id always stores the string representation of the ID for consistency with HTML and API
-          goalItem.setAttribute("data-id", apiId(goal.id));
-          goalItem.innerHTML = `
-            <div class="box_inner">
-              <div class="left">
-              <input type="checkbox" class="goal-checkbox" ${
-                percentComplete >= 100 ? "checked disabled" : ""
-              }/>
-              <div>
-                <h1>${goal.name}</h1>
-                <div class="details">Target: $${goal.targetAmount.toLocaleString()} | Achieved: $${goal.achievedAmount.toLocaleString()}</div>
-                <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: ${Math.min(
-                    percentComplete,
-                    100
-                  )}%; background-color: ${statusColor};"></div>
-                </div>
-                <div class="progress-text" style="color: ${statusColor};">${Math.round(
-            percentComplete
-          )}% Complete by ${goal.targetDate || "N/A"}</div>
-              </div>
-              </div>
-              <div class="right">
-                            <div class="item-actions">
-              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
-              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
-            </div>
-              </div>
-            </div>
-
-            ${
-              goal.collaborators && goal.collaborators.length > 0
-                ? `
-            <div class="companions-list">
-              <span>Companions:</span>
-              ${goal.collaborators
-                .map(
-                  (id) =>
-                    `<span class="companion">${getUserNameById(id)}</span>`
-                )
-                .join("")}
-            </div>`
-                : ""
-            }
-            `;
-          goalsList.appendChild(goalItem);
-        });
-      }
-
-      function renderBudgets() {
-        const budgetsList = document.getElementById("budgetsList");
-        budgetsList.innerHTML = "";
-
-        const filteredBudgets = allBudgets.filter((budget) => {
-          // Ensure consistent string comparisons for filtering
-          const isCreator = String(budget.creatorId) === String(loggedInId);
-          const isCollaborator =
-            budget.collaborators &&
-            budget.collaborators.some(
-              (colId) => String(colId) === String(loggedInId)
-            );
-          if (!isCreator && !isCollaborator) return false;
-
-          const searchText = budgetFilterText.toLowerCase();
-          return (
-            budget.category.toLowerCase().includes(searchText) ||
-            (budget.about && budget.about.toLowerCase().includes(searchText))
-          );
-        });
-
-        let totalBudgetedAmount = 0;
-        let totalSpentAmount = 0;
-
-        if (filteredBudgets.length === 0) {
-          budgetsList.innerHTML =
-            '<p style="text-align: center; color: #777; margin-top: 20px;">No budgets found matching your filter. Click "Add Budget" to get started!</p>';
-        }
-
-        filteredBudgets.forEach((budget) => {
-          totalBudgetedAmount += budget.budgetAmount;
-          totalSpentAmount += budget.spentAmount;
-
-          const percentUsed = (budget.spentAmount / budget.budgetAmount) * 100;
-          let statusColor = "#28a745";
-          let statusText = `${Math.round(percentUsed)}% of budget used`;
-
-          if (percentUsed > 100) {
-            statusColor = "#dc3545";
-            statusText = `${Math.round(
-              percentUsed
-            )}% of budget used (Over budget!)`;
-          } else if (percentUsed >= 80) {
-            statusColor = "#ffc107";
-          }
-
-          const budgetItem = document.createElement("div");
-          budgetItem.classList.add("box");
-          // data-id always stores the string representation of the ID for consistency with HTML and API
-          budgetItem.setAttribute("data-id", apiId(budget.id));
-          budgetItem.innerHTML = `
-            <div class="box_inner">
-              <div class="left">
-              <input type="checkbox" class="budget-checkbox" />
-              <div>
-                <h1>${budget.category}</h1>
-                <div class="details">${
-                  budget.frequency
-                }: $${budget.budgetAmount.toLocaleString()} | Spent: $${budget.spentAmount.toLocaleString()}</div>
-                <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: ${Math.min(
-                    percentUsed,
-                    100
-                  )}%; background-color: ${statusColor};"></div>
-                </div>
-                <div class="progress-text" style="color: ${statusColor};">${statusText}</div>
-              </div>
-              </div>
-              <div class="right">
-                    <div class="item-actions">
-              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
-              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
-            </div>
-              </div>
-            </div>
-        
-            ${
-              budget.collaborators && budget.collaborators.length > 0
-                ? `
-            <div class="companions-list">
-              <span>Companions:</span>
-              ${budget.collaborators
-                .map(
-                  (id) =>
-                    `<span class="companion">${getUserNameById(id)}</span>`
-                )
-                .join("")}
-            </div>`
-                : ""
-            }
-            `;
-          budgetsList.appendChild(budgetItem);
-        });
-
-        document.getElementById(
-          "totalBudgeted"
-        ).textContent = `$${totalBudgetedAmount.toLocaleString()}`;
-        document.getElementById(
-          "totalSpent"
-        ).textContent = `$${totalSpentAmount.toLocaleString()}`;
-      }
-
-      // --- Delete All Logic with Confirmation Modal ---
-      let currentDeleteTarget = "";
-
-      document
-        .getElementById("deleteAllGoalsBtn")
-        .addEventListener("click", () => {
-          currentDeleteTarget = "goals";
-          document.getElementById("confirmTarget").textContent = "goals";
-          showModal(confirmationModal);
-        });
-
-      document
-        .getElementById("deleteAllBudgetsBtn")
-        .addEventListener("click", () => {
-          currentDeleteTarget = "budgets";
-          document.getElementById("confirmTarget").textContent = "budgets";
-          showModal(confirmationModal);
-        });
-
-      confirmationModal
-        .querySelector(".confirm-yes")
-        .addEventListener("click", async () => {
-          const deletePromises = [];
-          let itemsToDelete = [];
-
-          if (currentDeleteTarget === "goals") {
-            // Filter to include only goals created/collaborated by the logged-in user
-            itemsToDelete = allGoals.filter(
-              (g) =>
-                String(g.creatorId) === String(loggedInId) ||
-                (g.collaborators &&
-                  g.collaborators.some(
-                    (colId) => String(colId) === String(loggedInId)
-                  ))
-            );
-            for (const goal of itemsToDelete) {
-              deletePromises.push(
-                (async () => {
-                  try {
-                    console.log(
-                      `Attempting to delete goal with ID: ${
-                        goal.id
-                      }. Sending DELETE request to: http://localhost:3000/goals/${apiId(
-                        goal.id
-                      )}`
-                    ); // Log the URL
-                    const response = await fetch(
-                      `http://localhost:3000/goals/${apiId(goal.id)}`,
-                      {
-                        method: "DELETE",
-                      }
-                    );
-                    if (!response.ok) {
-                      throw new Error(
-                        `Failed to delete goal ${goal.id}: ${response.statusText}`
-                      );
-                    }
-                    console.log(`Goal ${goal.id} deleted from server.`);
-                    return true; // Indicate success
-                  } catch (error) {
-                    console.error(`Error deleting goal ${goal.id}:`, error);
-                    return false; // Indicate failure
-                  }
-                })()
-              );
-            }
-            const results = await Promise.allSettled(deletePromises);
-            const successfullyDeletedIds = itemsToDelete
-              .filter(
-                (_, index) =>
-                  results[index].status === "fulfilled" && results[index].value
-              )
-              .map((item) => String(item.id));
-            allGoals = allGoals.filter(
-              (g) => !successfullyDeletedIds.includes(String(g.id))
-            );
-            renderGoals();
-            console.log("All relevant goals deletion attempts completed.");
-          } else if (currentDeleteTarget === "budgets") {
-            // Filter to include only budgets created/collaborated by the logged-in user
-            itemsToDelete = allBudgets.filter(
-              (b) =>
-                String(b.creatorId) === String(loggedInId) ||
-                (b.collaborators &&
-                  b.collaborators.some(
-                    (colId) => String(colId) === String(loggedInId)
-                  ))
-            );
-            for (const budget of itemsToDelete) {
-              deletePromises.push(
-                (async () => {
-                  try {
-                    console.log(
-                      `Attempting to delete budget with ID: ${
-                        budget.id
-                      }. Sending DELETE request to: http://localhost:3000/budgets/${apiId(
-                        budget.id
-                      )}`
-                    ); // Log the URL
-                    const response = await fetch(
-                      `http://localhost:3000/budgets/${apiId(budget.id)}`,
-                      {
-                        method: "DELETE",
-                      }
-                    );
-                    if (!response.ok) {
-                      throw new Error(
-                        `Failed to delete budget ${budget.id}: ${response.statusText}`
-                      );
-                    }
-                    console.log(`Budget ${budget.id} deleted from server.`);
-                    return true; // Indicate success
-                  } catch (error) {
-                    console.error(`Error deleting budget ${budget.id}:`, error);
-                    return false; // Indicate failure
-                  }
-                })()
-              );
-            }
-            const results = await Promise.allSettled(deletePromises);
-            const successfullyDeletedIds = itemsToDelete
-              .filter(
-                (_, index) =>
-                  results[index].status === "fulfilled" && results[index].value
-              )
-              .map((item) => String(item.id));
-            allBudgets = allBudgets.filter(
-              (b) => !successfullyDeletedIds.includes(String(b.id))
-            );
-            renderBudgets();
-            console.log("All relevant budgets deletion attempts completed.");
-          }
-          hideModal(confirmationModal);
-        });
-
-      // --- Single Item Delete/Edit Logic (Event Delegation) ---
-      document
-        .getElementById("goalsList")
-        .addEventListener("click", async (e) => {
-          if (e.target.closest(".delete-item")) {
-            const item = e.target.closest(".box");
-            // Get data-id as string for deletion URL
-            const itemId = item.dataset.id; // This is already a string from apiId in renderGoals
-
-            try {
-              console.log(
-                `Attempting to delete goal with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/goals/${itemId}`
-              ); // Log the URL
-              const response = await fetch(
-                `http://localhost:3000/goals/${itemId}`,
-                {
-                  method: "DELETE",
-                }
-              );
-              createNotification(
-                loggedInId,
-                `${
-                  loggedInId == goal.user_id ? "You" : collaboratorsIds
-                } deleted the goal: "${item.querySelector("h1").textContent}".`,
-                notificationId(itemId),
-                "goal_deleted"
-              );
-              if (!response.ok) {
-                throw new Error(
-                  `Failed to delete goal ${itemId}: ${response.statusText}`
-                );
-              }
-              allGoals = allGoals.filter((goal) => String(goal.id) !== itemId); // Filter by string ID from data-id
-              renderGoals();
-              console.log(
-                `Deleted goal with ID: ${itemId} from server and locally.`
-              );
-            } catch (error) {
-              console.error(`Error deleting goal ${itemId}:`, error);
-              console.warn(
-                "Deletion failed on server. Goal not removed locally to reflect actual state."
-              );
-            }
-          } else if (e.target.closest(".edit-item")) {
-            const item = e.target.closest(".box");
-            const itemId = item.dataset.id;
-            console.log(`Editing goal with ID: ${itemId} (simulated).`);
-            // --- Edit Goal Modal Logic ---
-            // Find the goal object by ID
-            const goalToEdit = allGoals.find((g) => String(g.id) === itemId);
-            if (!goalToEdit) {
-              alert("Goal not found.");
-              return;
-            }
-            // Pre-fill the edit form fields
-            document.getElementById("editGoalName").value =
-              goalToEdit.name || "";
-            document.getElementById("editGoalAbout").value =
-              goalToEdit.about || "";
-            document.getElementById("editGoalAmount").value =
-              goalToEdit.targetAmount || "";
-            document.getElementById("editGoalTargetDate").value =
-              goalToEdit.targetDate || "";
-            document.getElementById("editGoalCollaborators").value = (
-              goalToEdit.collaborators || []
-            )
-              .map((id) => {
-                const username = getUsernameById(id);
-                return username ? `@${username}` : "";
-              })
-              .filter(Boolean)
-              .join(" ");
-
-            showModal(document.getElementById("editGoalModal"));
-
-            // Remove any previous edit handler
-            const editForm = document.getElementById("editGoalForm");
-            if (editForm._editHandler) {
-              editForm.removeEventListener("submit", editForm._editHandler);
-              editForm._editHandler = null;
-            }
-            // --- Enable collaborator suggestions for edit modal ---
-            const editGoalCollaboratorsInput = document.getElementById(
-              "editGoalCollaborators"
-            );
-            editGoalCollaboratorsInput.removeEventListener(
-              "input",
-              handleCollaboratorInput
-            );
-            editGoalCollaboratorsInput.addEventListener(
-              "input",
-              handleCollaboratorInput
-            );
-
-            // Add a new submit handler for editing
-            const editHandler = async function (e) {
-              e.preventDefault();
-              const updatedGoal = {
-                ...goalToEdit,
-                name: document.getElementById("editGoalName").value,
-                about: document.getElementById("editGoalAbout").value,
-                targetAmount: parseFloat(
-                  document.getElementById("editGoalAmount").value
-                ),
-                targetDate: document.getElementById("editGoalTargetDate").value,
-                collaborators: getCollaboratorIds(
-                  document.getElementById("editGoalCollaborators").value
-                ),
-              };
-              try {
-                const response = await fetch(
-                  `http://localhost:3000/goals/${apiId(goalToEdit.id)}`,
-                  {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updatedGoal),
-                  }
-                );
-                if (!response.ok) throw new Error("Failed to update goal.");
-                const savedGoal = await response.json();
-                // Compare old and new values to build a change summary
-                let changes = [];
-                if (goalToEdit.name !== updatedGoal.name)
-                  changes.push(
-                    `Name: "${goalToEdit.name}" → "${updatedGoal.name}"`
-                  );
-                if (goalToEdit.about !== updatedGoal.about)
-                  changes.push(
-                    `About: "${goalToEdit.about}" → "${updatedGoal.about}"`
-                  );
-                if (goalToEdit.targetAmount !== updatedGoal.targetAmount)
-                  changes.push(
-                    `Target Amount: $${goalToEdit.targetAmount} → $${updatedGoal.targetAmount}`
-                  );
-                if (goalToEdit.targetDate !== updatedGoal.targetDate)
-                  changes.push(
-                    `Target Date: ${goalToEdit.targetDate || "N/A"} → ${
-                      updatedGoal.targetDate || "N/A"
-                    }`
-                  );
-                // Compare collaborators (as sets of usernames)
-                const oldCollabs = (goalToEdit.collaborators || [])
-                  .map(getUsernameById)
-                  .filter(Boolean);
-                const newCollabs = (updatedGoal.collaborators || [])
-                  .map(getUsernameById)
-                  .filter(Boolean);
-                if (
-                  oldCollabs.sort().join(",") !== newCollabs.sort().join(",")
-                ) {
-                  changes.push(
-                    `Collaborators: [${oldCollabs.join(
-                      ", "
-                    )}] → [${newCollabs.join(", ")}]`
-                  );
-                }
-                let changeMsg =
-                  changes.length > 0
-                    ? "Goal updated:\n" + changes.join("\n")
-                    : "Goal updated (no visible changes).";
-                // Send notification to self (editor)
-                createNotification(
-                  loggedInId,
-                  changeMsg,
-                  notificationId(savedGoal.id),
-                  "goal_edited"
-                );
-                // Send notification to collaborators (except self)
-                (updatedGoal.collaborators || []).forEach((id) => {
-                  if (String(id) !== String(loggedInId)) {
-                    createNotification(
-                      id,
-                      `${getUserNameById(loggedInId)} edited the goal: "${
-                        savedGoal.name
-                      }".\n${changeMsg}`,
-                      notificationId(savedGoal.id),
-                      "goal_edited"
-                    );
-                  }
-                });
-                console.log("Goal updated successfully:", savedGoal);
-                // Update local array
-                const idx = allGoals.findIndex((g) => String(g.id) === itemId);
-                if (idx !== -1)
-                  allGoals[idx] = {
-                    ...savedGoal,
-                    id: normalizeId(savedGoal.id),
-                  };
-                renderGoals();
-              } catch (err) {
-                alert("Failed to update goal.");
-              }
-              editForm.reset();
-              hideModal(document.getElementById("editGoalModal"));
-              editForm.removeEventListener("submit", editHandler);
-              editForm._editHandler = null;
-            };
-            editForm.addEventListener("submit", editHandler);
-            editForm._editHandler = editHandler;
-
-            // Close button/cancel for edit modal
-            document
-              .getElementById("editGoalModal")
-              .querySelectorAll(".close-btn, .cancel-btn")
-              .forEach((btn) => {
-                btn.onclick = () => {
-                  hideModal(document.getElementById("editGoalModal"));
-                  editForm.removeEventListener("submit", editHandler);
-                  editForm._editHandler = null;
-                };
-              });
-            hideModal(addGoalModal); // Just closing the modal for now as edit functionality is not implemented
-          }
-        });
-
-      document
-        .getElementById("budgetsList")
-        .addEventListener("click", async (e) => {
-          if (e.target.closest(".delete-item")) {
-            const item = e.target.closest(".box");
-            // Get data-id as string for deletion URL
-            const itemId = item.dataset.id; // This is already a string from apiId in renderBudgets
-
-            try {
-              console.log(
-                `Attempting to delete budget with ID: ${itemId}. Sending DELETE request to: http://localhost:3000/budgets/${itemId}`
-              ); // Log the URL
-              const response = await fetch(
-                `http://localhost:3000/budgets/${itemId}`,
-                {
-                  method: "DELETE",
-                }
-              );
-              createNotification(
-                loggedInId,
-                `You deleted the budget: "${
-                  item.querySelector("h1").textContent
-                }".`,
-                notificationId(itemId),
-                "budget_deleted"
-              );
-              if (!response.ok) {
-                throw new Error(
-                  `Failed to delete budget ${itemId}: ${response.statusText}`
-                );
-              }
-              allBudgets = allBudgets.filter(
-                (budget) => String(budget.id) !== itemId
-              ); // Filter by string ID from data-id
-              renderBudgets();
-              console.log(
-                `Deleted budget with ID: ${itemId} from server and locally.`
-              );
-            } catch (error) {
-              console.error(`Error deleting budget ${itemId}:`, error);
-              console.warn(
-                "Deletion failed on server. Budget not removed locally to reflect actual state."
-              );
-            }
-          } else if (e.target.closest(".edit-item")) {
-            const item = e.target.closest(".box");
-            const itemId = item.dataset.id;
-            console.log(`Editing budget with ID: ${itemId} (simulated).`);
-            // --- Edit Budget Modal Logic ---
-            // Find the budget object by ID
-            const budgetToEdit = allBudgets.find(
-              (b) => String(b.id) === itemId
-            );
-            if (!budgetToEdit) {
-              alert("Budget not found.");
-              return;
-            }
-            // Pre-fill the edit form fields
-            document.getElementById("editBudgetCategory").value =
-              budgetToEdit.category || "";
-            document.getElementById("editBudgetAbout").value =
-              budgetToEdit.about || "";
-            document.getElementById("editBudgetAmount").value =
-              budgetToEdit.budgetAmount || "";
-            document.getElementById("editBudgetFrequency").value =
-              budgetToEdit.frequency || "monthly";
-            document.getElementById("editBudgetEndDate").value =
-              budgetToEdit.endDate || "";
-            document.getElementById("editBudgetCollaborators").value = (
-              budgetToEdit.collaborators || []
-            )
-              .map((id) => {
-                const username = getUsernameById(id);
-                return username ? `@${username}` : "";
-              })
-              .filter(Boolean)
-              .join(" ");
-
-            showModal(document.getElementById("editBudgetModal"));
-
-            // Remove any previous edit handler
-            const editForm = document.getElementById("editBudgetForm");
-            if (editForm._editHandler) {
-              editForm.removeEventListener("submit", editForm._editHandler);
-              editForm._editHandler = null;
-            }
-
-            // Enable collaborator suggestions for edit modal
-            const editBudgetCollaboratorsInput = document.getElementById(
-              "editBudgetCollaborators"
-            );
-            editBudgetCollaboratorsInput.removeEventListener(
-              "input",
-              handleCollaboratorInput
-            );
-            editBudgetCollaboratorsInput.addEventListener(
-              "input",
-              handleCollaboratorInput
-            );
-
-            // Add a new submit handler for editing
-            const editHandler = async function (e) {
-              e.preventDefault();
-              const updatedBudget = {
-                ...budgetToEdit,
-                category: document.getElementById("editBudgetCategory").value,
-                about: document.getElementById("editBudgetAbout").value,
-                budgetAmount: parseFloat(
-                  document.getElementById("editBudgetAmount").value
-                ),
-                frequency: document.getElementById("editBudgetFrequency").value,
-                endDate: document.getElementById("editBudgetEndDate").value,
-                collaborators: getCollaboratorIds(
-                  document.getElementById("editBudgetCollaborators").value
-                ),
-              };
-              try {
-                const response = await fetch(
-                  `http://localhost:3000/budgets/${apiId(budgetToEdit.id)}`,
-                  {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updatedBudget),
-                  }
-                );
-                if (!response.ok) throw new Error("Failed to update budget.");
-                const savedBudget = await response.json();
-                // Compare old and new values to build a change summary
-                let changes = [];
-                if (budgetToEdit.category !== updatedBudget.category)
-                  changes.push(
-                    `Category: "${budgetToEdit.category}" → "${updatedBudget.category}"`
-                  );
-                if (budgetToEdit.about !== updatedBudget.about)
-                  changes.push(
-                    `About: "${budgetToEdit.about}" → "${updatedBudget.about}"`
-                  );
-                if (budgetToEdit.budgetAmount !== updatedBudget.budgetAmount)
-                  changes.push(
-                    `Budget Amount: $${budgetToEdit.budgetAmount} → $${updatedBudget.budgetAmount}`
-                  );
-                if (budgetToEdit.frequency !== updatedBudget.frequency)
-                  changes.push(
-                    `Frequency: ${budgetToEdit.frequency || "N/A"} → ${
-                      updatedBudget.frequency || "N/A"
-                    }`
-                  );
-                if (budgetToEdit.endDate !== updatedBudget.endDate)
-                  changes.push(
-                    `End Date: ${budgetToEdit.endDate || "N/A"} → ${
-                      updatedBudget.endDate || "N/A"
-                    }`
-                  );
-                // Compare collaborators (as sets of usernames)
-                const oldCollabs = (budgetToEdit.collaborators || [])
-                  .map(getUsernameById)
-                  .filter(Boolean);
-                const newCollabs = (updatedBudget.collaborators || [])
-                  .map(getUsernameById)
-                  .filter(Boolean);
-                if (
-                  oldCollabs.sort().join(",") !== newCollabs.sort().join(",")
-                ) {
-                  changes.push(
-                    `Collaborators: [${oldCollabs.join(
-                      ", "
-                    )}] → [${newCollabs.join(", ")}]`
-                  );
-                }
-                let changeMsg =
-                  changes.length > 0
-                    ? "Budget updated:\n" + changes.join("\n")
-                    : "Budget updated (no visible changes).";
-                // Send notification to self (editor)
-                createNotification(
-                  loggedInId,
-                  changeMsg,
-                  notificationId(savedBudget.id),
-                  "budget_edited"
-                );
-                console.log("Budget updated successfully:", savedBudget);
-                // Update local array
-                const idx = allBudgets.findIndex(
-                  (b) => String(b.id) === itemId
-                );
-                if (idx !== -1)
-                  allBudgets[idx] = {
-                    ...savedBudget,
-                    id: normalizeId(savedBudget.id),
-                  };
-                renderBudgets();
-                // Send notification to collaborators (except self)
-                (updatedBudget.collaborators || []).forEach((id) => {
-                  if (String(id) !== String(loggedInId)) {
-                    createNotification(
-                      id,
-                      `${getUserNameById(loggedInId)} edited the budget: "${
-                        savedBudget.category
-                      }".`,
-                      notificationId(savedBudget.id),
-                      "budget_edited"
-                    );
-                  }
-                });
-              } catch (err) {
-                alert("Failed to update budget.");
-              }
-              editForm.reset();
-              hideModal(document.getElementById("editBudgetModal"));
-              editForm.removeEventListener("submit", editHandler);
-              editForm._editHandler = null;
-            };
-            editForm.addEventListener("submit", editHandler);
-            editForm._editHandler = editHandler;
-
-            // Close button/cancel for edit modal
-            document
-              .getElementById("editBudgetModal")
-              .querySelectorAll(".close-btn, .cancel-btn")
-              .forEach((btn) => {
-                btn.onclick = () => {
-                  hideModal(document.getElementById("editBudgetModal"));
-                  editForm.removeEventListener("submit", editHandler);
-                  editForm._editHandler = null;
-                };
-              });
-            hideModal(addBudgetModal); // Just closing the modal for now as edit functionality is not implemented
-          }
-        });
-
-      // --- Filter Input Event Listeners ---
-      document
-        .getElementById("goalFilterInput")
-        .addEventListener("input", (e) => {
-          goalFilterText = e.target.value;
-          renderGoals();
-        });
-
-      document
-        .getElementById("budgetFilterInput")
-        .addEventListener("input", (e) => {
-          budgetFilterText = e.target.value;
-          renderBudgets();
-        });
-
-      // --- Initial Data Fetch (from json-server or fallback) ---
-      document.addEventListener("DOMContentLoaded", async () => {
-        const endpoints = {
-          users: "http://localhost:3000/users",
-          notifications: "http://localhost:3000/notifications",
-          goals: "http://localhost:3000/goals",
-          budgets: "http://localhost:3000/budgets",
-          savings: "http://localhost:3000/savings",
+        const creatorId = localStorage.getItem("loggedin_id") || 1;
+        const newGoal = {
+          name: goalName,
+          about: goalAbout,
+          targetAmount: goalAmount,
+          achievedAmount: 0,
+          targetDate: goalTargetDate,
+          creatorId: creatorId,
         };
+        if (collaborators.length > 0) {
+          newGoal.collaborators = collaborators;
+        }
 
-        const fetchedData = {};
-        const fetchPromises = Object.keys(endpoints).map(async (key) => {
-          try {
-            const response = await fetch(endpoints[key]);
-            if (!response.ok) {
-              throw new Error(`Failed to fetch ${key}: ${response.statusText}`);
+        let savedGoal = null;
+        try {
+          const response = await fetch("http://localhost:3000/goals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newGoal),
+          });
+          if (!response.ok) throw new Error("Failed to save goal");
+          savedGoal = await response.json();
+          // Notify creator
+          await postNotification({
+            user_id: creatorId,
+            message: `You created a new goal: "${goalName}".`,
+            related_id: savedGoal.id,
+            type: "goal_created",
+          });
+          // Notify collaborators
+          if (collaborators.length > 0) {
+            // Find user ids for usernames
+            let users = [];
+            try {
+              let res = await fetch("http://localhost:3000/users");
+              if (res.ok) users = await res.json();
+            } catch {}
+            for (const uname of collaborators) {
+              const user = users.find((u) => u.username === uname);
+              if (user) {
+                await postNotification({
+                  user_id: user.id,
+                  message: `You were added as a collaborator to goal "${goalName}".`,
+                  related_id: savedGoal.id,
+                  type: "goal_collaborator",
+                });
+              }
             }
-            fetchedData[key] = await response.json();
-          } catch (error) {
-            console.error(`Error fetching data for ${key}:`, error);
-            fetchedData[key] = []; // Fallback to empty array on error
           }
+        } catch (err) {
+          console.error("Error posting goal:", err);
+        }
+      }
+
+      // Modified: Collaborator is optional (create without if none selected)
+      async function submitNewBudgetForm(e) {
+        e.preventDefault();
+        const budgetCategory = document.getElementById("budgetCategory").value;
+        const budgetAbout = document.getElementById("budgetAbout").value;
+        const budgetAmount = parseFloat(
+          document.getElementById("budgetAmount").value
+        );
+        const budgetFrequency =
+          document.getElementById("budgetFrequency").value;
+        const budgetEndDate = document.getElementById("budgetEndDate").value;
+        const collaboratorsRaw = document.getElementById(
+          "budgetCollaborators"
+        ).value;
+        const collaborators = collaboratorsRaw
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1))
+          .filter(Boolean);
+
+        const creatorId = localStorage.getItem("loggedin_id") || 1;
+        const newBudget = {
+          category: budgetCategory,
+          about: budgetAbout,
+          budgetAmount: budgetAmount,
+          spentAmount: 0,
+          frequency: budgetFrequency,
+          endDate: budgetEndDate,
+          creatorId: creatorId,
+        };
+        if (collaborators.length > 0) {
+          newBudget.collaborators = collaborators;
+        }
+
+        let savedBudget = null;
+        try {
+          const response = await fetch("http://localhost:3000/budgets", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newBudget),
+          });
+          if (!response.ok) throw new Error("Failed to save budget");
+          savedBudget = await response.json();
+          // Notify creator
+          await postNotification({
+            user_id: creatorId,
+            message: `You created a new budget: "${budgetCategory}".`,
+            related_id: savedBudget.id,
+            type: "budget_created",
+          });
+          // Notify collaborators
+          if (collaborators.length > 0) {
+            let users = [];
+            try {
+              let res = await fetch("http://localhost:3000/users");
+              if (res.ok) users = await res.json();
+            } catch {}
+            for (const uname of collaborators) {
+              const user = users.find((u) => u.username === uname);
+              if (user) {
+                await postNotification({
+                  user_id: user.id,
+                  message: `You were added as a collaborator to budget "${budgetCategory}".`,
+                  related_id: savedBudget.id,
+                  type: "budget_collaborator",
+                });
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Error posting budget:", err);
+        }
+      }
+
+      // Attach submit handlers to forms
+      document
+        .getElementById("goalForm")
+        .addEventListener("submit", submitNewGoalForm);
+      document
+        .getElementById("budgetForm")
+        .addEventListener("submit", submitNewBudgetForm);
+
+      // GET all goals
+      async function getGoals() {
+        try {
+          const response = await fetch("http://localhost:3000/goals");
+          if (!response.ok) throw new Error("Failed to fetch goals");
+          return await response.json();
+        } catch (err) {
+          console.error("Error fetching goals:", err);
+          return [];
+        }
+      }
+
+      // GET all budgets
+      async function getBudgets() {
+        try {
+          const response = await fetch("http://localhost:3000/budgets");
+          if (!response.ok) throw new Error("Failed to fetch budgets");
+          return await response.json();
+        } catch (err) {
+          console.error("Error fetching budgets:", err);
+          return [];
+        }
+      }
+      // Show the Add Goal modal when the button is clicked
+      document
+        .getElementById("addGoalBtn")
+        .addEventListener("click", function () {
+          document.getElementById("addGoalModal").classList.add("show");
         });
 
-        await Promise.allSettled(fetchPromises);
+      // Hide the Add Goal modal when close or cancel is clicked
+      document
+        .querySelectorAll("#addGoalModal .close-btn, #addGoalModal .cancel-btn")
+        .forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            document.getElementById("addGoalModal").classList.remove("show");
+          });
+        });
 
-        // Apply normalizeId consistently for all incoming data IDs
-        allUsers =
-          fetchedData.users.length > 0
-            ? fetchedData.users.map((u) => ({ ...u, id: normalizeId(u.id) }))
-            : [
-                {
-                  id: 1,
-                  name: "Alice Smith",
-                  username: "alice",
-                  dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=AS",
-                },
-                {
-                  id: 2,
-                  name: "Bob Johnson",
-                  username: "bob",
-                  dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=BJ",
-                },
-                {
-                  id: 3,
-                  name: "Charlie Brown",
-                  username: "charlie",
-                  dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=CB",
-                },
-                {
-                  id: loggedInId,
-                  name: "Current User",
-                  username: "currentuser",
-                  dp: "https://placehold.co/40x40/007BFF/FFFFFF?text=CU",
-                },
-              ];
-        allNotifications =
-          fetchedData.notifications.map((n) => ({
-            ...n,
-            user_id: notificationId(n.user_id),
-            sender_id: notificationId(n.sender_id),
-            related_id: notificationId(n.related_id),
-          })) || [];
-        allGoals =
-          fetchedData.goals.map((g) => ({
-            ...g,
-            id: normalizeId(g.id),
-            creatorId: normalizeId(g.creatorId),
-            collaborators: g.collaborators
-              ? g.collaborators.map(normalizeId)
-              : [],
-          })) || [];
-        allBudgets =
-          fetchedData.budgets.map((b) => ({
-            ...b,
-            id: normalizeId(b.id),
-            creatorId: normalizeId(b.creatorId),
-            collaborators: b.collaborators
-              ? b.collaborators.map(normalizeId)
-              : [],
-          })) || [];
-        allSavings = fetchedData.savings || [];
+      // Show the Add Budget modal when the button is clicked
+      document
+        .getElementById("addBudgetBtn")
+        .addEventListener("click", function () {
+          document.getElementById("addBudgetModal").classList.add("show");
+        });
 
-        // Filter initial data based on loggedInId (ensure consistent string comparison)
-        allGoals = allGoals.filter(
-          (g) =>
-            String(g.creatorId) === String(loggedInId) ||
-            (g.collaborators &&
-              g.collaborators.some(
-                (colId) => String(colId) === String(loggedInId)
-              ))
-        );
-        allBudgets = allBudgets.filter(
-          (b) =>
-            String(b.creatorId) === String(loggedInId) ||
-            (b.collaborators &&
-              b.collaborators.some(
-                (colId) => String(colId) === String(loggedInId)
-              ))
-        );
+      // Hide the Add Budget modal when close or cancel is clicked
+      document
+        .querySelectorAll(
+          "#addBudgetModal .close-btn, #addBudgetModal .cancel-btn"
+        )
+        .forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            document.getElementById("addBudgetModal").classList.remove("show");
+          });
+        });
 
-        // If fetch fails or returns empty, try to fetch from local db.json as a fallback
-        if (
-          !fetchedData.users ||
-          fetchedData.users.length === 0 ||
-          !fetchedData.goals ||
-          fetchedData.goals.length === 0 ||
-          !fetchedData.budgets ||
-          fetchedData.budgets.length === 0 ||
-          !fetchedData.notifications ||
-          fetchedData.notifications.length === 0
-        ) {
+      // --- Notification Alert for Logged-in User ---
+      async function updateNotificationAlert() {
+        const userId = localStorage.getItem("loggedin_id") || 1;
+        let notifications = [];
+        try {
+          const res = await fetch("http://localhost:3000/notifications");
+          if (res.ok) notifications = await res.json();
+        } catch {}
+        // Fallback to db.json if needed
+        if (!notifications.length) {
           try {
-            const dbResponse = await fetch("/db.json");
-            if (dbResponse.ok) {
-              const dbJson = await dbResponse.json();
-              if (dbJson.users && dbJson.users.length > 0) {
-                allUsers = dbJson.users.map((u) => ({
-                  ...u,
-                  id: normalizeId(u.id),
-                }));
-              }
-              if (dbJson.goals && dbJson.goals.length > 0) {
-                allGoals = dbJson.goals.map((g) => ({
-                  ...g,
-                  id: normalizeId(g.id),
-                  creatorId: normalizeId(g.creatorId),
-                  collaborators: g.collaborators
-                    ? g.collaborators.map(normalizeId)
-                    : [],
-                }));
-              }
-              if (dbJson.budgets && dbJson.budgets.length > 0) {
-                allBudgets = dbJson.budgets.map((b) => ({
-                  ...b,
-                  id: normalizeId(b.id),
-                  creatorId: normalizeId(b.creatorId),
-                  collaborators: b.collaborators
-                    ? b.collaborators.map(normalizeId)
-                    : [],
-                }));
-              }
-              if (dbJson.notifications && dbJson.notifications.length > 0) {
-                allNotifications = dbJson.notifications.map((n) => ({
-                  ...n,
-                  user_id: notificationId(n.user_id),
-                  sender_id: notificationId(n.sender_id),
-                  related_id: notificationId(n.related_id),
-                }));
-              }
-              if (dbJson.savings) {
-                allSavings = dbJson.savings;
-              }
+            const res = await fetch("/db.json");
+            if (res.ok) {
+              const db = await res.json();
+              notifications = db.notifications || [];
             }
-          } catch (err) {
-            console.warn("Failed to fetch fallback db.json:", err);
-          }
+          } catch {}
         }
-
-        fetchAndSetUserName();
-        toggleUserHeaderElements();
-        updateNotificationCount();
-        renderGoals();
-        renderBudgets();
-
-        const path = window.location.pathname;
-        if (path.includes("budget.html")) {
-          activateNavLink("budget");
-        } else if (path.includes("transaction.html")) {
-          activateNavLink("transaction");
-        } else if (path.includes("index.html") || path === "/") {
-          activateNavLink("index");
-        } else {
-          const storedPage = localStorage.getItem("page");
-          if (storedPage) {
-            activateNavLink(storedPage);
+        // Store all notifications globally
+        allNotifications = notifications;
+        // Count unread notifications for this user
+        const count = notifications.filter(
+          (n) => String(n.user_id) === String(userId) && !n.read
+        ).length;
+        // Show in .no_of_noties
+        document.querySelectorAll(".no_of_noties").forEach((el) => {
+          if (count > 0) {
+            el.textContent = count;
+            el.classList.remove("hide");
+          } else {
+            el.textContent = "";
+            el.classList.add("hide");
           }
-        }
-      });
+        });
+      }
+      // Update notification alert on load and after actions
+      document.addEventListener("DOMContentLoaded", updateNotificationAlert);
     </script>
   </body>
 </html>
