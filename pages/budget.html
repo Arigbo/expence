@@ -977,7 +977,7 @@
     }
 
      </script>
-    <script>
+    <!-- <script>
       // --- Global variables and initial setup ---
       // Hardcode loggedInId to 4 as requested.
       const loggedInId = localStorage.getItem("loggedin_id"); // Changed to number
@@ -1345,10 +1345,7 @@
             document.getElementById("goalTargetDate").value;
           const rawCollaborators =
             document.getElementById("goalCollaborators").value;
-          // Ensure collaborators are always an array of user IDs
-          const collaboratorsIds = Array.isArray(getCollaboratorIds(rawCollaborators))
-            ? getCollaboratorIds(rawCollaborators)
-            : [];
+          const collaboratorsIds = getCollaboratorIds(rawCollaborators);
 
           // Generate a unique numeric ID for the new goal on the client side
           const newId =
@@ -1556,7 +1553,7 @@
           goalItem.classList.add("box");
           // data-id always stores the string representation of the ID for consistency with HTML and API
           goalItem.setAttribute("data-id", apiId(goal.id));
-            goalItem.innerHTML = `
+          goalItem.innerHTML = `
             <div class="box_inner">
               <div class="left">
               <input type="checkbox" class="goal-checkbox" ${
@@ -1564,44 +1561,44 @@
               }/>
               <div>
                 <h1>${goal.name}</h1>
-                <div class="details">Target: $${goal.targetAmount && !isNaN(goal.targetAmount) ? Number(goal.targetAmount).toLocaleString() : "0"} | Achieved: $${goal.achievedAmount && !isNaN(goal.achievedAmount) ? Number(goal.achievedAmount).toLocaleString() : "0"}</div>
+                <div class="details">Target: $${goal.targetAmount.toLocaleString()} | Achieved: $${goal.achievedAmount.toLocaleString()}</div>
                 <div class="progress-bar-container">
-                <div class="progress-bar" style="width: ${isNaN(percentComplete) ? 0 : Math.min(
-                  percentComplete,
-                  100
-                )}%; background-color: ${statusColor};"></div>
+                  <div class="progress-bar" style="width: ${Math.min(
+                    percentComplete,
+                    100
+                  )}%; background-color: ${statusColor};"></div>
                 </div>
-                <div class="progress-text" style="color: ${statusColor};">${isNaN(percentComplete) ? 0 : Math.round(
-                percentComplete
-                )}% Complete by ${goal.targetDate || "N/A"}</div>
+                <div class="progress-text" style="color: ${statusColor};">${Math.round(
+            percentComplete
+          )}% Complete by ${goal.targetDate || "N/A"}</div>
               </div>
               </div>
               <div class="right">
-              <div class="item-actions">
-                <button class="edit-item"><i class="fas fa-edit"></i>E</button>
-                <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
-              </div>
+                            <div class="item-actions">
+              <button class="edit-item"><i class="fas fa-edit"></i>E</button>
+              <button class="delete-item"><i class="fas fa-trash-alt"></i>X</button>
+            </div>
               </div>
             </div>
+
             ${
-              Array.isArray(goal.collaborators) && goal.collaborators.length > 0
-              ? `<div class="companions-list">
-                <span>Companions:</span>
-                ${goal.collaborators
-                  .map((id) => {
-                  const name = getUserNameById(id);
-                  const username = getUsernameById(id);
-                  return username
-                    ? `<span class="companion">${name} (@${username})</span>`
-                    : "";
-                  })
-                  .filter(Boolean)
-                  .join("")}
-                </div>`
-              : `<div class="companions-list"><span>Companions:</span> <span style="color:#aaa;">None</span></div>`
+              goal.collaborators && goal.collaborators.length > 0
+                ? `
+            <div class="companions-list">
+              <span>Companions:</span>
+              ${goal.collaborators
+                .map(
+                  (id) =>
+                    `<span class="companion">${getUserNameById(id)}</span>`
+                )
+                .join("")}
+            </div>`
+                : ""
             }
             `;
-            goalsList.appendChild(goalItem);
+          goalsList.appendChild(goalItem);
+        });
+      }
 
       function renderBudgets() {
         const budgetsList = document.getElementById("budgetsList");
@@ -2479,6 +2476,617 @@
           }
         }
       });
+    </script> -->
+    <script>
+      // --- Collaborator Modal Logic ---
+      let collaboratorModal = null;
+      let collaboratorInputTarget = null;
+      let collaboratorUsers = [];
+
+      // --- All notifications array ---
+      let allNotifications = [];
+
+      // Fetch users from db.json (fallback if not already loaded)
+      async function fetchCollaboratorUsers() {
+        if (window.allUsers && window.allUsers.length) {
+          collaboratorUsers = window.allUsers;
+          return;
+        }
+        try {
+          // Try API first
+          let res = await fetch("http://localhost:3000/users");
+          if (res.ok) {
+            collaboratorUsers = await res.json();
+            return;
+          }
+        } catch {}
+        try {
+          // Fallback to db.json
+          let res = await fetch("/db.json");
+          if (res.ok) {
+            let db = await res.json();
+            collaboratorUsers = db.users || [];
+          }
+        } catch {}
+      }
+
+      // Create the collaborator modal if it doesn't exist
+      function createCollaboratorModal() {
+        if (collaboratorModal) return collaboratorModal;
+        collaboratorModal = document.createElement("div");
+        collaboratorModal.className = "modal-overlay";
+        collaboratorModal.id = "collaboratorModal";
+        collaboratorModal.innerHTML = `
+          <div class="modal-content" style="max-width:400px;">
+          <button class="close-btn">&times;</button>
+          <h2>Select Collaborators</h2>
+          <div id="collaboratorList" style="max-height:250px;overflow:auto;margin-bottom:1em;"></div>
+          <div class="form-actions">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="button" class="submit-btn">Add Selected</button>
+          </div>
+          </div>
+        `;
+        document.body.appendChild(collaboratorModal);
+
+        // Close modal
+        collaboratorModal.querySelector(".close-btn").onclick =
+          collaboratorModal.querySelector(".cancel-btn").onclick = function () {
+            collaboratorModal.classList.remove("show");
+          };
+
+        // Add selected collaborators to the input
+        collaboratorModal.querySelector(".submit-btn").onclick = function () {
+          const checked = Array.from(
+            collaboratorModal.querySelectorAll("input[type=checkbox]:checked")
+          );
+          const usernames = checked.map((cb) => "@" + cb.value);
+          if (collaboratorInputTarget) {
+            collaboratorInputTarget.value = usernames.join(" ") + " ";
+            collaboratorInputTarget.focus();
+          }
+          collaboratorModal.classList.remove("show");
+        };
+
+        return collaboratorModal;
+      }
+
+      // Show the collaborator modal for a given input
+      async function showCollaboratorModal(input) {
+        collaboratorInputTarget = input;
+        await fetchCollaboratorUsers();
+        const modal = createCollaboratorModal();
+        const list = modal.querySelector("#collaboratorList");
+        // Exclude self
+        const selfId = localStorage.getItem("loggedin_id") || 1;
+        list.innerHTML = collaboratorUsers
+          .filter((u) => String(u.id) !== String(selfId))
+          .map(
+            (u) =>
+              `<label style="display:block;margin-bottom:6px;">
+              <input type="checkbox" value="${u.username}"> ${u.name} <span style="color:#888;">(@${u.username})</span>
+              </label>`
+          )
+          .join("");
+        // Pre-check already mentioned users
+        const current = input.value
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1));
+        list.querySelectorAll("input[type=checkbox]").forEach((cb) => {
+          if (current.includes(cb.value)) cb.checked = true;
+        });
+        modal.classList.add("show");
+      }
+
+      // Attach icon trigger to collaborator inputs
+      ["goalCollaborators", "budgetCollaborators"].forEach((id) => {
+        const input = document.getElementById(id);
+        if (input) {
+          // Insert icon after input
+          const icon = document.createElement("i");
+          icon.className = "fas fa-user-plus";
+          icon.style.cursor = "pointer";
+          icon.style.marginLeft = "8px";
+          icon.title = "Pick collaborators";
+          icon.onclick = function () {
+            showCollaboratorModal(input);
+          };
+          input.parentNode.insertBefore(icon, input.nextSibling);
+
+          // Optionally, show a hint on focus
+          input.addEventListener("focus", function () {
+            input.setAttribute(
+              "placeholder",
+              (input.getAttribute("placeholder") || "") +
+                " (click icon to pick users)"
+            );
+          });
+        }
+      });
+      function getNextNotificationId() {
+        // Find all existing notification IDs in allNotifications (from db.json)
+        const existingIds = new Set(allNotifications.map((n) => Number(n.id)));
+        // Start from 1 and find the first unused positive integer
+        let nextId = 1;
+        while (existingIds.has(nextId)) {
+          nextId++;
+        }
+        return String(nextId);
+      }
+      // --- Notification API ---
+      async function postNotification({ user_id, message, related_id, type }) {
+        // user_id: recipient, related_id: goal/budget id, type: string
+        const sender_id = localStorage.getItem("loggedin_id") || 1;
+        let senderUser = null;
+        try {
+          let res = await fetch("http://localhost:3000/users/" + sender_id);
+          if (res.ok) senderUser = await res.json();
+        } catch {}
+        if (!senderUser) senderUser = { name: "Unknown", dp: "" };
+        const notification = {
+          id:getNextNotificationId(),
+          user_id: Number(user_id),
+          sender: senderUser.name,
+          sender_id: Number(sender_id),
+          sender_dp: senderUser.dp || "",
+          message,
+          read: false,
+          created_at: new Date().toISOString(),
+          related_id: Number(related_id),
+          type,
+        };
+        try {
+          await fetch("http://localhost:3000/notifications", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(notification),
+          });
+        } catch (err) {
+          // fail silently
+        }
+      }
+
+      // --- Edit and Delete Handlers ---
+      async function editGoal(goalId) {
+        // Implement your edit logic here (e.g., show modal, prefill form)
+        // After successful edit, post notification to all collaborators (including self)
+        try {
+          // Fetch goal to get collaborators
+          const res = await fetch(`http://localhost:3000/goals/${goalId}`);
+          if (!res.ok) return;
+          const goal = await res.json();
+          const collaborators = goal.collaborators || [];
+          // Notify all collaborators and creator
+          const allRecipients = new Set([goal.creatorId, ...collaborators]);
+          for (const uid of allRecipients) {
+            await postNotification({
+              user_id: uid,
+              message: `Goal "${goal.name}" was edited.`,
+              related_id: goalId,
+              type: "goal_edited",
+            });
+          }
+        } catch {}
+        alert("Edit Goal: " + goalId);
+      }
+      async function deleteGoal(goalId) {
+        if (!confirm("Delete this goal?")) return;
+        try {
+          // Fetch goal to get collaborators before deleting
+          let goal = null;
+          try {
+            const res = await fetch(`http://localhost:3000/goals/${goalId}`);
+            if (res.ok) goal = await res.json();
+          } catch {}
+          await fetch(`http://localhost:3000/goals/${goalId}`, { method: "DELETE" });
+          await displayGoalsAndBudgets();
+          // Notify all collaborators and creator
+          if (goal) {
+            const collaborators = goal.collaborators || [];
+            const allRecipients = new Set([goal.creatorId, ...collaborators]);
+            for (const uid of allRecipients) {
+              await postNotification({
+                user_id: uid,
+                message: `Goal "${goal.name}" was deleted.`,
+                related_id: goalId,
+                type: "goal_deleted",
+              });
+            }
+          }
+        } catch (err) {
+          alert("Failed to delete goal.");
+        }
+      }
+      async function editBudget(budgetId) {
+        // Implement your edit logic here (e.g., show modal, prefill form)
+        // After successful edit, post notification to all collaborators (including self)
+        try {
+          // Fetch budget to get collaborators
+          const res = await fetch(`http://localhost:3000/budgets/${budgetId}`);
+          if (!res.ok) return;
+          const budget = await res.json();
+          const collaborators = budget.collaborators || [];
+          const allRecipients = new Set([budget.creatorId, ...collaborators]);
+          for (const uid of allRecipients) {
+            await postNotification({
+              user_id: uid,
+              message: `Budget "${budget.category}" was edited.`,
+              related_id: budgetId,
+              type: "budget_edited",
+            });
+          }
+        } catch {}
+        alert("Edit Budget: " + budgetId);
+      }
+      async function deleteBudget(budgetId) {
+        if (!confirm("Delete this budget?")) return;
+        try {
+          // Fetch budget to get collaborators before deleting
+          let budget = null;
+          try {
+            const res = await fetch(`http://localhost:3000/budgets/${budgetId}`);
+            if (res.ok) budget = await res.json();
+          } catch {}
+          await fetch(`http://localhost:3000/budgets/${budgetId}`, { method: "DELETE" });
+          await displayGoalsAndBudgets();
+          // Notify all collaborators and creator
+          if (budget) {
+            const collaborators = budget.collaborators || [];
+            const allRecipients = new Set([budget.creatorId, ...collaborators]);
+            for (const uid of allRecipients) {
+              await postNotification({
+                user_id: uid,
+                message: `Budget "${budget.category}" was deleted.`,
+                related_id: budgetId,
+                type: "budget_deleted",
+              });
+            }
+          }
+        } catch (err) {
+          alert("Failed to delete budget.");
+        }
+      }
+
+      // Display goals and budgets in the specified lists
+      async function displayGoalsAndBudgets() {
+        // Helper to get user display name by username
+        function getUserDisplayName(username, users) {
+          const user = users.find(u => u.username === username);
+          return user ? user.name : `@${username}`;
+        }
+
+        // Fetch users for collaborator display
+        let users = [];
+        try {
+          let res = await fetch("http://localhost:3000/users");
+          if (res.ok) users = await res.json();
+        } catch {}
+        if (!users.length) {
+          try {
+            let res = await fetch("/db.json");
+            if (res.ok) {
+              let db = await res.json();
+              users = db.users || [];
+            }
+          } catch {}
+        }
+
+        // Display goals in id="goalsList"
+        const goalsList = document.getElementById("goalsList");
+        if (goalsList) {
+          const goals = await getGoals();
+          goalsList.innerHTML = "";
+          if (goals.length === 0) {
+            goalsList.innerHTML = '<p style="color:#888;text-align:center;">No goals found.</p>';
+          } else {
+            goals.forEach(goal => {
+              const div = document.createElement("div");
+              div.className = "box";
+              let collaboratorsHtml = "";
+              if (goal.collaborators && goal.collaborators.length) {
+                collaboratorsHtml = `<div class="companions-list"><span>Collaborators:</span> ` +
+                  goal.collaborators.map(username =>
+                    `<span class="companion">${getUserDisplayName(username, users)}</span>`
+                  ).join(" ") +
+                  `</div>`;
+              }
+              div.innerHTML = `
+              <div class="box_inner">
+                <div class="left">
+                <h1>${goal.name}</h1>
+                <div class="details">
+                  Target: $${goal.targetAmount} | Achieved: $${goal.achievedAmount}
+                </div>
+                ${collaboratorsHtml}
+                </div>
+                <div class="right">
+                <i class="fas fa-edit edit-item" title="Edit" style="cursor:pointer;margin-right:10px;" onclick="editGoal('${goal.id}')"></i>
+                <i class="fas fa-trash-alt delete-item" title="Delete" style="cursor:pointer;" onclick="deleteGoal('${goal.id}')"></i>
+                </div>
+              </div>
+              `;
+              goalsList.appendChild(div);
+            });
+          }
+        }
+        // Display budgets in id="budgetsList"
+        const budgetsList = document.getElementById("budgetsList");
+        if (budgetsList) {
+          const budgets = await getBudgets();
+          budgetsList.innerHTML = "";
+          if (budgets.length === 0) {
+            budgetsList.innerHTML = '<p style="color:#888;text-align:center;">No budgets found.</p>';
+          } else {
+            budgets.forEach(budget => {
+              const div = document.createElement("div");
+              div.className = "box";
+              let collaboratorsHtml = "";
+              if (budget.collaborators && budget.collaborators.length) {
+                collaboratorsHtml = `<div class="companions-list"><span>Collaborators:</span> ` +
+                  budget.collaborators.map(username =>
+                    `<span class="companion">${getUserDisplayName(username, users)}</span>`
+                  ).join(" ") +
+                  `</div>`;
+              }
+              div.innerHTML = `
+              <div class="box_inner">
+                <div class="left">
+                <h1>${budget.category}</h1>
+                <div class="details">
+                  Amount: $${budget.budgetAmount} | Spent: $${budget.spentAmount}
+                </div>
+                ${collaboratorsHtml}
+                </div>
+                <div class="right">
+                <i class="fas fa-edit edit-item" title="Edit" style="cursor:pointer;margin-right:10px;" onclick="editBudget('${budget.id}')"></i>
+                <i class="fas fa-trash-alt delete-item" title="Delete" style="cursor:pointer;" onclick="deleteBudget('${budget.id}')"></i>
+                </div>
+              </div>
+              `;
+              budgetsList.appendChild(div);
+            });
+          }
+        }
+        // --- Notification Count Alert ---
+        updateNotificationAlert();
+      }
+
+      // Call display on page load and after add
+      document.addEventListener("DOMContentLoaded", displayGoalsAndBudgets);
+      document.getElementById("goalForm").addEventListener("submit", function() {
+        setTimeout(displayGoalsAndBudgets, 500);
+      });
+      document.getElementById("budgetForm").addEventListener("submit", function() {
+        setTimeout(displayGoalsAndBudgets, 500);
+      });
+
+      // Modified: Collaborator is optional (create without if none selected)
+      async function submitNewGoalForm(e) {
+        e.preventDefault();
+        const goalName = document.getElementById("goalName").value;
+        const goalAbout = document.getElementById("goalAbout").value;
+        const goalAmount = parseFloat(document.getElementById("goalAmount").value);
+        const goalTargetDate = document.getElementById("goalTargetDate").value;
+        const collaboratorsRaw = document.getElementById("goalCollaborators").value;
+        // Extract collaborator usernames from @username mentions
+        const collaborators = collaboratorsRaw
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1))
+          .filter(Boolean);
+
+        const creatorId = localStorage.getItem("loggedin_id") || 1;
+        const newGoal = {
+          name: goalName,
+          about: goalAbout,
+          targetAmount: goalAmount,
+          achievedAmount: 0,
+          targetDate: goalTargetDate,
+          creatorId: creatorId
+        };
+        if (collaborators.length > 0) {
+          newGoal.collaborators = collaborators;
+        }
+
+        let savedGoal = null;
+        try {
+          const response = await fetch("http://localhost:3000/goals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newGoal),
+          });
+          if (!response.ok) throw new Error("Failed to save goal");
+          savedGoal = await response.json();
+          // Notify creator
+          await postNotification({
+            user_id: creatorId,
+            message: `You created a new goal: "${goalName}".`,
+            related_id: savedGoal.id,
+            type: "goal_created",
+          });
+          // Notify collaborators
+          if (collaborators.length > 0) {
+            // Find user ids for usernames
+            let users = [];
+            try {
+              let res = await fetch("http://localhost:3000/users");
+              if (res.ok) users = await res.json();
+            } catch {}
+            for (const uname of collaborators) {
+              const user = users.find(u => u.username === uname);
+              if (user) {
+                await postNotification({
+                  user_id: user.id,
+                  message: `You were added as a collaborator to goal "${goalName}".`,
+                  related_id: savedGoal.id,
+                  type: "goal_collaborator",
+                });
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Error posting goal:", err);
+        }
+      }
+
+      // Modified: Collaborator is optional (create without if none selected)
+      async function submitNewBudgetForm(e) {
+        e.preventDefault();
+        const budgetCategory = document.getElementById("budgetCategory").value;
+        const budgetAbout = document.getElementById("budgetAbout").value;
+        const budgetAmount = parseFloat(document.getElementById("budgetAmount").value);
+        const budgetFrequency = document.getElementById("budgetFrequency").value;
+        const budgetEndDate = document.getElementById("budgetEndDate").value;
+        const collaboratorsRaw = document.getElementById("budgetCollaborators").value;
+        const collaborators = collaboratorsRaw
+          .split(" ")
+          .filter((s) => s.startsWith("@"))
+          .map((s) => s.slice(1))
+          .filter(Boolean);
+
+        const creatorId = localStorage.getItem("loggedin_id") || 1;
+        const newBudget = {
+          category: budgetCategory,
+          about: budgetAbout,
+          budgetAmount: budgetAmount,
+          spentAmount: 0,
+          frequency: budgetFrequency,
+          endDate: budgetEndDate,
+          creatorId: creatorId
+        };
+        if (collaborators.length > 0) {
+          newBudget.collaborators = collaborators;
+        }
+
+        let savedBudget = null;
+        try {
+          const response = await fetch("http://localhost:3000/budgets", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newBudget),
+          });
+          if (!response.ok) throw new Error("Failed to save budget");
+          savedBudget = await response.json();
+          // Notify creator
+          await postNotification({
+            user_id: creatorId,
+            message: `You created a new budget: "${budgetCategory}".`,
+            related_id: savedBudget.id,
+            type: "budget_created",
+          });
+          // Notify collaborators
+          if (collaborators.length > 0) {
+            let users = [];
+            try {
+              let res = await fetch("http://localhost:3000/users");
+              if (res.ok) users = await res.json();
+            } catch {}
+            for (const uname of collaborators) {
+              const user = users.find(u => u.username === uname);
+              if (user) {
+                await postNotification({
+                  user_id: user.id,
+                  message: `You were added as a collaborator to budget "${budgetCategory}".`,
+                  related_id: savedBudget.id,
+                  type: "budget_collaborator",
+                });
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Error posting budget:", err);
+        }
+      }
+
+      // Attach submit handlers to forms
+      document.getElementById("goalForm").addEventListener("submit", submitNewGoalForm);
+      document.getElementById("budgetForm").addEventListener("submit", submitNewBudgetForm);
+
+      // GET all goals
+      async function getGoals() {
+        try {
+          const response = await fetch("http://localhost:3000/goals");
+          if (!response.ok) throw new Error("Failed to fetch goals");
+          return await response.json();
+        } catch (err) {
+          console.error("Error fetching goals:", err);
+          return [];
+        }
+      }
+
+      // GET all budgets
+      async function getBudgets() {
+        try {
+          const response = await fetch("http://localhost:3000/budgets");
+          if (!response.ok) throw new Error("Failed to fetch budgets");
+          return await response.json();
+        } catch (err) {
+          console.error("Error fetching budgets:", err);
+          return [];
+        }
+      }
+      // Show the Add Goal modal when the button is clicked
+      document.getElementById("addGoalBtn").addEventListener("click", function () {
+        document.getElementById("addGoalModal").classList.add("show");
+      });
+
+      // Hide the Add Goal modal when close or cancel is clicked
+      document.querySelectorAll("#addGoalModal .close-btn, #addGoalModal .cancel-btn").forEach(function(btn) {
+        btn.addEventListener("click", function () {
+          document.getElementById("addGoalModal").classList.remove("show");
+        });
+      });
+
+      // Show the Add Budget modal when the button is clicked
+      document.getElementById("addBudgetBtn").addEventListener("click", function () {
+        document.getElementById("addBudgetModal").classList.add("show");
+      });
+
+      // Hide the Add Budget modal when close or cancel is clicked
+      document.querySelectorAll("#addBudgetModal .close-btn, #addBudgetModal .cancel-btn").forEach(function(btn) {
+        btn.addEventListener("click", function () {
+          document.getElementById("addBudgetModal").classList.remove("show");
+        });
+      });
+
+      // --- Notification Alert for Logged-in User ---
+      async function updateNotificationAlert() {
+        const userId = localStorage.getItem("loggedin_id") || 1;
+        let notifications = [];
+        try {
+          const res = await fetch("http://localhost:3000/notifications");
+          if (res.ok) notifications = await res.json();
+        } catch {}
+        // Fallback to db.json if needed
+        if (!notifications.length) {
+          try {
+            const res = await fetch("/db.json");
+            if (res.ok) {
+              const db = await res.json();
+              notifications = db.notifications || [];
+            }
+          } catch {}
+        }
+        // Store all notifications globally
+        allNotifications = notifications;
+        // Count unread notifications for this user
+        const count = notifications.filter(
+          n => String(n.user_id) === String(userId) && !n.read
+        ).length;
+        // Show in .no_of_noties
+        document.querySelectorAll(".no_of_noties").forEach(el => {
+          if (count > 0) {
+            el.textContent = count;
+            el.classList.remove("hide");
+          } else {
+            el.textContent = "";
+            el.classList.add("hide");
+          }
+        });
+      }
+      // Update notification alert on load and after actions
+      document.addEventListener("DOMContentLoaded", updateNotificationAlert);
     </script>
   </body>
 </html>
