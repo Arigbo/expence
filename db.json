@@ -253,11 +253,119 @@
       "type": "expense",
       "amount": 50,
       "category": "Food",
-      "date": "2025-11-01",
+      "date": "2025-11-03",
       "description": "Lunch at a cafe"
     },
-    
+           {
+      "id": "27",
+      "user_id": 4,
+      "type": "expense",
+      "amount": 2000,
+      "category": "Entertainment",
+      "date": "2025-12-07",
+      "description": "Movie box subscription"
+    },
         {
+      "id": "28",
+      "user_id": 4,
+      "type": "expense",
+      "amount": 2000,
+      "category": "Entertainment",
+      "date": "2025-12-04",
+      "description": "Data subscription"
+    },
+               {
+      "id": "29",
+      "user_id": 4,
+      "type": "expense",
+      "amount": 220,
+      "category": "Health",
+      "date": "2025-5-30",
+      "description": "Paracetamol"
+    },
+           {
+      "id": "30",
+      "user_id": 4,
+      "type": "income",
+      "amount": 22000,
+      "category": "Investment",
+      "date": "2025-5-30",
+      "description": "Lodger money"
+    },
+           {
+      "id": "31",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-3-30",
+      "description": "Lodger money"
+    },
+           {
+      "id": "32",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-4-30",
+      "description": "Lodger money"
+    },
+           {
+      "id": "33",
+      "user_id": 4,
+      "type": "income",
+      "amount": 220000,
+      "category": "Investment",
+      "date": "2025-11-30",
+      "description": "Lodger money"
+    },
+       {
+      "id": "34",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-10-30",
+      "description": "Lodger money"
+    },
+       {
+      "id": "35",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-9-30",
+      "description": "Lodger money"
+    },
+    {
+      "id": "36",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-8-30",
+      "description": "Lodger money"
+    },
+    {
+      "id": "37",
+      "user_id": 4,
+      "type": "income",
+      "amount": 2200000,
+      "category": "Investment",
+      "date": "2025-6-30",
+      "description": "Lodger money"
+    },
+    {
+      "id": "38",
+      "user_id": 4,
+      "type": "expense",
+      "amount": 20000,
+      "category": "Entertainment",
+      "date": "2025-1-30",
+      "description": "Spider-Man homecoming date"
+    },
+
+    {
       "id": "39",
       "user_id": 4,
       "type": "income",
@@ -266,13 +374,13 @@
       "date": "2025-2-02",
       "description": "Freelance project payment"
     },
-        {
+    {
       "id": "40",
       "user_id": 4,
       "type": "income",
-      "amount": 200,
+      "amount": 2000,
       "category": "Freelance",
-      "date": "2025-12-02",
+      "date": "2025-12-04",
       "description": "Freelance project payment"
     },
     {
@@ -986,7 +1094,7 @@
       "date": "2024-01-19",
       "description": "Stock dividends"
     }
-    ],
+  ],
   "goals": [
     {
       "id": "447f",
@@ -996,9 +1104,7 @@
       "achievedAmount": 0,
       "targetDate": "2025-06-19",
       "creatorId": "4",
-      "collaborators": [
-        "@jessear"
-      ]
+      "collaborators": ["@jessear"]
     }
   ],
   "budgets": [],
