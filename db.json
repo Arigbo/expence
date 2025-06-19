@@ -28,150 +28,7 @@
     }
   ],
   "notifications": [
-    {
-      "id": "1",
-      "user_id": null,
-      "sender": "Unknown",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-18T17:32:14.762Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "2",
-      "user_id": 3,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": true,
-      "created_at": "2025-06-18T17:32:21.900Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "2",
-      "user_id": null,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-18T17:32:21.917Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "3",
-      "user_id": 3,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "You were added as a collaborator to goal \"NEW CAR\".",
-      "read": true,
-      "created_at": "2025-06-18T17:33:11.992Z",
-      "related_id": null,
-      "type": "goal_collaborator"
-    },
-    {
-      "id": "4",
-      "user_id": 4,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": true,
-      "created_at": "2025-06-19T11:42:07.483Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "4",
-      "user_id": null,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-19T11:42:07.512Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "5",
-      "user_id": 3,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "You created a new budget: \"entertainment\".",
-      "read": false,
-      "created_at": "2025-06-19T12:12:26.200Z",
-      "related_id": null,
-      "type": "budget_created"
-    },
-    {
-      "id": "5",
-      "user_id": 4,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "You were added as a collaborator to budget \"entertainment\".",
-      "read": false,
-      "created_at": "2025-06-19T12:12:26.224Z",
-      "related_id": null,
-      "type": "budget_collaborator"
-    },
-    {
-      "id": "6",
-      "user_id": 3,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "You created a new budget: \"entertainment\".",
-      "read": false,
-      "created_at": "2025-06-19T12:17:51.524Z",
-      "related_id": null,
-      "type": "budget_created"
-    },
-    {
-      "id": "6",
-      "user_id": 4,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "You were added as a collaborator to budget \"entertainment\".",
-      "read": false,
-      "created_at": "2025-06-19T12:17:51.545Z",
-      "related_id": null,
-      "type": "budget_collaborator"
-    },
-    {
-      "id": "7",
-      "user_id": 3,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Budget \"entertainment\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-19T12:20:14.460Z",
-      "related_id": null,
-      "type": "budget_deleted"
-    },
-    {
-      "id": "7",
-      "user_id": null,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Budget \"entertainment\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-19T12:20:14.480Z",
-      "related_id": null,
-      "type": "budget_deleted"
-    }
+   
   ],
   "blogs": [
     {
@@ -1168,13 +1025,13 @@
   ],
   "goals": [
     {
-      "id": "fbac",
+      "id": "1",
       "name": "NEW CAR",
       "about": "",
       "targetAmount": 6666666,
       "achievedAmount": 0,
       "targetDate": "2025-06-19",
-      "creatorId": "3",
+      "creatorId": "4",
       "collaborators": [
         "@jessea"
       ]
