@@ -423,7 +423,6 @@
       const modalNotificationSenderDp = document.getElementById(
       "modalNotificationSenderDp"
       );
-      // const modalNotificationRelatedId=document.getElementById("m")
       const modalNotificationSenderNameFooter = document.getElementById(
       "modalNotificationSenderNameFooter"
       );
@@ -431,512 +430,465 @@
       "modalNotificationCreatedAtFooter"
       );
 
-      /**
-       * Formats a date string into a more readable format.
-       * @param {string} dateString - The ISO date string.
-       * @returns {string} The formatted date string.
-       */
       function formatNotificationDate(dateString) {
       const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
       };
       return new Date(dateString).toLocaleString(undefined, options);
       }
 
-      /**
-       * Updates the unread notification count displayed in the UI.
-       */
       function updateUnreadCount() {
       const unreadCount = allNotifications.filter(
-      (notif) => !notif.read
+        (notif) => !notif.read
       ).length;
       document.querySelectorAll(".no_of_noties").forEach((element) => {
-      if (unreadCount === 0) {
-      element.classList.add("hide");
-      } else {
-      element.classList.remove("hide");
-      element.textContent = unreadCount;
-      }
+        if (unreadCount === 0) {
+        element.classList.add("hide");
+        } else {
+        element.classList.remove("hide");
+        element.textContent = unreadCount;
+        }
       });
       if (unreadCount === 0) {
-      if (markAllReadButton) markAllReadButton.classList.add("hide"); // Hide mark all as read if no unread
+        if (markAllReadButton) markAllReadButton.classList.add("hide");
       } else {
-      if (markAllReadButton) markAllReadButton.classList.remove("hide");
+        if (markAllReadButton) markAllReadButton.classList.remove("hide");
       }
       }
 
-      /**
-       * Renders a single notification item in the list.
-       * @param {object} item - The notification object.
-       */
       function renderNotificationItem(item) {
       const notificationHtml = `
-        <div class="box ${item.read === false ? "not" : ""}" data-id="${
-      item.id
+      <div class="box ${item.read === false ? "not" : ""}" data-id="${
+        item.id
       }">
-        <div class="box_inner">
-          <div class="box_inner_left">
-          <img src="${
-            item.sender_dp
-          }" alt="Sender DP" onerror="this.onerror=null;this.src='https://placehold.co/40x40/CCCCCC/666666?text=${item.sender.charAt(
-      0
+      <div class="box_inner">
+        <div class="box_inner_left">
+        <img src="${
+        item.sender_dp
+        }" alt="Sender DP" onerror="this.onerror=null;this.src='https://placehold.co/40x40/CCCCCC/666666?text=${item.sender.charAt(
+        0
       )}';"/>
-          </div>
-          <div class="box_inner_middle">
-          <div class="box_inner_middle_top">
-            <h1>${item.sender}</h1>
-            <p>${
-            item.message.split("").slice(0, 50).join("") +
-            (item.message.length > 50 ? "....." : "")
-            }</p>
-          </div>
-          <div class="box_inner_middle_bottom">
-            <span>${formatNotificationDate(
-            item.created_at
-            )}</span>
-          </div>
-          </div>
-          <div class="box_inner_right">
-          ${item.read === false ? "<span></span>" : ""}
-          <i class="far fa-trash-can delete-notification" data-id="${item.id}" title="Delete"></i>
-          </div>
+        </div>
+        <div class="box_inner_middle">
+        <div class="box_inner_middle_top">
+        <h1>${item.sender}</h1>
+        <p>${
+          item.message.split("").slice(0, 50).join("") +
+          (item.message.length > 50 ? "....." : "")
+        }</p>
+        </div>
+        <div class="box_inner_middle_bottom">
+        <span>${formatNotificationDate(
+          item.created_at
+        )}</span>
         </div>
         </div>
+        <div class="box_inner_right">
+        ${item.read === false ? "<span></span>" : ""}
+        <i class="far fa-trash-can delete-notification" data-id="${item.id}" title="Delete"></i>
+        </div>
+      </div>
+      </div>
       `;
       notificationsContainer.insertAdjacentHTML(
-      "beforeend",
-      notificationHtml
-      ); // Append to show newest first
-      }
-
-      /**
-       * Helper function to check if two dates are on the same calendar day.
-       * @param {Date} d1 - First date object.
-       * @param {Date} d2 - Second date object.
-       * @returns {boolean} True if dates are on the same day, false otherwise.
-       */
-      function isSameDay(d1, d2) {
-      return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
+        "beforeend",
+        notificationHtml
       );
       }
 
-      /**
-       * Helper function to check if a date is yesterday.
-       * @param {Date} date - The date to check.
-       * @returns {boolean} True if the date is yesterday, false otherwise.
-       */
+      function isSameDay(d1, d2) {
+      return (
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate()
+      );
+      }
+
       function isYesterday(date) {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       return isSameDay(date, yesterday);
       }
 
-      /**
-       * Helper function to check if a date is in the same month and year as another date.
-       * @param {Date} d1 - First date object.
-       * @param {Date} d2 - Second date object.
-       * @returns {boolean} True if dates are in the same month and year, false otherwise.
-       */
       function isSameMonthAndYear(d1, d2) {
       return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth()
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth()
       );
       }
 
-      /**
-       * Renders a section header with a demarcation line.
-       * @param {string} text - The text to display in the header.
-       */
       function renderSectionHeader(text) {
       const headerHtml = `
-        <div class="demarcation-header">
-        <div class="border"></div>
-        <span>${text}</span>
-        <div class="border"></div>
-        </div>
+      <div class="demarcation-header">
+      <div class="border"></div>
+      <span>${text}</span>
+      <div class="border"></div>
+      </div>
       `;
       notificationsContainer.insertAdjacentHTML("beforeend", headerHtml);
       }
 
-      /**
-       * Applies the selected filter to the notifications and re-renders them with time-based demarcation.
-       * @param {string} filterType - 'all', 'unread', or 'read'.
-       */
       function applyNotificationFilter(filterType) {
       let notificationsToDisplay = [];
       if (filterType === "unread") {
-      notificationsToDisplay = allNotifications.filter(
-      (notif) => !notif.read
-      );
+        notificationsToDisplay = allNotifications.filter(
+        (notif) => !notif.read
+        );
       } else if (filterType === "read") {
-      notificationsToDisplay = allNotifications.filter(
-      (notif) => notif.read
-      );
+        notificationsToDisplay = allNotifications.filter(
+        (notif) => notif.read
+        );
       } else {
-      // 'all'
-      notificationsToDisplay = [...allNotifications]; // Create a copy
+        notificationsToDisplay = [...allNotifications];
       }
 
-      // Sort by date descending for proper grouping
       notificationsToDisplay.sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
 
-      notificationsContainer.innerHTML = ""; // Clear current display
+      notificationsContainer.innerHTML = "";
 
       if (notificationsToDisplay.length === 0) {
-      notificationsContainer.innerHTML =
-      '<p class="no-notifications">No notifications found.</p>';
-      updateUnreadCount();
-      return;
+        notificationsContainer.innerHTML =
+        '<p class="no-notifications">No notifications found.</p>';
+        updateUnreadCount();
+        return;
       }
 
       const now = new Date();
       const today = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
       );
       const yesterday = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - 1
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1
       );
-
-      // Calculate the start of "Last 7 Days" (8 days ago from today, including today)
-      // This ensures "Last 7 Days" captures days before yesterday, if any.
       const eightDaysAgo = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - 8
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 8
       );
-
       const firstDayOfCurrentMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      1
+        now.getFullYear(),
+        now.getMonth(),
+        1
       );
 
-      let lastRenderedDateGroup = null; // To track which date group was last rendered
+      let lastRenderedDateGroup = null;
 
       notificationsToDisplay.forEach((item) => {
-      const notifDate = new Date(item.created_at);
-      let currentGroup = "";
+        const notifDate = new Date(item.created_at);
+        let currentGroup = "";
 
-      if (isSameDay(notifDate, today)) {
-      currentGroup = "today";
-      } else if (isSameDay(notifDate, yesterday)) {
-      currentGroup = "yesterday";
-      } else if (notifDate >= eightDaysAgo && notifDate < yesterday) {
-      // Notifications within last 7 days, excluding today/yesterday
-      currentGroup = "last7days";
-      } else if (
-      isSameMonthAndYear(notifDate, now) &&
-      notifDate < eightDaysAgo
-      ) {
-      // This month, but older than last 7 days
-      currentGroup = "thismonth";
-      } else if (notifDate.getFullYear() === now.getFullYear()) {
-      // Same year, but previous months
-      currentGroup = `month-${notifDate.getMonth()}-${notifDate.getFullYear()}`;
-      } else {
-      // Previous years
-      currentGroup = `year-${notifDate.getFullYear()}`;
-      }
+        if (isSameDay(notifDate, today)) {
+        currentGroup = "today";
+        } else if (isSameDay(notifDate, yesterday)) {
+        currentGroup = "yesterday";
+        } else if (notifDate >= eightDaysAgo && notifDate < yesterday) {
+        currentGroup = "last7days";
+        } else if (
+        isSameMonthAndYear(notifDate, now) &&
+        notifDate < eightDaysAgo
+        ) {
+        currentGroup = "thismonth";
+        } else if (notifDate.getFullYear() === now.getFullYear()) {
+        currentGroup = `month-${notifDate.getMonth()}-${notifDate.getFullYear()}`;
+        } else {
+        currentGroup = `year-${notifDate.getFullYear()}`;
+        }
 
-      if (currentGroup !== lastRenderedDateGroup) {
-      let headerText = "";
-      switch (currentGroup) {
-        case "today":
-        headerText = "Today";
-        break;
-        case "yesterday":
-        headerText = "Yesterday";
-        break;
-        case "last7days":
-        headerText = "Last 7 Days";
-        break;
-        case "thismonth":
-        headerText = "This Month";
-        break;
-        default:
-        if (currentGroup.startsWith("month-")) {
+        if (currentGroup !== lastRenderedDateGroup) {
+        let headerText = "";
+        switch (currentGroup) {
+          case "today":
+          headerText = "Today";
+          break;
+          case "yesterday":
+          headerText = "Yesterday";
+          break;
+          case "last7days":
+          headerText = "Last 7 Days";
+          break;
+          case "thismonth":
+          headerText = "This Month";
+          break;
+          default:
+          if (currentGroup.startsWith("month-")) {
         const [_, monthIndex, year] = currentGroup.split("-");
         const monthName = new Date(
         year,
         parseInt(monthIndex)
         ).toLocaleString("default", { month: "long" });
         headerText = `${monthName} ${year}`;
-        } else if (currentGroup.startsWith("year-")) {
+          } else if (currentGroup.startsWith("year-")) {
         const [_, year] = currentGroup.split("-");
         headerText = year;
+          }
+          break;
         }
-        break;
-      }
-      renderSectionHeader(headerText);
-      lastRenderedDateGroup = currentGroup;
-      }
-      renderNotificationItem(item);
+        renderSectionHeader(headerText);
+        lastRenderedDateGroup = currentGroup;
+        }
+        renderNotificationItem(item);
       });
       updateUnreadCount();
       }
 
       /**
        * Fetches notifications from the API and displays them.
+       * Fallback: If API fails, fetch from db.json file.
+       * Only notifications where user_id or related_id matches loggedin_id are included.
        */
       async function fetchNotifications() {
       notificationsContainer.innerHTML =
-      '<div class="loading-message" id="loadingMessage">Loading notifications...</div>';
+        '<div class="loading-message" id="loadingMessage">Loading notifications...</div>';
 
       try {
-      const loggedInId = localStorage.getItem("loggedin_id");
-      if (!loggedInId) {
-      notificationsContainer.innerHTML =
-        '<p class="no-notifications">User ID not found in localStorage. Please ensure it is set.</p>';
-      return;
-      }
+        const loggedInId = localStorage.getItem("loggedin_id");
+        if (!loggedInId) {
+        notificationsContainer.innerHTML =
+          '<p class="no-notifications">User ID not found in localStorage. Please ensure it is set.</p>';
+        return;
+        }
 
-      let data = [];
-      try {
-      const response = await fetch("http://localhost:3000/notifications");
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      data = await response.json();
-      } catch (networkError) {
-      console.warn(
-        "Network error fetching notifications, using mock data:",
-        networkError
-      );
-      // Fallback to mock data on network error
-      data = []; // Clear data to ensure mock data is used
-      }
+        let data = [];
+        let fetchError = false;
+        try {
+        const response = await fetch("http://localhost:3000/notifications");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        data = await response.json();
+        } catch (networkError) {
+        fetchError = true;
+        // Fallback to db.json file
+        try {
+          const dbResponse = await fetch("/db.json");
+          if (!dbResponse.ok) {
+          throw new Error(`HTTP error! status: ${dbResponse.status}`);
+          }
+          const dbJson = await dbResponse.json();
+          data = dbJson.notifications || [];
+        } catch (dbError) {
+          console.warn(
+          "Failed to fetch notifications from db.json file:",
+          dbError
+          );
+          data = [];
+        }
+        }
 
-      // Only show notifications where user_id matches loggedInId
-      let userNotifications = data.filter(
-      (notif) => parseInt(notif.user_id) === parseInt(loggedInId)
-      );
+        // Only show notifications where user_id or related_id matches loggedInId
+        let userNotifications = data.filter(
+        (notif) =>
+          (notif.user_id && parseInt(notif.user_id) === parseInt(loggedInId)) ||
+          (notif.related_id && parseInt(notif.related_id) === parseInt(loggedInId))
+        );
 
-      // Fallback: If no user notifications or fetch failed, use mock data
-      if (userNotifications.length === 0) {
-      console.warn(
-        "No notifications found for this user from API or fetch failed. Using mock data."
-      );
-      userNotifications = [
-        {
-        id: 1,
-        user_id: 4,
-        sender: "Admin",
-        sender_dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
-        message: "Welcome to Spenctrack! We're glad to have you.",
-        created_at: "2024-05-20T10:00:00Z",
-        read: false,
-        },
-        {
-        id: 2,
-        user_id: 4,
-        sender: "System Alert",
-        sender_dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
-        message:
+        // Fallback: If no user notifications or fetch failed, use mock data
+        if (userNotifications.length === 0) {
+        userNotifications = [
+          {
+          id: 1,
+          user_id: 4,
+          sender: "Admin",
+          sender_dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
+          message: "Welcome to Spenctrack! We're glad to have you.",
+          created_at: "2024-05-20T10:00:00Z",
+          read: false,
+          },
+          {
+          id: 2,
+          user_id: 4,
+          sender: "System Alert",
+          sender_dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
+          message:
         "Your monthly report is ready. Check your spending habits!",
-        created_at: "2024-05-21T14:30:00Z",
-        read: false,
-        },
-        {
-        id: 3,
-        user_id: 4,
-        sender: "Support",
-        sender_dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
-        message: "A new feature has been rolled out: Budgeting tools!",
-        created_at: "2024-05-22T09:15:00Z",
-        read: true,
-        },
-        {
-        id: 4,
-        user_id: 4,
-        sender: "Spenctrack Team",
-        sender_dp: "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
-        message:
+          created_at: "2024-05-21T14:30:00Z",
+          read: false,
+          },
+          {
+          id: 3,
+          user_id: 4,
+          sender: "Support",
+          sender_dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
+          message: "A new feature has been rolled out: Budgeting tools!",
+          created_at: "2024-05-22T09:15:00Z",
+          read: true,
+          },
+          {
+          id: 4,
+          user_id: 4,
+          sender: "Spenctrack Team",
+          sender_dp: "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
+          message:
         "Don't forget to categorize your recent transactions for better insights.",
-        created_at: "2024-05-23T11:00:00Z",
-        read: false,
-        },
-        {
-        id: 5,
-        user_id: 4,
-        sender: "Security",
-        sender_dp: "https://placehold.co/40x40/FFFF33/000000?text=SEC",
-        message:
+          created_at: "2024-05-23T11:00:00Z",
+          read: false,
+          },
+          {
+          id: 5,
+          user_id: 4,
+          sender: "Security",
+          sender_dp: "https://placehold.co/40x40/FFFF33/000000?text=SEC",
+          message:
         "Unusual activity detected on your account. Please review immediately.",
-        created_at: "2024-05-24T16:45:00Z",
-        read: false,
-        },
-      ];
-      }
+          created_at: "2024-05-24T16:45:00Z",
+          read: false,
+          },
+        ].filter(
+          (notif) =>
+        (notif.user_id && parseInt(notif.user_id) === parseInt(loggedInId)) ||
+        (notif.related_id && parseInt(notif.related_id) === parseInt(loggedInId))
+        );
+        }
 
-      allNotifications.length = 0; // Clear existing notifications
-      allNotifications.push(...userNotifications); // Populate with fetched data
+        allNotifications.length = 0;
+        allNotifications.push(...userNotifications);
 
-      // Initially apply 'all' filter
-      applyNotificationFilter("all");
+        applyNotificationFilter("all");
 
-      // After fetching and rendering, check if a modal was previously open
-      const storedNotificationId =
-      sessionStorage.getItem("openNotificationId");
-      if (storedNotificationId) {
-      const notificationToReopen = allNotifications.find(
-        (n) => parseInt(n.id) === parseInt(storedNotificationId)
-      );
-      if (notificationToReopen) {
-        showFullNotification(notificationToReopen);
-      }
-      sessionStorage.removeItem("openNotificationId"); // Clear it after attempting to reopen
-      }
+        const storedNotificationId =
+        sessionStorage.getItem("openNotificationId");
+        if (storedNotificationId) {
+        const notificationToReopen = allNotifications.find(
+          (n) => parseInt(n.id) === parseInt(storedNotificationId)
+        );
+        if (notificationToReopen) {
+          showFullNotification(notificationToReopen);
+        }
+        sessionStorage.removeItem("openNotificationId");
+        }
       } catch (error) {
-      console.error("Error in fetchNotifications:", error);
-      notificationsContainer.innerHTML =
-      '<div class="error-message">Failed to load notifications. Please ensure your local server is running at `http://localhost:3000/notifications` and accessible. Using fallback data for demonstration.</div>';
-      // This catch block will now only run for errors not caught by the inner try-catch for fetch.
-      // The fallback data is already handled in the inner try-catch.
+        console.error("Error in fetchNotifications:", error);
+        notificationsContainer.innerHTML =
+        '<div class="error-message">Failed to load notifications. Please ensure your local server is running at `http://localhost:3000/notifications` and accessible. Using fallback data for demonstration.</div>';
       }
       }
 
-      /**
-       * Displays the full details of a notification in a modal and marks it as read.
-       * @param {object} notification - The notification object to display.
-       */
       async function showFullNotification(notification) {
       if (!notification) {
-      console.error(
-      "showFullNotification received undefined notification."
-      );
-      return;
+        console.error(
+        "showFullNotification received undefined notification."
+        );
+        return;
       }
 
-      // Save the ID of the opened notification to sessionStorage
+      // Only allow opening if user_id or related_id matches loggedin_id
+      const loggedInId = localStorage.getItem("loggedin_id");
+      if (
+        !(
+          (notification.user_id && parseInt(notification.user_id) === parseInt(loggedInId)) ||
+          (notification.related_id && parseInt(notification.related_id) === parseInt(loggedInId))
+        )
+      ) {
+        alert("You are not authorized to view this notification.");
+        return;
+      }
+
       sessionStorage.setItem("openNotificationId", notification.id);
 
-      // Mark the notification as read in our data store
       const index = allNotifications.findIndex(
-      (n) => parseInt(n.id) === parseInt(notification.id)
+        (n) => parseInt(n.id) === parseInt(notification.id)
       );
       if (index !== -1 && !allNotifications[index].read) {
-      try {
-      // Only attempt PATCH if it's on localhost and server is running.
-      // This PATCH request might cause a page reload if json-server is configured
-      // to restart on file changes (e.g., with --watch flag).
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
-        const response = await fetch(
-        `http://localhost:3000/notifications/${notification.id}`,
-        {
+        try {
+        if (
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+        ) {
+          const response = await fetch(
+          `http://localhost:3000/notifications/${notification.id}`,
+          {
         method: "PATCH",
         headers: {
         "Content-Type": "application/json",
         },
         body: JSON.stringify({ read: true }),
-        }
-        );
+          }
+          );
 
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+          if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+          }
         }
-      } else {
-        // console.log("Not on localhost, skipping PATCH request to mark as read.");
-      }
 
-      // Update local state after successful PATCH or if it's mock data
-      allNotifications[index].read = true;
-      const notificationElement = document.querySelector(
-        `.box[data-id="${notification.id}"]`
-      );
-      if (notificationElement) {
-        notificationElement.classList.remove("not"); // Remove 'not' class
-        const dot = notificationElement.querySelector(
-        ".box_inner_right span"
+        allNotifications[index].read = true;
+        const notificationElement = document.querySelector(
+          `.box[data-id="${notification.id}"]`
         );
-        if (dot) dot.remove(); // Remove the dot
-      }
-      updateUnreadCount(); // Update count after marking as read
-      } catch (error) {
-      console.error("Error marking notification as read:", error);
-      // Optionally show an error message to the user
-      }
+        if (notificationElement) {
+          notificationElement.classList.remove("not");
+          const dot = notificationElement.querySelector(
+          ".box_inner_right span"
+          );
+          if (dot) dot.remove();
+        }
+        updateUnreadCount();
+        } catch (error) {
+        console.error("Error marking notification as read:", error);
+        }
       } else if (index === -1) {
-      console.warn(
-      `Notification with ID ${notification.id} not found in allNotifications array.`
-      );
-      } else {
-      // console.log(`Notification ID ${notification.id} was already read.`);
+        console.warn(
+        `Notification with ID ${notification.id} not found in allNotifications array.`
+        );
       }
 
-      // Populate and show the modal
       modalNotificationSender.textContent = notification.sender;
       modalNotificationMessage.textContent = notification.message;
       modalNotificationSenderDp.src = notification.sender_dp;
       modalNotificationSenderDp.alt = `${notification.sender}'s profile picture`;
       modalNotificationSenderDp.onerror = function () {
-      this.onerror = null;
-      this.src = `https://placehold.co/60x60/CCCCCC/666666?text=${notification.sender.charAt(
-      0
-      )}`;
+        this.onerror = null;
+        this.src = `https://placehold.co/60x60/CCCCCC/666666?text=${notification.sender.charAt(
+        0
+        )}`;
       };
       modalNotificationSenderNameFooter.textContent = notification.sender;
       modalNotificationCreatedAtFooter.textContent = `${formatNotificationDate(
-      notification.created_at
+        notification.created_at
       )}`;
 
       singleNotificationModal.classList.add("show");
       }
 
-      /**
-       * Hides the full notification modal.
-       */
       function closeFullNotification() {
       singleNotificationModal.classList.remove("show");
-      sessionStorage.removeItem("openNotificationId"); // Clear ID from sessionStorage
+      sessionStorage.removeItem("openNotificationId");
       }
 
-      // Event listener for closing the modal
       exitBlogButton.addEventListener("click", closeFullNotification);
       singleNotificationModal.addEventListener("click", (event) => {
-      // Close modal if clicked outside the content area
       if (event.target === singleNotificationModal) {
-      closeFullNotification();
+        closeFullNotification();
       }
       });
 
-      // Event listener for "Mark all as read" button
       if (markAllReadButton) {
       markAllReadButton.addEventListener("click", async () => {
-      const unreadNotifications = allNotifications.filter(
-      (notif) => !notif.read
-      );
-      if (unreadNotifications.length === 0) {
-      // console.log('No unread notifications to mark as read.');
-      return;
-      }
+        const unreadNotifications = allNotifications.filter(
+        (notif) => !notif.read
+        );
+        if (unreadNotifications.length === 0) {
+        return;
+        }
 
-      const promises = unreadNotifications.map((notif) =>
-      // Only attempt PATCH if it's on localhost and server is running
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1"
-        ? fetch(`http://localhost:3000/notifications/${notif.id}`, {
+        const promises = unreadNotifications.map((notif) =>
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? fetch(`http://localhost:3000/notifications/${notif.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ read: true }),
-        })
+          })
         .then((response) => {
         if (!response.ok)
           throw new Error(
@@ -945,71 +897,64 @@
         return response.json();
         })
         .then(() => {
-        // Update local state for each successfully marked notification
         const index = allNotifications.findIndex(
           (n) => parseInt(n.id) === notif.id
-        ); // Ensure n.id is parsed
+        );
         if (index !== -1) {
           allNotifications[index].read = true;
         }
         })
-        : Promise.resolve().then(() => {
-        // Simulate success for non-localhost
+          : Promise.resolve().then(() => {
         const index = allNotifications.findIndex(
         (n) => parseInt(n.id) === notif.id
-        ); // Ensure n.id is parsed
+        );
         if (index !== -1) {
         allNotifications[index].read = true;
         }
-        // console.log(`Simulating marking notification ${notif.id} as read (not on localhost).`);
-        })
-      );
+          })
+        );
 
-      try {
-      await Promise.all(promises);
-      // Re-render all notifications to reflect changes
-      notificationsContainer.innerHTML = ""; // Clear current display
-      allNotifications
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .forEach((item) => {
-        renderNotificationItem(item);
-        });
-      updateUnreadCount(); // Update count after all are marked read
-      // console.log('All unread notifications marked as read!');
-      } catch (error) {
-      console.error("Error marking all notifications as read:", error);
-      // Optionally show an error message to the user
-      }
+        try {
+        await Promise.all(promises);
+        notificationsContainer.innerHTML = "";
+        allNotifications
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .forEach((item) => {
+          renderNotificationItem(item);
+          });
+        updateUnreadCount();
+        } catch (error) {
+        console.error("Error marking all notifications as read:", error);
+        }
       });
       }
 
-      // --- Existing scripts from your provided code ---
       function greeting() {
       const date = new Date();
       const hours = date.getHours();
       let dayPart = "";
       if (hours >= 0 && hours < 12) {
-      dayPart = "morning";
+        dayPart = "morning";
       } else if (hours >= 12 && hours < 18) {
-      dayPart = "afternoon";
+        dayPart = "afternoon";
       } else if (hours >= 18 && hours < 24) {
-      dayPart = "evening";
+        dayPart = "evening";
       } else {
-      dayPart = "night";
+        dayPart = "night";
       }
       const dayOfWeek = date.getDay();
       const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
       ];
       const dayElement = document.querySelector("#day");
       if (dayElement) {
-      dayElement.textContent = days[dayOfWeek] + " " + dayPart;
+        dayElement.textContent = days[dayOfWeek] + " " + dayPart;
       }
       }
       greeting();
@@ -1023,205 +968,190 @@
       async function fetchUserName() {
       const loggedInId = localStorage.getItem("loggedin_id");
       if (!loggedInId) {
-      console.warn(
-      "No loggedIn_id found in localStorage. Displaying 'Guest'."
-      );
-      return "Guest";
+        console.warn(
+        "No loggedIn_id found in localStorage. Displaying 'Guest'."
+        );
+        return "Guest";
       }
 
       try {
-      const response = await fetch("http://localhost:3000/users");
-      if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const users = await response.json();
-      const currentUser = users.find(
-      (user) => parseInt(user.id) === parseInt(loggedInId)
-      );
+        const response = await fetch("http://localhost:3000/users");
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const users = await response.json();
+        const currentUser = users.find(
+        (user) => parseInt(user.id) === parseInt(loggedInId)
+        );
 
-      if (currentUser && currentUser.name) {
-      return currentUser.name;
-      } else {
-      console.warn(
-        `User with ID ${loggedInId} not found or name not available. Displaying 'Guest'.`
-      );
-      return "Guest";
-      }
+        if (currentUser && currentUser.name) {
+        return currentUser.name;
+        } else {
+        console.warn(
+          `User with ID ${loggedInId} not found or name not available. Displaying 'Guest'.`
+        );
+        return "Guest";
+        }
       } catch (error) {
-      console.error("Error fetching user name:", error);
-      // Fallback to "Guest" on network error or other issues
-      return "Guest";
+        console.error("Error fetching user name:", error);
+        return "Guest";
       }
       }
 
       fetchUserName().then((name) => {
       const loggedInUserMiddle =
-      document.getElementById("loggedInUserMiddle");
+        document.getElementById("loggedInUserMiddle");
       if (loggedInUserMiddle) {
-      loggedInUserMiddle.textContent = name;
+        loggedInUserMiddle.textContent = name;
       }
       });
 
       document.addEventListener("DOMContentLoaded", fetchNotifications);
 
-      // Event listener for clicking on a notification box (using event delegation)
       notificationsContainer.addEventListener("click", (event) => {
-      // Handle delete icon click
       const deleteIcon = event.target.closest(".delete-notification");
       if (deleteIcon) {
-      event.stopPropagation();
-      const notificationId = parseInt(deleteIcon.dataset.id);
-      deleteNotification(notificationId);
-      return;
+        event.stopPropagation();
+        const notificationId = parseInt(deleteIcon.dataset.id);
+        deleteNotification(notificationId);
+        return;
       }
-      // Handle notification box click
       const clickedBox = event.target.closest(".box");
       if (clickedBox) {
-      const notificationId = parseInt(clickedBox.dataset.id);
-      // Ensure consistent parsing for comparison
-      const notification = allNotifications.find(
-      (n) => parseInt(n.id) === notificationId
-      );
-      if (notification) {
-      showFullNotification(notification);
-      } else {
-      console.error(
-        `Notification with ID ${notificationId} not found in allNotifications array. This might happen if the ID is incorrect or data is not loaded.`
-      );
-      }
+        const notificationId = parseInt(clickedBox.dataset.id);
+        const notification = allNotifications.find(
+        (n) => parseInt(n.id) === notificationId
+        );
+        if (notification) {
+        showFullNotification(notification);
+        } else {
+        console.error(
+          `Notification with ID ${notificationId} not found in allNotifications array. This might happen if the ID is incorrect or data is not loaded.`
+        );
+        }
       }
       });
 
-      // Delete notification function
       async function deleteNotification(notificationId) {
       if (!confirm("Are you sure you want to delete this notification?")) {
-      return;
+        return;
       }
-      // Remove from UI immediately for responsiveness
       const box = document.querySelector(`.box[data-id="${notificationId}"]`);
       if (box) box.remove();
 
-      // Remove from local array
       const notifIndex = allNotifications.findIndex(
-      (n) => parseInt(n.id) === notificationId
+        (n) => parseInt(n.id) === notificationId
       );
       if (notifIndex !== -1) {
-      allNotifications.splice(notifIndex, 1);
+        allNotifications.splice(notifIndex, 1);
       }
       updateUnreadCount();
 
-      // Attempt API delete if on localhost
       if (
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1"
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
       ) {
-      try {
-      const response = await fetch(
-        `http://localhost:3000/notifications/${notificationId}`,
-        { method: "DELETE" }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete notification from server.");
-      }
-      } catch (err) {
-      alert(
-        "Failed to delete notification from server. Please check your connection."
-      );
-      }
+        try {
+        const response = await fetch(
+          `http://localhost:3000/notifications/${notificationId}`,
+          { method: "DELETE" }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to delete notification from server.");
+        }
+        } catch (err) {
+        alert(
+          "Failed to delete notification from server. Please check your connection."
+        );
+        }
       }
       }
 
-      // Event listener for filter change
       if (notificationFilterSelect) {
       notificationFilterSelect.addEventListener("change", (event) => {
-      applyNotificationFilter(event.target.value);
+        applyNotificationFilter(event.target.value);
       });
       }
 
-      // Search functionality
       if (notificationSearchInput && searchResultsModal) {
       notificationSearchInput.addEventListener("keyup", handleSearchInput);
       notificationSearchInput.addEventListener("focus", () => {
-      if (notificationSearchInput.value.length > 0) {
-      handleSearchInput(); // Re-run search on focus if there's text
-      searchResultsModal.classList.add("show");
-      }
+        if (notificationSearchInput.value.length > 0) {
+        handleSearchInput();
+        searchResultsModal.classList.add("show");
+        }
       });
       notificationSearchInput.addEventListener("blur", (event) => {
-      // Delay hiding to allow click on results
-      setTimeout(() => {
-      if (!searchResultsModal.contains(document.activeElement)) {
-        searchResultsModal.classList.remove("show");
-      }
-      }, 100);
+        setTimeout(() => {
+        if (!searchResultsModal.contains(document.activeElement)) {
+          searchResultsModal.classList.remove("show");
+        }
+        }, 100);
       });
 
-      // Hide search results modal if clicked outside
       document.addEventListener("click", (event) => {
-      if (
-      !notificationSearchInput.contains(event.target) &&
-      !searchResultsModal.contains(event.target)
-      ) {
-      searchResultsModal.classList.remove("show");
-      }
+        if (
+        !notificationSearchInput.contains(event.target) &&
+        !searchResultsModal.contains(event.target)
+        ) {
+        searchResultsModal.classList.remove("show");
+        }
       });
       }
 
-      /**
-       * Handles input in the search bar, filters notifications, and displays results.
-       */
       function handleSearchInput() {
       const query = notificationSearchInput.value.toLowerCase().trim();
-      searchResultsModal.innerHTML = ""; // Clear previous results
+      searchResultsModal.innerHTML = "";
 
       if (query.length === 0) {
-      searchResultsModal.classList.remove("show");
-      return;
+        searchResultsModal.classList.remove("show");
+        return;
       }
 
       const filteredResults = allNotifications.filter(
-      (notif) =>
-      notif.sender.toLowerCase().includes(query) ||
-      notif.message.toLowerCase().includes(query)
+        (notif) =>
+        ((notif.user_id && parseInt(notif.user_id) === parseInt(localStorage.getItem("loggedin_id"))) ||
+         (notif.related_id && parseInt(notif.related_id) === parseInt(localStorage.getItem("loggedin_id")))) &&
+        (notif.sender.toLowerCase().includes(query) ||
+         notif.message.toLowerCase().includes(query))
       );
 
       if (filteredResults.length > 0) {
-      filteredResults.forEach((notif) => {
-      const resultItem = document.createElement("div");
-      resultItem.classList.add("result-item");
-      resultItem.dataset.id = notif.id; // Store ID for click handling
+        filteredResults.forEach((notif) => {
+        const resultItem = document.createElement("div");
+        resultItem.classList.add("result-item");
+        resultItem.dataset.id = notif.id;
 
-      resultItem.innerHTML = `
-          <img src="${
-          notif.sender_dp
-          }" alt="Sender DP" onerror="this.onerror=null;this.src='https://placehold.co/30x30/CCCCCC/666666?text=${notif.sender.charAt(
-        0
-      )}';"/>
-          <div class="text-content">
-          <h3>${notif.sender}</h3>
-          <p>${notif.message}</p>
-          </div>
-        `;
-      resultItem.addEventListener("click", () => {
-        showFullNotification(notif);
-        searchResultsModal.classList.remove("show"); // Hide modal after selection
-        notificationSearchInput.value = ""; // Clear search input
-      });
-      searchResultsModal.appendChild(resultItem);
-      });
-      searchResultsModal.classList.add("show");
+        resultItem.innerHTML = `
+        <img src="${
+        notif.sender_dp
+        }" alt="Sender DP" onerror="this.onerror=null;this.src='https://placehold.co/30x30/CCCCCC/666666?text=${notif.sender.charAt(
+          0
+        )}';"/>
+        <div class="text-content">
+        <h3>${notif.sender}</h3>
+        <p>${notif.message}</p>
+        </div>
+      `;
+        resultItem.addEventListener("click", () => {
+          showFullNotification(notif);
+          searchResultsModal.classList.remove("show");
+          notificationSearchInput.value = "";
+        });
+        searchResultsModal.appendChild(resultItem);
+        });
+        searchResultsModal.classList.add("show");
       } else {
-      searchResultsModal.innerHTML =
-      '<div class="no-results">No results found.</div>';
-      searchResultsModal.classList.add("show");
+        searchResultsModal.innerHTML =
+        '<div class="no-results">No results found.</div>';
+        searchResultsModal.classList.add("show");
       }
       }
 
-      // Event listener for the refresh button
       if (refreshNotificationsButton) {
       refreshNotificationsButton.addEventListener("click", (event) => {
-      event.preventDefault(); // Prevent default link behavior (page reload)
-      fetchNotifications(); // Call the function to refresh notifications
+        event.preventDefault();
+        fetchNotifications();
       });
       }
     </script>
