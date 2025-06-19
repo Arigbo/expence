@@ -822,12 +822,21 @@
         <button class="close-btn">&times;</button>
         <h2>Add New Budget</h2>
         <form id="budgetForm">
-          <label for="budgetCategory">Budget Name/Category:</label>
+          <label for="budgetCategory">Budget Name:</label>
+          <input
+            type="text"
+            id="budgetName"
+            placeholder="e.g., Groceries, Entertainment"
+            required
+            autocapitalize=""
+          />
+          <label for="budgetCategory">Category:</label>
           <input
             type="text"
             id="budgetCategory"
             placeholder="e.g., Groceries, Entertainment"
             required
+            autocapitalize=""
           />
 
           <label for="budgetAbout">About Budget:</label>
@@ -1466,6 +1475,7 @@
       // Modified: Collaborator is optional (create without if none selected)
       async function submitNewBudgetForm(e) {
         e.preventDefault();
+        const budgetName = document.getElementById("budgetName").value;
         const budgetCategory = document.getElementById("budgetCategory").value;
         const budgetAbout = document.getElementById("budgetAbout").value;
         const budgetAmount = parseFloat(
@@ -1485,6 +1495,7 @@
 
         const creatorId = localStorage.getItem("loggedin_id") || 1;
         const newBudget = {
+          name: budgetName,
           category: budgetCategory,
           about: budgetAbout,
           budgetAmount: budgetAmount,

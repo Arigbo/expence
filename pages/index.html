@@ -1,139 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spendtrack Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Swiper CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <!-- Swiper JS - Ensure this is loaded before your custom script -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- jsPDF and jsPDF-AutoTable for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spendtrack Dashboard</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <!-- Swiper JS - Ensure this is loaded before your custom script -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <!-- jsPDF and jsPDF-AutoTable for PDF generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script>
+    <!-- Custom Styles -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-  <!-- Custom Styles -->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        /* Lighter background for a fresh feel */
+        color: #334155;
+        /* Darker default text color for readability */
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      /* Lighter background for a fresh feel */
-      color: #334155;
-      /* Darker default text color for readability */
-    }
+      /* Sidebar Styling */
+      .sidebar {
+        transition: transform 0.3s ease-in-out;
+        background-color: #1e293b;
+        /* Darker sidebar background */
+      }
 
-    /* Sidebar Styling */
-    .sidebar {
-      transition: transform 0.3s ease-in-out;
-      background-color: #1e293b;
-      /* Darker sidebar background */
-    }
+      .sidebar-active {
+        background-color: #334155;
+        /* Slightly lighter active state for contrast */
+        color: white;
+        border-radius: 0.375rem;
+        /* rounded-md */
+      }
 
-    .sidebar-active {
-      background-color: #334155;
-      /* Slightly lighter active state for contrast */
-      color: white;
-      border-radius: 0.375rem;
-      /* rounded-md */
-    }
+      .sidebar-link {
+        color: #cbd5e1;
+        /* Lighter text for inactive links */
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
 
-    .sidebar-link {
-      color: #cbd5e1;
-      /* Lighter text for inactive links */
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
+      .sidebar-link:hover {
+        background-color: #334155;
+        color: white;
+      }
 
-    .sidebar-link:hover {
-      background-color: #334155;
-      color: white;
-    }
+      /* Navbar/Header Styling */
+      .navbar {
+        background-color: #1a202c;
+        /* Keeping consistent dark theme for primary navbar */
+      }
 
-    /* Navbar/Header Styling */
-    .navbar {
-      background-color: #1a202c;
-      /* Keeping consistent dark theme for primary navbar */
-    }
+      .dashboard_header {
+        background-color: white;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05),
+          0 1px 2px 0 rgba(0, 0, 0, 0.03);
+        /* Lighter header shadow */
+      }
 
-    .dashboard_header {
-      background-color: white;
-      border-bottom: 1px solid #e2e8f0;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-      /* Lighter header shadow */
-    }
+      /* Card Styling */
+      .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        /* Slightly more rounded corners */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+          0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        /* Enhanced, softer shadow */
+        padding: 1.5rem;
+        /* Increased padding */
+        margin-bottom: 1.5rem;
+        /* Increased margin */
+        border: 1px solid #e2e8f0;
+        /* Subtle border */
+      }
 
-    /* Card Styling */
-    .card {
-      background-color: white;
-      border-radius: 0.75rem;
-      /* Slightly more rounded corners */
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-      /* Enhanced, softer shadow */
-      padding: 1.5rem;
-      /* Increased padding */
-      margin-bottom: 1.5rem;
-      /* Increased margin */
-      border: 1px solid #e2e8f0;
-      /* Subtle border */
-    }
+      /* Icon Backgrounds and Colors */
+      .icon-bg-income {
+        background-color: rgba(52, 211, 153, 0.2);
+      }
 
-    /* Icon Backgrounds and Colors */
-    .icon-bg-income {
-      background-color: rgba(52, 211, 153, 0.2);
-    }
+      /* Green-400 */
+      .icon-text-income {
+        color: #10b981;
+      }
 
-    /* Green-400 */
-    .icon-text-income {
-      color: #10b981;
-    }
+      /* Green-600 */
 
-    /* Green-600 */
+      .icon-bg-expense {
+        background-color: rgba(251, 113, 133, 0.2);
+      }
 
-    .icon-bg-expense {
-      background-color: rgba(251, 113, 133, 0.2);
-    }
+      /* Red-400 */
+      .icon-text-expense {
+        color: #ef4444;
+      }
 
-    /* Red-400 */
-    .icon-text-expense {
-      color: #ef4444;
-    }
+      /* Red-500 */
 
-    /* Red-500 */
+      .icon-bg-savings {
+        background-color: rgba(96, 165, 250, 0.2);
+      }
 
-    .icon-bg-savings {
-      background-color: rgba(96, 165, 250, 0.2);
-    }
+      /* Blue-400 */
+      .icon-text-savings {
+        color: #3b82f6;
+      }
 
-    /* Blue-400 */
-    .icon-text-savings {
-      color: #3b82f6;
-    }
+      /* Blue-500 */
 
-    /* Blue-500 */
+      .icon-bg-balance {
+        background-color: rgba(250, 204, 21, 0.2);
+      }
 
-    .icon-bg-balance {
-      background-color: rgba(250, 204, 21, 0.2);
-    }
+      /* Yellow-400 */
+      .icon-text-balance {
+        color: #f59e0b;
+      }
 
-    /* Yellow-400 */
-    .icon-text-balance {
-      color: #f59e0b;
-    }
+      /* Yellow-600 */
 
-    /* Yellow-600 */
-
-    /* Scrollbar Hiding (removed as per request to have visible scrollbar) */
-    /* .hide-scrollbar::-webkit-scrollbar {
+      /* Scrollbar Hiding (removed as per request to have visible scrollbar) */
+      /* .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
 
@@ -142,795 +150,1132 @@
       scrollbar-width: none;
     } */
 
-    /* Specific adjustments for Swiper (Carousels) */
-    .swiper-container {
-      padding-bottom: 2rem;
-      /* More space for pagination dots */
-    }
-
-    .swiper-pagination-bullet-active {
-      background-color: #3b82f6 !important;
-      /* Blue-500 for active dot */
-    }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #64748b !important;
-      /* Slate-500 for nav arrows */
-      top: 50% !important;
-      transform: translateY(-50%) !important;
-    }
-
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-      font-size: 1.5rem !important;
-      /* Larger arrows */
-    }
-
-    /* Responsive adjustments for transaction overview carousel */
-    .swiper.transaction-overview-swiper {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .swiper-slide.overview-card-slide {
-      box-sizing: border-box;
-      /* Include padding and border in the element's total width and height */
-    }
-
-
-    /* Table styling for recent transactions */
-    #recentTransactionsContainer {
-      border-radius: 0.5rem;
-      /* Rounded corners for the table body */
-      overflow: hidden;
-      /* Ensures content stays within rounded corners */
-    }
-
-    #recentTransactionsContainer td,
-    #recentTransactionsContainer th {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    /* Blog item subtle hover effect */
-    .blog-item {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .blog-item:hover {
-      transform: translateY(-2px);
-      /* Slight lift on hover */
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Common Modal Styling (reusable for single blog) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(17, 24, 39, 0.7);
-      /* bg-gray-900 bg-opacity-70 */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 50;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      /* rounded-lg */
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      /* shadow-xl */
-      width: 100%;
-      max-width: 28rem;
-      /* max-w-sm (448px) */
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .modal-content .close-btn {
-      position: absolute;
-      top: 0.75rem;
-      /* top-3 */
-      right: 0.75rem;
-      /* right-3 */
-      color: #6b7280;
-      /* text-gray-500 */
-      font-size: 1.5rem;
-      /* text-2xl */
-      font-weight: 600;
-      /* font-semibold */
-      line-height: 1;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      transition: color 0.2s ease;
-    }
-
-    .modal-content .close-btn:hover {
-      color: #374151;
-      /* hover:text-gray-700 */
-    }
-
-    .modal-content h2 {
-      font-size: 1.5rem;
-      /* text-2xl */
-      font-weight: 700;
-      /* font-bold */
-      color: #1f2937;
-      /* text-gray-800 */
-      margin-bottom: 1rem;
-      /* mb-4 */
-    }
-
-    #collaboratorList {
-      max-height: 16rem;
-      /* max-h-64 */
-      overflow-y: auto;
-      margin-bottom: 1.5rem;
-      /* mb-6 */
-      padding-right: 0.5rem;
-      /* pr-2 */
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      /* space-y-3 */
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      /* space-x-3 */
-      margin-top: auto;
-      /* Push to bottom if content is short */
-    }
-
-    .form-actions button {
-      padding: 0.625rem 1.25rem;
-      /* px-5 py-2 */
-      border-radius: 0.375rem;
-      /* rounded-md */
-      font-size: 0.875rem;
-      /* text-sm */
-      font-weight: 500;
-      /* font-medium */
-      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-      outline: none;
-      /* Remove default focus outline */
-    }
-
-    .form-actions .cancel-btn {
-      border: 1px solid #d1d5db;
-      /* border border-gray-300 */
-      color: #374151;
-      /* text-gray-700 */
-      background-color: white;
-    }
-
-    .form-actions .cancel-btn:hover {
-      background-color: #f9fafb;
-      /* hover:bg-gray-50 */
-    }
-
-    .form-actions .cancel-btn:focus {
-      ring: 2px;
-      ring-offset: 2px;
-      ring-color: #3b82f6;
-      /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
-    }
-
-
-    .form-actions .submit-btn {
-      background-color: #2563eb;
-      /* bg-blue-600 */
-      color: white;
-    }
-
-    .form-actions .submit-btn:hover {
-      background-color: #1d4ed8;
-      /* hover:bg-blue-700 */
-    }
-
-    .form-actions .submit-btn:focus {
-      ring: 2px;
-      ring-offset: 2px;
-      ring-color: #3b82f6;
-      /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
-    }
-
-    /* Right Column Layout for larger screens */
-    @media (min-width: 1024px) { /* lg breakpoint */
-      .lg\:col-span-1 { /* Targeting the right column grid item */
-        display: flex; /* Make it a flex container */
-        flex-direction: column; /* Stack children vertically */
-        /* Removed gap: 1.5rem; as parent grid's gap is sufficient for spacing between columns */
+      /* Specific adjustments for Swiper (Carousels) */
+      .swiper-container {
+        padding-bottom: 2rem;
+        /* More space for pagination dots */
       }
 
-      /* Daily Tips Card - is the only child of the right column now */
-      .lg\:col-span-1 > .card:first-of-type {
-        flex: 1; /* Make it fill all available height within the right column */
-        min-height: 250px; /* Ensure a minimum visible height for the card itself */
-        overflow: hidden; /* Hide overflow for the card itself if needed, but its child will scroll */
-        display: flex; /* Make it a flex container for its inner blog content */
+      .swiper-pagination-bullet-active {
+        background-color: #3b82f6 !important;
+        /* Blue-500 for active dot */
+      }
+
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: #64748b !important;
+        /* Slate-500 for nav arrows */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+      }
+
+      .swiper-button-next:after,
+      .swiper-button-prev:after {
+        font-size: 1.5rem !important;
+        /* Larger arrows */
+      }
+
+      /* Responsive adjustments for transaction overview carousel */
+      .swiper.transaction-overview-swiper {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .swiper-slide.overview-card-slide {
+        box-sizing: border-box;
+        /* Include padding and border in the element's total width and height */
+      }
+
+      /* Table styling for recent transactions */
+      #recentTransactionsContainer {
+        border-radius: 0.5rem;
+        /* Rounded corners for the table body */
+        overflow: hidden;
+        /* Ensures content stays within rounded corners */
+      }
+
+      #recentTransactionsContainer td,
+      #recentTransactionsContainer th {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      /* Blog item subtle hover effect */
+      .blog-item {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .blog-item:hover {
+        transform: translateY(-2px);
+        /* Slight lift on hover */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Common Modal Styling (reusable for single blog) */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(17, 24, 39, 0.7);
+        /* bg-gray-900 bg-opacity-70 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 50;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        /* rounded-lg */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* shadow-xl */
+        width: 100%;
+        max-width: 28rem;
+        /* max-w-sm (448px) */
+        display: flex;
         flex-direction: column;
+        position: relative;
       }
 
-      #blogInnerContainer { /* Content area inside Daily Tips card */
-        flex: 1; /* Make it fill the available height within its parent card */
-        overflow-y: scroll; /* Crucial: make content scrollable within this div */
-        padding-right: 0.5rem; /* Keep scrollbar clear of content */
+      .modal-content .close-btn {
+        position: absolute;
+        top: 0.75rem;
+        /* top-3 */
+        right: 0.75rem;
+        /* right-3 */
+        color: #6b7280;
+        /* text-gray-500 */
+        font-size: 1.5rem;
+        /* text-2xl */
+        font-weight: 600;
+        /* font-semibold */
+        line-height: 1;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
+        transition: color 0.2s ease;
       }
-    }
 
-    /* Styles for the new search results dropdown */
-    #searchResultsDropdown {
-      position: absolute;
-      top: calc(100% + 0.5rem); /* Position below the input with a small gap */
-      left: 0;
-      width: 100%;
-      background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      z-index: 40; /* Ensure it's above other content but below full modals */
-      max-height: 250px; /* Limit height and make it scrollable */
-      overflow-y: auto;
-      border: 1px solid #e2e8f0;
-    }
+      .modal-content .close-btn:hover {
+        color: #374151;
+        /* hover:text-gray-700 */
+      }
 
-    #searchResultsDropdown.hidden {
-      display: none;
-    }
+      .modal-content h2 {
+        font-size: 1.5rem;
+        /* text-2xl */
+        font-weight: 700;
+        /* font-bold */
+        color: #1f2937;
+        /* text-gray-800 */
+        margin-bottom: 1rem;
+        /* mb-4 */
+      }
 
-    #searchResultsDropdown .search-result-item {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #f3f4f6; /* Light border between items */
-      cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
+      #collaboratorList {
+        max-height: 16rem;
+        /* max-h-64 */
+        overflow-y: auto;
+        margin-bottom: 1.5rem;
+        /* mb-6 */
+        padding-right: 0.5rem;
+        /* pr-2 */
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        /* space-y-3 */
+      }
 
-    #searchResultsDropdown .search-result-item:last-child {
-      border-bottom: none; /* No border for the last item */
-    }
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        /* space-x-3 */
+        margin-top: auto;
+        /* Push to bottom if content is short */
+      }
 
-    #searchResultsDropdown .search-result-item:hover {
-      background-color: #f9fafb; /* Light hover background */
-    }
-  </style>
-  <link rel="shortcut icon" href="https://placehold.co/32x32/E2E8F0/4A5568?text=S" type="image/x-icon" />
-</head>
+      .form-actions button {
+        padding: 0.625rem 1.25rem;
+        /* px-5 py-2 */
+        border-radius: 0.375rem;
+        /* rounded-md */
+        font-size: 0.875rem;
+        /* text-sm */
+        font-weight: 500;
+        /* font-medium */
+        transition: background-color 0.2s ease, border-color 0.2s ease,
+          color 0.2s ease;
+        outline: none;
+        /* Remove default focus outline */
+      }
 
-<body class="bg-gray-100">
-  <div class="flex h-screen overflow-hidden">
-    <!-- Mobile Sidebar Backdrop -->
-    <div id="sidebar-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+      .form-actions .cancel-btn {
+        border: 1px solid #d1d5db;
+        /* border border-gray-300 */
+        color: #374151;
+        /* text-gray-700 */
+        background-color: white;
+      }
 
-    <!-- Navbar -->
-    <nav id="sidebar"
-      class="sidebar navbar w-64 text-white flex-shrink-0 p-4 space-y-6 overflow-y-auto hide-scrollbar fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 z-30">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=St" alt="Logo" class="rounded-full" />
-          <h1 class="text-2xl font-bold">Spen<span class="text-blue-400">track</span></h1>
-        </div>
-        <button id="close-sidebar" class="md:hidden text-gray-400 hover:text-white">&times;</button>
-      </div>
-      <a href="./" class="sidebar-link dash flex items-center space-x-3 p-2 rounded-md text-gray-300 sidebar-active"><i
-          class="fas fa-cube w-5 text-center"></i> <span>Dashboard</span></a>
-      <a href="./transaction.html" class="sidebar-link transaction flex items-center space-x-3 p-2 rounded-md text-gray-300"><i
-          class="fas fa-exchange-alt w-5 text-center"></i> <span>Transactions</span></a>
-      <a href="./budget.html" class="sidebar-link budget flex items-center space-x-3 p-2 rounded-md text-gray-300"><i
-          class="fas fa-rocket w-5 text-center"></i> <span>Budgets</span></a>
-      <a href="./report.html" class="sidebar-link report flex items-center space-x-3 p-2 rounded-md text-gray-300"><i
-          class="fas fa-chart-line w-5 text-center"></i> <span>Reports</span></a>
-      <a href="./profile.html" class="sidebar-link setting flex items-center space-x-3 p-2 rounded-md text-gray-300"><i
-          class="fas fa-gear w-5 text-center"></i> <span>Setting</span></a>
-      <div class="mt-auto pt-4 border-t border-gray-700">
-        <p id="loggedInStatus" class="text-xs text-gray-400">Not Logged In</p>
-        <button id="logoutButton"
-          class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white hidden">
-          <i class="fas fa-sign-out-alt w-5 text-center"></i> <span>Logout</span>
-        </button>
-      </div>
-    </nav>
+      .form-actions .cancel-btn:hover {
+        background-color: #f9fafb;
+        /* hover:bg-gray-50 */
+      }
 
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col overflow-hidden">
-      <!-- Dashboard Header -->
-      <header class="dashboard_header p-4 shadow-md flex justify-between items-center">
-        <!-- Left Side: Hamburger menu (mobile) and Welcome message -->
-        <div class="flex items-center space-x-4">
-          <button id="hamburger-menu" class="text-gray-600 md:hidden">
-            <i class="fas fa-bars text-xl"></i>
+      .form-actions .cancel-btn:focus {
+        ring: 2px;
+        ring-offset: 2px;
+        ring-color: #3b82f6;
+        /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
+      }
+
+      .form-actions .submit-btn {
+        background-color: #2563eb;
+        /* bg-blue-600 */
+        color: white;
+      }
+
+      .form-actions .submit-btn:hover {
+        background-color: #1d4ed8;
+        /* hover:bg-blue-700 */
+      }
+
+      .form-actions .submit-btn:focus {
+        ring: 2px;
+        ring-offset: 2px;
+        ring-color: #3b82f6;
+        /* focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 */
+      }
+
+      /* Right Column Layout for larger screens */
+      @media (min-width: 1024px) {
+        /* lg breakpoint */
+        .lg\:col-span-1 {
+          /* Targeting the right column grid item */
+          display: flex; /* Make it a flex container */
+          flex-direction: column; /* Stack children vertically */
+          /* Removed gap: 1.5rem; as parent grid's gap is sufficient for spacing between columns */
+        }
+
+        /* Daily Tips Card - is the only child of the right column now */
+        .lg\:col-span-1 > .card:first-of-type {
+          flex: 1; /* Make it fill all available height within the right column */
+          min-height: 250px; /* Ensure a minimum visible height for the card itself */
+          overflow: hidden; /* Hide overflow for the card itself if needed, but its child will scroll */
+          display: flex; /* Make it a flex container for its inner blog content */
+          flex-direction: column;
+        }
+
+        #blogInnerContainer {
+          /* Content area inside Daily Tips card */
+          flex: 1; /* Make it fill the available height within its parent card */
+          overflow-y: scroll; /* Crucial: make content scrollable within this div */
+          padding-right: 0.5rem; /* Keep scrollbar clear of content */
+        }
+      }
+
+      /* Styles for the new search results dropdown */
+      #searchResultsDropdown {
+        position: absolute;
+        top: calc(
+          100% + 0.5rem
+        ); /* Position below the input with a small gap */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        z-index: 40; /* Ensure it's above other content but below full modals */
+        max-height: 250px; /* Limit height and make it scrollable */
+        overflow-y: auto;
+        border: 1px solid #e2e8f0;
+      }
+
+      #searchResultsDropdown.hidden {
+        display: none;
+      }
+
+      #searchResultsDropdown .search-result-item {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f3f4f6; /* Light border between items */
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+      }
+
+      #searchResultsDropdown .search-result-item:last-child {
+        border-bottom: none; /* No border for the last item */
+      }
+
+      #searchResultsDropdown .search-result-item:hover {
+        background-color: #f9fafb; /* Light hover background */
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="https://placehold.co/32x32/E2E8F0/4A5568?text=S"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex h-screen overflow-hidden">
+      <!-- Mobile Sidebar Backdrop -->
+      <div
+        id="sidebar-backdrop"
+        class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"
+      ></div>
+
+      <!-- Navbar -->
+      <nav
+        id="sidebar"
+        class="sidebar navbar w-64 text-white flex-shrink-0 p-4 space-y-6 overflow-y-auto hide-scrollbar fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 z-30"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <img
+              src="https://placehold.co/40x40/E2E8F0/4A5568?text=St"
+              alt="Logo"
+              class="rounded-full"
+            />
+            <h1 class="text-2xl font-bold">
+              Spen<span class="text-blue-400">track</span>
+            </h1>
+          </div>
+          <button
+            id="close-sidebar"
+            class="md:hidden text-gray-400 hover:text-white"
+          >
+            &times;
           </button>
-          <p class="hidden md:block text-lg text-gray-700">Hello <span id="loggedInUserMiddle"
-              class="font-semibold">Guest</span>, <span id="greeting">good morning</span>!</p>
         </div>
+        <a
+          href="./"
+          class="sidebar-link dash flex items-center space-x-3 p-2 rounded-md text-gray-300 sidebar-active"
+          ><i class="fas fa-cube w-5 text-center"></i> <span>Dashboard</span></a
+        >
+        <a
+          href="./transaction.html"
+          class="sidebar-link transaction flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          ><i class="fas fa-exchange-alt w-5 text-center"></i>
+          <span>Transactions</span></a
+        >
+        <a
+          href="./budget.html"
+          class="sidebar-link budget flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          ><i class="fas fa-rocket w-5 text-center"></i> <span>Budgets</span></a
+        >
+        <a
+          href="./report.html"
+          class="sidebar-link report flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          ><i class="fas fa-chart-line w-5 text-center"></i>
+          <span>Reports</span></a
+        >
+        <a
+          href="./profile.html"
+          class="sidebar-link setting flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          ><i class="fas fa-gear w-5 text-center"></i> <span>Setting</span></a
+        >
+        <div class="mt-auto pt-4 border-t border-gray-700">
+          <a href="/verification/signin.html" id="loggedInStatus">
+            <button
+              class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white"
+            >
+              <i class="fas fa-sign-in-alt w-5 text-center"></i>
+              <span>Log in</span>
+            </button>
+          </a>
+          <button
+            id="logoutButton"
+            class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white hidden"
+          >
+            <i class="fas fa-sign-out-alt w-5 text-center"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </nav>
 
-        <!-- Right Side: Search, Notifications, and Profile -->
-        <div class="flex items-center space-x-4">
-          <div class="relative hidden md:block">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <!-- This search input is for filtering transactions within the app -->
-            <input type="search" id="transactionSearchInput" placeholder="Search transactions..."
-              class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64 text-sm" />
-            <!-- New: Search Results Dropdown -->
-            <div id="searchResultsDropdown" class="hidden">
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Dashboard Header -->
+        <header
+          class="dashboard_header p-4 shadow-md flex justify-between items-center"
+        >
+          <!-- Left Side: Hamburger menu (mobile) and Welcome message -->
+          <div class="flex items-center space-x-4">
+            <button id="hamburger-menu" class="text-gray-600 md:hidden">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <p class="hidden md:block text-lg text-gray-700">
+              Hello
+              <span id="loggedInUserMiddle" class="font-semibold">Guest</span>,
+              <span id="greeting">good morning</span>!
+            </p>
+          </div>
+
+          <!-- Right Side: Search, Notifications, and Profile -->
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+              <i
+                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              ></i>
+              <!-- This search input is for filtering transactions within the app -->
+              <input
+                type="search"
+                id="transactionSearchInput"
+                placeholder="Search transactions..."
+                class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64 text-sm"
+              />
+              <!-- New: Search Results Dropdown -->
+              <div id="searchResultsDropdown" class="hidden">
                 <!-- Search results will be dynamically inserted here -->
-                <p class="text-gray-500 p-3 text-center">Start typing to see results...</p>
+                <p class="text-gray-500 p-3 text-center">
+                  Start typing to see results...
+                </p>
+              </div>
+            </div>
+            <a
+              href="./notifications.html"
+              class="relative text-gray-600 hover:text-blue-500"
+            >
+              <i class="far fa-bell text-xl"></i>
+              <div
+                id="notificationCountBadge"
+                class="no_of_noties absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center hidden"
+              >
+                0
+              </div>
+            </a>
+            <a href="./profile.html" class="hidden md:block"
+              ><i
+                class="far fa-user text-xl text-gray-600 hover:text-blue-500"
+              ></i
+            ></a>
+          </div>
+        </header>
+
+        <!-- Dashboard Inner Content -->
+        <main
+          class="dashboard_inner flex-1 overflow-y-auto p-4 md:p-6 space-y-6"
+        >
+          <div class="md:hidden mb-4">
+            <p class="text-lg text-gray-700">
+              Hello <span id="loggedInUser" class="font-semibold">Guest</span>!
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-6">
+              <section class="card p-6">
+                <div class="flex justify-between items-center mb-2">
+                  <h5 class="text-lg font-semibold text-gray-700">
+                    Total Balance:
+                  </h5>
+                  <a href="#" class="text-sm text-blue-500 hover:underline"
+                    >View all</a
+                  >
+                </div>
+                <h1
+                  id="displayTotalBalance"
+                  class="text-3xl md:text-4xl font-bold text-gray-800"
+                >
+                  $0.00
+                </h1>
+              </section>
+
+              <section class="space-y-4">
+                <div class="px-1">
+                  <h1 class="text-xl font-semibold text-gray-700">
+                    Transaction Overview
+                  </h1>
+                  <p class="text-sm text-gray-500">
+                    An overview of all your transactions
+                  </p>
+                </div>
+                <!-- Swiper for Transaction Overview Cards -->
+                <div class="swiper transaction-overview-swiper">
+                  <div class="swiper-wrapper">
+                    <!-- Card for Income -->
+                    <div class="swiper-slide overview-card-slide">
+                      <div class="card flex items-center p-4 space-x-3">
+                        <div class="p-3 rounded-full icon-bg-income">
+                          <svg
+                            class="w-6 h-6 icon-text-income"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M3 17L9 11L13 15L21 7"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M21 7L17 7M21 7L21 11"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 class="text-sm text-gray-500">Income</h4>
+                          <h1
+                            id="totalIncome"
+                            class="text-2xl font-semibold text-gray-800"
+                          >
+                            $0.00
+                          </h1>
+                          <p
+                            id="estimatedIncomeText"
+                            class="text-xs text-gray-400"
+                          >
+                            Est. Inc.: $0.00
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card for Expense -->
+                    <div class="swiper-slide overview-card-slide">
+                      <div class="card flex items-center p-4 space-x-3">
+                        <div class="p-3 rounded-full icon-bg-expense">
+                          <svg
+                            class="w-6 h-6 icon-text-expense"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M3 7L9 13L13 9L21 17"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M21 17L17 17M21 17L21 13"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 class="text-sm text-gray-500">Expense</h4>
+                          <h1
+                            id="totalExpense"
+                            class="text-2xl font-semibold text-gray-800"
+                          >
+                            $0.00
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card for Savings -->
+                    <div class="swiper-slide overview-card-slide">
+                      <div class="card flex items-center p-4 space-x-3">
+                        <div class="p-3 rounded-full icon-bg-savings">
+                          <i
+                            class="fas fa-wallet w-6 h-6 icon-text-savings"
+                          ></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm text-gray-500">Savings</h4>
+                          <h1
+                            id="totalSavings"
+                            class="text-2xl font-semibold text-gray-800"
+                          >
+                            $0.00
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card for Net Balance -->
+                    <div class="swiper-slide overview-card-slide">
+                      <div class="card flex items-center p-4 space-x-3">
+                        <div class="p-3 rounded-full icon-bg-balance">
+                          <i class="fas fa-coins w-6 h-6 icon-text-balance"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-sm text-gray-500">Net Balance</h4>
+                          <h1
+                            id="totalBalanceCard"
+                            class="text-2xl font-semibold text-gray-800"
+                          >
+                            $0.00
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add Pagination -->
+                  <div
+                    class="swiper-pagination overview-swiper-pagination"
+                  ></div>
+                  <!-- Add Navigation (optional) -->
+                  <div
+                    class="swiper-button-next overview-swiper-button-next"
+                  ></div>
+                  <div
+                    class="swiper-button-prev overview-swiper-button-prev"
+                  ></div>
+                </div>
+              </section>
+
+              <section class="card p-4 md:p-6">
+                <div
+                  class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4"
+                >
+                  <h1 class="text-xl font-semibold text-gray-700 mb-2 sm:mb-0">
+                    Activity Chart
+                  </h1>
+                  <select
+                    id="chartPeriodSelect"
+                    class="p-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly" selected>Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+                <div class="h-80 md:h-96">
+                  <canvas id="expenseChart"></canvas>
+                </div>
+              </section>
+
+              <section class="card p-4 md:p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h1 class="text-xl font-semibold text-gray-700">
+                    Recent Transactions
+                  </h1>
+                  <div class="flex space-x-2">
+                    <button
+                      id="downloadPdfBtn"
+                      class="px-4 py-2 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors duration-200"
+                    >
+                      <i class="fas fa-file-pdf mr-1"></i> PDF
+                    </button>
+                    <button
+                      id="downloadExcelBtn"
+                      class="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition-colors duration-200"
+                    >
+                      <i class="fas fa-file-excel mr-1"></i> Excel
+                    </button>
+                    <a
+                      href="./transaction.html"
+                      class="text-sm text-blue-500 hover:underline flex items-center"
+                      >View all</a
+                    >
+                  </div>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Date
+                        </th>
+                        <th
+                          class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Description
+                        </th>
+                        <th
+                          class="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Category
+                        </th>
+                        <th
+                          class="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Type
+                        </th>
+                        <th
+                          class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Amount
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="recentTransactionsContainer"
+                      class="bg-white divide-y divide-gray-200 text-sm"
+                    >
+                      <tr>
+                        <td colspan="5" class="text-center p-4 text-gray-500">
+                          Loading transactions...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- New Section: My Budgets -->
+              <section class="card p-4 md:p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-semibold text-gray-700">
+                    My Budgets
+                  </h2>
+                  <a
+                    href="./budget.html"
+                    class="text-sm text-blue-500 hover:underline"
+                    >View all</a
+                  >
+                </div>
+                <div id="budgetsContainer" class="space-y-3">
+                  <p class="text-gray-500">Loading budgets...</p>
+                </div>
+              </section>
+
+              <!-- New Section: My Goals -->
+              <section class="card p-4 md:p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-semibold text-gray-700">My Goals</h2>
+                  <a
+                    href="./budget.html"
+                    class="text-sm text-blue-500 hover:underline"
+                    >View all</a
+                  >
+                </div>
+                <div id="goalsContainer" class="space-y-3">
+                  <p class="text-gray-500">Loading goals...</p>
+                </div>
+              </section>
+
+              <!-- New Section: My Savings -->
+              <section class="card p-4 md:p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-semibold text-gray-700">
+                    My Savings
+                  </h2>
+                  <a href="#" class="text-sm text-blue-500 hover:underline"
+                    >View all</a
+                  >
+                </div>
+                <div id="savingsContainer" class="space-y-3">
+                  <p class="text-gray-500">Loading savings...</p>
+                </div>
+              </section>
+            </div>
+
+            <!-- Right Column (Daily Tips/Blogs only) -->
+            <!-- The lg:col-span-1 will naturally stretch to match the height of lg:col-span-2 (left column) -->
+            <div class="lg:col-span-1 flex flex-col h-full">
+              <!-- Daily Tips/Blogs Section - flex-1 ensures it fills the entire column height -->
+              <section class="card p-4 flex flex-col flex-1">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                  Daily Tips
+                </h2>
+                <div
+                  id="blogInnerContainer"
+                  class="blog-inner flex-1 overflow-y-scroll space-y-4 pr-2"
+                >
+                  <p class="text-gray-500">Loading tips...</p>
+                </div>
+              </section>
             </div>
           </div>
-          <a href="./notifications.html" class="relative text-gray-600 hover:text-blue-500">
-            <i class="far fa-bell text-xl"></i>
-            <div id="notificationCountBadge"
-              class="no_of_noties absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center hidden">
-              0</div>
-          </a>
-          <a href="./profile.html" class="hidden md:block"><i class="far fa-user text-xl text-gray-600 hover:text-blue-500"></i></a>
-        </div>
-      </header>
-
-      <!-- Dashboard Inner Content -->
-      <main class="dashboard_inner flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
-        <div class="md:hidden mb-4">
-          <p class="text-lg text-gray-700">Hello <span id="loggedInUser" class="font-semibold">Guest</span>!</p>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- Left Column -->
-          <div class="lg:col-span-2 space-y-6">
-            <section class="card p-6">
-              <div class="flex justify-between items-center mb-2">
-                <h5 class="text-lg font-semibold text-gray-700">Total Balance:</h5>
-                <a href="#" class="text-sm text-blue-500 hover:underline">View all</a>
-              </div>
-              <h1 id="displayTotalBalance" class="text-3xl md:text-4xl font-bold text-gray-800">$0.00</h1>
-            </section>
-
-            <section class="space-y-4">
-              <div class="px-1">
-                <h1 class="text-xl font-semibold text-gray-700">Transaction Overview</h1>
-                <p class="text-sm text-gray-500">An overview of all your transactions</p>
-              </div>
-              <!-- Swiper for Transaction Overview Cards -->
-              <div class="swiper transaction-overview-swiper">
-                <div class="swiper-wrapper">
-                  <!-- Card for Income -->
-                  <div class="swiper-slide overview-card-slide">
-                    <div class="card flex items-center p-4 space-x-3">
-                      <div class="p-3 rounded-full icon-bg-income"><svg class="w-6 h-6 icon-text-income"
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                          <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                          <path d="M21 7L17 7M21 7L21 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        </svg></div>
-                      <div>
-                        <h4 class="text-sm text-gray-500">Income</h4>
-                        <h1 id="totalIncome" class="text-2xl font-semibold text-gray-800">$0.00</h1>
-                        <p id="estimatedIncomeText" class="text-xs text-gray-400">Est. Inc.: $0.00</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Card for Expense -->
-                  <div class="swiper-slide overview-card-slide">
-                    <div class="card flex items-center p-4 space-x-3">
-                      <div class="p-3 rounded-full icon-bg-expense"><svg class="w-6 h-6 icon-text-expense"
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                          <path d="M3 7L9 13L13 9L21 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                          <path d="M21 17L17 17M21 17L21 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        </svg></div>
-                      <div>
-                        <h4 class="text-sm text-gray-500">Expense</h4>
-                        <h1 id="totalExpense" class="text-2xl font-semibold text-gray-800">$0.00</h1>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Card for Savings -->
-                  <div class="swiper-slide overview-card-slide">
-                    <div class="card flex items-center p-4 space-x-3">
-                      <div class="p-3 rounded-full icon-bg-savings"><i class="fas fa-wallet w-6 h-6 icon-text-savings"></i>
-                      </div>
-                      <div>
-                        <h4 class="text-sm text-gray-500">Savings</h4>
-                        <h1 id="totalSavings" class="text-2xl font-semibold text-gray-800">$0.00</h1>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Card for Net Balance -->
-                  <div class="swiper-slide overview-card-slide">
-                    <div class="card flex items-center p-4 space-x-3">
-                      <div class="p-3 rounded-full icon-bg-balance"><i class="fas fa-coins w-6 h-6 icon-text-balance"></i>
-                      </div>
-                      <div>
-                        <h4 class="text-sm text-gray-500">Net Balance</h4>
-                        <h1 id="totalBalanceCard" class="text-2xl font-semibold text-gray-800">$0.00</h1>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination overview-swiper-pagination"></div>
-                <!-- Add Navigation (optional) -->
-                <div class="swiper-button-next overview-swiper-button-next"></div>
-                <div class="swiper-button-prev overview-swiper-button-prev"></div>
-              </div>
-            </section>
-
-            <section class="card p-4 md:p-6">
-              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                <h1 class="text-xl font-semibold text-gray-700 mb-2 sm:mb-0">Activity Chart</h1>
-                <select id="chartPeriodSelect"
-                  class="p-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly" selected>Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-              <div class="h-80 md:h-96">
-                <canvas id="expenseChart"></canvas>
-              </div>
-            </section>
-
-            <section class="card p-4 md:p-6">
-              <div class="flex justify-between items-center mb-4">
-                <h1 class="text-xl font-semibold text-gray-700">Recent Transactions</h1>
-                <div class="flex space-x-2">
-                  <button id="downloadPdfBtn" class="px-4 py-2 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors duration-200">
-                    <i class="fas fa-file-pdf mr-1"></i> PDF
-                  </button>
-                  <button id="downloadExcelBtn" class="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition-colors duration-200">
-                    <i class="fas fa-file-excel mr-1"></i> Excel
-                  </button>
-                  <a href="./transaction.html" class="text-sm text-blue-500 hover:underline flex items-center">View all</a>
-                </div>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th
-                        class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date</th>
-                      <th
-                        class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Description</th>
-                      <th
-                        class="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category</th>
-                      <th
-                        class="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Type</th>
-                      <th
-                        class="px-2 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody id="recentTransactionsContainer" class="bg-white divide-y divide-gray-200 text-sm">
-                    <tr>
-                      <td colspan="5" class="text-center p-4 text-gray-500">Loading transactions...</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <!-- New Section: My Budgets -->
-            <section class="card p-4 md:p-6">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-700">My Budgets</h2>
-                <a href="./budget.html" class="text-sm text-blue-500 hover:underline">View all</a>
-              </div>
-              <div id="budgetsContainer" class="space-y-3">
-                <p class="text-gray-500">Loading budgets...</p>
-              </div>
-            </section>
-
-            <!-- New Section: My Goals -->
-            <section class="card p-4 md:p-6">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-700">My Goals</h2>
-                <a href="./budget.html" class="text-sm text-blue-500 hover:underline">View all</a>
-              </div>
-              <div id="goalsContainer" class="space-y-3">
-                <p class="text-gray-500">Loading goals...</p>
-              </div>
-            </section>
-
-            <!-- New Section: My Savings -->
-            <section class="card p-4 md:p-6">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-700">My Savings</h2>
-                <a href="#" class="text-sm text-blue-500 hover:underline">View all</a>
-              </div>
-              <div id="savingsContainer" class="space-y-3">
-                <p class="text-gray-500">Loading savings...</p>
-              </div>
-            </section>
-
-          </div>
-
-          <!-- Right Column (Daily Tips/Blogs only) -->
-          <!-- The lg:col-span-1 will naturally stretch to match the height of lg:col-span-2 (left column) -->
-          <div class="lg:col-span-1 flex flex-col h-full">
-            <!-- Daily Tips/Blogs Section - flex-1 ensures it fills the entire column height -->
-            <section class="card p-4 flex flex-col flex-1">
-              <h2 class="text-xl font-semibold text-gray-700 mb-4">Daily Tips</h2>
-              <div id="blogInnerContainer" class="blog-inner flex-1 overflow-y-scroll space-y-4 pr-2">
-                <p class="text-gray-500">Loading tips...</p>
-              </div>
-            </section>
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <!-- Single Blog Modal -->
-  <div id="singleBlogModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-      <div class="flex justify-between items-center mb-4">
-        <h2 id="singleBlogTitle" class="text-2xl font-bold text-gray-800">Blog Title</h2><button id="closeSingleBlog"
-          class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-      </div>
-      <div id="singleBlogContent" class="overflow-y-auto mb-4 text-gray-700 space-y-3">
-        <p>Content loading...</p>
-      </div>
-      <div class="border-t pt-4 flex justify-between items-center">
-        <p class="text-sm text-gray-500">By: <span id="singleBlogAuthor">Author</span></p>
-        <div class="flex space-x-4 items-center">
-          <div class="flex items-center space-x-1 text-gray-600"><i id="singleBlogLikeIcon"
-              class="far fa-thumbs-up cursor-pointer hover:text-blue-500"></i><span id="singleBlogLikeCount">0</span>
+    <!-- Single Blog Modal -->
+    <div
+      id="singleBlogModal"
+      class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden"
+    >
+      <div
+        class="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h2 id="singleBlogTitle" class="text-2xl font-bold text-gray-800">
+            Blog Title
+          </h2>
+          <button
+            id="closeSingleBlog"
+            class="text-gray-500 hover:text-gray-700 text-2xl"
+          >
+            &times;
+          </button>
+        </div>
+        <div
+          id="singleBlogContent"
+          class="overflow-y-auto mb-4 text-gray-700 space-y-3"
+        >
+          <p>Content loading...</p>
+        </div>
+        <div class="border-t pt-4 flex justify-between items-center">
+          <p class="text-sm text-gray-500">
+            By: <span id="singleBlogAuthor">Author</span>
+          </p>
+          <div class="flex space-x-4 items-center">
+            <div class="flex items-center space-x-1 text-gray-600">
+              <i
+                id="singleBlogLikeIcon"
+                class="far fa-thumbs-up cursor-pointer hover:text-blue-500"
+              ></i
+              ><span id="singleBlogLikeCount">0</span>
+            </div>
+            <div class="flex items-center space-x-1 text-gray-600">
+              <i
+                id="singleBlogDislikeIcon"
+                class="far fa-thumbs-down cursor-pointer hover:text-red-500"
+              ></i
+              ><span id="singleBlogDislikeCount">0</span>
+            </div>
+            <div class="flex items-center space-x-1 text-gray-600">
+              <i class="far fa-eye"></i
+              ><span id="singleBlogEngagements">0</span>
+            </div>
           </div>
-          <div class="flex items-center space-x-1 text-gray-600"><i id="singleBlogDislikeIcon"
-              class="far fa-thumbs-down cursor-pointer hover:text-red-500"></i><span
-              id="singleBlogDislikeCount">0</span></div>
-          <div class="flex items-center space-x-1 text-gray-600"><i class="far fa-eye"></i><span
-              id="singleBlogEngagements">0</span></div>
         </div>
       </div>
     </div>
-  </div>
 
+    <!-- Main JavaScript for Dashboard -->
+    <script type="module">
+      // --- Configuration ---
+      const BASE_URL = "http://localhost:3000"; // Now actively used for all fetches
+      let chartInstance = null;
+      let allTransactions = []; // Stores all transactions for the logged-in user
+      let filteredTransactions = []; // Stores transactions after search filter
+      let allBlogs = []; // Store all blogs globally for interaction updates
+      let loggedInUser = null; // Store user data for displaying name etc.
+      let searchDebounceTimer;
+      const SEARCH_DEBOUNCE_DELAY = 300; // milliseconds
 
-  <!-- Main JavaScript for Dashboard -->
-  <script type="module">
-    // --- Configuration ---
-    const BASE_URL = 'http://localhost:3000'; // Now actively used for all fetches
-    let chartInstance = null;
-    let allTransactions = []; // Stores all transactions for the logged-in user
-    let filteredTransactions = []; // Stores transactions after search filter
-    let allBlogs = []; // Store all blogs globally for interaction updates
-    let loggedInUser = null; // Store user data for displaying name etc.
-    let searchDebounceTimer;
-    const SEARCH_DEBOUNCE_DELAY = 300; // milliseconds
+      let localDb = null;
+      // --- DOM Elements ---
+      const loggedInUserEl = document.getElementById("loggedInUser");
+      const loggedInUserMiddleEl =
+        document.getElementById("loggedInUserMiddle");
+      const greetingEl = document.getElementById("greeting");
+      const displayTotalBalanceEl = document.getElementById(
+        "displayTotalBalance"
+      );
+      const totalIncomeEl = document.getElementById("totalIncome");
+      const estimatedIncomeTextEl = document.getElementById(
+        "estimatedIncomeText"
+      );
+      const totalExpenseEl = document.getElementById("totalExpense");
+      const totalSavingsEl = document.getElementById("totalSavings");
+      const totalBalanceCardEl = document.getElementById("totalBalanceCard");
+      const recentTransactionsContainerEl = document.getElementById(
+        "recentTransactionsContainer"
+      );
+      const blogInnerContainerEl =
+        document.getElementById("blogInnerContainer");
+      const notificationCountBadgeEl = document.getElementById(
+        "notificationCountBadge"
+      );
+      const chartPeriodSelectEl = document.getElementById("chartPeriodSelect");
+      const loggedInStatusEl = document.getElementById("loggedInStatus");
+      const logoutButtonEl = document.getElementById("logoutButton");
+      const sidebar = document.getElementById("sidebar");
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+      const closeSidebarButton = document.getElementById("close-sidebar");
+      const transactionSearchInput = document.getElementById(
+        "transactionSearchInput"
+      );
+      const downloadPdfBtn = document.getElementById("downloadPdfBtn"); // New PDF download button
+      const downloadExcelBtn = document.getElementById("downloadExcelBtn"); // New Excel download button
 
+      // Single Blog Modal Elements
+      const singleBlogModalEl = document.getElementById("singleBlogModal");
+      const singleBlogTitleEl = document.getElementById("singleBlogTitle");
+      const singleBlogContentEl = document.getElementById("singleBlogContent");
+      const singleBlogAuthorEl = document.getElementById("singleBlogAuthor");
+      const singleBlogLikeIconEl =
+        document.getElementById("singleBlogLikeIcon");
+      const singleBlogLikeCountEl = document.getElementById(
+        "singleBlogLikeCount"
+      );
+      const singleBlogDislikeIconEl = document.getElementById(
+        "singleBlogDislikeIcon"
+      );
+      const singleBlogDislikeCountEl = document.getElementById(
+        "singleBlogDislikeCount"
+      );
+      const singleBlogEngagementsEl = document.getElementById(
+        "singleBlogEngagements"
+      );
+      const closeSingleBlogButton = document.getElementById("closeSingleBlog");
 
-    // --- DOM Elements ---
-    const loggedInUserEl = document.getElementById('loggedInUser');
-    const loggedInUserMiddleEl = document.getElementById('loggedInUserMiddle');
-    const greetingEl = document.getElementById('greeting');
-    const displayTotalBalanceEl = document.getElementById('displayTotalBalance');
-    const totalIncomeEl = document.getElementById('totalIncome');
-    const estimatedIncomeTextEl = document.getElementById('estimatedIncomeText');
-    const totalExpenseEl = document.getElementById('totalExpense');
-    const totalSavingsEl = document.getElementById('totalSavings');
-    const totalBalanceCardEl = document.getElementById('totalBalanceCard');
-    const recentTransactionsContainerEl = document.getElementById('recentTransactionsContainer');
-    const blogInnerContainerEl = document.getElementById('blogInnerContainer');
-    const notificationCountBadgeEl = document.getElementById('notificationCountBadge');
-    const chartPeriodSelectEl = document.getElementById('chartPeriodSelect');
-    const loggedInStatusEl = document.getElementById('loggedInStatus');
-    const logoutButtonEl = document.getElementById('logoutButton');
-    const sidebar = document.getElementById('sidebar');
-    const hamburgerMenu = document.getElementById('hamburger-menu');
-    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-    const closeSidebarButton = document.getElementById('close-sidebar');
-    const transactionSearchInput = document.getElementById('transactionSearchInput');
-    const downloadPdfBtn = document.getElementById('downloadPdfBtn'); // New PDF download button
-    const downloadExcelBtn = document.getElementById('downloadExcelBtn'); // New Excel download button
+      // Search Results Dropdown Element
+      const searchResultsDropdownEl = document.getElementById(
+        "searchResultsDropdown"
+      );
 
-    // Single Blog Modal Elements
-    const singleBlogModalEl = document.getElementById('singleBlogModal');
-    const singleBlogTitleEl = document.getElementById('singleBlogTitle');
-    const singleBlogContentEl = document.getElementById('singleBlogContent');
-    const singleBlogAuthorEl = document.getElementById('singleBlogAuthor');
-    const singleBlogLikeIconEl = document.getElementById('singleBlogLikeIcon');
-    const singleBlogLikeCountEl = document.getElementById('singleBlogLikeCount');
-    const singleBlogDislikeIconEl = document.getElementById('singleBlogDislikeIcon');
-    const singleBlogDislikeCountEl = document.getElementById('singleBlogDislikeCount');
-    const singleBlogEngagementsEl = document.getElementById('singleBlogEngagements');
-    const closeSingleBlogButton = document.getElementById('closeSingleBlog');
+      // New DOM elements for budgets, goals, savings
+      const budgetsContainerEl = document.getElementById("budgetsContainer");
+      const goalsContainerEl = document.getElementById("goalsContainer");
+      const savingsContainerEl = document.getElementById("savingsContainer");
 
-    // Search Results Dropdown Element
-    const searchResultsDropdownEl = document.getElementById('searchResultsDropdown');
-
-
-    // New DOM elements for budgets, goals, savings
-    const budgetsContainerEl = document.getElementById('budgetsContainer');
-    const goalsContainerEl = document.getElementById('goalsContainer');
-    const savingsContainerEl = document.getElementById('savingsContainer');
-
-
-    // --- Helper Functions ---
-    function formatCurrency(amount) {
-      return `$${Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-
-    function updateGreeting() {
-      const hour = new Date().getHours();
-      if (hour < 12) greetingEl.textContent = 'good morning';
-      else if (hour < 18) greetingEl.textContent = 'good afternoon';
-      else greetingEl.textContent = 'good evening';
-    }
-
-    // --- API Fetch Functions ---
-    async function fetchData(endpoint) {
-      try {
-        const response = await fetch(`${BASE_URL}${endpoint}`);
-        if (!response.ok) {
-          // Log a more descriptive error if the fetch fails, suggesting json-server might not be running
-          console.error(`Failed to fetch from ${endpoint}: HTTP status ${response.status}`);
-          console.warn(`Please ensure your json-server is running at ${BASE_URL} and serving data for ${endpoint}.`);
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-      } catch (error) {
-        console.error(`Failed to fetch from ${endpoint}:`, error);
-        console.warn(`Could not connect to ${BASE_URL}. Ensure json-server is running.`);
-        return null; // Return null on error so subsequent processing doesn't break
+      // --- Helper Functions ---
+      function formatCurrency(amount) {
+        return `$${Number(amount).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
       }
-    }
 
-    // --- Data Processing & UI Update Functions ---
+      function updateGreeting() {
+        const hour = new Date().getHours();
+        if (hour < 12) greetingEl.textContent = "good morning";
+        else if (hour < 18) greetingEl.textContent = "good afternoon";
+        else greetingEl.textContent = "good evening";
+      }
 
-    async function updateDashboardUI(loggedInId) {
+      // --- API Fetch Functions ---
+      async function fetchData(endpoint, localDb) {
+        // Attempt to fetch from BASE_URL first
+        try {
+          const response = await fetch(`${BASE_URL}${endpoint}`);
+          if (response.ok) {
+            return await response.json();
+          } else {
+            // If BASE_URL fetch is not OK, log and try fallback
+            console.warn(
+              `Failed to fetch from ${BASE_URL}${endpoint}: HTTP status ${response.status}. Attempting fallback to local db.json.`
+            );
+          }
+        } catch (networkError) {
+          // If network error, log and try fallback
+          console.warn(
+            `Network error fetching from ${BASE_URL}${endpoint}:`,
+            networkError.message,
+            `. Attempting fallback to local db.json.`
+          );
+        }
+
+        // Fallback logic to db.json
+        try {
+          if (!localDb) {
+            // Load db.json if not already loaded
+            console.log("Loading local db.json as a fallback...");
+            const dbResponse = await fetch("/db.json");
+            if (!dbResponse.ok) {
+              throw new Error(
+                `Failed to load local db.json: HTTP status ${dbResponse.status}`
+              );
+            }
+            localDb = await dbResponse.json();
+            console.log("Local db.json loaded successfully.");
+          }
+
+          // Extract data based on endpoint (e.g., '/users' -> 'users')
+          const key = endpoint.startsWith("/")
+            ? endpoint.substring(1)
+            : endpoint;
+          if (localDb && localDb[key]) {
+            console.log(`Serving data for ${endpoint} from local db.json.`);
+            return localDb[key];
+          } else {
+            throw new Error(
+              `Data for endpoint ${endpoint} not found in local db.json or db.json not loaded.`
+            );
+          }
+        } catch (localDbError) {
+          console.error(
+            `Failed to load or use local db.json as fallback for ${endpoint}:`,
+            localDbError
+          );
+          return null; // Return null if both attempts fail
+        }
+      }
+
+      // --- Data Processing & UI Update Functions ---
+
+      async function updateDashboardUI(loggedInId) {
         // Fetch all necessary data concurrently
-        const [users, transactions, notifications, blogs, budgets, savings, goals] = await Promise.all([
-            fetchData('/users'),
-            fetchData('/transactions'),
-            fetchData('/notifications'),
-            fetchData('/blogs'),
-            fetchData('/budgets'), // Fetching budgets
-            fetchData('/savings'), // Fetching savings (if not calculated)
-            fetchData('/goals')    // Fetching goals
+        const [
+          users,
+          transactions,
+          notifications,
+          blogs,
+          budgets,
+          savings,
+          goals,
+        ] = await Promise.all([
+          fetchData("/users"),
+          fetchData("/transactions"),
+          fetchData("/notifications"),
+          fetchData("/blogs"),
+          fetchData("/budgets"), // Fetching budgets
+          fetchData("/savings"), // Fetching savings (if not calculated)
+          fetchData("/goals"), // Fetching goals
         ]);
 
         if (users) {
-            const currentUser = users.find(u => u.id == loggedInId);
-            if (currentUser) {
-                loggedInUser = currentUser; // Store the user object
-                const userName = currentUser.name || 'User';
-                loggedInUserEl.textContent = userName;
-                loggedInUserMiddleEl.textContent = userName;
-                loggedInStatusEl.textContent = `Logged in as: ${userName} (ID: ${loggedInId})`; // Show ID
-                logoutButtonEl.classList.remove('hidden');
-            }
-        } else {
-            loggedInUserEl.textContent = 'Guest';
-            loggedInUserMiddleEl.textContent = 'Guest';
-            loggedInStatusEl.textContent = 'Not Logged In';
-            logoutButtonEl.classList.add('hidden');
+          const currentUser = users.find((u) => u.id == loggedInId);
+          if (currentUser) {
+            loggedInUser = currentUser; // Store the user object
+            const userName = currentUser.name || "User";
+            loggedInUserEl.textContent = userName;
+            loggedInUserMiddleEl.textContent = userName;
+            loggedInStatusEl.textContent = `Logged in as: ${userName} (ID: ${loggedInId})`; // Show ID
+            logoutButtonEl.classList.remove("hidden");
+          }
         }
 
         if (transactions) {
-            // Filter transactions for the current user
-            const userTransactions = transactions.filter(t => t.user_id == loggedInId);
-            allTransactions = userTransactions; // Store all user transactions
-            filteredTransactions = [...allTransactions]; // Initialize filtered transactions
-            processTransactionData(filteredTransactions); // Process and display
-            updateChart(chartPeriodSelectEl.value);
+          // Filter transactions for the current user
+          const userTransactions = transactions.filter(
+            (t) => t.user_id == loggedInId
+          );
+          allTransactions = userTransactions; // Store all user transactions
+          filteredTransactions = [...allTransactions]; // Initialize filtered transactions
+          processTransactionData(filteredTransactions); // Process and display
+          updateChart(chartPeriodSelectEl.value);
         } else {
-            recentTransactionsContainerEl.innerHTML = '<tr><td colspan="5" class="text-center p-4 text-red-500">Error loading transactions.</td></tr>';
+          recentTransactionsContainerEl.innerHTML =
+            '<tr><td colspan="5" class="text-center p-4 text-red-500">Error loading transactions.</td></tr>';
         }
 
         if (notifications) {
-            const userNotifications = notifications.filter(n => n.user_id == loggedInId && n.read === false);
-            notificationCountBadgeEl.textContent = userNotifications.length;
-            notificationCountBadgeEl.classList.toggle('hidden', userNotifications.length === 0);
+          const userNotifications = notifications.filter(
+            (n) => n.user_id == loggedInId && n.read === false
+          );
+          notificationCountBadgeEl.textContent = userNotifications.length;
+          notificationCountBadgeEl.classList.toggle(
+            "hidden",
+            userNotifications.length === 0
+          );
         } else {
-            notificationCountBadgeEl.classList.add('hidden'); // Hide if no data or error
+          notificationCountBadgeEl.classList.add("hidden"); // Hide if no data or error
         }
 
         if (blogs) {
-            allBlogs = blogs; // Store all blogs globally
-            processBlogData(allBlogs, loggedInId);
+          allBlogs = blogs; // Store all blogs globally
+          processBlogData(allBlogs, loggedInId);
         } else {
-            blogInnerContainerEl.innerHTML = '<p class="text-red-500">Error loading tips.</p>';
+          blogInnerContainerEl.innerHTML =
+            '<p class="text-red-500">Error loading tips.</p>';
         }
 
         // Process and display budgets, goals, and savings
         if (budgets) {
-            const userBudgets = budgets.filter(b => b.user_id == loggedInId);
-            processBudgetsData(userBudgets);
+          const userBudgets = budgets.filter((b) => b.creatorId == loggedInId);
+          processBudgetsData(userBudgets);
         } else {
-            budgetsContainerEl.innerHTML = '<p class="text-gray-500">No budgets set.</p>';
+          budgetsContainerEl.innerHTML =
+            '<p class="text-gray-500">No budgets set.</p>';
         }
 
         if (goals) {
-            const userGoals = goals.filter(g => g.user_id == loggedInId);
-            processGoalsData(userGoals);
+          const userGoals = goals.filter((g) => g.creatorId == loggedInId);
+          processGoalsData(userGoals);
         } else {
-            goalsContainerEl.innerHTML = '<p class="text-gray-500">No financial goals set.</p>';
+          goalsContainerEl.innerHTML =
+            '<p class="text-gray-500">No financial goals set.</p>';
         }
 
         // Assuming 'savings' might have multiple entries or be part of transactions.
         // If 'savings' is just one value, you might adjust the display function.
         // For now, assuming it's an array of saving items like budgets/goals.
         if (savings) {
-            const userSavings = savings.filter(s => s.user_id == loggedInId);
-            processSavingsData(userSavings);
+          const userSavings = savings.filter((s) => s.user_id == loggedInId);
+          processSavingsData(userSavings);
         } else {
-            savingsContainerEl.innerHTML = '<p class="text-gray-500">Error loading savings.</p>';
+          savingsContainerEl.innerHTML =
+            '<p class="text-gray-500">Error loading savings.</p>';
         }
-    }
+      }
 
+      function processTransactionData(transactionsToDisplay) {
+        transactionsToDisplay.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
 
-    function processTransactionData(transactionsToDisplay) {
-      transactionsToDisplay.sort((a, b) => new Date(b.date) - new Date(a.date));
+        let totalIncome = 0;
+        let totalExpense = 0;
+        // Calculations for overview cards based on ALL transactions of the user
+        allTransactions.forEach((t) => {
+          if (t.type === "income") totalIncome += Number(t.amount);
+          if (t.type === "expense") totalExpense += Number(t.amount);
+        });
 
-      let totalIncome = 0;
-      let totalExpense = 0;
-      // Calculations for overview cards based on ALL transactions of the user
-      allTransactions.forEach(t => {
-        if (t.type === 'income') totalIncome += Number(t.amount);
-        if (t.type === 'expense') totalExpense += Number(t.amount);
-      });
+        const savings = totalIncome - totalExpense;
+        const estimatedIncome = totalIncome * 1.1; // Example estimation
 
-      const savings = totalIncome - totalExpense;
-      const estimatedIncome = totalIncome * 1.1; // Example estimation
+        displayTotalBalanceEl.textContent = formatCurrency(savings);
+        totalIncomeEl.textContent = formatCurrency(totalIncome);
+        estimatedIncomeTextEl.textContent = `Est. Inc.: ${formatCurrency(
+          estimatedIncome
+        )}`;
+        totalExpenseEl.textContent = formatCurrency(totalExpense);
+        totalSavingsEl.textContent = formatCurrency(savings);
+        totalBalanceCardEl.textContent = formatCurrency(savings);
 
-      displayTotalBalanceEl.textContent = formatCurrency(savings);
-      totalIncomeEl.textContent = formatCurrency(totalIncome);
-      estimatedIncomeTextEl.textContent = `Est. Inc.: ${formatCurrency(estimatedIncome)}`;
-      totalExpenseEl.textContent = formatCurrency(totalExpense);
-      totalSavingsEl.textContent = formatCurrency(savings);
-      totalBalanceCardEl.textContent = formatCurrency(savings);
-
-      recentTransactionsContainerEl.innerHTML = '';
-      const displayedTransactions = transactionsToDisplay.slice(0, 8); // Display only the first 8 of the (possibly filtered) transactions
-      if (displayedTransactions.length === 0) {
-        recentTransactionsContainerEl.innerHTML = '<tr><td colspan="5" class="text-center p-4 text-gray-500">No transactions found matching your criteria.</td></tr>';
-      } else {
-        displayedTransactions.forEach(t => {
-          // Assuming date from localhost API is a string inYYYY-MM-DD format
-          const date = new Date(t.date).toLocaleDateString();
-          const row = `
+        recentTransactionsContainerEl.innerHTML = "";
+        const displayedTransactions = transactionsToDisplay.slice(0, 8); // Display only the first 8 of the (possibly filtered) transactions
+        if (displayedTransactions.length === 0) {
+          recentTransactionsContainerEl.innerHTML =
+            '<tr><td colspan="5" class="text-center p-4 text-gray-500">No transactions found matching your criteria.</td></tr>';
+        } else {
+          displayedTransactions.forEach((t) => {
+            // Assuming date from localhost API is a string inYYYY-MM-DD format
+            const date = new Date(t.date).toLocaleDateString();
+            const row = `
                         <tr class="hover:bg-gray-50">
                           <td class="px-2 py-2 sm:px-4 sm:py-3 whitespace-nowrap">${date}</td>
-                          <td class="px-2 py-2 sm:px-4 sm:py-3 whitespace-nowrap">${t.description}</td>
-                          <td class="hidden sm:table-cell px-4 py-3 whitespace-nowrap">${t.category}</td>
-                          <td class="hidden sm:table-cell px-4 py-3 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${t.type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${t.type}</span></td>
-                          <td class="px-2 py-2 sm:px-4 sm:py-3 whitespace-nowrap font-medium ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">${t.type === 'expense' ? '-' : '+'}${formatCurrency(t.amount)}</td>
+                          <td class="px-2 py-2 sm:px-4 sm:py-3 whitespace-nowrap">${
+                            t.description
+                          }</td>
+                          <td class="hidden sm:table-cell px-4 py-3 whitespace-nowrap">${
+                            t.category
+                          }</td>
+                          <td class="hidden sm:table-cell px-4 py-3 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            t.type === "income"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }">${t.type}</span></td>
+                          <td class="px-2 py-2 sm:px-4 sm:py-3 whitespace-nowrap font-medium ${
+                            t.type === "income"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }">${
+              t.type === "expense" ? "-" : "+"
+            }${formatCurrency(t.amount)}</td>
                         </tr>`;
-          recentTransactionsContainerEl.insertAdjacentHTML('beforeend', row);
-        });
-      }
-    }
-
-    function processBlogData(blogs, loggedInId) {
-      blogInnerContainerEl.innerHTML = '';
-      if (!blogs || blogs.length === 0) {
-        blogInnerContainerEl.innerHTML = '<p class="text-gray-500">No tips available.</p>';
-        return;
+            recentTransactionsContainerEl.insertAdjacentHTML("beforeend", row);
+          });
+        }
       }
 
-      blogs.forEach(blog => {
-        const truncatedContent = blog.content.split(" ").slice(0, 20).join(" ") + "...";
-        // Likes/dislikes from localhost API are not persisted, so simulate increment
-        const likes = blog.likes || 0;
-        const dislikes = blog.dislikes || 0;
-        const engagements = blog.engagements || 0;
+      function processBlogData(blogs, loggedInId) {
+        blogInnerContainerEl.innerHTML = "";
+        if (!blogs || blogs.length === 0) {
+          blogInnerContainerEl.innerHTML =
+            '<p class="text-gray-500">No tips available.</p>';
+          return;
+        }
 
-        const blogItemHTML = `
+        blogs.forEach((blog) => {
+          const truncatedContent =
+            blog.content.split(" ").slice(0, 20).join(" ") + "...";
+          // Likes/dislikes from localhost API are not persisted, so simulate increment
+          const likes = blog.likes || 0;
+          const dislikes = blog.dislikes || 0;
+          const engagements = blog.engagements || 0;
+
+          const blogItemHTML = `
                         <div class="blog-item bg-gray-50 p-3 rounded-lg shadow hover:shadow-md transition-shadow duration-200" data-id="${blog.id}">
                             <h3 class="font-semibold text-md text-blue-600 mb-1">${blog.title}</h3>
                             <p class="text-xs text-gray-500 mb-1">By: ${blog.author}</p>
@@ -941,324 +1286,425 @@
                                 <span class="flex items-center"><i class="far fa-eye mr-1"></i> ${engagements}</span>
                             </div>
                         </div>`;
-        blogInnerContainerEl.insertAdjacentHTML('beforeend', blogItemHTML);
-      });
+          blogInnerContainerEl.insertAdjacentHTML("beforeend", blogItemHTML);
+        });
 
-      document.querySelectorAll('.see-more').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); openSingleBlogModal(e.target.dataset.id); }));
-      // For localhost, handleBlogInteraction will only simulate visual change, not persist
-      document.querySelectorAll('.like-action, .dislike-action').forEach(action => action.addEventListener('click', (e) => handleBlogInteraction(e.currentTarget.dataset.id, e.currentTarget.dataset.type)));
-    }
+        document.querySelectorAll(".see-more").forEach((link) =>
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            openSingleBlogModal(e.target.dataset.id);
+          })
+        );
+        // For localhost, handleBlogInteraction will only simulate visual change, not persist
+        document
+          .querySelectorAll(".like-action, .dislike-action")
+          .forEach((action) =>
+            action.addEventListener("click", (e) =>
+              handleBlogInteraction(
+                e.currentTarget.dataset.id,
+                e.currentTarget.dataset.type
+              )
+            )
+          );
+      }
 
-    // New: Function to display Budgets
-    function processBudgetsData(budgets) {
-        budgetsContainerEl.innerHTML = '';
+      // New: Function to display Budgets
+      function processBudgetsData(budgets) {
+        budgetsContainerEl.innerHTML = "";
         if (!budgets || budgets.length === 0) {
-            budgetsContainerEl.innerHTML = '<p class="text-gray-500">No budgets set.</p>';
-            return;
+          budgetsContainerEl.innerHTML =
+            '<p class="text-gray-500">No budgets set.</p>';
+          return;
         }
 
         const displayedBudgets = budgets.slice(0, 3); // Display only a few
-        displayedBudgets.forEach(budget => {
-            const progressBarWidth = (budget.spent / budget.amount) * 100;
-            const budgetItemHTML = `
+        displayedBudgets.forEach((budget) => {
+          const progressBarWidth =
+            (budget.spentAmount / budget.budgetAmount) * 100;
+          const budgetItemHTML = `
                 <div class="border-b border-gray-200 pb-3 last:border-b-0">
                     <div class="flex justify-between items-center mb-1">
-                        <span class="font-medium text-gray-700">${budget.name}</span>
-                        <span class="text-sm text-gray-600">${formatCurrency(budget.spent)} / ${formatCurrency(budget.amount)}</span>
+                        <span class="font-medium text-gray-700">${
+                          budget.name
+                        }</span>
+                        <span class="text-sm text-gray-600">${formatCurrency(
+                          budget.spentAmount
+                        )} / ${formatCurrency(budget.budgetAmount)}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: ${progressBarWidth > 100 ? 100 : progressBarWidth}%;"></div>
+                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: ${
+                          progressBarWidth > 100 ? 100 : progressBarWidth
+                        }%;"></div>
                     </div>
                     <p class="text-xs text-gray-500 mt-1">${budget.category}</p>
                 </div>
             `;
-            budgetsContainerEl.insertAdjacentHTML('beforeend', budgetItemHTML);
+          budgetsContainerEl.insertAdjacentHTML("beforeend", budgetItemHTML);
         });
-    }
+      }
 
-    // New: Function to display Goals
-    function processGoalsData(goals) {
-        goalsContainerEl.innerHTML = '';
+      // New: Function to display Goals
+      function processGoalsData(goals) {
+        goalsContainerEl.innerHTML = "";
         if (!goals || goals.length === 0) {
-            goalsContainerEl.innerHTML = '<p class="text-gray-500">No financial goals set.</p>';
-            return;
+          goalsContainerEl.innerHTML =
+            '<p class="text-gray-500">No financial goals set.</p>';
+          return;
         }
 
         const displayedGoals = goals.slice(0, 3); // Display only a few
-        displayedGoals.forEach(goal => {
-            const progress = (goal.currentAmount / goal.targetAmount) * 100;
-            const goalItemHTML = `
+        displayedGoals.forEach((goal) => {
+          const progress = (goal.achievedAmount / goal.targetAmount) * 100;
+          const goalItemHTML = `
                 <div class="border-b border-gray-200 pb-3 last:border-b-0">
                     <div class="flex justify-between items-center mb-1">
-                        <span class="font-medium text-gray-700">${goal.name}</span>
-                        <span class="text-sm text-gray-600">${formatCurrency(goal.currentAmount)} / ${formatCurrency(goal.targetAmount)}</span>
+                        <span class="font-medium text-gray-700">${
+                          goal.name
+                        }</span>
+                        <span class="text-sm text-gray-600">${formatCurrency(
+                          goal.achievedAmount
+                        )} / ${formatCurrency(goal.targetAmount)}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: ${progress > 100 ? 100 : progress}%;"></div>
+                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: ${
+                          progress > 100 ? 100 : progress
+                        }%;"></div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Due: ${new Date(goal.dueDate).toLocaleDateString()}</p>
+                    <p class="text-xs text-gray-500 mt-1">Due: ${new Date(
+                      goal.targetDate
+                    ).toLocaleDateString()}</p>
                 </div>
             `;
-            goalsContainerEl.insertAdjacentHTML('beforeend', goalItemHTML);
+          goalsContainerEl.insertAdjacentHTML("beforeend", goalItemHTML);
         });
-    }
+      }
 
-    // New: Function to display Savings (assuming array of saving entries)
-    function processSavingsData(savings) {
-        savingsContainerEl.innerHTML = '';
+      // New: Function to display Savings (assuming array of saving entries)
+      function processSavingsData(savings) {
+        savingsContainerEl.innerHTML = "";
         if (!savings || savings.length === 0) {
-            savingsContainerEl.innerHTML = '<p class="text-gray-500">No savings recorded.</p>';
-            return;
+          savingsContainerEl.innerHTML =
+            '<p class="text-gray-500">No savings recorded.</p>';
+          return;
         }
 
         const displayedSavings = savings.slice(0, 3); // Display only a few
-        displayedSavings.forEach(saving => {
-            const savingItemHTML = `
+        displayedSavings.forEach((saving) => {
+          const savingItemHTML = `
                 <div class="border-b border-gray-200 pb-3 last:border-b-0 flex justify-between items-center">
                     <div>
-                        <span class="font-medium text-gray-700">${saving.name}</span>
-                        <p class="text-xs text-gray-500">${saving.type || 'General'}</p>
+                        <span class="font-medium text-gray-700">${
+                          saving.name
+                        }</span>
+                        <p class="text-xs text-gray-500">${
+                          saving.type || "General"
+                        }</p>
                     </div>
-                    <span class="text-sm text-green-600 font-semibold">${formatCurrency(saving.amount)}</span>
+                    <span class="text-sm text-green-600 font-semibold">${formatCurrency(
+                      saving.amount
+                    )}</span>
                 </div>
             `;
-            savingsContainerEl.insertAdjacentHTML('beforeend', savingItemHTML);
+          savingsContainerEl.insertAdjacentHTML("beforeend", savingItemHTML);
         });
-    }
-
-    // Adjusted to work with locally fetched 'allBlogs' array
-    async function openSingleBlogModal(blogId) {
-      const blog = allBlogs.find(b => b.id == blogId); // Find blog from already fetched data
-      if (!blog) {
-        console.error("Blog not found:", blogId);
-        return;
       }
 
-      singleBlogTitleEl.textContent = blog.title;
-      singleBlogContentEl.innerHTML = blog.content.replace(/\n/g, '<br>');
-      singleBlogAuthorEl.textContent = blog.author;
-      singleBlogLikeCountEl.textContent = blog.likes || 0;
-      singleBlogDislikeCountEl.textContent = blog.dislikes || 0;
-      singleBlogEngagementsEl.textContent = blog.engagements || 0;
+      // Adjusted to work with locally fetched 'allBlogs' array
+      async function openSingleBlogModal(blogId) {
+        const blog = allBlogs.find((b) => b.id == blogId); // Find blog from already fetched data
+        if (!blog) {
+          console.error("Blog not found:", blogId);
+          return;
+        }
 
-      singleBlogModalEl.dataset.currentBlogId = blogId;
-      singleBlogModalEl.classList.remove('hidden');
+        singleBlogTitleEl.textContent = blog.title;
+        singleBlogContentEl.innerHTML = blog.content.replace(/\n/g, "<br>");
+        singleBlogAuthorEl.textContent = blog.author;
+        singleBlogLikeCountEl.textContent = blog.likes || 0;
+        singleBlogDislikeCountEl.textContent = blog.dislikes || 0;
+        singleBlogEngagementsEl.textContent = blog.engagements || 0;
 
-      // For localhost, direct update to UI (not persisted to API)
-      const currentBlogIndex = allBlogs.findIndex(b => b.id == blogId);
-      if (currentBlogIndex !== -1) {
-          allBlogs[currentBlogIndex].engagements = (allBlogs[currentBlogIndex].engagements || 0) + 1;
+        singleBlogModalEl.dataset.currentBlogId = blogId;
+        singleBlogModalEl.classList.remove("hidden");
+
+        // For localhost, direct update to UI (not persisted to API)
+        const currentBlogIndex = allBlogs.findIndex((b) => b.id == blogId);
+        if (currentBlogIndex !== -1) {
+          allBlogs[currentBlogIndex].engagements =
+            (allBlogs[currentBlogIndex].engagements || 0) + 1;
           processBlogData(allBlogs); // Re-render blogs to update engagement count
+        }
       }
-    }
 
-    // Adjusted to work with locally fetched 'allBlogs' array
-    async function handleBlogInteraction(blogId, type) {
-        const blogIndex = allBlogs.findIndex(b => b.id == blogId);
+      // Adjusted to work with locally fetched 'allBlogs' array
+      async function handleBlogInteraction(blogId, type) {
+        const blogIndex = allBlogs.findIndex((b) => b.id == blogId);
         if (blogIndex === -1) {
-            console.error("Blog not found for interaction:", blogId);
-            return;
+          console.error("Blog not found for interaction:", blogId);
+          return;
         }
 
         // Simulate increment visually without API call
-        if (type === 'like') {
-            allBlogs[blogIndex].likes = (allBlogs[blogIndex].likes || 0) + 1;
-        } else if (type === 'dislike') {
-            allBlogs[blogIndex].dislikes = (allBlogs[blogIndex].dislikes || 0) + 1;
+        if (type === "like") {
+          allBlogs[blogIndex].likes = (allBlogs[blogIndex].likes || 0) + 1;
+        } else if (type === "dislike") {
+          allBlogs[blogIndex].dislikes =
+            (allBlogs[blogIndex].dislikes || 0) + 1;
         }
         processBlogData(allBlogs); // Re-render blogs to update counts
-    }
-
-    // --- Chart Logic ---
-    function groupTransactionsByPeriod(transactions, period) {
-      return transactions.reduce((acc, transact) => {
-        // Ensure date is a proper Date object, assuming string date from localhost API
-        const date = new Date(transact.date);
-        let key;
-        if (period === "daily") key = date.toISOString().split("T")[0];
-        else if (period === "weekly") {
-          const startOfWeek = new Date(date);
-          startOfWeek.setDate(date.getDate() - date.getDay()); // Sunday as start of week
-          key = startOfWeek.toISOString().split("T")[0];
-        } else if (period === "monthly") key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        else if (period === "yearly") key = date.getFullYear().toString();
-
-        if (!acc[key]) acc[key] = { income: 0, expense: 0, savings: 0, dateObject: new Date(key) };
-        if (transact.type === 'income') acc[key].income += Number(transact.amount);
-        if (transact.type === 'expense') acc[key].expense += Number(transact.amount);
-        acc[key].savings = acc[key].income - acc[key].expense;
-        return acc;
-      }, {});
-    }
-
-    function updateChart(period) {
-      if (!document.getElementById('expenseChart') || !allTransactions || allTransactions.length === 0) {
-        if (chartInstance) chartInstance.destroy();
-        return;
       }
 
-      const groupedData = groupTransactionsByPeriod([...allTransactions], period);
-      const sortedLabels = Object.keys(groupedData).sort((a, b) => groupedData[a].dateObject - groupedData[b].dateObject);
+      // --- Chart Logic ---
+      function groupTransactionsByPeriod(transactions, period) {
+        return transactions.reduce((acc, transact) => {
+          // Ensure date is a proper Date object, assuming string date from localhost API
+          const date = new Date(transact.date);
+          let key;
+          if (period === "daily") key = date.toISOString().split("T")[0];
+          else if (period === "weekly") {
+            const startOfWeek = new Date(date);
+            startOfWeek.setDate(date.getDate() - date.getDay()); // Sunday as start of week
+            key = startOfWeek.toISOString().split("T")[0];
+          } else if (period === "monthly")
+            key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+              2,
+              "0"
+            )}`;
+          else if (period === "yearly") key = date.getFullYear().toString();
 
-      if (chartInstance) chartInstance.destroy();
+          if (!acc[key])
+            acc[key] = {
+              income: 0,
+              expense: 0,
+              savings: 0,
+              dateObject: new Date(key),
+            };
+          if (transact.type === "income")
+            acc[key].income += Number(transact.amount);
+          if (transact.type === "expense")
+            acc[key].expense += Number(transact.amount);
+          acc[key].savings = acc[key].income - acc[key].expense;
+          return acc;
+        }, {});
+      }
 
-      const ctx = document.getElementById('expenseChart').getContext('2d');
-      chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: sortedLabels.map(l => {
-            const d = groupedData[l].dateObject;
-            if (period === 'daily') return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-            if (period === 'monthly') return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short' });
-            if (period === 'weekly') return `Week of ${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric'})}`;
-            return l;
-          }),
-          datasets: [
-            { label: 'Income', data: sortedLabels.map(l => groupedData[l].income), backgroundColor: 'rgba(75, 192, 192, 0.5)' },
-            { label: 'Expense', data: sortedLabels.map(l => groupedData[l].expense), backgroundColor: 'rgba(255, 99, 132, 0.5)' },
-            { label: 'Savings', data: sortedLabels.map(l => groupedData[l].savings), backgroundColor: 'rgba(54, 162, 235, 0.5)', type: 'line', fill: false, tension: 0.1 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: (c) => `${c.dataset.label}: ${c.raw}`
-              }
-            }
-          }
+      function updateChart(period) {
+        if (
+          !document.getElementById("expenseChart") ||
+          !allTransactions ||
+          allTransactions.length === 0
+        ) {
+          if (chartInstance) chartInstance.destroy();
+          return;
         }
-      });
-    }
 
-    // --- Sidebar Toggle Logic ---
-    function openSidebar() {
-      sidebar.classList.remove('-translate-x-full');
-      sidebarBackdrop.classList.remove('hidden');
-    }
+        const groupedData = groupTransactionsByPeriod(
+          [...allTransactions],
+          period
+        );
+        const sortedLabels = Object.keys(groupedData).sort(
+          (a, b) => groupedData[a].dateObject - groupedData[b].dateObject
+        );
 
-    function closeSidebar() {
-      sidebar.classList.add('-translate-x-full');
-      sidebarBackdrop.classList.add('hidden');
-    }
+        if (chartInstance) chartInstance.destroy();
 
-    // --- Search Functionality ---
-    // Function to hide the search results dropdown
-    function hideSearchResultsDropdown() {
-        searchResultsDropdownEl.classList.add('hidden');
-        searchResultsDropdownEl.innerHTML = '';
-    }
+        const ctx = document.getElementById("expenseChart").getContext("2d");
+        chartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: sortedLabels.map((l) => {
+              const d = groupedData[l].dateObject;
+              if (period === "daily")
+                return d.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                });
+              if (period === "monthly")
+                return d.toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                });
+              if (period === "weekly")
+                return `Week of ${d.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                })}`;
+              return l;
+            }),
+            datasets: [
+              {
+                label: "Income",
+                data: sortedLabels.map((l) => groupedData[l].income),
+                backgroundColor: "rgba(75, 192, 192, 0.5)",
+              },
+              {
+                label: "Expense",
+                data: sortedLabels.map((l) => groupedData[l].expense),
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+              },
+              {
+                label: "Savings",
+                data: sortedLabels.map((l) => groupedData[l].savings),
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                type: "line",
+                fill: false,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: (c) => `${c.dataset.label}: ${c.raw}`,
+                },
+              },
+            },
+          },
+        });
+      }
 
-    // Function to display search results in the dropdown
-    function displaySearchResultsInDropdown(results) {
-        searchResultsDropdownEl.innerHTML = ''; // Clear previous results
+      // --- Sidebar Toggle Logic ---
+      function openSidebar() {
+        sidebar.classList.remove("-translate-x-full");
+        sidebarBackdrop.classList.remove("hidden");
+      }
+
+      function closeSidebar() {
+        sidebar.classList.add("-translate-x-full");
+        sidebarBackdrop.classList.add("hidden");
+      }
+
+      // --- Search Functionality ---
+      // Function to hide the search results dropdown
+      function hideSearchResultsDropdown() {
+        searchResultsDropdownEl.classList.add("hidden");
+        searchResultsDropdownEl.innerHTML = "";
+      }
+
+      // Function to display search results in the dropdown
+      function displaySearchResultsInDropdown(results) {
+        searchResultsDropdownEl.innerHTML = ""; // Clear previous results
 
         if (results.length === 0) {
-            searchResultsDropdownEl.innerHTML = '<p class="text-gray-500 p-3 text-center">No matching transactions found.</p>';
-            searchResultsDropdownEl.classList.remove('hidden'); // Still show dropdown with "No results" message
-            return;
+          searchResultsDropdownEl.innerHTML =
+            '<p class="text-gray-500 p-3 text-center">No matching transactions found.</p>';
+          searchResultsDropdownEl.classList.remove("hidden"); // Still show dropdown with "No results" message
+          return;
         }
 
-        results.forEach(t => {
-            const resultItem = `
+        results.forEach((t) => {
+          const resultItem = `
                 <div class="search-result-item">
                     <p class="font-semibold text-gray-800">${t.description}</p>
                     <p class="text-sm text-gray-600">Category: ${t.category}</p>
-                    <p class="text-xs text-gray-500">${new Date(t.date).toLocaleDateString()} | ${t.type.charAt(0).toUpperCase() + t.type.slice(1)} | ${formatCurrency(t.amount)}</p>
+                    <p class="text-xs text-gray-500">${new Date(
+                      t.date
+                    ).toLocaleDateString()} | ${
+            t.type.charAt(0).toUpperCase() + t.type.slice(1)
+          } | ${formatCurrency(t.amount)}</p>
                 </div>
             `;
-            searchResultsDropdownEl.insertAdjacentHTML('beforeend', resultItem);
+          searchResultsDropdownEl.insertAdjacentHTML("beforeend", resultItem);
         });
-        searchResultsDropdownEl.classList.remove('hidden');
-    }
+        searchResultsDropdownEl.classList.remove("hidden");
+      }
 
-    // Modified performSearch to trigger dropdown display and debounce
-    function performSearch() {
+      // Modified performSearch to trigger dropdown display and debounce
+      function performSearch() {
         clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(() => {
-            const searchTerm = transactionSearchInput.value.toLowerCase().trim();
+          const searchTerm = transactionSearchInput.value.toLowerCase().trim();
 
-            if (searchTerm === "") {
-                hideSearchResultsDropdown();
-                // Optionally reset the main transaction table to show all transactions when search is cleared
-                processTransactionData(allTransactions);
-                return;
-            }
+          if (searchTerm === "") {
+            hideSearchResultsDropdown();
+            // Optionally reset the main transaction table to show all transactions when search is cleared
+            processTransactionData(allTransactions);
+            return;
+          }
 
-            const searchResults = allTransactions.filter(transaction =>
-                (transaction.description && transaction.description.toLowerCase().includes(searchTerm)) ||
-                (transaction.category && transaction.category.toLowerCase().includes(searchTerm)) ||
-                (transaction.type && transaction.type.toLowerCase().includes(searchTerm)) ||
-                (String(transaction.amount).includes(searchTerm))
-            );
-            displaySearchResultsInDropdown(searchResults);
+          const searchResults = allTransactions.filter(
+            (transaction) =>
+              (transaction.description &&
+                transaction.description.toLowerCase().includes(searchTerm)) ||
+              (transaction.category &&
+                transaction.category.toLowerCase().includes(searchTerm)) ||
+              (transaction.type &&
+                transaction.type.toLowerCase().includes(searchTerm)) ||
+              String(transaction.amount).includes(searchTerm)
+          );
+          displaySearchResultsInDropdown(searchResults);
 
-            // Update the main transaction table with these search results as well
-            processTransactionData(searchResults);
+          // Update the main transaction table with these search results as well
+          processTransactionData(searchResults);
         }, SEARCH_DEBOUNCE_DELAY);
-    }
+      }
 
-    // --- Download Functions ---
-    function downloadPdf() {
+      // --- Download Functions ---
+      function downloadPdf() {
         const { jsPDF } = window.jspdf; // Access jspdf from the window object
         const doc = new jsPDF();
 
         // Define table columns and rows
-        const headers = [['Date', 'Description', 'Category', 'Type', 'Amount']];
-        const data = allTransactions.map(t => [
+        const headers = [["Date", "Description", "Category", "Type", "Amount"]];
+        const data = allTransactions.map((t) => [
+          new Date(t.date).toLocaleDateString(),
+          t.description,
+          t.category,
+          t.type,
+          `${t.type === "expense" ? "-" : "+"}${formatCurrency(t.amount)}`,
+        ]);
+
+        doc.autoTable({
+          head: headers,
+          body: data,
+          startY: 20,
+          headStyles: { fillColor: [30, 41, 59] }, // Tailwind slate-900 like
+          styles: { fontSize: 9, cellPadding: 2 },
+          columnStyles: {
+            0: { cellWidth: 20 },
+            1: { cellWidth: "auto" },
+            2: { cellWidth: 20 },
+            3: { cellWidth: 20 },
+            4: { cellWidth: 25, halign: "right" },
+          },
+          didDrawPage: function (data) {
+            // Header
+            doc.setFontSize(16);
+            doc.text("Transaction Report", data.settings.margin.left, 15);
+            doc.setFontSize(10);
+            doc.text(
+              `Generated: ${new Date().toLocaleDateString()}`,
+              data.settings.margin.left,
+              20
+            );
+          },
+        });
+
+        doc.save("transactions_report.pdf");
+      }
+
+      function downloadExcel() {
+        let csvContent = "data:text/csv;charset=utf-8,";
+        const headers = ["Date", "Description", "Category", "Type", "Amount"];
+        csvContent += headers.join(",") + "\n";
+
+        allTransactions.forEach((t) => {
+          const row = [
             new Date(t.date).toLocaleDateString(),
             t.description,
             t.category,
             t.type,
-            `${t.type === 'expense' ? '-' : '+'}${formatCurrency(t.amount)}`
-        ]);
-
-        doc.autoTable({
-            head: headers,
-            body: data,
-            startY: 20,
-            headStyles: { fillColor: [30, 41, 59] }, // Tailwind slate-900 like
-            styles: { fontSize: 9, cellPadding: 2 },
-            columnStyles: {
-                0: { cellWidth: 20 },
-                1: { cellWidth: 'auto' },
-                2: { cellWidth: 20 },
-                3: { cellWidth: 20 },
-                4: { cellWidth: 25, halign: 'right' }
-            },
-            didDrawPage: function (data) {
-                // Header
-                doc.setFontSize(16);
-                doc.text("Transaction Report", data.settings.margin.left, 15);
-                doc.setFontSize(10);
-                doc.text(`Generated: ${new Date().toLocaleDateString()}`, data.settings.margin.left, 20);
-            }
-        });
-
-        doc.save('transactions_report.pdf');
-    }
-
-    function downloadExcel() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        const headers = ['Date', 'Description', 'Category', 'Type', 'Amount'];
-        csvContent += headers.join(',') + '\n';
-
-        allTransactions.forEach(t => {
-            const row = [
-                new Date(t.date).toLocaleDateString(),
-                t.description,
-                t.category,
-                t.type,
-                `${t.type === 'expense' ? '-' : '+'}${Number(t.amount).toFixed(2)}` // Ensure amount is formatted for CSV
-            ];
-            csvContent += row.join(',') + '\n';
+            `${t.type === "expense" ? "-" : "+"}${Number(t.amount).toFixed(2)}`, // Ensure amount is formatted for CSV
+          ];
+          csvContent += row.join(",") + "\n";
         });
 
         const encodedUri = encodeURI(csvContent);
@@ -1268,78 +1714,75 @@
         document.body.appendChild(link); // Required for Firefox
         link.click();
         document.body.removeChild(link); // Clean up
-    }
-
-
-    // --- Initialization and Event Listeners ---
-    document.addEventListener('DOMContentLoaded', async () => {
-      // For local development, use a fixed user ID or retrieve from localStorage
-      // In a real app, you'd handle user login/session
-      let loggedInId = localStorage.getItem('loggedin_id');
-      if (!loggedInId) {
-        loggedInId = '4'; // Set to user 4 as requested
-        localStorage.setItem('loggedin_id', loggedInId);
       }
-      
-      updateDashboardUI(loggedInId); // Call with the determined user ID
 
-      // Initialize Swiper for Transaction Overview Cards
-      new Swiper(".transaction-overview-swiper", {
-        slidesPerView: 'auto', // Allow slides to take their natural width
-        spaceBetween: 16, // Gap between slides (matching Tailwind's gap-4)
-        loop: false, // You might want to disable loop for these static cards
-        pagination: {
-          el: ".overview-swiper-pagination",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".overview-swiper-button-next",
-          prevEl: ".overview-swiper-button-prev", 
-        },
-        freeMode: true, // Enable free mode for easy scrolling
-        // Removed breakpoints, so slidesPerView: 'auto' applies at all screen sizes
-      });
+      // --- Initialization and Event Listeners ---
+      document.addEventListener("DOMContentLoaded", async () => {
+        // For local development, use a fixed user ID or retrieve from localStorage
+        // In a real app, you'd handle user login/session
+        let loggedInId = localStorage.getItem("loggedin_id");
 
+        updateDashboardUI(loggedInId); // Call with the determined user ID
 
-      updateGreeting(); // Set initial greeting
+        // Initialize Swiper for Transaction Overview Cards
+        new Swiper(".transaction-overview-swiper", {
+          slidesPerView: "auto", // Allow slides to take their natural width
+          spaceBetween: 16, // Gap between slides (matching Tailwind's gap-4)
+          loop: false, // You might want to disable loop for these static cards
+          pagination: {
+            el: ".overview-swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".overview-swiper-button-next",
+            prevEl: ".overview-swiper-button-prev",
+          },
+          freeMode: true, // Enable free mode for easy scrolling
+          // Removed breakpoints, so slidesPerView: 'auto' applies at all screen sizes
+        });
 
-      hamburgerMenu.addEventListener('click', openSidebar);
-      closeSidebarButton.addEventListener('click', closeSidebar);
-      sidebarBackdrop.addEventListener('click', closeSidebar);
-      chartPeriodSelectEl.addEventListener('change', (e) => updateChart(e.target.value));
-      closeSingleBlogButton.addEventListener('click', () => singleBlogModalEl.classList.add('hidden'));
-      logoutButtonEl.addEventListener('click', () => {
-        localStorage.removeItem('loggedin_id'); // Clear the stored user ID
-        window.location.reload(); // Reload the page to reflect logout
-      });
+        updateGreeting(); // Set initial greeting
 
-      // Event listener for the search input
-      transactionSearchInput.addEventListener('keyup', performSearch);
-      
-      // New: Event listeners for download buttons
-      downloadPdfBtn.addEventListener('click', downloadPdf);
-      downloadExcelBtn.addEventListener('click', downloadExcel);
+        hamburgerMenu.addEventListener("click", openSidebar);
+        closeSidebarButton.addEventListener("click", closeSidebar);
+        sidebarBackdrop.addEventListener("click", closeSidebar);
+        chartPeriodSelectEl.addEventListener("change", (e) =>
+          updateChart(e.target.value)
+        );
+        closeSingleBlogButton.addEventListener("click", () =>
+          singleBlogModalEl.classList.add("hidden")
+        );
+        logoutButtonEl.addEventListener("click", () => {
+          localStorage.removeItem("loggedin_id"); // Clear the stored user ID
+          window.location.reload(); // Reload the page to reflect logout
+        });
 
-      // Event listener to hide search dropdown if clicking outside (or input is cleared)
-      // This is simplified: clicking on the input will show, blurring/clearing will hide
-      transactionSearchInput.addEventListener('blur', () => {
+        // Event listener for the search input
+        transactionSearchInput.addEventListener("keyup", performSearch);
+
+        // New: Event listeners for download buttons
+        downloadPdfBtn.addEventListener("click", downloadPdf);
+        downloadExcelBtn.addEventListener("click", downloadExcel);
+
+        // Event listener to hide search dropdown if clicking outside (or input is cleared)
+        // This is simplified: clicking on the input will show, blurring/clearing will hide
+        transactionSearchInput.addEventListener("blur", () => {
           // A small delay to allow click events on results to fire first
           setTimeout(() => {
-              if (transactionSearchInput.value.trim() === '') {
-                  hideSearchResultsDropdown();
-              }
-          }, 100);
-      });
-      // Handle clicks on search result items (optional: could populate input or navigate)
-      searchResultsDropdownEl.addEventListener('click', (event) => {
-          if (event.target.closest('.search-result-item')) {
-              // Example: if you want to click a result and populate the input
-              // transactionSearchInput.value = event.target.closest('.search-result-item').querySelector('p').textContent;
+            if (transactionSearchInput.value.trim() === "") {
               hideSearchResultsDropdown();
+            }
+          }, 100);
+        });
+        // Handle clicks on search result items (optional: could populate input or navigate)
+        searchResultsDropdownEl.addEventListener("click", (event) => {
+          if (event.target.closest(".search-result-item")) {
+            // Example: if you want to click a result and populate the input
+            // transactionSearchInput.value = event.target.closest('.search-result-item').querySelector('p').textContent;
+            hideSearchResultsDropdown();
           }
+        });
       });
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

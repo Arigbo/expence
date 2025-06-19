@@ -1,375 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spendtrack Transactions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://placehold.co/32x32/E2E8F0/4A5568?text=S"
+      type="image/x-icon"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spendtrack Transactions</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="shortcut icon" href="https://placehold.co/32x32/E2E8F0/4A5568?text=S" type="image/x-icon" />
+    <!-- jsPDF and jsPDF-AutoTable for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script>
+    <!-- QRious for QR Code generation -->
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 
-  <!-- jsPDF and jsPDF-AutoTable for PDF generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script>
-  <!-- QRious for QR Code generation -->
-  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+      }
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      /* General layout for the dashboard-like structure */
+      .dashboard-layout {
+        display: flex;
+        min-height: 100vh;
+        overflow: hidden;
+        /* Prevent overall scroll if children manage their own scroll */
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      color: #334155;
-    }
+      /* Sidebar Styling */
+      .sidebar {
+        transition: transform 0.3s ease-in-out;
+        background-color: #1e293b;
+      }
 
-    /* General layout for the dashboard-like structure */
-    .dashboard-layout {
-      display: flex;
-      min-height: 100vh;
-      overflow: hidden;
-      /* Prevent overall scroll if children manage their own scroll */
-    }
+      /* Apply active class to highlight current page */
+      .sidebar-active {
+        background-color: #334155;
+        color: white;
+        border-radius: 0.375rem;
+      }
 
-    /* Sidebar Styling */
-    .sidebar {
-      transition: transform 0.3s ease-in-out;
-      background-color: #1e293b;
-    }
+      .sidebar-link {
+        color: #cbd5e1;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
 
-    /* Apply active class to highlight current page */
-    .sidebar-active {
-      background-color: #334155;
-      color: white;
-      border-radius: 0.375rem;
-    }
+      .sidebar-link:hover {
+        background-color: #334155;
+        color: white;
+      }
 
-    .sidebar-link {
-      color: #cbd5e1;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
+      /* Header Styling */
+      .dashboard_header {
+        background-color: white;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05),
+          0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      }
 
-    .sidebar-link:hover {
-      background-color: #334155;
-      color: white;
-    }
+      /* Transaction-specific styles */
+      /* Mobile-first: Hide header on small screens */
+      .transaction-header {
+        display: none;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background-color: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
 
-    /* Header Styling */
-    .dashboard_header {
-      background-color: white;
-      border-bottom: 1px solid #e2e8f0;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-    }
+      /* Mobile-first: Card-like display for transaction list items */
+      .transaction-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        /* Increased padding for a better card feel */
+        transition: background-color 0.15s ease;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        /* subtle shadow */
+        margin-bottom: 0.75rem;
+        /* space between cards */
+        border: 1px solid #e2e8f0;
+        /* light border */
+      }
 
-    /* Transaction-specific styles */
-    /* Mobile-first: Hide header on small screens */
-    .transaction-header {
-      display: none;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      background-color: #f1f5f9;
-      font-weight: 600;
-      color: #475569;
-      border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
+      .transaction-item:hover {
+        background-color: #f8fafc;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08);
+        /* slightly stronger shadow on hover */
+      }
 
-    /* Mobile-first: Card-like display for transaction list items */
-    .transaction-item {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 1rem;
-      /* Increased padding for a better card feel */
-      transition: background-color 0.15s ease;
-      background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-      /* subtle shadow */
-      margin-bottom: 0.75rem;
-      /* space between cards */
-      border: 1px solid #e2e8f0;
-      /* light border */
-    }
+      .transaction-item:last-child {
+        margin-bottom: 0;
+        /* No margin for the last item in the list */
+      }
 
-    .transaction-item:hover {
-      background-color: #f8fafc;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08);
-      /* slightly stronger shadow on hover */
-    }
+      .transaction-item .info-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        /* More space below main info */
+      }
 
-    .transaction-item:last-child {
-      margin-bottom: 0;
-      /* No margin for the last item in the list */
-    }
+      .transaction-item .description {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #1e293b;
+        flex-grow: 1;
+        /* Allows description to take available space */
+        white-space: normal;
+        /* Allow text wrapping on mobile */
+        overflow: visible;
+        text-overflow: clip;
+        margin-right: 0.5rem;
+        /* Space before amount */
+      }
 
-    .transaction-item .info-row {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      /* More space below main info */
-    }
+      .transaction-item .amount {
+        font-weight: 700;
+        font-size: 1.125rem;
+        /* text-lg */
+        text-align: right;
+        /* Aligned right */
+        flex-shrink: 0;
+        /* Prevent amount from shrinking */
+      }
 
-    .transaction-item .description {
-      font-weight: 600;
-      font-size: 1rem;
-      color: #1e293b;
-      flex-grow: 1;
-      /* Allows description to take available space */
-      white-space: normal;
-      /* Allow text wrapping on mobile */
-      overflow: visible;
-      text-overflow: clip;
-      margin-right: 0.5rem;
-      /* Space before amount */
-    }
+      .transaction-item .meta-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 0.875rem;
+        /* text-sm */
+        color: #64748b;
+        /* slate-500 */
+        align-items: center;
+        /* Align category and type badge */
+      }
 
-    .transaction-item .amount {
-      font-weight: 700;
-      font-size: 1.125rem;
-      /* text-lg */
-      text-align: right;
-      /* Aligned right */
-      flex-shrink: 0;
-      /* Prevent amount from shrinking */
-    }
+      .transaction-item .day {
+        font-weight: 500;
+        color: #64748b;
+        font-size: 0.875rem;
+        /* text-sm */
+      }
 
-    .transaction-item .meta-row {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 0.875rem;
-      /* text-sm */
-      color: #64748b;
-      /* slate-500 */
-      align-items: center;
-      /* Align category and type badge */
-    }
+      .transaction-item .category-type-group {
+        display: flex;
+        align-items: center;
+        /* Keep category and type badge aligned */
+      }
 
-    .transaction-item .day {
-      font-weight: 500;
-      color: #64748b;
-      font-size: 0.875rem;
-      /* text-sm */
-    }
+      .transaction-item .type-badge {
+        text-transform: capitalize;
+        padding: 0.1rem 0.5rem;
+        border-radius: 0.25rem;
+        display: inline-block;
+        color: white;
+        font-size: 0.75rem;
+        /* text-xs */
+        font-weight: 600;
+        margin-left: 0.5rem;
+        /* space from category */
+      }
 
-    .transaction-item .category-type-group {
-      display: flex;
-      align-items: center;
-      /* Keep category and type badge aligned */
-    }
+      .transaction-item.income .amount {
+        color: #10b981;
+        /* green-600 */
+      }
 
-    .transaction-item .type-badge {
-      text-transform: capitalize;
-      padding: 0.1rem 0.5rem;
-      border-radius: 0.25rem;
-      display: inline-block;
-      color: white;
-      font-size: 0.75rem;
-      /* text-xs */
-      font-weight: 600;
-      margin-left: 0.5rem;
-      /* space from category */
-    }
+      .transaction-item.income .type-badge {
+        background-color: #10b981;
+        /* green-600 */
+      }
 
-    .transaction-item.income .amount {
-      color: #10b981;
-      /* green-600 */
-    }
+      .transaction-item.expense .amount {
+        color: #ef4444;
+        /* red-500 */
+      }
 
-    .transaction-item.income .type-badge {
-      background-color: #10b981;
-      /* green-600 */
-    }
+      .transaction-item.expense .type-badge {
+        background-color: #ef4444;
+        /* red-500 */
+      }
 
-    .transaction-item.expense .amount {
-      color: #ef4444;
-      /* red-500 */
-    }
+      /* Sticky headers for transaction list */
+      .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
 
-    .transaction-item.expense .type-badge {
-      background-color: #ef4444;
-      /* red-500 */
-    }
+      .sticky-year {
+        position: sticky;
+        top: 0rem;
+        /* Adjusted to be at the top of the .transacts container */
+        background-color: #f8fafc;
+        /* body background */
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        z-index: 9;
+        border-bottom: 1px solid #cbd5e1;
+        /* slate-300 */
+      }
 
+      .sticky-year h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+        /* slate-900 */
+        padding-left: 1rem;
+      }
 
-    /* Sticky headers for transaction list */
-    .sticky-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+      .sticky-month {
+        position: sticky;
+        top: 3.5rem;
+        /* Adjusted to be below the year header */
+        background-color: #f8fafc;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        z-index: 8;
+        border-bottom: 1px dashed #e2e8f0;
+        /* gray-200 */
+      }
 
-    .sticky-year {
-      position: sticky;
-      top: 0rem;
-      /* Adjusted to be at the top of the .transacts container */
-      background-color: #f8fafc;
-      /* body background */
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      z-index: 9;
-      border-bottom: 1px solid #cbd5e1;
-      /* slate-300 */
-    }
+      .sticky-month h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #475569;
+        /* slate-600 */
+        padding-left: 1rem;
+      }
 
-    .sticky-year h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #1e293b;
-      /* slate-900 */
-      padding-left: 1rem;
-    }
+      /* Single Transaction Detail Modal */
+      .single_transact {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 1rem;
+      }
 
-    .sticky-month {
-      position: sticky;
-      top: 3.5rem;
-      /* Adjusted to be below the year header */
-      background-color: #f8fafc;
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
-      z-index: 8;
-      border-bottom: 1px dashed #e2e8f0;
-      /* gray-200 */
-    }
+      .transaction-detail {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        max-width: 28rem;
+        position: relative;
+      }
 
-    .sticky-month h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #475569;
-      /* slate-600 */
-      padding-left: 1rem;
-    }
+      .transaction-detail .close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+      }
 
-    /* Single Transaction Detail Modal */
-    .single_transact {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
-    }
+      .transaction-detail .close-btn {
+        color: #6b7280;
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
+        transition: color 0.2s ease;
+      }
 
-    .transaction-detail {
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      width: 100%;
-      max-width: 28rem;
-      position: relative;
-    }
+      .transaction-detail .close-btn:hover {
+        color: #374151;
+      }
 
-    .transaction-detail .close {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-    }
+      .transaction-detail h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1rem;
+      }
 
-    .transaction-detail .close-btn {
-      color: #6b7280;
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      transition: color 0.2s ease;
-    }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #f1f5f9;
+        font-size: 0.9rem;
+        color: #334155;
+      }
 
-    .transaction-detail .close-btn:hover {
-      color: #374151;
-    }
+      .detail-row:last-child {
+        border-bottom: none;
+      }
 
-    .transaction-detail h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 1rem;
-    }
+      .detail-row strong {
+        color: #1e293b;
+      }
 
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px dashed #f1f5f9;
-      font-size: 0.9rem;
-      color: #334155;
-    }
+      .type-detail {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        color: white;
+        font-weight: 500;
+        font-size: 0.8rem;
+        text-transform: capitalize;
+      }
 
-    .detail-row:last-child {
-      border-bottom: none;
-    }
+      .no-results {
+        padding: 2rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #64748b;
+      }
 
-    .detail-row strong {
-      color: #1e293b;
-    }
+      /* Styles for the new search results dropdown */
+      #searchResultsDropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        width: 120%;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        z-index: 40;
+        max-height: 250px;
+        overflow-y: auto;
+        border: 1px solid #e2e8f0;
+      }
 
-    .type-detail {
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      color: white;
-      font-weight: 500;
-      font-size: 0.8rem;
-      text-transform: capitalize;
-    }
+      #searchResultsDropdown.hidden {
+        display: none;
+      }
 
-    .no-results {
-      padding: 2rem;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #64748b;
-    }
+      #searchResultsDropdown .search-result-item {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+      }
 
-    /* Styles for the new search results dropdown */
-    #searchResultsDropdown {
-      position: absolute;
-      top: calc(100% + 0.5rem);
-      left: 0;
-      width: 100%;
-      background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      z-index: 40;
-      max-height: 250px;
-      overflow-y: auto;
-      border: 1px solid #e2e8f0;
-    }
+      #searchResultsDropdown .search-result-item:last-child {
+        border-bottom: none;
+      }
 
-    #searchResultsDropdown.hidden {
-      display: none;
-    }
+      #searchResultsDropdown .search-result-item:hover {
+        background-color: #f9fafb;
+      }
 
-    #searchResultsDropdown .search-result-item {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #f3f4f6;
-      cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
-
-    #searchResultsDropdown .search-result-item:last-child {
-      border-bottom: none;
-    }
-
-    #searchResultsDropdown .search-result-item:hover {
-      background-color: #f9fafb;
-    }
-
-    /* New dropdown styles for filter and download */
-    .dropdown-content {
+      /* New dropdown styles for filter and download */
+      .dropdown-content {
         position: absolute;
         right: 0;
         top: 100%;
@@ -377,13 +385,14 @@
         background-color: white;
         border: 1px solid #e2e8f0;
         border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
         z-index: 50; /* Higher than search dropdown */
         min-width: 120px;
         overflow: hidden;
-    }
+      }
 
-    .dropdown-content button {
+      .dropdown-content button {
         display: block;
         width: 100%;
         text-align: left;
@@ -394,821 +403,1032 @@
         border: none;
         cursor: pointer;
         transition: background-color 0.15s ease, color 0.15s ease;
-    }
+      }
 
-    .dropdown-content button:hover {
+      .dropdown-content button:hover {
         background-color: #f1f5f9;
         color: #1e293b;
-    }
+      }
 
-    .dropdown-content button.active {
+      .dropdown-content button.active {
         background-color: #e2e8f0;
         color: #1e293b;
         font-weight: 600;
-    }
-
-
-    /* Responsive adjustments for medium screens and up */
-    @media (min-width: 768px) {
-      /* Dashboard header adjustments */
-      .dashboard-header {
-        padding: 1rem 1.5rem;
-        /* md:p-6 */
       }
 
-      .dashboard-header .left {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        /* space-x-4 */
+      /* Responsive adjustments for medium screens and up */
+      @media (min-width: 768px) {
+        /* Dashboard header adjustments */
+        .dashboard-header {
+          padding: 1rem 1.5rem;
+          /* md:p-6 */
+        }
+
+        .dashboard-header .left {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          /* space-x-4 */
+        }
+
+        .dashboard-header .left .left_left {
+          /* Hamburger menu on mobile only */
+          display: none;
+        }
+
+        .dashboard-header .middle {
+          flex-grow: 1;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0 1.5rem;
+          /* md:mx-6 */
+        }
+
+        .dashboard-header .middle .middle_right {
+          position: relative;
+          /* For dropdown */
+        }
+
+        .dashboard-header .right {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          /* space-x-4 */
+        }
+
+        .dashboard-header .right .right_left,
+        .dashboard-header .right .right_right {
+          /* Bell and user icon on desktop only */
+          display: block;
+        }
+
+        /* Transaction specific adjustments for medium screens and up */
+        .transaction-header {
+          display: grid;
+          /* Show header again */
+          grid-template-columns: 0.8fr 2fr 1fr 0.8fr 1fr;
+          gap: 1rem;
+          padding: 0.75rem 1rem; /* Adjust padding for desktop header */
+          /* Ensure it's not hidden on desktop */
+          display: grid !important; /* Force display on desktop */
+        }
+
+        .transaction-item {
+          /* Revert to grid layout and remove mobile card styling */
+          display: grid;
+          grid-template-columns: 0.8fr 2fr 1fr 0.8fr 1fr;
+          /* 5 columns for tabular data */
+          grid-template-areas: "date desc category type amt";
+          /* Define named areas for precise positioning */
+          gap: 1rem;
+          /* Consistent gap with header */
+          align-items: center;
+          padding: 0.75rem 1rem;
+          /* Consistent padding with header */
+          border-radius: 0;
+          box-shadow: none;
+          margin-bottom: 0;
+          background-color: transparent;
+          border-bottom: 1px solid #e2e8f0;
+          /* Row separator */
+        }
+
+        .transaction-item:last-child {
+          border-bottom: none;
+        }
+
+        /* Flatten nested containers for grid layout on desktop */
+        .transaction-item .info-row,
+        .transaction-item .meta-row,
+        .transaction-item .category-type-group {
+          display: contents;
+          /* Make children direct grid items of .transaction-item */
+        }
+
+        /* Position elements using grid-area */
+        .transaction-item .day {
+          grid-area: date;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .transaction-item .description {
+          grid-area: desc;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .transaction-item .amount {
+          grid-area: amt;
+          text-align: right;
+        }
+
+        /* Target the category span explicitly (not the type-badge) */
+        .transaction-item .category-type-group > span:not(.type-badge) {
+          grid-area: category;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .transaction-item .type-badge {
+          grid-area: type;
+          margin-left: 0;
+          /* Remove mobile-specific margin */
+          white-space: nowrap;
+        }
       }
+    </style>
+  </head>
 
-      .dashboard-header .left .left_left {
-        /* Hamburger menu on mobile only */
-        display: none;
-      }
+  <body>
+    <div class="dashboard-layout">
+      <!-- Mobile Sidebar Backdrop -->
+      <div
+        id="sidebar-backdrop"
+        class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"
+      ></div>
 
-      .dashboard-header .middle {
-        flex-grow: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 1.5rem;
-        /* md:mx-6 */
-      }
-
-      .dashboard-header .middle .middle_right {
-        position: relative;
-        /* For dropdown */
-      }
-
-      .dashboard-header .right {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        /* space-x-4 */
-      }
-
-      .dashboard-header .right .right_left,
-      .dashboard-header .right .right_right {
-        /* Bell and user icon on desktop only */
-        display: block;
-      }
-
-      /* Transaction specific adjustments for medium screens and up */
-      .transaction-header {
-        display: grid;
-        /* Show header again */
-        grid-template-columns: 0.8fr 2fr 1fr 0.8fr 1fr;
-        gap: 1rem;
-        padding: 0.75rem 1rem; /* Adjust padding for desktop header */
-        /* Ensure it's not hidden on desktop */
-        display: grid !important; /* Force display on desktop */
-      }
-
-      .transaction-item {
-        /* Revert to grid layout and remove mobile card styling */
-        display: grid;
-        grid-template-columns: 0.8fr 2fr 1fr 0.8fr 1fr;
-        /* 5 columns for tabular data */
-        grid-template-areas: "date desc category type amt";
-        /* Define named areas for precise positioning */
-        gap: 1rem;
-        /* Consistent gap with header */
-        align-items: center;
-        padding: 0.75rem 1rem;
-        /* Consistent padding with header */
-        border-radius: 0;
-        box-shadow: none;
-        margin-bottom: 0;
-        background-color: transparent;
-        border-bottom: 1px solid #e2e8f0;
-        /* Row separator */
-      }
-
-      .transaction-item:last-child {
-        border-bottom: none;
-      }
-
-      /* Flatten nested containers for grid layout on desktop */
-      .transaction-item .info-row,
-      .transaction-item .meta-row,
-      .transaction-item .category-type-group {
-        display: contents;
-        /* Make children direct grid items of .transaction-item */
-      }
-
-      /* Position elements using grid-area */
-      .transaction-item .day {
-        grid-area: date;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .transaction-item .description {
-        grid-area: desc;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .transaction-item .amount {
-        grid-area: amt;
-        text-align: right;
-      }
-
-      /* Target the category span explicitly (not the type-badge) */
-      .transaction-item .category-type-group>span:not(.type-badge) {
-        grid-area: category;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .transaction-item .type-badge {
-        grid-area: type;
-        margin-left: 0;
-        /* Remove mobile-specific margin */
-        white-space: nowrap;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="dashboard-layout">
-    <!-- Mobile Sidebar Backdrop -->
-    <div id="sidebar-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
-
-    <!-- Sidebar (Navbar) -->
-    <nav id="sidebar"
-      class="sidebar w-64 text-white flex-shrink-0 p-4 space-y-6 overflow-y-auto fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-30">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=St" alt="Logo" class="rounded-full" />
-          <h1 class="text-2xl font-bold">Spen<span class="text-blue-400">track</span></h1>
-        </div>
-        <button id="close-sidebar" class="md:hidden text-gray-400 hover:text-white">&times;</button>
-      </div>
-      <a href="./index.html" class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300" id="dashLink"><i
-          class="fas fa-cube w-5 text-center"></i> <span>Dashboard</span></a>
-      <a href="./transaction.html" class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300 sidebar-active"
-        id="transactionLink"><i class="fas fa-exchange-alt w-5 text-center"></i> <span>Transactions</span></a>
-      <a href="./budget.html" class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300" id="budgetLink"><i
-          class="fas fa-rocket w-5 text-center"></i> <span>Budgets</span></a>
-      <a href="./reports.html" class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300" id="reportLink"><i
-          class="fas fa-chart-line w-5 text-center"></i> <span>Reports</span></a>
-      <a href="./settings.html" class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300" id="settingLink"><i
-          class="fas fa-gear w-5 text-center"></i> <span>Setting</span></a>
-      <div class="mt-auto pt-4 border-t border-gray-700">
-        <p id="loggedInStatus" class="text-xs text-gray-400">Not Logged In</p>
-        <button id="logoutButton"
-          class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white hidden">
-          <i class="fas fa-sign-out-alt w-5 text-center"></i> <span>Logout</span>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col overflow-hidden md:ml-64">
-      <!-- Dashboard Header - Aligned with dashboard UI -->
-      <header class="dashboard_header p-4 shadow-md flex justify-between items-center">
-        <!-- Left Side: Hamburger menu (mobile) and Welcome message -->
-        <div class="flex items-center space-x-4">
-          <button id="hamburger-menu" class="text-gray-600 md:hidden">
-            <i class="fas fa-bars text-xl"></i>
+      <!-- Sidebar (Navbar) -->
+      <nav
+        id="sidebar"
+        class="sidebar w-64 text-white flex-shrink-0 p-4 space-y-6 overflow-y-auto fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-30"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <img
+              src="https://placehold.co/40x40/E2E8F0/4A5568?text=St"
+              alt="Logo"
+              class="rounded-full"
+            />
+            <h1 class="text-2xl font-bold">
+              Spen<span class="text-blue-400">track</span>
+            </h1>
+          </div>
+          <button
+            id="close-sidebar"
+            class="md:hidden text-gray-400 hover:text-white"
+          >
+            &times;
           </button>
-          <p class="hidden md:block text-lg text-gray-700">Hello <span id="loggedInUserMiddle"
-              class="font-semibold">Guest</span>, <span id="greeting">good morning</span>!</p>
         </div>
-
-        <!-- Right Side: Search, Notifications, and Profile -->
-        <div class="flex items-center space-x-4">
-          <div class="relative hidden md:block">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <input type="search" id="transactionSearchInput" placeholder="Search transactions..."
-              class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64 text-sm" />
-            <div id="searchResultsDropdown" class="hidden">
-              <p class="text-gray-500 p-3 text-center">Start typing to see results...</p>
-            </div>
-          </div>
-          <a href="./notifications.html" class="relative text-gray-600 hover:text-blue-500">
-            <i class="far fa-bell text-xl"></i>
-            <div id="notificationCountBadge"
-              class="no_of_noties absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center hidden">
-              0</div>
+        <a
+          href="./index.html"
+          class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          id="dashLink"
+          ><i class="fas fa-cube w-5 text-center"></i> <span>Dashboard</span></a
+        >
+        <a
+          href="./transaction.html"
+          class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300 sidebar-active"
+          id="transactionLink"
+          ><i class="fas fa-exchange-alt w-5 text-center"></i>
+          <span>Transactions</span></a
+        >
+        <a
+          href="./budget.html"
+          class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          id="budgetLink"
+          ><i class="fas fa-rocket w-5 text-center"></i> <span>Budgets</span></a
+        >
+        <a
+          href="./reports.html"
+          class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          id="reportLink"
+          ><i class="fas fa-chart-line w-5 text-center"></i>
+          <span>Reports</span></a
+        >
+        <a
+          href="./settings.html"
+          class="sidebar-link flex items-center space-x-3 p-2 rounded-md text-gray-300"
+          id="settingLink"
+          ><i class="fas fa-gear w-5 text-center"></i> <span>Setting</span></a
+        >
+        <div class="mt-auto pt-4 border-t border-gray-700">
+          <a href="/verification/signin.html" id="loggedInStatus">
+            <button
+              class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white"
+            >
+              <i class="fas fa-sign-in-alt w-5 text-center"></i>
+              <span>Log in</span>
+            </button>
           </a>
-          <a href="./profile.html" class="hidden md:block"><i class="far fa-user text-xl text-gray-600 hover:text-blue-500"></i></a>
+          <button
+            id="logoutButton"
+            class="w-full mt-2 text-left text-sm p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white hidden"
+          >
+            <i class="fas fa-sign-out-alt w-5 text-center"></i>
+            <span>Logout</span>
+          </button>
         </div>
-      </header>
+      </nav>
 
-      <!-- Main Transaction Content - Aligned with dashboard UI -->
-      <main class="dashboard_inner flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
-        <section class="card p-4 md:p-6 h-full flex flex-col">
-          <header class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold text-gray-800">Transactions</h1>
-            <div class="flex items-center space-x-2">
-              <!-- Filter Dropdown -->
-              <div class="relative">
-                <button id="filterBtn" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300 transition-colors duration-200">
-                  <i class="fas fa-filter"></i> <span class="hidden sm:inline">Filter</span>
-                </button>
-                <div id="filterDropdown" class="dropdown-content hidden">
-                  <!-- Options will be populated by JS -->
-                </div>
-              </div>
-
-              <!-- Download Dropdown -->
-              <div class="relative">
-                <button id="downloadBtn" class="px-3 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors duration-200">
-                  <i class="fas fa-download"></i> <span class="hidden sm:inline">Download</span>
-                </button>
-                <div id="downloadDropdown" class="dropdown-content hidden">
-                  <button id="downloadPdfBtn" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-file-pdf mr-2"></i> PDF</button>
-                  <button id="downloadExcelBtn" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-file-excel mr-2"></i> Excel</button>
-                </div>
-              </div>
-            </div>
-          </header>
-          <div class="flex-1 overflow-y-auto hide-scrollbar">
-            <div class="transacts">
-              <p class="text-gray-500 text-center p-4">Loading transactions...</p>
-            </div>
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col overflow-hidden md:ml-64">
+        <!-- Dashboard Header - Aligned with dashboard UI -->
+        <header
+          class="dashboard_header p-4 shadow-md flex justify-between items-center"
+        >
+          <!-- Left Side: Hamburger menu (mobile) and Welcome message -->
+          <div class="flex items-center space-x-4">
+            <button id="hamburger-menu" class="text-gray-600 md:hidden">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <p class="hidden md:block text-lg text-gray-700">
+              Hello
+              <span id="loggedInUserMiddle" class="font-semibold">Guest</span>,
+              <span id="greeting">good morning</span>!
+            </p>
           </div>
-        </section>
-      </main>
-    </div>
-  </div>
 
-  <!-- Single Transaction Detail Modal (Upgraded UI) -->
-  <div class="single_transact hidden" id="singleTransactModal">
-    <div class="relative bg-white px-6 py-5 rounded-xl shadow-xl max-w-sm w-full mx-auto flex flex-col items-center overflow-y-auto max-h-[95vh]">
-      <!-- Close Button -->
-      <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none transition-colors duration-200 close-btn" aria-label="Close receipt">
-        <i class="fas fa-times text-3xl"></i>
-      </button>
+          <!-- Right Side: Search, Notifications, and Profile -->
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+              <i
+                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              ></i>
+              <input
+                type="search"
+                id="transactionSearchInput"
+                placeholder="Search transactions..."
+                class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64 text-sm"
+              />
+              <div id="searchResultsDropdown" class="hidden">
+                <p class="text-gray-500 p-3 text-center">
+                  Start typing to see results...
+                </p>
+              </div>
+            </div>
+            <a
+              href="./notifications.html"
+              class="relative text-gray-600 hover:text-blue-500"
+            >
+              <i class="far fa-bell text-xl"></i>
+              <div
+                id="notificationCountBadge"
+                class="no_of_noties absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center hidden"
+              >
+                0
+              </div>
+            </a>
+            <a href="./profile.html" class="hidden md:block"
+              ><i
+                class="far fa-user text-xl text-gray-600 hover:text-blue-500"
+              ></i
+            ></a>
+          </div>
+        </header>
 
-      <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">Transaction Receipt</h2>
+        <!-- Main Transaction Content - Aligned with dashboard UI -->
+        <main
+          class="dashboard_inner flex-1 overflow-y-auto p-4 md:p-6 space-y-6"
+        >
+          <section class="card p-4 md:p-6 h-full flex flex-col">
+            <header class="flex justify-between items-center mb-4">
+              <h1 class="text-2xl font-semibold text-gray-800">Transactions</h1>
+              <div class="flex items-center space-x-2">
+                <!-- Filter Dropdown -->
+                <div class="relative">
+                  <button
+                    id="filterBtn"
+                    class="px-3 py-2 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300 transition-colors duration-200"
+                  >
+                    <i class="fas fa-filter"></i>
+                    <span class="hidden sm:inline">Filter</span>
+                  </button>
+                  <div id="filterDropdown" class="dropdown-content hidden">
+                    <!-- Options will be populated by JS -->
+                  </div>
+                </div>
 
-      <!-- Transaction Details -->
-      <div class="space-y-4 mb-6 w-full">
-        <div class="flex justify-between items-center py-2 border-b border-gray-200">
-          <strong class="text-gray-700 font-semibold">Transaction ID:</strong>
-          <span id="detailId" class="font-medium text-gray-800 text-sm"></span>
-        </div>
-        <div class="flex justify-between items-center py-2 border-b border-gray-200">
-          <strong class="text-gray-700 font-semibold">Date:</strong>
-          <span id="detailDate" class="font-medium text-gray-800"></span>
-        </div>
-        <div class="flex justify-between items-center py-2 border-b border-gray-200">
-          <strong class="text-gray-700 font-semibold">Description:</strong>
-          <span id="detailDescription" class="font-medium text-gray-800 text-right max-w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"></span>
-        </div>
-        <div class="flex justify-between items-center py-2 border-b border-gray-200">
-          <strong class="text-gray-700 font-semibold">Category:</strong>
-          <span id="detailCategory" class="font-medium text-gray-800"></span>
-        </div>
-        <div class="flex justify-between items-center py-2 border-b border-gray-200">
-          <strong class="text-gray-700 font-semibold">Type:</strong>
-          <span class="type-detail px-3 py-1 rounded-full text-white text-sm font-semibold" id="detailType"></span>
-        </div>
-        <div class="flex justify-between items-center pt-4">
-          <strong class="text-2xl text-gray-800">Amount:</strong>
-          <span id="detailAmount" class="text-3xl font-extrabold text-gray-900"></span>
-        </div>
+                <!-- Download Dropdown -->
+                <div class="relative">
+                  <button
+                    id="downloadBtn"
+                    class="px-3 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors duration-200"
+                  >
+                    <i class="fas fa-download"></i>
+                    <span class="hidden sm:inline">Download</span>
+                  </button>
+                  <div id="downloadDropdown" class="dropdown-content hidden">
+                    <button
+                      id="downloadPdfBtn"
+                      class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      <i class="fas fa-file-pdf mr-2"></i> PDF
+                    </button>
+                    <button
+                      id="downloadExcelBtn"
+                      class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      <i class="fas fa-file-excel mr-2"></i> Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class="flex-1 overflow-y-auto hide-scrollbar">
+              <div class="transacts">
+                <p class="text-gray-500 text-center p-4">
+                  Loading transactions...
+                </p>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
-
-      <!-- QR Code Section -->
-      <div class="text-center mt-6 p-4 w-full bg-gray-100 rounded-lg border-t-2 border-dashed border-gray-200 pt-4">
-        <h3 class="text-xl font-bold text-gray-700 mb-4">Scan for Authenticity</h3>
-        <!-- Adjusted QR code container to be responsive and cap size -->
-        <div class="w-40 h-40 aspect-square mx-auto bg-white p-2 rounded-md shadow-md">
-            <canvas id="qrCodeCanvas" width="160" height="160" class="w-full h-full block"></canvas>
-        </div>
-      </div>
-
-      <!-- Footer/Info -->
-      <p class="text-sm text-gray-500 text-center mt-6 italic">Thank you for choosing Spendtrack for your financial management.</p>
     </div>
-  </div>
 
+    <!-- Single Transaction Detail Modal (Upgraded UI) -->
+    <div class="single_transact hidden" id="singleTransactModal">
+      <div
+        class="relative bg-white px-6 py-5 rounded-xl shadow-xl max-w-sm w-full mx-auto flex flex-col items-center overflow-y-auto max-h-[95vh]"
+      >
+        <!-- Close Button -->
+        <button
+          class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none transition-colors duration-200 close-btn"
+          aria-label="Close receipt"
+        >
+          <i class="fas fa-times text-3xl"></i>
+        </button>
 
-  <script type="module">
-    // --- Configuration ---
-    const BASE_URL = 'http://localhost:3000'; // Ensure json-server is running with db.json
-    let allTransactions = []; // Store all fetched transactions
-    let localDb = null; // Will store the parsed db.json content for fallback
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+          Transaction Receipt
+        </h2>
 
-    // --- DOM Elements ---
-    const loggedInUserEl = document.getElementById('loggedInUser');
-    const loggedInUserMiddleEl = document.getElementById('loggedInUserMiddle');
-    const greetingEl = document.getElementById('greeting');
-    const notificationCountBadgeEl = document.getElementById('notificationCountBadge');
-    const loggedInStatusEl = document.getElementById('loggedInStatus');
-    const logoutButtonEl = document.getElementById('logoutButton');
+        <!-- Transaction Details -->
+        <div class="space-y-4 mb-6 w-full">
+          <div
+            class="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <strong class="text-gray-700 font-semibold">Transaction ID:</strong>
+            <span
+              id="detailId"
+              class="font-medium text-gray-800 text-sm"
+            ></span>
+          </div>
+          <div
+            class="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <strong class="text-gray-700 font-semibold">Date:</strong>
+            <span id="detailDate" class="font-medium text-gray-800"></span>
+          </div>
+          <div
+            class="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <strong class="text-gray-700 font-semibold">Description:</strong>
+            <span
+              id="detailDescription"
+              class="font-medium text-gray-800 text-right max-w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
+            ></span>
+          </div>
+          <div
+            class="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <strong class="text-gray-700 font-semibold">Category:</strong>
+            <span id="detailCategory" class="font-medium text-gray-800"></span>
+          </div>
+          <div
+            class="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <strong class="text-gray-700 font-semibold">Type:</strong>
+            <span
+              class="type-detail px-3 py-1 rounded-full text-white text-sm font-semibold"
+              id="detailType"
+            ></span>
+          </div>
+          <div class="flex justify-between items-center pt-4">
+            <strong class="text-2xl text-gray-800">Amount:</strong>
+            <span
+              id="detailAmount"
+              class="text-3xl font-extrabold text-gray-900"
+            ></span>
+          </div>
+        </div>
 
-    const sidebar = document.getElementById('sidebar');
-    const hamburgerMenu = document.getElementById('hamburger-menu');
-    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-    const closeSidebarButton = document.getElementById('close-sidebar');
+        <!-- QR Code Section -->
+        <div
+          class="text-center mt-6 p-4 w-full bg-gray-100 rounded-lg border-t-2 border-dashed border-gray-200 pt-4"
+        >
+          <h3 class="text-xl font-bold text-gray-700 mb-4">
+            Scan for Authenticity
+          </h3>
+          <!-- Adjusted QR code container to be responsive and cap size -->
+          <div
+            class="w-40 h-40 aspect-square mx-auto bg-white p-2 rounded-md shadow-md"
+          >
+            <canvas
+              id="qrCodeCanvas"
+              width="160"
+              height="160"
+              class="w-full h-full block"
+            ></canvas>
+          </div>
+        </div>
 
-    const transactsContainer = document.querySelector(".transacts");
-    const singleTransactModal = document.getElementById('singleTransactModal');
-    const closeDetailBtn = document.querySelector("#singleTransactModal .close-btn");
+        <!-- Footer/Info -->
+        <p class="text-sm text-gray-500 text-center mt-6 italic">
+          Thank you for choosing Spendtrack for your financial management.
+        </p>
+      </div>
+    </div>
 
-    // Detail elements for the modal
-    const detailId = document.getElementById('detailId'); // New: Transaction ID
-    const detailDate = document.getElementById('detailDate');
-    const detailDescription = document.getElementById('detailDescription');
-    const detailCategory = document.getElementById('detailCategory');
-    const detailType = document.getElementById('detailType');
-    const detailAmount = document.getElementById('detailAmount');
-    const qrCodeCanvas = document.getElementById('qrCodeCanvas');
+    <script type="module">
+      // --- Configuration ---
+      const BASE_URL = "http://localhost:3000"; // Ensure json-server is running with db.json
+      let allTransactions = []; // Store all fetched transactions
+      let localDb = null; // Will store the parsed db.json content for fallback
 
+      // --- DOM Elements ---
+      const loggedInUserEl = document.getElementById("loggedInUser");
+      const loggedInUserMiddleEl =
+        document.getElementById("loggedInUserMiddle");
+      const greetingEl = document.getElementById("greeting");
+      const notificationCountBadgeEl = document.getElementById(
+        "notificationCountBadge"
+      );
+      const loggedInStatusEl = document.getElementById("loggedInStatus");
+      const logoutButtonEl = document.getElementById("logoutButton");
 
-    const transactionSearchInput = document.getElementById('transactionSearchInput');
-    const searchResultsDropdownEl = document.getElementById('searchResultsDropdown');
+      const sidebar = document.getElementById("sidebar");
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+      const closeSidebarButton = document.getElementById("close-sidebar");
 
-    // New Filter and Download elements
-    const filterBtn = document.getElementById('filterBtn');
-    const filterDropdown = document.getElementById('filterDropdown');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const downloadDropdown = document.getElementById('downloadDropdown');
-    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-    const downloadExcelBtn = document.getElementById('downloadExcelBtn');
+      const transactsContainer = document.querySelector(".transacts");
+      const singleTransactModal = document.getElementById(
+        "singleTransactModal"
+      );
+      const closeDetailBtn = document.querySelector(
+        "#singleTransactModal .close-btn"
+      );
 
-    // Navigation Links
-    const dashLink = document.getElementById('dashLink');
-    const transactionLink = document.getElementById('transactionLink');
-    const budgetLink = document.getElementById('budgetLink');
-    const reportLink = document.getElementById('reportLink');
-    const settingLink = document.getElementById('settingLink');
+      // Detail elements for the modal
+      const detailId = document.getElementById("detailId"); // New: Transaction ID
+      const detailDate = document.getElementById("detailDate");
+      const detailDescription = document.getElementById("detailDescription");
+      const detailCategory = document.getElementById("detailCategory");
+      const detailType = document.getElementById("detailType");
+      const detailAmount = document.getElementById("detailAmount");
+      const qrCodeCanvas = document.getElementById("qrCodeCanvas");
 
+      const transactionSearchInput = document.getElementById(
+        "transactionSearchInput"
+      );
+      const searchResultsDropdownEl = document.getElementById(
+        "searchResultsDropdown"
+      );
 
-    // --- Helper Functions ---
-    function formatCurrency(amount) {
-      return `$${Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
+      // New Filter and Download elements
+      const filterBtn = document.getElementById("filterBtn");
+      const filterDropdown = document.getElementById("filterDropdown");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const downloadDropdown = document.getElementById("downloadDropdown");
+      const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+      const downloadExcelBtn = document.getElementById("downloadExcelBtn");
 
-    function updateGreeting() {
-      const hour = new Date().getHours();
-      if (hour < 12) greetingEl.textContent = 'good morning';
-      else if (hour < 18) greetingEl.textContent = 'good afternoon';
-      else greetingEl.textContent = 'good evening';
-    }
+      // Navigation Links
+      const dashLink = document.getElementById("dashLink");
+      const transactionLink = document.getElementById("transactionLink");
+      const budgetLink = document.getElementById("budgetLink");
+      const reportLink = document.getElementById("reportLink");
+      const settingLink = document.getElementById("settingLink");
 
-    // --- API Fetch Functions with Fallback ---
-    async function fetchData(endpoint) {
-      // Attempt to fetch from BASE_URL first
-      try {
-        const response = await fetch(`${BASE_URL}${endpoint}`);
-        if (response.ok) {
-          return await response.json();
-        } else {
-          // If BASE_URL fetch is not OK, log and try fallback
-          console.warn(`Failed to fetch from ${BASE_URL}${endpoint}: HTTP status ${response.status}. Attempting fallback to local db.json.`);
-        }
-      } catch (networkError) {
-        // If network error, log and try fallback
-        console.warn(`Network error fetching from ${BASE_URL}${endpoint}:`, networkError.message, `. Attempting fallback to local db.json.`);
+      // --- Helper Functions ---
+      function formatCurrency(amount) {
+        return `$${Number(amount).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
       }
 
-      // Fallback logic to db.json
-      try {
-        if (!localDb) {
-          // Load db.json if not already loaded
-          console.log('Loading local db.json as a fallback...');
-          const dbResponse = await fetch('/db.json');
-          if (!dbResponse.ok) {
-            throw new Error(`Failed to load local db.json: HTTP status ${dbResponse.status}`);
+      function updateGreeting() {
+        const hour = new Date().getHours();
+        if (hour < 12) greetingEl.textContent = "good morning";
+        else if (hour < 18) greetingEl.textContent = "good afternoon";
+        else greetingEl.textContent = "good evening";
+      }
+
+      // --- API Fetch Functions with Fallback ---
+      async function fetchData(endpoint) {
+        // Attempt to fetch from BASE_URL first
+        try {
+          const response = await fetch(`${BASE_URL}${endpoint}`);
+          if (response.ok) {
+            return await response.json();
+          } else {
+            // If BASE_URL fetch is not OK, log and try fallback
+            console.warn(
+              `Failed to fetch from ${BASE_URL}${endpoint}: HTTP status ${response.status}. Attempting fallback to local db.json.`
+            );
           }
-          localDb = await dbResponse.json();
-          console.log('Local db.json loaded successfully.');
+        } catch (networkError) {
+          // If network error, log and try fallback
+          console.warn(
+            `Network error fetching from ${BASE_URL}${endpoint}:`,
+            networkError.message,
+            `. Attempting fallback to local db.json.`
+          );
         }
 
-        // Extract data based on endpoint (e.g., '/users' -> 'users')
-        const key = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
-        if (localDb && localDb[key]) {
-          console.log(`Serving data for ${endpoint} from local db.json.`);
-          return localDb[key];
+        // Fallback logic to db.json
+        try {
+          if (!localDb) {
+            // Load db.json if not already loaded
+            console.log("Loading local db.json as a fallback...");
+            const dbResponse = await fetch("/db.json");
+            if (!dbResponse.ok) {
+              throw new Error(
+                `Failed to load local db.json: HTTP status ${dbResponse.status}`
+              );
+            }
+            localDb = await dbResponse.json();
+            console.log("Local db.json loaded successfully.");
+          }
+
+          // Extract data based on endpoint (e.g., '/users' -> 'users')
+          const key = endpoint.startsWith("/")
+            ? endpoint.substring(1)
+            : endpoint;
+          if (localDb && localDb[key]) {
+            console.log(`Serving data for ${endpoint} from local db.json.`);
+            return localDb[key];
+          } else {
+            throw new Error(
+              `Data for endpoint ${endpoint} not found in local db.json or db.json not loaded.`
+            );
+          }
+        } catch (localDbError) {
+          console.error(
+            `Failed to load or use local db.json as fallback for ${endpoint}:`,
+            localDbError
+          );
+          return null; // Return null if both attempts fail
+        }
+      }
+
+      // --- Data Fetch & UI Update Functions ---
+      async function initializePage() {
+        let loggedInId = localStorage.getItem("loggedin_id");
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+        const [users, transactions, notifications] = await Promise.all([
+          fetchData("/users"),
+          fetchData("/transactions"),
+          fetchData("/notifications"),
+        ]);
+
+        // Update User Info
+        if (users) {
+          const currentUser = users.find((u) => u.id == loggedInId);
+          if (currentUser) {
+            const userName = currentUser.name || "User";
+            // Check if elements exist before setting textContent
+            if (loggedInUserEl) loggedInUserEl.textContent = userName;
+            if (loggedInUserMiddleEl)
+              loggedInUserMiddleEl.textContent = userName;
+            if (loggedInStatusEl)
+              loggedInStatusEl.textContent = `Logged in as: ${userName} (ID: ${loggedInId})`;
+            if (logoutButtonEl) logoutButtonEl.classList.remove("hidden");
+          }
         } else {
-          throw new Error(`Data for endpoint ${endpoint} not found in local db.json or db.json not loaded.`);
+          if (notificationCountBadgeEl)
+            notificationCountBadgeEl.classList.add("hidden");
         }
-      } catch (localDbError) {
-        console.error(`Failed to load or use local db.json as fallback for ${endpoint}:`, localDbError);
-        return null; // Return null if both attempts fail
-      }
-    }
 
-    // --- Data Fetch & UI Update Functions ---
-    async function initializePage() {
-      let loggedInId = localStorage.getItem('loggedin_id');
-      if (!loggedInId) {
-        loggedInId = '4'; // Default to user 4 for testing if not set
-        localStorage.setItem('loggedin_id', loggedInId);
-      }
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-      const [users, transactions, notifications] = await Promise.all([
-        fetchData('/users'),
-        fetchData('/transactions'),
-        fetchData('/notifications')
-      ]);
-
-      // Update User Info
-      if (users) {
-        const currentUser = users.find(u => u.id == loggedInId);
-        if (currentUser) {
-          const userName = currentUser.name || 'User';
-          // Check if elements exist before setting textContent
-          if(loggedInUserEl) loggedInUserEl.textContent = userName;
-          if(loggedInUserMiddleEl) loggedInUserMiddleEl.textContent = userName;
-          if(loggedInStatusEl) loggedInStatusEl.textContent = `Logged in as: ${userName} (ID: ${loggedInId})`;
-          if(logoutButtonEl) logoutButtonEl.classList.remove('hidden');
-        }
-      } else {
-        if(loggedInUserEl) loggedInUserEl.textContent = 'Guest';
-        if(loggedInUserMiddleEl) loggedInUserMiddleEl.textContent = 'Guest';
-        if(loggedInStatusEl) loggedInStatusEl.textContent = 'Not Logged In';
-        if(logoutButtonEl) logoutButtonEl.classList.add('hidden');
-      }
-
-      // Update Notifications
-      if (notifications) {
-        const userNotifications = notifications.filter(n => n.user_id == loggedInId && n.read === false);
-        if(notificationCountBadgeEl) {
+        // Update Notifications
+        if (notifications) {
+          const userNotifications = notifications.filter(
+            (n) => n.user_id == loggedInId && n.read === false
+          );
+          if (notificationCountBadgeEl) {
             notificationCountBadgeEl.textContent = userNotifications.length;
-            notificationCountBadgeEl.classList.toggle('hidden', userNotifications.length === 0);
+            notificationCountBadgeEl.classList.toggle(
+              "hidden",
+              userNotifications.length === 0
+            );
+          }
+        } else {
+          if (notificationCountBadgeEl)
+            notificationCountBadgeEl.classList.add("hidden");
         }
-      } else {
-        if(notificationCountBadgeEl) notificationCountBadgeEl.classList.add('hidden');
+
+        // Handle Transactions
+        if (transactions) {
+          allTransactions = transactions.filter((t) => t.user_id == loggedInId);
+          populateFilterDropdown("all"); // Populate and apply initial filter
+        } else {
+          transactsContainer.innerHTML =
+            '<p class="text-red-500 text-center p-4">Error loading transactions.</p>';
+        }
+
+        // Check if greetingEl exists before updating
+        if (greetingEl) updateGreeting();
+        // Set initial active state for sidebar links
+        updateSidebarActiveState();
       }
 
-      // Handle Transactions
-      if (transactions) {
-        allTransactions = transactions.filter(t => t.user_id == loggedInId);
-        populateFilterDropdown('all'); // Populate and apply initial filter
-      } else {
-        transactsContainer.innerHTML = '<p class="text-red-500 text-center p-4">Error loading transactions.</p>';
-      }
-
-      // Check if greetingEl exists before updating
-      if(greetingEl) updateGreeting();
-      // Set initial active state for sidebar links
-      updateSidebarActiveState();
-    }
-
-    // Populates the filter dropdown and applies the filter
-    function populateFilterDropdown(activeFilterValue) {
+      // Populates the filter dropdown and applies the filter
+      function populateFilterDropdown(activeFilterValue) {
         if (!filterDropdown) return;
 
-        filterDropdown.innerHTML = ''; // Clear existing options
+        filterDropdown.innerHTML = ""; // Clear existing options
         const filters = [
-            { value: "all", label: "All" },
-            { value: "day", label: "Today" },
-            { value: "week", label: "This Week" },
-            { value: "month", label: "This Month" },
-            { value: "year", label: "This Year" },
-            { value: "recent", label: "Most Recent" },
-            { value: "oldest", label: "Oldest" },
-            { value: "expenses", label: "Expenses" },
-            { value: "income", label: "Income" },
+          { value: "all", label: "All" },
+          { value: "day", label: "Today" },
+          { value: "week", label: "This Week" },
+          { value: "month", label: "This Month" },
+          { value: "year", label: "This Year" },
+          { value: "recent", label: "Most Recent" },
+          { value: "oldest", label: "Oldest" },
+          { value: "expenses", label: "Expenses" },
+          { value: "income", label: "Income" },
         ];
 
-        filters.forEach(filter => {
-            const button = document.createElement('button');
-            button.textContent = filter.label;
-            button.setAttribute('data-filter', filter.value);
-            button.classList.add('dropdown-item');
-            if (filter.value === activeFilterValue) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                applyFilter(filter.value);
-                toggleDropdown(filterDropdown); // Close dropdown after selection
-                // Update active state
-                filterDropdown.querySelectorAll('.dropdown-item').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                button.classList.add('active');
+        filters.forEach((filter) => {
+          const button = document.createElement("button");
+          button.textContent = filter.label;
+          button.setAttribute("data-filter", filter.value);
+          button.classList.add("dropdown-item");
+          if (filter.value === activeFilterValue) {
+            button.classList.add("active");
+          }
+          button.addEventListener("click", () => {
+            applyFilter(filter.value);
+            toggleDropdown(filterDropdown); // Close dropdown after selection
+            // Update active state
+            filterDropdown.querySelectorAll(".dropdown-item").forEach((btn) => {
+              btn.classList.remove("active");
             });
-            filterDropdown.appendChild(button);
+            button.classList.add("active");
+          });
+          filterDropdown.appendChild(button);
         });
         applyFilter(activeFilterValue); // Apply the filter initially or after selection
-    }
-
-    // Applies the filter to transactions and updates display
-    function applyFilter(selectedFilter) {
-      let filtered = [...allTransactions]; // Start with a copy of all user transactions
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Reset time for comparison
-
-      if (selectedFilter === "day") {
-        filtered = filtered.filter(t => {
-          const transactionDate = new Date(t.date);
-          transactionDate.setHours(0, 0, 0, 0);
-          return transactionDate.getTime() === today.getTime();
-        });
-      } else if (selectedFilter === "week") {
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - today.getDay()); // Sunday as start of week
-        startOfWeek.setHours(0, 0, 0, 0);
-
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-        endOfWeek.setHours(23, 59, 59, 999);
-
-        filtered = filtered.filter(t => {
-          const transactionDate = new Date(t.date);
-          return transactionDate >= startOfWeek && transactionDate <= endOfWeek;
-        });
-      } else if (selectedFilter === "month") {
-        filtered = filtered.filter(t => {
-          const transactionDate = new Date(t.date);
-          return transactionDate.getFullYear() === today.getFullYear() &&
-                 transactionDate.getMonth() === today.getMonth();
-        });
-      } else if (selectedFilter === "year") {
-        filtered = filtered.filter(t => new Date(t.date).getFullYear() === today.getFullYear());
-      } else if (selectedFilter === "recent") {
-        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-      } else if (selectedFilter === "oldest") {
-        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-      } else if (selectedFilter === "expenses") {
-        filtered = filtered.filter(t => t.type === 'expense');
-      } else if (selectedFilter === "income") {
-        filtered = filtered.filter(t => t.type === 'income');
       }
 
-      displayTransactions(filtered);
-    }
+      // Applies the filter to transactions and updates display
+      function applyFilter(selectedFilter) {
+        let filtered = [...allTransactions]; // Start with a copy of all user transactions
 
-    function updateSidebarActiveState() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Reset time for comparison
+
+        if (selectedFilter === "day") {
+          filtered = filtered.filter((t) => {
+            const transactionDate = new Date(t.date);
+            transactionDate.setHours(0, 0, 0, 0);
+            return transactionDate.getTime() === today.getTime();
+          });
+        } else if (selectedFilter === "week") {
+          const startOfWeek = new Date(today);
+          startOfWeek.setDate(today.getDate() - today.getDay()); // Sunday as start of week
+          startOfWeek.setHours(0, 0, 0, 0);
+
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
+          endOfWeek.setHours(23, 59, 59, 999);
+
+          filtered = filtered.filter((t) => {
+            const transactionDate = new Date(t.date);
+            return (
+              transactionDate >= startOfWeek && transactionDate <= endOfWeek
+            );
+          });
+        } else if (selectedFilter === "month") {
+          filtered = filtered.filter((t) => {
+            const transactionDate = new Date(t.date);
+            return (
+              transactionDate.getFullYear() === today.getFullYear() &&
+              transactionDate.getMonth() === today.getMonth()
+            );
+          });
+        } else if (selectedFilter === "year") {
+          filtered = filtered.filter(
+            (t) => new Date(t.date).getFullYear() === today.getFullYear()
+          );
+        } else if (selectedFilter === "recent") {
+          filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (selectedFilter === "oldest") {
+          filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+        } else if (selectedFilter === "expenses") {
+          filtered = filtered.filter((t) => t.type === "expense");
+        } else if (selectedFilter === "income") {
+          filtered = filtered.filter((t) => t.type === "income");
+        }
+
+        displayTransactions(filtered);
+      }
+
+      function updateSidebarActiveState() {
         // The path check assumes a multi-page setup.
         // For a single Canvas, you explicitly set the active link for *this* page.
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            link.classList.remove('sidebar-active');
+        document.querySelectorAll(".sidebar-link").forEach((link) => {
+          link.classList.remove("sidebar-active");
         });
         // Assuming this is the 'transaction.html' page, make the transaction link active
-        const transactionLink = document.getElementById('transactionLink');
+        const transactionLink = document.getElementById("transactionLink");
         if (transactionLink) {
-            transactionLink.classList.add('sidebar-active');
+          transactionLink.classList.add("sidebar-active");
         }
-    }
-
-    function displayTransactions(transactions) {
-      transactsContainer.innerHTML = ""; // Clear existing transactions
-
-      if (transactions.length === 0) {
-        transactsContainer.innerHTML = `<p class='no-results'>No transactions found matching this filter.</p>`;
-        return;
       }
 
-      // Main header for the transaction list (hidden on mobile screens, shown on md and up)
-      const header = document.createElement("div");
-      header.classList.add("transaction-header", "sticky-header");
-      header.innerHTML = `
+      function displayTransactions(transactions) {
+        transactsContainer.innerHTML = ""; // Clear existing transactions
+
+        if (transactions.length === 0) {
+          transactsContainer.innerHTML = `<p class='no-results'>No transactions found matching this filter.</p>`;
+          return;
+        }
+
+        // Main header for the transaction list (hidden on mobile screens, shown on md and up)
+        const header = document.createElement("div");
+        header.classList.add("transaction-header", "sticky-header");
+        header.innerHTML = `
           <div>Date</div>
           <div>Description</div>
           <div>Category</div>
           <div>Type</div>
           <div style="text-align: right;">Amount</div>
           `;
-      transactsContainer.appendChild(header);
+        transactsContainer.appendChild(header);
 
-      const groupedByYear = transactions.reduce((acc, transaction) => {
-        const year = new Date(transaction.date).getFullYear();
-        if (!acc[year]) acc[year] = [];
-        acc[year].push(transaction);
-        return acc;
-      }, {});
+        const groupedByYear = transactions.reduce((acc, transaction) => {
+          const year = new Date(transaction.date).getFullYear();
+          if (!acc[year]) acc[year] = [];
+          acc[year].push(transaction);
+          return acc;
+        }, {});
 
-      const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a); // Sort years descending
-      for (const year of sortedYears) {
-        const yearContainer = document.createElement("div");
-        yearContainer.classList.add("year-group", "sticky-year");
-        yearContainer.innerHTML = `<h2>${year}</h2>`;
+        const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a); // Sort years descending
+        for (const year of sortedYears) {
+          const yearContainer = document.createElement("div");
+          yearContainer.classList.add("year-group", "sticky-year");
+          yearContainer.innerHTML = `<h2>${year}</h2>`;
 
-        const groupedByMonth = groupedByYear[year].reduce(
-          (acc, transaction) => {
-            const month = new Date(transaction.date).toLocaleString("default", {
-              month: "long",
-            });
-            if (!acc[month]) acc[month] = [];
-            acc[month].push(transaction);
-            return acc;
-          }, {}
-        );
-
-        const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
-          const monthA = new Date(`${a} 1, ${year}`);
-          const monthB = new Date(`${b} 1, ${year}`);
-          return monthB - monthA; // Sort months descending
-        });
-
-        for (const month of sortedMonths) {
-          const monthContainer = document.createElement("div");
-          monthContainer.classList.add("month-group", "sticky-month");
-          monthContainer.innerHTML = `<h3>${month}</h3>`;
-
-          const sortedTransactions = groupedByMonth[month].sort(
-            (a, b) => new Date(b.date) - new Date(a.date) // Sort transactions by date descending
+          const groupedByMonth = groupedByYear[year].reduce(
+            (acc, transaction) => {
+              const month = new Date(transaction.date).toLocaleString(
+                "default",
+                {
+                  month: "long",
+                }
+              );
+              if (!acc[month]) acc[month] = [];
+              acc[month].push(transaction);
+              return acc;
+            },
+            {}
           );
 
-          sortedTransactions.forEach((transaction) => {
-            const transactionElement = document.createElement("div");
-            transactionElement.classList.add("transaction"); // Keeping existing class for JS logic
-            // Reverting to the nested HTML structure for proper responsiveness
-            transactionElement.innerHTML = `
+          const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
+            const monthA = new Date(`${a} 1, ${year}`);
+            const monthB = new Date(`${b} 1, ${year}`);
+            return monthB - monthA; // Sort months descending
+          });
+
+          for (const month of sortedMonths) {
+            const monthContainer = document.createElement("div");
+            monthContainer.classList.add("month-group", "sticky-month");
+            monthContainer.innerHTML = `<h3>${month}</h3>`;
+
+            const sortedTransactions = groupedByMonth[month].sort(
+              (a, b) => new Date(b.date) - new Date(a.date) // Sort transactions by date descending
+            );
+
+            sortedTransactions.forEach((transaction) => {
+              const transactionElement = document.createElement("div");
+              transactionElement.classList.add("transaction"); // Keeping existing class for JS logic
+              // Reverting to the nested HTML structure for proper responsiveness
+              transactionElement.innerHTML = `
               <div class="transaction-item ${transaction.type}">
                 <div class="info-row">
                     <div class="description">${transaction.description}</div>
-                    <div class="amount">${transaction.type === 'expense' ? '-' : '+'}${formatCurrency(transaction.amount)}</div>
+                    <div class="amount">${
+                      transaction.type === "expense" ? "-" : "+"
+                    }${formatCurrency(transaction.amount)}</div>
                 </div>
                 <div class="meta-row">
-                    <div class="day">${new Date(transaction.date).toLocaleString("default", { weekday: "short", day: "numeric", month: "short" })}</div>
+                    <div class="day">${new Date(
+                      transaction.date
+                    ).toLocaleString("default", {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "short",
+                    })}</div>
                     <div class="category-type-group">
                       <span>${transaction.category}</span>
-                      <span class="type-badge ${transaction.type === 'expense' ? 'bg-red-500' : 'bg-green-500'}">${transaction.type}</span>
+                      <span class="type-badge ${
+                        transaction.type === "expense"
+                          ? "bg-red-500"
+                          : "bg-green-500"
+                      }">${transaction.type}</span>
                     </div>
                 </div>
               </div>
             `;
-            transactionElement.addEventListener("click", () => {
-              renderSingleTransaction(transaction);
+              transactionElement.addEventListener("click", () => {
+                renderSingleTransaction(transaction);
+              });
+              monthContainer.appendChild(transactionElement);
             });
-            monthContainer.appendChild(transactionElement);
-          });
 
-          yearContainer.appendChild(monthContainer);
+            yearContainer.appendChild(monthContainer);
+          }
+          transactsContainer.appendChild(yearContainer);
         }
-        transactsContainer.appendChild(yearContainer);
       }
-    }
 
-    function renderSingleTransaction(transaction) {
-      if(detailId) detailId.textContent = transaction.id; // Set transaction ID
-      if(detailDate) detailDate.textContent = new Date(transaction.date).toLocaleDateString();
-      if(detailDescription) detailDescription.textContent = transaction.description;
-      if(detailCategory) detailCategory.textContent = transaction.category;
-      if(detailType) {
+      function renderSingleTransaction(transaction) {
+        if (detailId) detailId.textContent = transaction.id; // Set transaction ID
+        if (detailDate)
+          detailDate.textContent = new Date(
+            transaction.date
+          ).toLocaleDateString();
+        if (detailDescription)
+          detailDescription.textContent = transaction.description;
+        if (detailCategory) detailCategory.textContent = transaction.category;
+        if (detailType) {
           detailType.textContent = transaction.type;
           detailType.className = `type-detail ${transaction.type}`; // Reset class and add type
-          detailType.style.backgroundColor = transaction.type === "expense" ? "#d32f2f" : "#388e3c";
-      }
-      if(detailAmount) {
+          detailType.style.backgroundColor =
+            transaction.type === "expense" ? "#d32f2f" : "#388e3c";
+        }
+        if (detailAmount) {
           detailAmount.textContent = formatCurrency(transaction.amount);
           // Remove previous color classes before adding new ones
-          detailAmount.classList.remove('text-red-600', 'text-green-600', 'text-gray-900');
-          detailAmount.classList.add(transaction.type === 'expense' ? 'text-red-600' : 'text-green-600');
+          detailAmount.classList.remove(
+            "text-red-600",
+            "text-green-600",
+            "text-gray-900"
+          );
+          detailAmount.classList.add(
+            transaction.type === "expense" ? "text-red-600" : "text-green-600"
+          );
+        }
+
+        // Generate QR Code
+        if (qrCodeCanvas && window.QRious) {
+          const qrContent = JSON.stringify({
+            id: transaction.id,
+            description: transaction.description,
+            amount: transaction.amount,
+            type: transaction.type,
+            date: transaction.date,
+          });
+
+          // Use the fixed width and height from the HTML for QRious
+          // The canvas in HTML has width="160" height="160"
+          new QRious({
+            element: qrCodeCanvas,
+            value: qrContent,
+            size: 160, // Use the fixed size from HTML
+            padding: 10,
+            level: "H", // Error correction level
+          });
+        }
+
+        if (singleTransactModal) singleTransactModal.classList.remove("hidden"); // Show modal
       }
 
+      // --- Search Functionality (reused from dashboard) ---
+      let searchDebounceTimer;
+      const SEARCH_DEBOUNCE_DELAY = 300; // milliseconds
 
-      // Generate QR Code
-      if (qrCodeCanvas && window.QRious) {
-        const qrContent = JSON.stringify({
-          id: transaction.id,
-          description: transaction.description,
-          amount: transaction.amount,
-          type: transaction.type,
-          date: transaction.date
-        });
-
-        // Use the fixed width and height from the HTML for QRious
-        // The canvas in HTML has width="160" height="160"
-        new QRious({
-          element: qrCodeCanvas,
-          value: qrContent,
-          size: 160, // Use the fixed size from HTML
-          padding: 10,
-          level: 'H' // Error correction level
-        });
+      function hideSearchResultsDropdown() {
+        if (searchResultsDropdownEl) {
+          searchResultsDropdownEl.classList.add("hidden");
+          searchResultsDropdownEl.innerHTML = "";
+        }
       }
 
-      if(singleTransactModal) singleTransactModal.classList.remove('hidden'); // Show modal
-    }
+      function displaySearchResultsInDropdown(results) {
+        if (!searchResultsDropdownEl) return;
+        searchResultsDropdownEl.innerHTML = "";
 
-    // --- Search Functionality (reused from dashboard) ---
-    let searchDebounceTimer;
-    const SEARCH_DEBOUNCE_DELAY = 300; // milliseconds
-
-    function hideSearchResultsDropdown() {
-      if(searchResultsDropdownEl) {
-        searchResultsDropdownEl.classList.add('hidden');
-        searchResultsDropdownEl.innerHTML = '';
-      }
-    }
-
-    function displaySearchResultsInDropdown(results) {
-      if(!searchResultsDropdownEl) return;
-      searchResultsDropdownEl.innerHTML = '';
-
-      if (results.length === 0) {
-        searchResultsDropdownEl.innerHTML = '<p class="text-gray-500 p-3 text-center">No matching transactions found.</p>';
-        searchResultsDropdownEl.classList.remove('hidden');
-        return;
-      }
-
-      results.forEach(t => {
-        const resultItem = document.createElement('div');
-        resultItem.classList.add('search-result-item');
-        resultItem.setAttribute('data-id', t.id); // Store transaction ID
-        resultItem.innerHTML = `
-            <p class="font-semibold text-gray-800">${t.description}</p>
-            <p class="text-sm text-gray-600">Category: ${t.category}</p>
-            <p class="text-xs text-gray-500">${new Date(t.date).toLocaleDateString()} | ${t.type.charAt(0).toUpperCase() + t.type.slice(1)} | ${formatCurrency(t.amount)}</p>
-        `;
-        searchResultsDropdownEl.appendChild(resultItem);
-      });
-      searchResultsDropdownEl.classList.remove('hidden');
-    }
-
-    function performSearch() {
-      clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(() => {
-        const searchTerm = transactionSearchInput.value.toLowerCase().trim();
-
-        if (searchTerm === "") {
-          hideSearchResultsDropdown();
-          applyFilter('all'); // Re-apply default filter when search is cleared
+        if (results.length === 0) {
+          searchResultsDropdownEl.innerHTML =
+            '<p class="text-gray-500 p-3 text-center">No matching transactions found.</p>';
+          searchResultsDropdownEl.classList.remove("hidden");
           return;
         }
 
-        const searchResults = allTransactions.filter(transaction =>
-          (transaction.description && transaction.description.toLowerCase().includes(searchTerm)) ||
-          (transaction.category && transaction.category.toLowerCase().includes(searchTerm)) ||
-          (transaction.type && transaction.type.toLowerCase().includes(searchTerm)) ||
-          (String(transaction.amount).includes(searchTerm))
-        );
-        displaySearchResultsInDropdown(searchResults);
+        results.forEach((t) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("search-result-item");
+          resultItem.setAttribute("data-id", t.id); // Store transaction ID
+          resultItem.innerHTML = `
+            <p class="font-semibold text-gray-800">${t.description}</p>
+            <p class="text-sm text-gray-600">Category: ${t.category}</p>
+            <p class="text-xs text-gray-500">${new Date(
+              t.date
+            ).toLocaleDateString()} | ${
+            t.type.charAt(0).toUpperCase() + t.type.slice(1)
+          } | ${formatCurrency(t.amount)}</p>
+        `;
+          searchResultsDropdownEl.appendChild(resultItem);
+        });
+        searchResultsDropdownEl.classList.remove("hidden");
+      }
 
-        // Note: We are not calling displayTransactions here, as clicking the result
-        // will now render the single transaction receipt, which is a better UX.
-        // If the user clears the search, filterTransactions is called to show all.
-      }, SEARCH_DEBOUNCE_DELAY);
-    }
+      function performSearch() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+          const searchTerm = transactionSearchInput.value.toLowerCase().trim();
 
-    // --- Download Functions (reused from dashboard) ---
-    function downloadPdf() {
-        // Ensure jsPDF library is loaded
-        if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
-            console.error('jsPDF library not loaded.');
-            // Implement a user-facing message here instead of alert
+          if (searchTerm === "") {
+            hideSearchResultsDropdown();
+            applyFilter("all"); // Re-apply default filter when search is cleared
             return;
+          }
+
+          const searchResults = allTransactions.filter(
+            (transaction) =>
+              (transaction.description &&
+                transaction.description.toLowerCase().includes(searchTerm)) ||
+              (transaction.category &&
+                transaction.category.toLowerCase().includes(searchTerm)) ||
+              (transaction.type &&
+                transaction.type.toLowerCase().includes(searchTerm)) ||
+              String(transaction.amount).includes(searchTerm)
+          );
+          displaySearchResultsInDropdown(searchResults);
+
+          // Note: We are not calling displayTransactions here, as clicking the result
+          // will now render the single transaction receipt, which is a better UX.
+          // If the user clears the search, filterTransactions is called to show all.
+        }, SEARCH_DEBOUNCE_DELAY);
+      }
+
+      // --- Download Functions (reused from dashboard) ---
+      function downloadPdf() {
+        // Ensure jsPDF library is loaded
+        if (
+          typeof window.jspdf === "undefined" ||
+          typeof window.jspdf.jsPDF === "undefined"
+        ) {
+          console.error("jsPDF library not loaded.");
+          // Implement a user-facing message here instead of alert
+          return;
         }
 
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        const headers = [['Date', 'Description', 'Category', 'Type', 'Amount']];
-        const data = allTransactions.map(t => [
+        const headers = [["Date", "Description", "Category", "Type", "Amount"]];
+        const data = allTransactions.map((t) => [
+          new Date(t.date).toLocaleDateString(),
+          t.description,
+          t.category,
+          t.type,
+          `${t.type === "expense" ? "-" : "+"}${formatCurrency(t.amount)}`,
+        ]);
+
+        doc.autoTable({
+          head: headers,
+          body: data,
+          startY: 20,
+          headStyles: { fillColor: [30, 41, 59] },
+          styles: { fontSize: 9, cellPadding: 2 },
+          columnStyles: {
+            0: { cellWidth: 20 },
+            1: { cellWidth: "auto" },
+            2: { cellWidth: 20 },
+            3: { cellWidth: 20 },
+            4: { cellWidth: 25, halign: "right" },
+          },
+          didDrawPage: function (data) {
+            doc.setFontSize(16);
+            doc.text("Transaction Report", data.settings.margin.left, 15);
+            doc.setFontSize(10);
+            doc.text(
+              `Generated: ${new Date().toLocaleDateString()}`,
+              data.settings.margin.left,
+              20
+            );
+          },
+        });
+
+        doc.save("transactions_report.pdf");
+      }
+
+      function downloadExcel() {
+        let csvContent = "data:text/csv;charset=utf-8,";
+        const headers = ["Date", "Description", "Category", "Type", "Amount"];
+        csvContent += headers.join(",") + "\n";
+
+        allTransactions.forEach((t) => {
+          const row = [
             new Date(t.date).toLocaleDateString(),
             t.description,
             t.category,
             t.type,
-            `${t.type === 'expense' ? '-' : '+'}${formatCurrency(t.amount)}`
-        ]);
-
-        doc.autoTable({
-            head: headers,
-            body: data,
-            startY: 20,
-            headStyles: { fillColor: [30, 41, 59] },
-            styles: { fontSize: 9, cellPadding: 2 },
-            columnStyles: {
-                0: { cellWidth: 20 },
-                1: { cellWidth: 'auto' },
-                2: { cellWidth: 20 },
-                3: { cellWidth: 20 },
-                4: { cellWidth: 25, halign: 'right' }
-            },
-            didDrawPage: function (data) {
-                doc.setFontSize(16);
-                doc.text("Transaction Report", data.settings.margin.left, 15);
-                doc.setFontSize(10);
-                doc.text(`Generated: ${new Date().toLocaleDateString()}`, data.settings.margin.left, 20);
-            }
-        });
-
-        doc.save('transactions_report.pdf');
-    }
-
-    function downloadExcel() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        const headers = ['Date', 'Description', 'Category', 'Type', 'Amount'];
-        csvContent += headers.join(',') + '\n';
-
-        allTransactions.forEach(t => {
-            const row = [
-                new Date(t.date).toLocaleDateString(),
-                t.description,
-                t.category,
-                t.type,
-                `${t.type === 'expense' ? '-' : '+'}${Number(t.amount).toFixed(2)}`
-            ];
-            csvContent += row.join(',') + '\n';
+            `${t.type === "expense" ? "-" : "+"}${Number(t.amount).toFixed(2)}`,
+          ];
+          csvContent += row.join(",") + "\n";
         });
 
         const encodedUri = encodeURI(csvContent);
@@ -1218,118 +1438,158 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
+      }
 
-    // --- Sidebar Toggle Logic (reused from dashboard) ---
-    function openSidebar() {
-      if(sidebar) sidebar.classList.remove('-translate-x-full');
-      if(sidebarBackdrop) sidebarBackdrop.classList.remove('hidden');
-    }
+      // --- Sidebar Toggle Logic (reused from dashboard) ---
+      function openSidebar() {
+        if (sidebar) sidebar.classList.remove("-translate-x-full");
+        if (sidebarBackdrop) sidebarBackdrop.classList.remove("hidden");
+      }
 
-    function closeSidebar() {
-      if(sidebar) sidebar.classList.add('-translate-x-full');
-      if(sidebarBackdrop) sidebarBackdrop.classList.add('hidden');
-    }
+      function closeSidebar() {
+        if (sidebar) sidebar.classList.add("-translate-x-full");
+        if (sidebarBackdrop) sidebarBackdrop.classList.add("hidden");
+      }
 
-    // --- Dropdown Toggle Helper ---
-    function toggleDropdown(dropdownElement) {
+      // --- Dropdown Toggle Helper ---
+      function toggleDropdown(dropdownElement) {
         if (!dropdownElement) return;
         // Close other open dropdowns
-        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-            if (dropdown !== dropdownElement && !dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
-            }
+        document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+          if (
+            dropdown !== dropdownElement &&
+            !dropdown.classList.contains("hidden")
+          ) {
+            dropdown.classList.add("hidden");
+          }
         });
-        dropdownElement.classList.toggle('hidden');
-    }
+        dropdownElement.classList.toggle("hidden");
+      }
 
-    // --- Event Listeners and Initialization ---
-    document.addEventListener('DOMContentLoaded', () => {
-      initializePage();
+      // --- Event Listeners and Initialization ---
+      document.addEventListener("DOMContentLoaded", () => {
+        initializePage();
 
-      if(hamburgerMenu) hamburgerMenu.addEventListener('click', openSidebar);
-      if(closeSidebarButton) closeSidebarButton.addEventListener('click', closeSidebar);
-      if(sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
+        if (hamburgerMenu) hamburgerMenu.addEventListener("click", openSidebar);
+        if (closeSidebarButton)
+          closeSidebarButton.addEventListener("click", closeSidebar);
+        if (sidebarBackdrop)
+          sidebarBackdrop.addEventListener("click", closeSidebar);
 
-      // Filter and Download button event listeners
-      if(filterBtn) filterBtn.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent document click from closing immediately
-        toggleDropdown(filterDropdown);
-      });
-      if(downloadBtn) downloadBtn.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent document click from closing immediately
-        toggleDropdown(downloadDropdown);
-      });
+        // Filter and Download button event listeners
+        if (filterBtn)
+          filterBtn.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent document click from closing immediately
+            toggleDropdown(filterDropdown);
+          });
+        if (downloadBtn)
+          downloadBtn.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent document click from closing immediately
+            toggleDropdown(downloadDropdown);
+          });
 
-      if(downloadPdfBtn) downloadPdfBtn.addEventListener('click', () => {
-        downloadPdf();
-        toggleDropdown(downloadDropdown); // Close dropdown after action
-      });
-      if(downloadExcelBtn) downloadExcelBtn.addEventListener('click', () => {
-        downloadExcel();
-        toggleDropdown(downloadDropdown); // Close dropdown after action
-      });
+        if (downloadPdfBtn)
+          downloadPdfBtn.addEventListener("click", () => {
+            downloadPdf();
+            toggleDropdown(downloadDropdown); // Close dropdown after action
+          });
+        if (downloadExcelBtn)
+          downloadExcelBtn.addEventListener("click", () => {
+            downloadExcel();
+            toggleDropdown(downloadDropdown); // Close dropdown after action
+          });
 
-      // Close dropdowns when clicking outside
-      document.addEventListener('click', (event) => {
-          if (filterDropdown && !filterDropdown.contains(event.target) && !filterBtn.contains(event.target)) {
-              filterDropdown.classList.add('hidden');
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", (event) => {
+          if (
+            filterDropdown &&
+            !filterDropdown.contains(event.target) &&
+            !filterBtn.contains(event.target)
+          ) {
+            filterDropdown.classList.add("hidden");
           }
-          if (downloadDropdown && !downloadDropdown.contains(event.target) && !downloadBtn.contains(event.target)) {
-              downloadDropdown.classList.add('hidden');
+          if (
+            downloadDropdown &&
+            !downloadDropdown.contains(event.target) &&
+            !downloadBtn.contains(event.target)
+          ) {
+            downloadDropdown.classList.add("hidden");
           }
-          if (searchResultsDropdownEl && !searchResultsDropdownEl.contains(event.target) && !transactionSearchInput.contains(event.target)) {
-              hideSearchResultsDropdown();
+          if (
+            searchResultsDropdownEl &&
+            !searchResultsDropdownEl.contains(event.target) &&
+            !transactionSearchInput.contains(event.target)
+          ) {
+            hideSearchResultsDropdown();
           }
-      });
+        });
 
+        if (closeDetailBtn)
+          closeDetailBtn.addEventListener("click", () => {
+            if (singleTransactModal)
+              singleTransactModal.classList.add("hidden");
+          });
 
-      if(closeDetailBtn) closeDetailBtn.addEventListener('click', () => {
-        if(singleTransactModal) singleTransactModal.classList.add('hidden');
-      });
-
-      if(transactionSearchInput) {
-        transactionSearchInput.addEventListener('keyup', performSearch);
-        // Handle blur to hide dropdown if input is empty
-        transactionSearchInput.addEventListener('blur', () => {
-            setTimeout(() => { // Small delay to allow click on dropdown items
-                if (transactionSearchInput.value.trim() === '') {
-                    hideSearchResultsDropdown();
-                }
+        if (transactionSearchInput) {
+          transactionSearchInput.addEventListener("keyup", performSearch);
+          // Handle blur to hide dropdown if input is empty
+          transactionSearchInput.addEventListener("blur", () => {
+            setTimeout(() => {
+              // Small delay to allow click on dropdown items
+              if (transactionSearchInput.value.trim() === "") {
+                hideSearchResultsDropdown();
+              }
             }, 100);
-        });
-      }
-      if(searchResultsDropdownEl) {
-        searchResultsDropdownEl.addEventListener('click', (event) => {
-            const clickedItem = event.target.closest('.search-result-item');
+          });
+        }
+        if (searchResultsDropdownEl) {
+          searchResultsDropdownEl.addEventListener("click", (event) => {
+            const clickedItem = event.target.closest(".search-result-item");
             if (clickedItem) {
-                const transactionId = clickedItem.getAttribute('data-id');
-                const transaction = allTransactions.find(t => String(t.id) === transactionId);
-                if (transaction) {
-                    renderSingleTransaction(transaction);
-                    hideSearchResultsDropdown(); // Hide dropdown after selection
-                }
+              const transactionId = clickedItem.getAttribute("data-id");
+              const transaction = allTransactions.find(
+                (t) => String(t.id) === transactionId
+              );
+              if (transaction) {
+                renderSingleTransaction(transaction);
+                hideSearchResultsDropdown(); // Hide dropdown after selection
+              }
             }
-        });
-      }
-      
-      // --- Sidebar Navigation Logic (Simplified for single-page Canvas context) ---
-      // These links will not navigate in this single-page Canvas, but they
-      // can be modified to show/hide content sections if this were a true SPA.
-      // For now, they just prevent default and ensure active state is set.
-      if(dashLink) dashLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
-      if(transactionLink) transactionLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
-      if(budgetLink) budgetLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
-      if(reportLink) reportLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
-      if(settingLink) settingLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
+          });
+        }
 
-      if(logoutButtonEl) logoutButtonEl.addEventListener('click', () => {
-        localStorage.removeItem('loggedin_id');
-        localStorage.setItem('isLoggedIn', 'false'); // Explicitly set false
-        window.location.reload();
+        // --- Sidebar Navigation Logic (Simplified for single-page Canvas context) ---
+        // These links will not navigate in this single-page Canvas, but they
+        // can be modified to show/hide content sections if this were a true SPA.
+        // For now, they just prevent default and ensure active state is set.
+        if (dashLink)
+          dashLink.addEventListener("click", (e) => {
+            updateSidebarActiveState();
+          });
+        if (transactionLink)
+          transactionLink.addEventListener("click", (e) => {
+            updateSidebarActiveState();
+          });
+        if (budgetLink)
+          budgetLink.addEventListener("click", (e) => {
+            updateSidebarActiveState();
+          });
+        if (reportLink)
+          reportLink.addEventListener("click", (e) => {
+            updateSidebarActiveState();
+          });
+        if (settingLink)
+          settingLink.addEventListener("click", (e) => {
+            updateSidebarActiveState();
+          });
+
+        if (logoutButtonEl)
+          logoutButtonEl.addEventListener("click", () => {
+            localStorage.removeItem("loggedin_id");
+            localStorage.setItem("isLoggedIn", "false"); // Explicitly set false
+            window.location.reload();
+          });
       });
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

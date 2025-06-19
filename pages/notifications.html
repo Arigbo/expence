@@ -694,62 +694,6 @@
         );
 
         // Fallback: If no user notifications or fetch failed, use mock data
-        if (userNotifications.length === 0) {
-        userNotifications = [
-          {
-          id: 1,
-          user_id: 4,
-          sender: "Admin",
-          sender_dp: "https://placehold.co/40x40/FF5733/FFFFFF?text=A",
-          message: "Welcome to Spenctrack! We're glad to have you.",
-          created_at: "2024-05-20T10:00:00Z",
-          read: false,
-          },
-          {
-          id: 2,
-          user_id: 4,
-          sender: "System Alert",
-          sender_dp: "https://placehold.co/40x40/33FF57/FFFFFF?text=S",
-          message:
-        "Your monthly report is ready. Check your spending habits!",
-          created_at: "2024-05-21T14:30:00Z",
-          read: false,
-          },
-          {
-          id: 3,
-          user_id: 4,
-          sender: "Support",
-          sender_dp: "https://placehold.co/40x40/3357FF/FFFFFF?text=S",
-          message: "A new feature has been rolled out: Budgeting tools!",
-          created_at: "2024-05-22T09:15:00Z",
-          read: true,
-          },
-          {
-          id: 4,
-          user_id: 4,
-          sender: "Spenctrack Team",
-          sender_dp: "https://placehold.co/40x40/FF33FF/FFFFFF?text=T",
-          message:
-        "Don't forget to categorize your recent transactions for better insights.",
-          created_at: "2024-05-23T11:00:00Z",
-          read: false,
-          },
-          {
-          id: 5,
-          user_id: 4,
-          sender: "Security",
-          sender_dp: "https://placehold.co/40x40/FFFF33/000000?text=SEC",
-          message:
-        "Unusual activity detected on your account. Please review immediately.",
-          created_at: "2024-05-24T16:45:00Z",
-          read: false,
-          },
-        ].filter(
-          (notif) =>
-        (notif.user_id && parseInt(notif.user_id) === parseInt(loggedInId)) ||
-        (notif.related_id && parseInt(notif.related_id) === parseInt(loggedInId))
-        );
-        }
 
         allNotifications.length = 0;
         allNotifications.push(...userNotifications);
