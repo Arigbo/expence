@@ -30,18 +30,6 @@
   "notifications": [
     {
       "id": "1",
-      "user_id": 4,
-      "sender": "Jesse Arigbo",
-      "sender_id": 3,
-      "sender_dp": "",
-      "message": "Goal \"NEW CAR\" was deleted.",
-      "read": false,
-      "created_at": "2025-06-18T17:32:14.633Z",
-      "related_id": null,
-      "type": "goal_deleted"
-    },
-    {
-      "id": "1",
       "user_id": null,
       "sender": "Unknown",
       "sender_id": 3,
@@ -78,27 +66,111 @@
     },
     {
       "id": "3",
-      "user_id": 4,
-      "sender": "Jonathan Jesse",
-      "sender_id": 4,
-      "sender_dp": "",
-      "message": "You created a new goal: \"NEW CAR\".",
-      "read": true,
-      "created_at": "2025-06-18T17:33:11.964Z",
-      "related_id": null,
-      "type": "goal_created"
-    },
-    {
-      "id": "3",
       "user_id": 3,
       "sender": "Jonathan Jesse",
       "sender_id": 4,
       "sender_dp": "",
       "message": "You were added as a collaborator to goal \"NEW CAR\".",
-      "read": false,
+      "read": true,
       "created_at": "2025-06-18T17:33:11.992Z",
       "related_id": null,
       "type": "goal_collaborator"
+    },
+    {
+      "id": "4",
+      "user_id": 4,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "sender_dp": "",
+      "message": "Goal \"NEW CAR\" was deleted.",
+      "read": true,
+      "created_at": "2025-06-19T11:42:07.483Z",
+      "related_id": null,
+      "type": "goal_deleted"
+    },
+    {
+      "id": "4",
+      "user_id": null,
+      "sender": "Jonathan Jesse",
+      "sender_id": 4,
+      "sender_dp": "",
+      "message": "Goal \"NEW CAR\" was deleted.",
+      "read": false,
+      "created_at": "2025-06-19T11:42:07.512Z",
+      "related_id": null,
+      "type": "goal_deleted"
+    },
+    {
+      "id": "5",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "You created a new budget: \"entertainment\".",
+      "read": false,
+      "created_at": "2025-06-19T12:12:26.200Z",
+      "related_id": null,
+      "type": "budget_created"
+    },
+    {
+      "id": "5",
+      "user_id": 4,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "You were added as a collaborator to budget \"entertainment\".",
+      "read": false,
+      "created_at": "2025-06-19T12:12:26.224Z",
+      "related_id": null,
+      "type": "budget_collaborator"
+    },
+    {
+      "id": "6",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "You created a new budget: \"entertainment\".",
+      "read": false,
+      "created_at": "2025-06-19T12:17:51.524Z",
+      "related_id": null,
+      "type": "budget_created"
+    },
+    {
+      "id": "6",
+      "user_id": 4,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "You were added as a collaborator to budget \"entertainment\".",
+      "read": false,
+      "created_at": "2025-06-19T12:17:51.545Z",
+      "related_id": null,
+      "type": "budget_collaborator"
+    },
+    {
+      "id": "7",
+      "user_id": 3,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "Budget \"entertainment\" was deleted.",
+      "read": false,
+      "created_at": "2025-06-19T12:20:14.460Z",
+      "related_id": null,
+      "type": "budget_deleted"
+    },
+    {
+      "id": "7",
+      "user_id": null,
+      "sender": "Jesse Arigbo",
+      "sender_id": 3,
+      "sender_dp": "",
+      "message": "Budget \"entertainment\" was deleted.",
+      "read": false,
+      "created_at": "2025-06-19T12:20:14.480Z",
+      "related_id": null,
+      "type": "budget_deleted"
     }
   ],
   "blogs": [
@@ -256,7 +328,7 @@
       "date": "2025-11-03",
       "description": "Lunch at a cafe"
     },
-           {
+    {
       "id": "27",
       "user_id": 4,
       "type": "expense",
@@ -265,7 +337,7 @@
       "date": "2025-12-07",
       "description": "Movie box subscription"
     },
-        {
+    {
       "id": "28",
       "user_id": 4,
       "type": "expense",
@@ -274,7 +346,7 @@
       "date": "2025-12-04",
       "description": "Data subscription"
     },
-               {
+    {
       "id": "29",
       "user_id": 4,
       "type": "expense",
@@ -283,7 +355,7 @@
       "date": "2025-5-30",
       "description": "Paracetamol"
     },
-           {
+    {
       "id": "30",
       "user_id": 4,
       "type": "income",
@@ -292,7 +364,7 @@
       "date": "2025-5-30",
       "description": "Lodger money"
     },
-           {
+    {
       "id": "31",
       "user_id": 4,
       "type": "income",
@@ -301,7 +373,7 @@
       "date": "2025-3-30",
       "description": "Lodger money"
     },
-           {
+    {
       "id": "32",
       "user_id": 4,
       "type": "income",
@@ -310,7 +382,7 @@
       "date": "2025-4-30",
       "description": "Lodger money"
     },
-           {
+    {
       "id": "33",
       "user_id": 4,
       "type": "income",
@@ -319,7 +391,7 @@
       "date": "2025-11-30",
       "description": "Lodger money"
     },
-       {
+    {
       "id": "34",
       "user_id": 4,
       "type": "income",
@@ -328,7 +400,7 @@
       "date": "2025-10-30",
       "description": "Lodger money"
     },
-       {
+    {
       "id": "35",
       "user_id": 4,
       "type": "income",
@@ -364,7 +436,6 @@
       "date": "2025-1-30",
       "description": "Spider-Man homecoming date"
     },
-
     {
       "id": "39",
       "user_id": 4,
@@ -1097,14 +1168,16 @@
   ],
   "goals": [
     {
-      "id": "447f",
+      "id": "fbac",
       "name": "NEW CAR",
       "about": "",
       "targetAmount": 6666666,
       "achievedAmount": 0,
       "targetDate": "2025-06-19",
-      "creatorId": "4",
-      "collaborators": ["@jessear"]
+      "creatorId": "3",
+      "collaborators": [
+        "@jessea"
+      ]
     }
   ],
   "budgets": [],
