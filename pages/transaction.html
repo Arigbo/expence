@@ -1317,11 +1317,11 @@
       // These links will not navigate in this single-page Canvas, but they
       // can be modified to show/hide content sections if this were a true SPA.
       // For now, they just prevent default and ensure active state is set.
-      if(dashLink) dashLink.addEventListener('click', (e) => { e.preventDefault(); updateSidebarActiveState(); });
-      if(transactionLink) transactionLink.addEventListener('click', (e) => { e.preventDefault(); updateSidebarActiveState(); });
-      if(budgetLink) budgetLink.addEventListener('click', (e) => { e.preventDefault(); updateSidebarActiveState(); });
-      if(reportLink) reportLink.addEventListener('click', (e) => { e.preventDefault(); updateSidebarActiveState(); });
-      if(settingLink) settingLink.addEventListener('click', (e) => { e.preventDefault(); updateSidebarActiveState(); });
+      if(dashLink) dashLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
+      if(transactionLink) transactionLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
+      if(budgetLink) budgetLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
+      if(reportLink) reportLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
+      if(settingLink) settingLink.addEventListener('click', (e) => {  updateSidebarActiveState(); });
 
       if(logoutButtonEl) logoutButtonEl.addEventListener('click', () => {
         localStorage.removeItem('loggedin_id');
